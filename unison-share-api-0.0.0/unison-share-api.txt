@@ -6,13 +6,21 @@
 @version 0.0.0
 
 module Unison.Server.Orphans
+instance Data.Aeson.Types.ToJSON.ToJSON U.Codebase.HashTags.CausalHash
+instance Data.Aeson.Types.FromJSON.FromJSON U.Codebase.HashTags.CausalHash
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.ShortHash.ShortHash
+instance Data.Binary.Class.Binary U.Util.Hash.Hash
+instance Data.Binary.Class.Binary U.Codebase.HashTags.CausalHash
+instance Web.Internal.HttpApiData.ToHttpApiData Unison.Codebase.ShortBranchHash.ShortBranchHash
 instance (Data.OpenApi.Internal.Schema.ToSchema b, Data.OpenApi.Internal.Schema.ToSchema a) => Data.OpenApi.Internal.Schema.ToSchema (Unison.Codebase.Editor.DisplayObject.DisplayObject b a)
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Codebase.ShortBranchHash.ShortBranchHash
 instance Web.Internal.HttpApiData.FromHttpApiData Unison.Util.Pretty.Width
+instance Web.Internal.HttpApiData.ToHttpApiData Unison.Util.Pretty.Width
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Util.Pretty.Width
 instance Data.OpenApi.Internal.Schema.ToSchema n => Data.OpenApi.Internal.Schema.ToSchema (Unison.HashQualified.HashQualified n)
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.ConstructorType.ConstructorType
+instance Data.Aeson.Types.ToJSON.ToJSON U.Util.Hash.Hash
+instance Data.Aeson.Types.FromJSON.FromJSON U.Util.Hash.Hash
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.ShortHash.ShortHash
 instance Data.Aeson.Types.ToJSON.ToJSONKey Unison.ShortHash.ShortHash
 instance Web.Internal.HttpApiData.FromHttpApiData Unison.Codebase.ShortBranchHash.ShortBranchHash
