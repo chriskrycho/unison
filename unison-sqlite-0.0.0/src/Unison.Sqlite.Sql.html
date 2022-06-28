@@ -1,19 +1,59 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Unison.Sqlite.Sql</span><span>
-</span><span id="line-2"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Unison.Sqlite.Sql.html#Sql"><span class="hs-identifier">Sql</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
-</span><span id="line-3"></span><span>  </span><span class="hs-special">)</span><span>
-</span><span id="line-4"></span><span class="hs-keyword">where</span><span>
-</span><span id="line-5"></span><span>
-</span><span id="line-6"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
-</span><span id="line-7"></span><span>
-</span><span id="line-8"></span><span class="hs-comment">-- | A SQL snippet.</span><span>
-</span><span id="line-9"></span><span class="hs-keyword">newtype</span><span> </span><span id="Sql"><span class="annot"><a href="Unison.Sqlite.Sql.html#Sql"><span class="hs-identifier hs-var">Sql</span></a></span></span><span>
-</span><span id="line-10"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="Sql"><span class="annot"><a href="Unison.Sqlite.Sql.html#Sql"><span class="hs-identifier hs-var">Sql</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
-</span><span id="line-11"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">newtype</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679091250"><span class="annot"><span class="annottext">String -&gt; Sql
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE TemplateHaskell #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Unison.Sqlite.Sql</span><span>
+</span><span id="line-4"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Unison.Sqlite.Sql.html#Sql"><span class="hs-identifier">Sql</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-5"></span><span>    </span><span class="annot"><a href="Unison.Sqlite.Sql.html#sql"><span class="hs-identifier">sql</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-6"></span><span>  </span><span class="hs-special">)</span><span>
+</span><span id="line-7"></span><span class="hs-keyword">where</span><span>
+</span><span id="line-8"></span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.Haskell.TH.Quote</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">QuasiQuoter</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">quoteExp</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Language.Haskell.TH.Syntax</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">TH</span></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">NeatInterpolation</span></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
+</span><span id="line-13"></span><span>
+</span><span id="line-14"></span><span class="hs-comment">-- | A SQL snippet.</span><span>
+</span><span id="line-15"></span><span class="hs-keyword">newtype</span><span> </span><span id="Sql"><span class="annot"><a href="Unison.Sqlite.Sql.html#Sql"><span class="hs-identifier hs-var">Sql</span></a></span></span><span>
+</span><span id="line-16"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="Sql"><span class="annot"><a href="Unison.Sqlite.Sql.html#Sql"><span class="hs-identifier hs-var">Sql</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
+</span><span id="line-17"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">newtype</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679094750"><span class="annot"><span class="annottext">String -&gt; Sql
 (String -&gt; Sql) -&gt; IsString Sql
 forall a. (String -&gt; a) -&gt; IsString a
 fromString :: String -&gt; Sql
 $cfromString :: String -&gt; Sql
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">IsString</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679091243"><span id="local-6989586621679091245"><span id="local-6989586621679091247"><span class="annot"><span class="annottext">Int -&gt; Sql -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">IsString</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679094742"><span id="local-6989586621679094744"><span id="local-6989586621679094746"><span class="annot"><span class="annottext">Semigroup Sql
+Sql
+Semigroup Sql
+-&gt; Sql -&gt; (Sql -&gt; Sql -&gt; Sql) -&gt; ([Sql] -&gt; Sql) -&gt; Monoid Sql
+[Sql] -&gt; Sql
+Sql -&gt; Sql -&gt; Sql
+forall a.
+Semigroup a -&gt; a -&gt; (a -&gt; a -&gt; a) -&gt; ([a] -&gt; a) -&gt; Monoid a
+mconcat :: [Sql] -&gt; Sql
+$cmconcat :: [Sql] -&gt; Sql
+mappend :: Sql -&gt; Sql -&gt; Sql
+$cmappend :: Sql -&gt; Sql -&gt; Sql
+mempty :: Sql
+$cmempty :: Sql
+$cp1Monoid :: Semigroup Sql
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Monoid</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679094735"><span id="local-6989586621679094737"><span id="local-6989586621679094739"><span class="annot"><span class="annottext">b -&gt; Sql -&gt; Sql
+NonEmpty Sql -&gt; Sql
+Sql -&gt; Sql -&gt; Sql
+(Sql -&gt; Sql -&gt; Sql)
+-&gt; (NonEmpty Sql -&gt; Sql)
+-&gt; (forall b. Integral b =&gt; b -&gt; Sql -&gt; Sql)
+-&gt; Semigroup Sql
+forall b. Integral b =&gt; b -&gt; Sql -&gt; Sql
+forall a.
+(a -&gt; a -&gt; a)
+-&gt; (NonEmpty a -&gt; a)
+-&gt; (forall b. Integral b =&gt; b -&gt; a -&gt; a)
+-&gt; Semigroup a
+stimes :: b -&gt; Sql -&gt; Sql
+$cstimes :: forall b. Integral b =&gt; b -&gt; Sql -&gt; Sql
+sconcat :: NonEmpty Sql -&gt; Sql
+$csconcat :: NonEmpty Sql -&gt; Sql
+&lt;&gt; :: Sql -&gt; Sql -&gt; Sql
+$c&lt;&gt; :: Sql -&gt; Sql -&gt; Sql
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Semigroup</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679094728"><span id="local-6989586621679094730"><span id="local-6989586621679094732"><span class="annot"><span class="annottext">Int -&gt; Sql -&gt; ShowS
 [Sql] -&gt; ShowS
 Sql -&gt; String
 (Int -&gt; Sql -&gt; ShowS)
@@ -27,4 +67,27 @@ $cshow :: Sql -&gt; String
 showsPrec :: Int -&gt; Sql -&gt; ShowS
 $cshowsPrec :: Int -&gt; Sql -&gt; ShowS
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-12"></span></pre></body></html>
+</span><span id="line-18"></span><span>
+</span><span id="line-19"></span><span class="hs-comment">-- | A quasi-quoter that produces expressions of type 'Sql'.</span><span>
+</span><span id="line-20"></span><span class="annot"><a href="Unison.Sqlite.Sql.html#sql"><span class="hs-identifier hs-type">sql</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">QuasiQuoter</span></span><span>
+</span><span id="line-21"></span><span id="sql"><span class="annot"><span class="annottext">sql :: QuasiQuoter
+</span><a href="Unison.Sqlite.Sql.html#sql"><span class="hs-identifier hs-var hs-var">sql</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-22"></span><span>  </span><span class="annot"><span class="annottext">QuasiQuoter
+</span><span class="hs-identifier hs-var">NeatInterpolation.trimming</span></span><span>
+</span><span id="line-23"></span><span>    </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">quoteExp :: String -&gt; Q Exp
+</span><span class="hs-identifier hs-var">quoteExp</span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-24"></span><span>        </span><span class="hs-glyph">\</span><span id="local-6989586621679094725"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679094725"><span class="hs-identifier hs-var">string</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-25"></span><span>          </span><span id="local-6989586621679094724"><span class="annot"><span class="annottext">Exp
+</span><a href="#local-6989586621679094724"><span class="hs-identifier hs-var">text</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">QuasiQuoter -&gt; String -&gt; Q Exp
+</span><span class="hs-identifier hs-var hs-var">quoteExp</span></span><span> </span><span class="annot"><span class="annottext">QuasiQuoter
+</span><span class="hs-identifier hs-var">NeatInterpolation.trimming</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679094725"><span class="hs-identifier hs-var">string</span></a></span><span>
+</span><span id="line-26"></span><span>          </span><span class="annot"><span class="annottext">Exp -&gt; Q Exp
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Exp -&gt; Exp -&gt; Exp
+</span><span class="hs-identifier hs-var">TH.AppE</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Name -&gt; Exp
+</span><span class="hs-identifier hs-var">TH.ConE</span></span><span> </span><span class="hs-special">'</span><span class="hs-identifier">Sql</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Exp
+</span><a href="#local-6989586621679094724"><span class="hs-identifier hs-var">text</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-27"></span><span>    </span><span class="hs-special">}</span><span>
+</span><span id="line-28"></span></pre></body></html>

@@ -208,6 +208,22 @@ instance GHC.Base.Monad Unison.Sqlite.Transaction.Transaction
 instance GHC.Base.Functor Unison.Sqlite.Transaction.Transaction
 instance GHC.Base.Applicative Unison.Sqlite.Transaction.Transaction
 
+module Unison.Sqlite.Values
+
+-- | A <tt>VALUES</tt> literal.
+newtype Values a
+Values :: NonEmpty a -> Values a
+
+-- | Example: given a <a>Values</a> of length 3, where each element has a
+--   <tt>toRow</tt> that produces 2 elements, produce the SQL string:
+--   
+--   <pre>
+--   VALUES (?, ?), (?, ?), (?, ?)
+--   </pre>
+valuesSql :: ToRow a => Values a -> Sql
+instance GHC.Show.Show a => GHC.Show.Show (Unison.Sqlite.Values.Values a)
+instance Database.SQLite.Simple.ToRow.ToRow a => Database.SQLite.Simple.ToRow.ToRow (Unison.Sqlite.Values.Values a)
+
 
 -- | The Unison monorepo interface to SQLite.
 --   
@@ -283,6 +299,21 @@ unsafeIO :: IO a -> Transaction a
 -- | A SQL snippet.
 newtype Sql
 Sql :: Text -> Sql
+
+-- | A quasi-quoter that produces expressions of type <a>Sql</a>.
+sql :: QuasiQuoter
+
+-- | A <tt>VALUES</tt> literal.
+newtype Values a
+Values :: NonEmpty a -> Values a
+
+-- | Example: given a <a>Values</a> of length 3, where each element has a
+--   <tt>toRow</tt> that produces 2 elements, produce the SQL string:
+--   
+--   <pre>
+--   VALUES (?, ?), (?, ?), (?, ?)
+--   </pre>
+valuesSql :: ToRow a => Values a -> Sql
 execute :: ToRow a => Sql -> a -> Transaction ()
 executeMany :: ToRow a => Sql -> [a] -> Transaction ()
 execute_ :: Sql -> Transaction ()
@@ -362,11 +393,6 @@ isCantOpenException :: SomeSqliteException -> Bool
 
 -- | An exception thrown during establishing a connection.
 data SqliteConnectException
-SqliteConnectException :: ThreadId -> String -> FilePath -> SQLError -> SqliteConnectException
-[$sel:threadId:SqliteConnectException] :: SqliteConnectException -> ThreadId
-[$sel:name:SqliteConnectException] :: SqliteConnectException -> String
-[$sel:file:SqliteConnectException] :: SqliteConnectException -> FilePath
-[$sel:exception:SqliteConnectException] :: SqliteConnectException -> SQLError
 
 -- | A <tt>SqliteQueryException</tt> represents an exception thrown during
 --   processing a query, paired with some context that resulted in the
@@ -396,17 +422,6 @@ SqliteConnectException :: ThreadId -> String -> FilePath -> SQLError -> SqliteCo
 --   from a remote server, it is sufficient to catch just one exception
 --   type, <tt>SqliteQueryException</tt>.
 data SqliteQueryException
-SqliteQueryException :: Sql -> String -> SomeSqliteExceptionReason -> [String] -> Connection -> ThreadId -> SqliteQueryException
-[$sel:sql:SqliteQueryException] :: SqliteQueryException -> Sql
-[$sel:params:SqliteQueryException] :: SqliteQueryException -> String
-
--- | The inner exception. It is intentionally not <a>SomeException</a>, so
---   that calling code cannot accidentally <a>throwIO</a> domain-specific
---   exception types, but must instead use a <tt>*Check</tt> query variant.
-[$sel:exception:SqliteQueryException] :: SqliteQueryException -> SomeSqliteExceptionReason
-[$sel:callStack:SqliteQueryException] :: SqliteQueryException -> [String]
-[$sel:connection:SqliteQueryException] :: SqliteQueryException -> Connection
-[$sel:threadId:SqliteQueryException] :: SqliteQueryException -> ThreadId
 
 -- | A type that is intended to be used as additional context for a
 --   sqlite-related exception.
