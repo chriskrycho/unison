@@ -1077,7 +1077,7 @@ deleteTempEntity :: Hash32 -> Transaction ()
 --   ... then `elaborateHashes {A}` would return the singleton set {C}
 --   (because we take the set of transitive dependencies {A,B,C} and
 --   subtract the set we already have, {A,B}).
-elaborateHashes :: NonEmpty Hash32 -> Transaction (NonEmpty Text)
+elaborateHashes :: NonEmpty Hash32 -> Transaction [Text]
 addTempEntityTables :: Transaction ()
 addTypeMentionsToIndexForTerm :: Id -> Set Reference -> Transaction ()
 addTypeToIndexForTerm :: Id -> Reference -> Transaction ()
@@ -1113,8 +1113,6 @@ x2cTType :: (LocalTextId -> Text) -> (LocalDefnId -> Hash) -> Type -> Type Symbo
 x2cTerm :: (LocalTextId -> Text) -> (LocalDefnId -> Hash) -> Term -> Term Symbol
 instance Unison.Sqlite.Exception.SqliteExceptionReason U.Codebase.Sqlite.Queries.UnexpectedSchemaVersion
 instance GHC.Show.Show U.Codebase.Sqlite.Queries.UnexpectedSchemaVersion
-instance Unison.Sqlite.Exception.SqliteExceptionReason U.Codebase.Sqlite.Queries.EmptyTempEntityMissingDependencies
-instance GHC.Show.Show U.Codebase.Sqlite.Queries.EmptyTempEntityMissingDependencies
 
 module U.Codebase.Sqlite.Sync22
 data Entity
