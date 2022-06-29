@@ -13,10 +13,10 @@
 </span><span id="line-13"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="EffectConstructor"><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#EffectConstructor"><span class="hs-identifier hs-var">EffectConstructor</span></a></span></span><span>
 </span><span id="line-14"></span><span>
 </span><span id="line-15"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ToField</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#ConstructorType"><span class="hs-identifier hs-type">ConstructorType</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-16"></span><span>  </span><span id="local-6989586621679440013"><span class="annot"><span class="annottext">toField :: ConstructorType -&gt; SQLData
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">toField</span></span></span><span> </span><span id="local-6989586621679440011"><span class="annot"><span class="annottext">ConstructorType
-</span><a href="#local-6989586621679440011"><span class="hs-identifier hs-var">ct</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">ConstructorType
-</span><a href="#local-6989586621679440011"><span class="hs-identifier hs-var">ct</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-16"></span><span>  </span><span id="local-6989586621679440828"><span class="annot"><span class="annottext">toField :: ConstructorType -&gt; SQLData
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">toField</span></span></span><span> </span><span id="local-6989586621679440826"><span class="annot"><span class="annottext">ConstructorType
+</span><a href="#local-6989586621679440826"><span class="hs-identifier hs-var">ct</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">ConstructorType
+</span><a href="#local-6989586621679440826"><span class="hs-identifier hs-var">ct</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-17"></span><span>    </span><span class="annot"><span class="annottext">ConstructorType
 </span><a href="U.Codebase.Sqlite.NamedRef.html#DataConstructor"><span class="hs-identifier hs-var">DataConstructor</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int64 -&gt; SQLData
 </span><span class="hs-identifier hs-var">SQLInteger</span></span><span> </span><span class="annot"><span class="annottext">Int64
@@ -27,13 +27,13 @@
 </span><span class="hs-number">1</span></span><span class="hs-special">)</span><span>
 </span><span id="line-19"></span><span>
 </span><span id="line-20"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FromField</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#ConstructorType"><span class="hs-identifier hs-type">ConstructorType</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-21"></span><span>  </span><span id="local-6989586621679440007"><span class="annot"><span class="annottext">fromField :: FieldParser ConstructorType
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">fromField</span></span></span><span> </span><span id="local-6989586621679440005"><span class="annot"><span class="annottext">Field
-</span><a href="#local-6989586621679440005"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-21"></span><span>  </span><span id="local-6989586621679440822"><span class="annot"><span class="annottext">fromField :: FieldParser ConstructorType
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">fromField</span></span></span><span> </span><span id="local-6989586621679440820"><span class="annot"><span class="annottext">Field
+</span><a href="#local-6989586621679440820"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-22"></span><span>    </span><span class="annot"><span class="annottext">FieldParser Int
 forall a. FromField a =&gt; FieldParser a
 </span><span class="hs-identifier hs-var">fromField</span></span><span> </span><span class="hs-glyph">@</span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="annot"><span class="annottext">Field
-</span><a href="#local-6989586621679440005"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Ok Int -&gt; (Int -&gt; Ok ConstructorType) -&gt; Ok ConstructorType
+</span><a href="#local-6989586621679440820"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Ok Int -&gt; (Int -&gt; Ok ConstructorType) -&gt; Ok ConstructorType
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
 </span><span id="line-23"></span><span>      </span><span class="annot"><span class="annottext">Int
@@ -52,10 +52,10 @@ forall (m :: * -&gt; *) a. MonadFail m =&gt; String -&gt; m a
 </span><span class="hs-identifier hs-var">fail</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Invalid ConstructorType&quot;</span></span><span>
 </span><span id="line-26"></span><span>
-</span><span id="line-27"></span><span class="hs-keyword">data</span><span> </span><span id="NamedRef"><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-var">NamedRef</span></a></span></span><span> </span><span id="local-6989586621679440037"><span class="annot"><a href="#local-6989586621679440037"><span class="hs-identifier hs-type">ref</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="NamedRef"><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-var">NamedRef</span></a></span></span><span> </span><span class="hs-special">{</span><span id="%24sel%3AreversedSegments%3ANamedRef"><span class="annot"><span class="annottext">NamedRef ref -&gt; ReversedSegments
+</span><span id="line-27"></span><span class="hs-keyword">data</span><span> </span><span id="NamedRef"><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-var">NamedRef</span></a></span></span><span> </span><span id="local-6989586621679440852"><span class="annot"><a href="#local-6989586621679440852"><span class="hs-identifier hs-type">ref</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="NamedRef"><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-var">NamedRef</span></a></span></span><span> </span><span class="hs-special">{</span><span id="%24sel%3AreversedSegments%3ANamedRef"><span class="annot"><span class="annottext">NamedRef ref -&gt; ReversedSegments
 </span><a href="U.Codebase.Sqlite.NamedRef.html#%24sel%3AreversedSegments%3ANamedRef"><span class="hs-identifier hs-var hs-var">reversedSegments</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#ReversedSegments"><span class="hs-identifier hs-type">ReversedSegments</span></a></span><span class="hs-special">,</span><span> </span><span id="%24sel%3Aref%3ANamedRef"><span class="annot"><span class="annottext">NamedRef ref -&gt; ref
-</span><a href="U.Codebase.Sqlite.NamedRef.html#%24sel%3Aref%3ANamedRef"><span class="hs-identifier hs-var hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679440037"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">}</span><span>
-</span><span id="line-28"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679439996"><span id="local-6989586621679439998"><span id="local-6989586621679440000"><span class="annot"><span class="annottext">Int -&gt; NamedRef ref -&gt; ShowS
+</span><a href="U.Codebase.Sqlite.NamedRef.html#%24sel%3Aref%3ANamedRef"><span class="hs-identifier hs-var hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679440852"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-28"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679440811"><span id="local-6989586621679440813"><span id="local-6989586621679440815"><span class="annot"><span class="annottext">Int -&gt; NamedRef ref -&gt; ShowS
 [NamedRef ref] -&gt; ShowS
 NamedRef ref -&gt; String
 (Int -&gt; NamedRef ref -&gt; ShowS)
@@ -73,7 +73,7 @@ show :: NamedRef ref -&gt; String
 $cshow :: forall ref. Show ref =&gt; NamedRef ref -&gt; String
 showsPrec :: Int -&gt; NamedRef ref -&gt; ShowS
 $cshowsPrec :: forall ref. Show ref =&gt; Int -&gt; NamedRef ref -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679439991"><span id="local-6989586621679439993"><span class="annot"><span class="annottext">a -&gt; NamedRef b -&gt; NamedRef a
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679440806"><span id="local-6989586621679440808"><span class="annot"><span class="annottext">a -&gt; NamedRef b -&gt; NamedRef a
 (a -&gt; b) -&gt; NamedRef a -&gt; NamedRef b
 (forall a b. (a -&gt; b) -&gt; NamedRef a -&gt; NamedRef b)
 -&gt; (forall a b. a -&gt; NamedRef b -&gt; NamedRef a) -&gt; Functor NamedRef
@@ -86,7 +86,7 @@ forall (f :: * -&gt; *).
 $c&lt;$ :: forall a b. a -&gt; NamedRef b -&gt; NamedRef a
 fmap :: (a -&gt; b) -&gt; NamedRef a -&gt; NamedRef b
 $cfmap :: forall a b. (a -&gt; b) -&gt; NamedRef a -&gt; NamedRef b
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Functor</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679439956"><span id="local-6989586621679439958"><span id="local-6989586621679439960"><span id="local-6989586621679439962"><span id="local-6989586621679439964"><span id="local-6989586621679439966"><span id="local-6989586621679439968"><span id="local-6989586621679439970"><span id="local-6989586621679439972"><span id="local-6989586621679439974"><span id="local-6989586621679439976"><span id="local-6989586621679439978"><span id="local-6989586621679439980"><span id="local-6989586621679439982"><span id="local-6989586621679439984"><span id="local-6989586621679439986"><span id="local-6989586621679439988"><span class="annot"><span class="annottext">NamedRef a -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Functor</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679440771"><span id="local-6989586621679440773"><span id="local-6989586621679440775"><span id="local-6989586621679440777"><span id="local-6989586621679440779"><span id="local-6989586621679440781"><span id="local-6989586621679440783"><span id="local-6989586621679440785"><span id="local-6989586621679440787"><span id="local-6989586621679440789"><span id="local-6989586621679440791"><span id="local-6989586621679440793"><span id="local-6989586621679440795"><span id="local-6989586621679440797"><span id="local-6989586621679440799"><span id="local-6989586621679440801"><span id="local-6989586621679440803"><span class="annot"><span class="annottext">NamedRef a -&gt; Bool
 (a -&gt; m) -&gt; NamedRef a -&gt; m
 (a -&gt; b -&gt; b) -&gt; b -&gt; NamedRef a -&gt; b
 (forall m. Monoid m =&gt; NamedRef m -&gt; m)
@@ -171,7 +171,7 @@ foldMap :: (a -&gt; m) -&gt; NamedRef a -&gt; m
 $cfoldMap :: forall m a. Monoid m =&gt; (a -&gt; m) -&gt; NamedRef a -&gt; m
 fold :: NamedRef m -&gt; m
 $cfold :: forall m. Monoid m =&gt; NamedRef m -&gt; m
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Foldable</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679439945"><span id="local-6989586621679439947"><span id="local-6989586621679439949"><span id="local-6989586621679439951"><span class="annot"><span class="annottext">Functor NamedRef
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Foldable</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679440760"><span id="local-6989586621679440762"><span id="local-6989586621679440764"><span id="local-6989586621679440766"><span class="annot"><span class="annottext">Functor NamedRef
 Foldable NamedRef
 Functor NamedRef
 -&gt; Foldable NamedRef
@@ -229,14 +229,14 @@ $cp2Traversable :: Foldable NamedRef
 $cp1Traversable :: Functor NamedRef
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Traversable</span></span></span></span></span></span><span class="hs-special">)</span><span>
 </span><span id="line-29"></span><span>
-</span><span id="line-30"></span><span id="local-6989586621679439943"><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ToRow</span></span><span> </span><span class="annot"><a href="#local-6989586621679439943"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ToRow</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-type">NamedRef</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679439943"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-31"></span><span>  </span><span id="local-6989586621679439940"><span class="annot"><span class="annottext">toRow :: NamedRef ref -&gt; [SQLData]
+</span><span id="line-30"></span><span id="local-6989586621679440758"><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ToRow</span></span><span> </span><span class="annot"><a href="#local-6989586621679440758"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ToRow</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-type">NamedRef</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679440758"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-31"></span><span>  </span><span id="local-6989586621679440755"><span class="annot"><span class="annottext">toRow :: NamedRef ref -&gt; [SQLData]
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">toRow</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-type">NamedRef</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:reversedSegments:NamedRef :: forall ref. NamedRef ref -&gt; ReversedSegments
-</span><a href="U.Codebase.Sqlite.NamedRef.html#%24sel%3AreversedSegments%3ANamedRef"><span class="hs-identifier hs-var">reversedSegments</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="local-6989586621679439938"><span class="annot"><span class="annottext">ReversedSegments
-</span><a href="#local-6989586621679439938"><span class="hs-identifier hs-var">segments</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679439937"><span class="annot"><span class="annottext">ref
+</span><a href="U.Codebase.Sqlite.NamedRef.html#%24sel%3AreversedSegments%3ANamedRef"><span class="hs-identifier hs-var">reversedSegments</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="local-6989586621679440753"><span class="annot"><span class="annottext">ReversedSegments
+</span><a href="#local-6989586621679440753"><span class="hs-identifier hs-var">segments</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679440752"><span class="annot"><span class="annottext">ref
 ref :: ref
 $sel:ref:NamedRef :: forall ref. NamedRef ref -&gt; ref
-</span><a href="#local-6989586621679439937"><span class="hs-identifier hs-var hs-var">ref</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679440752"><span class="hs-identifier hs-var hs-var">ref</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-32"></span><span>    </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Text -&gt; SQLData
 forall a. ToField a =&gt; a -&gt; SQLData
 </span><span class="hs-identifier hs-var">toField</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; [Text] -&gt; Text
@@ -249,18 +249,18 @@ forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; [a]
 </span><span class="hs-identifier hs-var">toList</span></span><span> </span><span class="annot"><span class="annottext">(ReversedSegments -&gt; Text) -&gt; ReversedSegments -&gt; Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ReversedSegments
-</span><a href="#local-6989586621679439938"><span class="hs-identifier hs-var">segments</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="annot"><span class="annottext">[SQLData] -&gt; [SQLData] -&gt; [SQLData]
+</span><a href="#local-6989586621679440753"><span class="hs-identifier hs-var">segments</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="annot"><span class="annottext">[SQLData] -&gt; [SQLData] -&gt; [SQLData]
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ref -&gt; [SQLData]
 forall a. ToRow a =&gt; a -&gt; [SQLData]
 </span><span class="hs-identifier hs-var">toRow</span></span><span> </span><span class="annot"><span class="annottext">ref
-</span><a href="#local-6989586621679439937"><span class="hs-identifier hs-var">ref</span></a></span></span><span>
+</span><a href="#local-6989586621679440752"><span class="hs-identifier hs-var">ref</span></a></span></span><span>
 </span><span id="line-33"></span><span>
-</span><span id="line-34"></span><span id="local-6989586621679439933"><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FromRow</span></span><span> </span><span class="annot"><a href="#local-6989586621679439933"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FromRow</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-type">NamedRef</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679439933"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-35"></span><span>  </span><span id="local-6989586621679439930"><span class="annot"><span class="annottext">fromRow :: RowParser (NamedRef ref)
+</span><span id="line-34"></span><span id="local-6989586621679440748"><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FromRow</span></span><span> </span><span class="annot"><a href="#local-6989586621679440748"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FromRow</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-type">NamedRef</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679440748"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-35"></span><span>  </span><span id="local-6989586621679440745"><span class="annot"><span class="annottext">fromRow :: RowParser (NamedRef ref)
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">fromRow</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-36"></span><span>    </span><span id="local-6989586621679439928"><span class="annot"><span class="annottext">ReversedSegments
-</span><a href="#local-6989586621679439928"><span class="hs-identifier hs-var">reversedSegments</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Text] -&gt; ReversedSegments
+</span><span id="line-36"></span><span>    </span><span id="local-6989586621679440743"><span class="annot"><span class="annottext">ReversedSegments
+</span><a href="#local-6989586621679440743"><span class="hs-identifier hs-var">reversedSegments</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Text] -&gt; ReversedSegments
 forall a. [a] -&gt; NonEmpty a
 </span><span class="hs-identifier hs-var">NonEmpty.fromList</span></span><span> </span><span class="annot"><span class="annottext">([Text] -&gt; ReversedSegments)
 -&gt; (Text -&gt; [Text]) -&gt; Text -&gt; ReversedSegments
@@ -273,16 +273,16 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">RowParser Text
 forall a. FromField a =&gt; RowParser a
 </span><span class="hs-identifier hs-var">field</span></span><span>
-</span><span id="line-37"></span><span>    </span><span id="local-6989586621679439924"><span class="annot"><span class="annottext">ref
-</span><a href="#local-6989586621679439924"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">RowParser ref
+</span><span id="line-37"></span><span>    </span><span id="local-6989586621679440739"><span class="annot"><span class="annottext">ref
+</span><a href="#local-6989586621679440739"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">RowParser ref
 forall a. FromRow a =&gt; RowParser a
 </span><span class="hs-identifier hs-var">fromRow</span></span><span>
 </span><span id="line-38"></span><span>    </span><span class="hs-identifier">pure</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NamedRef :: forall ref. ReversedSegments -&gt; ref -&gt; NamedRef ref
 </span><a href="U.Codebase.Sqlite.NamedRef.html#NamedRef"><span class="hs-identifier hs-type">NamedRef</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">ReversedSegments
 reversedSegments :: ReversedSegments
 $sel:reversedSegments:NamedRef :: ReversedSegments
-</span><a href="#local-6989586621679439928"><span class="hs-identifier hs-var hs-var">reversedSegments</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ref
+</span><a href="#local-6989586621679440743"><span class="hs-identifier hs-var hs-var">reversedSegments</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ref
 ref :: ref
 $sel:ref:NamedRef :: ref
-</span><a href="#local-6989586621679439924"><span class="hs-identifier hs-var hs-var">ref</span></a></span><span class="hs-special">}</span><span class="hs-special">)</span></span><span>
+</span><a href="#local-6989586621679440739"><span class="hs-identifier hs-var hs-var">ref</span></a></span><span class="hs-special">}</span><span class="hs-special">)</span></span><span>
 </span><span id="line-39"></span></pre></body></html>
