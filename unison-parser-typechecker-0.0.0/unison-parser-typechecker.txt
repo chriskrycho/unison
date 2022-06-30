@@ -2954,7 +2954,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> m (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Branch m -> m ()) -> m (IO (), IO (Set CausalHash)) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> m [Entry CausalHash] -> (Text -> Branch m -> Branch m -> m ()) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> Connection -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> m (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Branch m -> m ()) -> m (IO (), IO (Set CausalHash)) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> m [Entry CausalHash] -> (Text -> Branch m -> Branch m -> m ()) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> Connection -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -3129,6 +3129,11 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 --   directly, and so provide this temporary escape hatch, until we can
 --   eliminate this interface entirely.
 [$sel:connection:Codebase] :: Codebase m v a -> Connection
+
+-- | Another escape hatch like the above connection, but this one makes a
+--   new connection to the same underlying database file. This allows code
+--   (like pull-from-share) to use more than one connection concurrently.
+[$sel:withConnection:Codebase] :: Codebase m v a -> forall x. (Connection -> IO x) -> IO x
 
 -- | A directory that contains a codebase.
 type CodebasePath = FilePath

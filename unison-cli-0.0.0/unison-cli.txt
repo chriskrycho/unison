@@ -1213,7 +1213,18 @@ FastForwardPushErrorNotFastForward :: Path -> FastForwardPushError
 FastForwardPushErrorNoWritePermission :: Path -> FastForwardPushError
 FastForwardPushErrorServerMissingDependencies :: NESet Hash32 -> FastForwardPushError
 FastForwardPushInvalidParentage :: Hash32 -> Hash32 -> FastForwardPushError
-pull :: AuthenticatedHttpClient -> BaseUrl -> Connection -> Path -> (Int -> Int -> IO ()) -> IO (Either (SyncError PullError) CausalHash)
+pull :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> DownloadProgressCallbacks -> IO (Either (SyncError PullError) CausalHash)
+
+-- | Download progress callbacks.
+data DownloadProgressCallbacks
+DownloadProgressCallbacks :: (Int -> IO ()) -> (Int -> IO ()) -> DownloadProgressCallbacks
+
+-- | Callback that's given a number of entities we just downloaded.
+[$sel:downloaded:DownloadProgressCallbacks] :: DownloadProgressCallbacks -> Int -> IO ()
+
+-- | Callback that's given a number of entities we just realized we need to
+--   download later.
+[$sel:toDownload:DownloadProgressCallbacks] :: DownloadProgressCallbacks -> Int -> IO ()
 
 -- | An error occurred while pulling code from Unison Share.
 data PullError
@@ -1331,13 +1342,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3aQx v_a3aQy. Lens' (LoopState m_a3aQx v_a3aQy) (Branch m_a3aQx)
-numberedArgs :: forall m_a3aQx v_a3aQy. Lens' (LoopState m_a3aQx v_a3aQy) NumberedArgs
-latestTypecheckedFile :: forall m_a3aQx v_a3aQy v_a3byx. Lens (LoopState m_a3aQx v_a3aQy) (LoopState m_a3aQx v_a3byx) (Maybe (TypecheckedUnisonFile v_a3aQy Ann)) (Maybe (TypecheckedUnisonFile v_a3byx Ann))
-latestFile :: forall m_a3aQx v_a3aQy. Lens' (LoopState m_a3aQx v_a3aQy) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3aQx v_a3aQy. Lens' (LoopState m_a3aQx v_a3aQy) (Branch m_a3aQx)
-lastInput :: forall m_a3aQx v_a3aQy. Lens' (LoopState m_a3aQx v_a3aQy) (Maybe Input)
-currentPathStack :: forall m_a3aQx v_a3aQy. Lens' (LoopState m_a3aQx v_a3aQy) (NonEmpty Absolute)
+root :: forall m_a3c8l v_a3c8m. Lens' (LoopState m_a3c8l v_a3c8m) (Branch m_a3c8l)
+numberedArgs :: forall m_a3c8l v_a3c8m. Lens' (LoopState m_a3c8l v_a3c8m) NumberedArgs
+latestTypecheckedFile :: forall m_a3c8l v_a3c8m v_a3cQl. Lens (LoopState m_a3c8l v_a3c8m) (LoopState m_a3c8l v_a3cQl) (Maybe (TypecheckedUnisonFile v_a3c8m Ann)) (Maybe (TypecheckedUnisonFile v_a3cQl Ann))
+latestFile :: forall m_a3c8l v_a3c8m. Lens' (LoopState m_a3c8l v_a3c8m) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3c8l v_a3c8m. Lens' (LoopState m_a3c8l v_a3c8m) (Branch m_a3c8l)
+lastInput :: forall m_a3c8l v_a3c8m. Lens' (LoopState m_a3c8l v_a3c8m) (Maybe Input)
+currentPathStack :: forall m_a3c8l v_a3c8m. Lens' (LoopState m_a3c8l v_a3c8m) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
