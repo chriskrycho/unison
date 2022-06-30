@@ -29,6 +29,12 @@ instance Data.Aeson.Types.ToJSON.ToJSON Unison.Name.Name
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Name.Name
 instance Data.Aeson.Types.ToJSON.ToJSON n => Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified.HashQualified n)
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.ConstructorType.ConstructorType
+instance Web.Internal.HttpApiData.FromHttpApiData Unison.Codebase.Path.Relative
+instance Web.Internal.HttpApiData.ToHttpApiData Unison.Codebase.Path.Relative
+instance Web.Internal.HttpApiData.FromHttpApiData Unison.Codebase.Path.Absolute
+instance Web.Internal.HttpApiData.ToHttpApiData Unison.Codebase.Path.Absolute
+instance Web.Internal.HttpApiData.FromHttpApiData Unison.Codebase.Path.Path'
+instance Web.Internal.HttpApiData.ToHttpApiData Unison.Codebase.Path.Path'
 
 module Unison.Server.SearchResult
 data SearchResult
@@ -657,9 +663,10 @@ TermObject :: NamedTerm -> NamespaceObject
 TypeObject :: NamedType -> NamespaceObject
 PatchObject :: NamedPatch -> NamespaceObject
 data NamedNamespace
-NamedNamespace :: UnisonName -> UnisonHash -> NamedNamespace
+NamedNamespace :: UnisonName -> UnisonHash -> Maybe Int -> NamedNamespace
 [$sel:namespaceName:NamedNamespace] :: NamedNamespace -> UnisonName
 [$sel:namespaceHash:NamedNamespace] :: NamedNamespace -> UnisonHash
+[$sel:namespaceSize:NamedNamespace] :: NamedNamespace -> Maybe Int
 newtype NamedPatch
 NamedPatch :: HashQualifiedName -> NamedPatch
 [$sel:patchName:NamedPatch] :: NamedPatch -> HashQualifiedName

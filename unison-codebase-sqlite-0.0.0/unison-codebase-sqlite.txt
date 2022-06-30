@@ -1007,6 +1007,10 @@ rootTermNames :: Transaction [NamedRef (TextReferent, Maybe ConstructorType)]
 --   name lookup index
 rootTypeNames :: Transaction [NamedRef TextReference]
 
+-- | Gets the count of all definitions within the given namespace. NOTE:
+--   This requires a working name lookup index.
+getNamespaceDefinitionCount :: Text -> Transaction Int
+
 -- | Delete objects without hashes. An object typically *would* have a
 --   hash, but (for example) during a migration in which an object's hash
 --   may change, its corresponding hash_object row may be updated to point
