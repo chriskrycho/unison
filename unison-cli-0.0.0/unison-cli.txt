@@ -1189,7 +1189,7 @@ GetCausalHashByPathErrorNoReadPermission :: Path -> GetCausalHashByPathError
 --   This flavor of push takes the expected state of the server, and the
 --   desired state we want to set; if our expectation is off, we won't
 --   proceed with the push.
-checkAndSetPush :: AuthenticatedHttpClient -> BaseUrl -> Connection -> Path -> Maybe Hash32 -> CausalHash -> (Int -> Int -> IO ()) -> IO (Either (SyncError CheckAndSetPushError) ())
+checkAndSetPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> Maybe Hash32 -> CausalHash -> UploadProgressCallbacks -> IO (Either (SyncError CheckAndSetPushError) ())
 
 -- | Error used by the client when pushing code to Unison Share.
 data CheckAndSetPushError
@@ -1203,7 +1203,7 @@ CheckAndSetPushErrorServerMissingDependencies :: NESet Hash32 -> CheckAndSetPush
 --   
 --   This flavor of push provides the server with a chain of causal hashes
 --   leading from its current state to our desired state.
-fastForwardPush :: AuthenticatedHttpClient -> BaseUrl -> Connection -> Path -> CausalHash -> (Int -> Int -> IO ()) -> IO (Either (SyncError FastForwardPushError) ())
+fastForwardPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> CausalHash -> UploadProgressCallbacks -> IO (Either (SyncError FastForwardPushError) ())
 
 -- | An error occurred while fast-forward pushing code to Unison Share.
 data FastForwardPushError
@@ -1213,6 +1213,17 @@ FastForwardPushErrorNotFastForward :: Path -> FastForwardPushError
 FastForwardPushErrorNoWritePermission :: Path -> FastForwardPushError
 FastForwardPushErrorServerMissingDependencies :: NESet Hash32 -> FastForwardPushError
 FastForwardPushInvalidParentage :: Hash32 -> Hash32 -> FastForwardPushError
+
+-- | Upload progress callbacks.
+data UploadProgressCallbacks
+UploadProgressCallbacks :: (Int -> IO ()) -> (Int -> IO ()) -> UploadProgressCallbacks
+
+-- | Callback that's given a number of entities we just uploaded.
+[$sel:uploaded:UploadProgressCallbacks] :: UploadProgressCallbacks -> Int -> IO ()
+
+-- | Callback that's given a number of entities we just realized we need to
+--   upload later.
+[$sel:toUpload:UploadProgressCallbacks] :: UploadProgressCallbacks -> Int -> IO ()
 pull :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> DownloadProgressCallbacks -> IO (Either (SyncError PullError) CausalHash)
 
 -- | Download progress callbacks.
@@ -1342,13 +1353,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3c8D v_a3c8E. Lens' (LoopState m_a3c8D v_a3c8E) (Branch m_a3c8D)
-numberedArgs :: forall m_a3c8D v_a3c8E. Lens' (LoopState m_a3c8D v_a3c8E) NumberedArgs
-latestTypecheckedFile :: forall m_a3c8D v_a3c8E v_a3cQD. Lens (LoopState m_a3c8D v_a3c8E) (LoopState m_a3c8D v_a3cQD) (Maybe (TypecheckedUnisonFile v_a3c8E Ann)) (Maybe (TypecheckedUnisonFile v_a3cQD Ann))
-latestFile :: forall m_a3c8D v_a3c8E. Lens' (LoopState m_a3c8D v_a3c8E) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3c8D v_a3c8E. Lens' (LoopState m_a3c8D v_a3c8E) (Branch m_a3c8D)
-lastInput :: forall m_a3c8D v_a3c8E. Lens' (LoopState m_a3c8D v_a3c8E) (Maybe Input)
-currentPathStack :: forall m_a3c8D v_a3c8E. Lens' (LoopState m_a3c8D v_a3c8E) (NonEmpty Absolute)
+root :: forall m_a3doy v_a3doz. Lens' (LoopState m_a3doy v_a3doz) (Branch m_a3doy)
+numberedArgs :: forall m_a3doy v_a3doz. Lens' (LoopState m_a3doy v_a3doz) NumberedArgs
+latestTypecheckedFile :: forall m_a3doy v_a3doz v_a3e6y. Lens (LoopState m_a3doy v_a3doz) (LoopState m_a3doy v_a3e6y) (Maybe (TypecheckedUnisonFile v_a3doz Ann)) (Maybe (TypecheckedUnisonFile v_a3e6y Ann))
+latestFile :: forall m_a3doy v_a3doz. Lens' (LoopState m_a3doy v_a3doz) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3doy v_a3doz. Lens' (LoopState m_a3doy v_a3doz) (Branch m_a3doy)
+lastInput :: forall m_a3doy v_a3doz. Lens' (LoopState m_a3doy v_a3doz) (Maybe Input)
+currentPathStack :: forall m_a3doy v_a3doz. Lens' (LoopState m_a3doy v_a3doz) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
