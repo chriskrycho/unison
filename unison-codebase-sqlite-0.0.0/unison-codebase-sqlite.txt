@@ -343,6 +343,7 @@ data NamedRef ref
 NamedRef :: ReversedSegments -> ref -> NamedRef ref
 [$sel:reversedSegments:NamedRef] :: NamedRef ref -> ReversedSegments
 [$sel:ref:NamedRef] :: NamedRef ref -> ref
+toRowWithNamespace :: ToRow ref => NamedRef ref -> [SQLData]
 instance Data.Traversable.Traversable U.Codebase.Sqlite.NamedRef.NamedRef
 instance Data.Foldable.Foldable U.Codebase.Sqlite.NamedRef.NamedRef
 instance GHC.Base.Functor U.Codebase.Sqlite.NamedRef.NamedRef
