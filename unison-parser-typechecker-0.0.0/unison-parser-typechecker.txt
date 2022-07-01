@@ -2106,9 +2106,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3msJ loc_a3msK. Lens' (Env v_a3msJ loc_a3msK) (TypeLookup v_a3msJ loc_a3msK)
-termsByShortname :: forall v_a3msJ loc_a3msK. Lens' (Env v_a3msJ loc_a3msK) (Map Name [NamedReference v_a3msJ loc_a3msK])
-ambientAbilities :: forall v_a3msJ loc_a3msK. Lens' (Env v_a3msJ loc_a3msK) [Type v_a3msJ loc_a3msK]
+typeLookup :: forall v_a3msK loc_a3msL. Lens' (Env v_a3msK loc_a3msL) (TypeLookup v_a3msK loc_a3msL)
+termsByShortname :: forall v_a3msK loc_a3msL. Lens' (Env v_a3msK loc_a3msL) (Map Name [NamedReference v_a3msK loc_a3msL])
+ambientAbilities :: forall v_a3msK loc_a3msL. Lens' (Env v_a3msK loc_a3msL) [Type v_a3msK loc_a3msL]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3882,9 +3882,13 @@ take :: Int -> Text -> Text
 drop :: Int -> Text -> Text
 uncons :: Text -> Maybe (Char, Text)
 unsnoc :: Text -> Maybe (Text, Char)
+unconsChunk :: Text -> Maybe (Chunk, Text)
+unsnocChunk :: Text -> Maybe (Text, Chunk)
 at :: Int -> Text -> Maybe Char
 size :: Text -> Int
 reverse :: Text -> Text
+toUppercase :: Text -> Text
+toLowercase :: Text -> Text
 fromUtf8 :: Bytes -> Either String Text
 toUtf8 :: Text -> Bytes
 fromText :: Text -> Text
@@ -3892,6 +3896,8 @@ pack :: String -> Text
 toString :: Text -> String
 unpack :: Text -> String
 toText :: Text -> Text
+dropTextWhileMax :: (Char -> Bool) -> Int -> Text -> (Int, Text)
+dropWhileMax :: (Char -> Bool) -> Int -> Text -> (Int, Text)
 instance GHC.Base.Monoid Unison.Util.Text.Text
 instance GHC.Base.Semigroup Unison.Util.Text.Text
 instance GHC.Classes.Ord Unison.Util.Text.Text
@@ -4459,6 +4465,42 @@ instance GHC.Base.Functor Unison.Runtime.MCode.Emit
 instance GHC.Base.Applicative Unison.Runtime.MCode.Emit
 instance GHC.Base.Applicative Unison.Runtime.MCode.Counted
 
+module Unison.Runtime.Debug
+traceComb :: Bool -> Word64 -> Comb -> Bool
+traceCombs :: Word64 -> Bool -> EnumMap Word64 Comb -> EnumMap Word64 Comb
+tracePretty :: Var v => PrettyPrintEnv -> Bool -> Term v -> Term v
+tracePrettyGroup :: Var v => Word64 -> Bool -> SuperGroup v -> SuperGroup v
+
+module Unison.Util.Text.Pattern
+data Pattern
+Join :: [Pattern] -> Pattern
+Or :: Pattern -> Pattern -> Pattern
+Capture :: Pattern -> Pattern
+Many :: Pattern -> Pattern
+Replicate :: Int -> Int -> Pattern -> Pattern
+AnyChar :: Pattern
+Eof :: Pattern
+Literal :: Text -> Pattern
+CharRange :: Char -> Char -> Pattern
+CharIn :: [Char] -> Pattern
+NotCharIn :: [Char] -> Pattern
+NotCharRange :: Char -> Char -> Pattern
+Digit :: Pattern
+Letter :: Pattern
+Space :: Pattern
+Punctuation :: Pattern
+data CPattern
+CP :: Pattern -> (Text -> Maybe ([Text], Text)) -> CPattern
+cpattern :: Pattern -> CPattern
+run :: Pattern -> Text -> Maybe ([Text], Text)
+compile :: Pattern -> ([Text] -> Text -> r) -> ([Text] -> Text -> r) -> [Text] -> Text -> r
+charInPred :: [Char] -> Char -> Bool
+charNotInPred :: [Char] -> Char -> Bool
+instance GHC.Classes.Ord Unison.Util.Text.Pattern.Pattern
+instance GHC.Classes.Eq Unison.Util.Text.Pattern.Pattern
+instance GHC.Classes.Eq Unison.Util.Text.Pattern.CPattern
+instance GHC.Classes.Ord Unison.Util.Text.Pattern.CPattern
+
 module Unison.Runtime.Foreign
 data Foreign
 [Wrap] :: Reference -> !e -> Foreign
@@ -4490,6 +4532,7 @@ instance Unison.Runtime.Foreign.BuiltinForeign Network.TLS.Context.Internal.Cont
 instance Unison.Runtime.Foreign.BuiltinForeign (Unison.Runtime.ANF.SuperGroup Unison.Symbol.Symbol)
 instance Unison.Runtime.Foreign.BuiltinForeign Unison.Runtime.ANF.Value
 instance Unison.Runtime.Foreign.BuiltinForeign System.Clock.TimeSpec
+instance Unison.Runtime.Foreign.BuiltinForeign Unison.Util.Text.Pattern.CPattern
 instance GHC.Classes.Eq Unison.Runtime.Foreign.Foreign
 instance GHC.Classes.Ord Unison.Runtime.Foreign.Foreign
 instance GHC.Show.Show Unison.Runtime.Foreign.Foreign
@@ -4657,67 +4700,6 @@ instance Unison.Runtime.Serialize.Tag Unison.Runtime.MCode.Serialize.ArgsT
 instance Unison.Runtime.Serialize.Tag Unison.Runtime.MCode.Serialize.InstrT
 instance Unison.Runtime.Serialize.Tag Unison.Runtime.MCode.Serialize.SectionT
 
-module Unison.Runtime.Foreign.Function
-data ForeignFunc
-[FF] :: (Stack 'UN -> Stack 'BX -> Args -> IO a) -> (Stack 'UN -> Stack 'BX -> r -> IO (Stack 'UN, Stack 'BX)) -> (a -> IO r) -> ForeignFunc
-class ForeignConvention a
-readForeign :: ForeignConvention a => [Int] -> [Int] -> Stack 'UN -> Stack 'BX -> IO ([Int], [Int], a)
-writeForeign :: ForeignConvention a => Stack 'UN -> Stack 'BX -> a -> IO (Stack 'UN, Stack 'BX)
-mkForeign :: (ForeignConvention a, ForeignConvention r) => (a -> IO r) -> ForeignFunc
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Types.Int
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Word.Word64
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Word.Word8
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Word.Word16
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Word.Word32
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Types.Char
-instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Runtime.Stack.Closure
-instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Util.Text.Text
-instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Util.Bytes.Bytes
-instance Unison.Runtime.Foreign.Function.ForeignConvention Network.Socket.Types.Socket
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Conc.Sync.ThreadId
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.Handle.Types.Handle
-instance Unison.Runtime.Foreign.Function.ForeignConvention Data.Time.Clock.Internal.POSIXTime.POSIXTime
-instance Unison.Runtime.Foreign.Function.ForeignConvention a => Unison.Runtime.Foreign.Function.ForeignConvention (GHC.Maybe.Maybe a)
-instance (Unison.Runtime.Foreign.Function.ForeignConvention a, Unison.Runtime.Foreign.Function.ForeignConvention b) => Unison.Runtime.Foreign.Function.ForeignConvention (Data.Either.Either a b)
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.Exception.IOException
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Types.Double
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Types.Bool
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Base.String
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.Device.SeekMode
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.IOMode.IOMode
-instance Unison.Runtime.Foreign.Function.ForeignConvention ()
-instance (Unison.Runtime.Foreign.Function.ForeignConvention a, Unison.Runtime.Foreign.Function.ForeignConvention b) => Unison.Runtime.Foreign.Function.ForeignConvention (a, b)
-instance Unison.Runtime.Foreign.Function.ForeignConvention a => Unison.Runtime.Foreign.Function.ForeignConvention (Unison.Runtime.Foreign.Failure a)
-instance (Unison.Runtime.Foreign.Function.ForeignConvention a, Unison.Runtime.Foreign.Function.ForeignConvention b, Unison.Runtime.Foreign.Function.ForeignConvention c) => Unison.Runtime.Foreign.Function.ForeignConvention (a, b, c)
-instance (Unison.Runtime.Foreign.Function.ForeignConvention a, Unison.Runtime.Foreign.Function.ForeignConvention b, Unison.Runtime.Foreign.Function.ForeignConvention c, Unison.Runtime.Foreign.Function.ForeignConvention d, Unison.Runtime.Foreign.Function.ForeignConvention e) => Unison.Runtime.Foreign.Function.ForeignConvention (a, b, c, d, e)
-instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.Handle.Types.BufferMode
-instance Unison.Runtime.Foreign.Function.ForeignConvention [Unison.Runtime.Stack.Closure]
-instance Unison.Runtime.Foreign.Function.ForeignConvention [Unison.Runtime.Foreign.Foreign]
-instance Unison.Runtime.Foreign.Function.ForeignConvention (GHC.MVar.MVar Unison.Runtime.Stack.Closure)
-instance Unison.Runtime.Foreign.Function.ForeignConvention (GHC.Conc.Sync.TVar Unison.Runtime.Stack.Closure)
-instance Unison.Runtime.Foreign.Function.ForeignConvention (GHC.IORef.IORef Unison.Runtime.Stack.Closure)
-instance Unison.Runtime.Foreign.Function.ForeignConvention (Unison.Runtime.ANF.SuperGroup Unison.Symbol.Symbol)
-instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Runtime.ANF.Value
-instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Runtime.Foreign.Foreign
-instance Unison.Runtime.Foreign.Function.ForeignConvention (Data.Primitive.Array.MutableArray s Unison.Runtime.Stack.Closure)
-instance Unison.Runtime.Foreign.Function.ForeignConvention (Data.Primitive.ByteArray.MutableByteArray s)
-instance Unison.Runtime.Foreign.Function.ForeignConvention (Data.Primitive.Array.Array Unison.Runtime.Stack.Closure)
-instance Unison.Runtime.Foreign.Function.ForeignConvention Data.Primitive.ByteArray.ByteArray
-instance Unison.Runtime.Foreign.BuiltinForeign b => Unison.Runtime.Foreign.Function.ForeignConvention b
-instance Unison.Runtime.Foreign.BuiltinForeign b => Unison.Runtime.Foreign.Function.ForeignConvention [b]
-instance GHC.Show.Show Unison.Runtime.Foreign.Function.ForeignFunc
-instance GHC.Classes.Eq Unison.Runtime.Foreign.Function.ForeignFunc
-instance GHC.Classes.Ord Unison.Runtime.Foreign.Function.ForeignFunc
-
-module Unison.Runtime.Decompile
-decompile :: Var v => (Word64 -> Word64 -> Maybe (Term v ())) -> Closure -> Either Error (Term v ())
-
-module Unison.Runtime.Debug
-traceComb :: Bool -> Word64 -> Comb -> Bool
-traceCombs :: Word64 -> Bool -> EnumMap Word64 Comb -> EnumMap Word64 Comb
-tracePretty :: Var v => PrettyPrintEnv -> Bool -> Term v -> Term v
-tracePrettyGroup :: Var v => Word64 -> Bool -> SuperGroup v -> SuperGroup v
-
 module Unison.Runtime.ANF.Serialize
 data TmTag
 VarT :: TmTag
@@ -4825,6 +4807,61 @@ instance Unison.Runtime.Serialize.Tag Unison.Runtime.ANF.Serialize.LtTag
 instance Unison.Runtime.Serialize.Tag Unison.Runtime.ANF.Serialize.MtTag
 instance Unison.Runtime.Serialize.Tag Unison.Runtime.ANF.Serialize.FnTag
 instance Unison.Runtime.Serialize.Tag Unison.Runtime.ANF.Serialize.TmTag
+
+module Unison.Runtime.Foreign.Function
+data ForeignFunc
+[FF] :: (Stack 'UN -> Stack 'BX -> Args -> IO a) -> (Stack 'UN -> Stack 'BX -> r -> IO (Stack 'UN, Stack 'BX)) -> (a -> IO r) -> ForeignFunc
+class ForeignConvention a
+readForeign :: ForeignConvention a => [Int] -> [Int] -> Stack 'UN -> Stack 'BX -> IO ([Int], [Int], a)
+writeForeign :: ForeignConvention a => Stack 'UN -> Stack 'BX -> a -> IO (Stack 'UN, Stack 'BX)
+mkForeign :: (ForeignConvention a, ForeignConvention r) => (a -> IO r) -> ForeignFunc
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Types.Int
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Word.Word64
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Word.Word8
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Word.Word16
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Word.Word32
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Types.Char
+instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Runtime.Stack.Closure
+instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Util.Text.Text
+instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Util.Bytes.Bytes
+instance Unison.Runtime.Foreign.Function.ForeignConvention Network.Socket.Types.Socket
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Conc.Sync.ThreadId
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.Handle.Types.Handle
+instance Unison.Runtime.Foreign.Function.ForeignConvention Data.Time.Clock.Internal.POSIXTime.POSIXTime
+instance Unison.Runtime.Foreign.Function.ForeignConvention a => Unison.Runtime.Foreign.Function.ForeignConvention (GHC.Maybe.Maybe a)
+instance (Unison.Runtime.Foreign.Function.ForeignConvention a, Unison.Runtime.Foreign.Function.ForeignConvention b) => Unison.Runtime.Foreign.Function.ForeignConvention (Data.Either.Either a b)
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.Exception.IOException
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Types.Double
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Types.Bool
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.Base.String
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.Device.SeekMode
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.IOMode.IOMode
+instance Unison.Runtime.Foreign.Function.ForeignConvention ()
+instance (Unison.Runtime.Foreign.Function.ForeignConvention a, Unison.Runtime.Foreign.Function.ForeignConvention b) => Unison.Runtime.Foreign.Function.ForeignConvention (a, b)
+instance Unison.Runtime.Foreign.Function.ForeignConvention a => Unison.Runtime.Foreign.Function.ForeignConvention (Unison.Runtime.Foreign.Failure a)
+instance (Unison.Runtime.Foreign.Function.ForeignConvention a, Unison.Runtime.Foreign.Function.ForeignConvention b, Unison.Runtime.Foreign.Function.ForeignConvention c) => Unison.Runtime.Foreign.Function.ForeignConvention (a, b, c)
+instance (Unison.Runtime.Foreign.Function.ForeignConvention a, Unison.Runtime.Foreign.Function.ForeignConvention b, Unison.Runtime.Foreign.Function.ForeignConvention c, Unison.Runtime.Foreign.Function.ForeignConvention d, Unison.Runtime.Foreign.Function.ForeignConvention e) => Unison.Runtime.Foreign.Function.ForeignConvention (a, b, c, d, e)
+instance Unison.Runtime.Foreign.Function.ForeignConvention GHC.IO.Handle.Types.BufferMode
+instance Unison.Runtime.Foreign.Function.ForeignConvention [Unison.Runtime.Stack.Closure]
+instance Unison.Runtime.Foreign.Function.ForeignConvention [Unison.Runtime.Foreign.Foreign]
+instance Unison.Runtime.Foreign.Function.ForeignConvention (GHC.MVar.MVar Unison.Runtime.Stack.Closure)
+instance Unison.Runtime.Foreign.Function.ForeignConvention (GHC.Conc.Sync.TVar Unison.Runtime.Stack.Closure)
+instance Unison.Runtime.Foreign.Function.ForeignConvention (GHC.IORef.IORef Unison.Runtime.Stack.Closure)
+instance Unison.Runtime.Foreign.Function.ForeignConvention (Unison.Runtime.ANF.SuperGroup Unison.Symbol.Symbol)
+instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Runtime.ANF.Value
+instance Unison.Runtime.Foreign.Function.ForeignConvention Unison.Runtime.Foreign.Foreign
+instance Unison.Runtime.Foreign.Function.ForeignConvention (Data.Primitive.Array.MutableArray s Unison.Runtime.Stack.Closure)
+instance Unison.Runtime.Foreign.Function.ForeignConvention (Data.Primitive.ByteArray.MutableByteArray s)
+instance Unison.Runtime.Foreign.Function.ForeignConvention (Data.Primitive.Array.Array Unison.Runtime.Stack.Closure)
+instance Unison.Runtime.Foreign.Function.ForeignConvention Data.Primitive.ByteArray.ByteArray
+instance Unison.Runtime.Foreign.BuiltinForeign b => Unison.Runtime.Foreign.Function.ForeignConvention b
+instance Unison.Runtime.Foreign.BuiltinForeign b => Unison.Runtime.Foreign.Function.ForeignConvention [b]
+instance GHC.Show.Show Unison.Runtime.Foreign.Function.ForeignFunc
+instance GHC.Classes.Eq Unison.Runtime.Foreign.Function.ForeignFunc
+instance GHC.Classes.Ord Unison.Runtime.Foreign.Function.ForeignFunc
+
+module Unison.Runtime.Decompile
+decompile :: Var v => (Word64 -> Word64 -> Maybe (Term v ())) -> Closure -> Either Error (Term v ())
 
 module Unison.Runtime.Builtin
 builtinLookup :: Map Reference (Sandbox, SuperNormal Symbol)
