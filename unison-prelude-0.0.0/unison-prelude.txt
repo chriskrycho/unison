@@ -25,13 +25,16 @@ debugLog :: DebugFlag -> String -> a -> a
 debugLogM :: Monad m => DebugFlag -> String -> m ()
 shouldDebug :: DebugFlag -> Bool
 data DebugFlag
-Git :: DebugFlag
-Sqlite :: DebugFlag
-Codebase :: DebugFlag
 Auth :: DebugFlag
-Migration :: DebugFlag
+Codebase :: DebugFlag
+Git :: DebugFlag
 Integrity :: DebugFlag
+Migration :: DebugFlag
+Sqlite :: DebugFlag
 Sync :: DebugFlag
+
+-- | Timing how long things take
+Timing :: DebugFlag
 instance GHC.Enum.Enum Unison.Debug.DebugFlag
 instance GHC.Enum.Bounded Unison.Debug.DebugFlag
 instance GHC.Show.Show Unison.Debug.DebugFlag
