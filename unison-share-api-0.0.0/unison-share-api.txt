@@ -529,7 +529,7 @@ AllNames :: Path -> NameScoping
 -- | Filter returned names to only include names within this path.
 Within :: Path -> NameScoping
 toAllNames :: NameScoping -> NameScoping
-getCurrentPrettyNames :: NameScoping -> Branch m -> NamesWithHistory
+getCurrentPrettyNames :: Int -> NameScoping -> Branch m -> PrettyPrintEnvDecl
 getCurrentParseNames :: NameScoping -> Branch m -> NamesWithHistory
 fixupNamesRelative :: Absolute -> Names -> Names
 
