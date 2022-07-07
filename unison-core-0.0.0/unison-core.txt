@@ -30,7 +30,7 @@ Term :: Set v -> a -> ABT f v (Term f v a) -> Term f v a
 [freeVars] :: Term f v a -> Set v
 [annotation] :: Term f v a -> a
 [out] :: Term f v a -> ABT f v (Term f v a)
-amap :: (Functor f, Foldable f) => (a -> a') -> Term f v a -> Term f v a'
+amap :: Functor f => (a -> a') -> Term f v a -> Term f v a'
 vmap :: (Functor f, Foldable f, Ord v') => (v -> v') -> Term f v a -> Term f v' a
 transform :: (Ord v, Foldable g, Functor g) => (forall a. f a -> g a) -> Term f v a -> Term g v a
 transformM :: (Ord v, Monad m, Traversable g) => (forall a. f a -> m (g a)) -> Term f v a -> m (Term g v a)
