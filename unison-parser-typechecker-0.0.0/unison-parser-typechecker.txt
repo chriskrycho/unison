@@ -2956,7 +2956,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> m (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Branch m -> m ()) -> m (IO (), IO (Set CausalHash)) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> m [Entry CausalHash] -> (Text -> Branch m -> Branch m -> m ()) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> Connection -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> m (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Branch m -> m ()) -> m (IO (), IO (Set CausalHash)) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> m [Entry CausalHash] -> (Text -> Branch m -> Branch m -> m ()) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -3124,18 +3124,13 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 [$sel:namesAtPath:Codebase] :: Codebase m v a -> Path -> m ScopedNames
 [$sel:updateNameLookup:Codebase] :: Codebase m v a -> m ()
 
--- | The SQLite connection this codebase closes over.
---   
---   At one time the codebase was meant to abstract over the storage layer,
---   but it has been cumbersome. Now we prefer to interact with SQLite
---   directly, and so provide this temporary escape hatch, until we can
---   eliminate this interface entirely.
-[$sel:connection:Codebase] :: Codebase m v a -> Connection
+-- | Acquire a new connection to the same underlying database file this
+--   codebase object connects to.
+[$sel:withConnection:Codebase] :: Codebase m v a -> forall x. (Connection -> m x) -> m x
 
--- | Another escape hatch like the above connection, but this one makes a
---   new connection to the same underlying database file. This allows code
---   (like pull-from-share) to use more than one connection concurrently.
-[$sel:withConnection:Codebase] :: Codebase m v a -> forall x. (Connection -> IO x) -> IO x
+-- | Acquire a new connection to the same underlying database file this
+--   codebase object connects to.
+[$sel:withConnectionIO:Codebase] :: Codebase m v a -> forall x. (Connection -> IO x) -> IO x
 
 -- | A directory that contains a codebase.
 type CodebasePath = FilePath
@@ -3713,13 +3708,16 @@ getCodebaseDir :: MonadIO m => Maybe CodebasePath -> m CodebasePath
 type CodebasePath = FilePath
 type SyncToDir m = CodebasePath -> SyncMode -> Branch m -> m ()
 
--- | The SQLite connection this codebase closes over.
---   
---   At one time the codebase was meant to abstract over the storage layer,
---   but it has been cumbersome. Now we prefer to interact with SQLite
---   directly, and so provide this temporary escape hatch, until we can
---   eliminate this interface entirely.
-($sel:connection:Codebase) :: Codebase m v a -> Connection
+-- | Run a transaction on a codebase.
+runTransaction :: MonadIO m => Codebase m v a -> Transaction b -> m b
+
+-- | Acquire a new connection to the same underlying database file this
+--   codebase object connects to.
+($sel:withConnection:Codebase) :: Codebase m v a -> forall x. (Connection -> m x) -> m x
+
+-- | Acquire a new connection to the same underlying database file this
+--   codebase object connects to.
+($sel:withConnectionIO:Codebase) :: Codebase m v a -> forall x. (Connection -> IO x) -> IO x
 addDefsToCodebase :: forall m v a. (Monad m, Var v, Show a) => Codebase m v a -> TypecheckedUnisonFile v a -> m ()
 componentReferencesForReference :: Monad m => Codebase m v a -> Reference -> m (Set Reference)
 
