@@ -810,7 +810,7 @@ instance GHC.Base.Functor (Unison.Typechecker.TypeVar.TypeVar b)
 instance GHC.Classes.Eq v => GHC.Classes.Eq (Unison.Typechecker.TypeVar.TypeVar b v)
 instance GHC.Classes.Ord v => GHC.Classes.Ord (Unison.Typechecker.TypeVar.TypeVar b v)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Typechecker.TypeVar.TypeVar b v)
-instance Unison.ABT.Var v => Unison.ABT.Var (Unison.Typechecker.TypeVar.TypeVar b v)
+instance U.Core.ABT.Var.Var v => U.Core.ABT.Var.Var (Unison.Typechecker.TypeVar.TypeVar b v)
 instance Unison.Var.Var v => Unison.Var.Var (Unison.Typechecker.TypeVar.TypeVar b v)
 
 module Unison.UnisonFile.Env
@@ -848,8 +848,8 @@ TypecheckedUnisonFileId :: Map v (Id, DataDeclaration v a) -> Map v (Id, EffectD
 [$sel:watchComponents:TypecheckedUnisonFileId] :: TypecheckedUnisonFile v a -> [(WatchKind, [(v, Term v a, Type v a)])]
 [$sel:hashTermsId:TypecheckedUnisonFileId] :: TypecheckedUnisonFile v a -> Map v (Id, Maybe WatchKind, Term v a, Type v a)
 pattern TypecheckedUnisonFile :: Map v (Reference, DataDeclaration v a) -> Map v (Reference, EffectDeclaration v a) -> [[(v, Term v a, Type v a)]] -> [(WatchKind, [(v, Term v a, Type v a)])] -> Map v (Reference, Maybe WatchKind, Term (F v a a) v a, Term F v a) -> TypecheckedUnisonFile v a
-instance (GHC.Show.Show v, GHC.Show.Show a) => GHC.Show.Show (Unison.UnisonFile.Type.UnisonFile v a)
-instance (GHC.Show.Show v, GHC.Show.Show a) => GHC.Show.Show (Unison.UnisonFile.Type.TypecheckedUnisonFile v a)
+instance (GHC.Show.Show a, GHC.Show.Show v) => GHC.Show.Show (Unison.UnisonFile.Type.UnisonFile v a)
+instance (GHC.Show.Show a, GHC.Show.Show v) => GHC.Show.Show (Unison.UnisonFile.Type.TypecheckedUnisonFile v a)
 instance GHC.Classes.Ord v => GHC.Base.Functor (Unison.UnisonFile.Type.TypecheckedUnisonFile v)
 
 module Unison.Util.Convert
@@ -1353,7 +1353,7 @@ instance GHC.Classes.Ord Unison.Parser.Input
 instance GHC.Classes.Eq Unison.Parser.Input
 instance Unison.Parser.Annotated Unison.Parser.Ann.Ann
 instance Unison.Parser.Annotated (Unison.Lexer.Token a)
-instance Unison.Parser.Annotated a => Unison.Parser.Annotated (Unison.ABT.Term f v a)
+instance Unison.Parser.Annotated a => Unison.Parser.Annotated (U.Core.ABT.Term f v a)
 instance Unison.Parser.Annotated a => Unison.Parser.Annotated (Unison.Pattern.Pattern a)
 instance Unison.Parser.Annotated a => Unison.Parser.Annotated [a]
 instance (Unison.Parser.Annotated a, Unison.Parser.Annotated b) => Unison.Parser.Annotated (Unison.Term.MatchCase a b)
@@ -1850,7 +1850,7 @@ instance GHC.Show.Show Unison.Typechecker.Context.SuggestionMatch
 instance GHC.Classes.Eq Unison.Typechecker.Context.SuggestionMatch
 instance GHC.Classes.Ord Unison.Typechecker.Context.SuggestionMatch
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Typechecker.Context.Suggestion v loc)
-instance Unison.ABT.Var v => GHC.Classes.Eq (Unison.Typechecker.Context.Suggestion v loc)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Typechecker.Context.Suggestion v loc)
 instance (GHC.Show.Show loc, GHC.Show.Show v) => GHC.Show.Show (Unison.Typechecker.Context.InfoNote v loc)
 instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Context.Cause v loc)
 instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Context.ErrorNote v loc)
@@ -2106,9 +2106,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3mv0 loc_a3mv1. Lens' (Env v_a3mv0 loc_a3mv1) (TypeLookup v_a3mv0 loc_a3mv1)
-termsByShortname :: forall v_a3mv0 loc_a3mv1. Lens' (Env v_a3mv0 loc_a3mv1) (Map Name [NamedReference v_a3mv0 loc_a3mv1])
-ambientAbilities :: forall v_a3mv0 loc_a3mv1. Lens' (Env v_a3mv0 loc_a3mv1) [Type v_a3mv0 loc_a3mv1]
+typeLookup :: forall v_a3mwa loc_a3mwb. Lens' (Env v_a3mwa loc_a3mwb) (TypeLookup v_a3mwa loc_a3mwb)
+termsByShortname :: forall v_a3mwa loc_a3mwb. Lens' (Env v_a3mwa loc_a3mwb) (Map Name [NamedReference v_a3mwa loc_a3mwb])
+ambientAbilities :: forall v_a3mwa loc_a3mwb. Lens' (Env v_a3mwa loc_a3mwb) [Type v_a3mwa loc_a3mwb]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3175,8 +3175,6 @@ decl1to2 :: Hash -> Decl Symbol a -> Decl Symbol
 symbol2to1 :: Symbol -> Symbol
 symbol1to2 :: Symbol -> Symbol
 shortHashSuffix1to2 :: Text -> Pos
-abt2to1 :: Functor f => Term f v a -> Term f v a
-abt1to2 :: Functor f => Term f v a -> Term f v a
 rreference2to1 :: Hash -> Reference' Text (Maybe Hash) -> Reference
 rreference1to2 :: Hash -> Reference -> Reference' Text (Maybe Hash)
 rreferenceid2to1 :: Hash -> Id' (Maybe Hash) -> Id

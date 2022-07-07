@@ -103,11 +103,11 @@ tpReference :: SearchResult' v a -> Maybe Reference
 foldResult' :: (TermResult' v a -> b) -> (TypeResult' v a -> b) -> SearchResult' v a -> b
 labeledDependencies :: Ord v => SearchResult' v a -> Set LabeledDependency
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Server.SearchResult'.TermResult' v a)
-instance Unison.ABT.Var v => GHC.Classes.Eq (Unison.Server.SearchResult'.TermResult' v a)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Server.SearchResult'.TermResult' v a)
 instance (GHC.Show.Show a, GHC.Show.Show v) => GHC.Show.Show (Unison.Server.SearchResult'.TypeResult' v a)
-instance (Unison.ABT.Var v, GHC.Classes.Eq a) => GHC.Classes.Eq (Unison.Server.SearchResult'.TypeResult' v a)
+instance (U.Core.ABT.Var.Var v, GHC.Classes.Eq a) => GHC.Classes.Eq (Unison.Server.SearchResult'.TypeResult' v a)
 instance (GHC.Show.Show v, GHC.Show.Show a) => GHC.Show.Show (Unison.Server.SearchResult'.SearchResult' v a)
-instance (Unison.ABT.Var v, GHC.Classes.Eq a) => GHC.Classes.Eq (Unison.Server.SearchResult'.SearchResult' v a)
+instance (U.Core.ABT.Var.Var v, GHC.Classes.Eq a) => GHC.Classes.Eq (Unison.Server.SearchResult'.SearchResult' v a)
 
 
 -- | Duplicate of the Unison.Util.SyntaxText module, but we expect these to
@@ -599,16 +599,16 @@ instance GHC.Base.Monad m => GHC.Base.Applicative (Unison.Server.Backend.Backend
 instance GHC.Base.Functor m => GHC.Base.Functor (Unison.Server.Backend.Backend m)
 instance GHC.Generics.Generic (Unison.Server.Backend.TermEntry v a)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Server.Backend.TermEntry v a)
-instance Unison.ABT.Var v => GHC.Classes.Ord (Unison.Server.Backend.TermEntry v a)
-instance Unison.ABT.Var v => GHC.Classes.Eq (Unison.Server.Backend.TermEntry v a)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Ord (Unison.Server.Backend.TermEntry v a)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Server.Backend.TermEntry v a)
 instance GHC.Generics.Generic Unison.Server.Backend.TypeEntry
 instance GHC.Show.Show Unison.Server.Backend.TypeEntry
 instance GHC.Classes.Ord Unison.Server.Backend.TypeEntry
 instance GHC.Classes.Eq Unison.Server.Backend.TypeEntry
 instance GHC.Generics.Generic (Unison.Server.Backend.ShallowListEntry v a)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Server.Backend.ShallowListEntry v a)
-instance Unison.ABT.Var v => GHC.Classes.Ord (Unison.Server.Backend.ShallowListEntry v a)
-instance Unison.ABT.Var v => GHC.Classes.Eq (Unison.Server.Backend.ShallowListEntry v a)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Ord (Unison.Server.Backend.ShallowListEntry v a)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Server.Backend.ShallowListEntry v a)
 instance GHC.Generics.Generic Unison.Server.Backend.FoundRef
 instance GHC.Show.Show Unison.Server.Backend.FoundRef
 instance GHC.Classes.Ord Unison.Server.Backend.FoundRef

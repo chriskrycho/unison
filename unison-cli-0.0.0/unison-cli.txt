@@ -1149,7 +1149,7 @@ module Unison.Codebase.Editor.Propagate
 computeFrontier :: forall m. Monad m => (Reference -> m (Set Reference)) -> Patch -> (Reference -> Bool) -> m (Relation Reference Reference)
 propagateAndApply :: forall m i v. (Applicative m, Var v) => Names -> Patch -> Branch0 m -> F m i v (Branch0 m)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Propagate.Edits v)
-instance Unison.ABT.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
 
 module Unison.Codebase.Editor.HandleCommand
 typecheck :: Monad m => [Type Symbol Ann] -> Codebase m Symbol Ann -> ParsingEnv -> SourceName -> LexedSource -> m (TypecheckingResult Symbol)
@@ -1353,13 +1353,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3dvN v_a3dvO. Lens' (LoopState m_a3dvN v_a3dvO) (Branch m_a3dvN)
-numberedArgs :: forall m_a3dvN v_a3dvO. Lens' (LoopState m_a3dvN v_a3dvO) NumberedArgs
-latestTypecheckedFile :: forall m_a3dvN v_a3dvO v_a3edN. Lens (LoopState m_a3dvN v_a3dvO) (LoopState m_a3dvN v_a3edN) (Maybe (TypecheckedUnisonFile v_a3dvO Ann)) (Maybe (TypecheckedUnisonFile v_a3edN Ann))
-latestFile :: forall m_a3dvN v_a3dvO. Lens' (LoopState m_a3dvN v_a3dvO) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3dvN v_a3dvO. Lens' (LoopState m_a3dvN v_a3dvO) (Branch m_a3dvN)
-lastInput :: forall m_a3dvN v_a3dvO. Lens' (LoopState m_a3dvN v_a3dvO) (Maybe Input)
-currentPathStack :: forall m_a3dvN v_a3dvO. Lens' (LoopState m_a3dvN v_a3dvO) (NonEmpty Absolute)
+root :: forall m_a3drL v_a3drM. Lens' (LoopState m_a3drL v_a3drM) (Branch m_a3drL)
+numberedArgs :: forall m_a3drL v_a3drM. Lens' (LoopState m_a3drL v_a3drM) NumberedArgs
+latestTypecheckedFile :: forall m_a3drL v_a3drM v_a3e9L. Lens (LoopState m_a3drL v_a3drM) (LoopState m_a3drL v_a3e9L) (Maybe (TypecheckedUnisonFile v_a3drM Ann)) (Maybe (TypecheckedUnisonFile v_a3e9L Ann))
+latestFile :: forall m_a3drL v_a3drM. Lens' (LoopState m_a3drL v_a3drM) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3drL v_a3drM. Lens' (LoopState m_a3drL v_a3drM) (Branch m_a3drL)
+lastInput :: forall m_a3drL v_a3drM. Lens' (LoopState m_a3drL v_a3drM) (Maybe Input)
+currentPathStack :: forall m_a3drL v_a3drM. Lens' (LoopState m_a3drL v_a3drM) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()

@@ -5,6 +5,17 @@
 @package unison-core
 @version 0.0.0
 
+module U.Core.ABT.Var
+
+-- | A class for avoiding accidental variable capture
+--   
+--   <ul>
+--   <li>`Set.notMember (freshIn vs v) vs`: <a>freshIn</a> returns a
+--   variable not used in the <a>Set</a></li>
+--   </ul>
+class Ord v => Var v
+freshIn :: Var v => Set v -> v -> v
+
 module U.Core.ABT
 data ABT f v r
 Var :: v -> ABT f v r
@@ -38,40 +49,24 @@ visit :: (Traversable f, Applicative g, Ord v) => (Term f v a -> Maybe (g (Term 
 
 -- | Apply an effectful function to an ABT tree top down, sequencing the
 --   results.
-visit' :: (Traversable f, Applicative g, Monad g, Ord v) => (f (Term f v a) -> g (f (Term f v a))) -> Term f v a -> g (Term f v a)
+visit' :: (Traversable f, Monad g, Ord v) => (f (Term f v a) -> g (f (Term f v a))) -> Term f v a -> g (Term f v a)
 
 -- | Apply an effectful function to an ABT tree top down, sequencing the
 --   results.
-visit_ :: (Traversable f, Applicative g, Monad g, Ord v) => (f (Term f v a) -> g ()) -> Term f v a -> g (Term f v a)
+visit_ :: (Traversable f, Monad g, Ord v) => (f (Term f v a) -> g ()) -> Term f v a -> g (Term f v a)
 
 -- | <a>visit</a> specialized to the <a>Identity</a> effect.
 visitPure :: (Traversable f, Ord v) => (Term f v a -> Maybe (Term f v a)) -> Term f v a -> Term f v a
-foreachSubterm :: (Traversable f, Applicative g, Ord v) => (Term f v a -> g b) -> Term f v a -> g [b]
+foreachSubterm :: (Traversable f, Applicative g) => (Term f v a -> g b) -> Term f v a -> g [b]
 subterms :: (Ord v, Traversable f) => Term f v a -> [Term f v a]
 pattern Var' :: v -> Term f v a
 pattern Cycle' :: [v] -> Term f v a -> Term f v a
 pattern AbsN' :: [v] -> Term f v a -> Term f v a
 pattern Tm' :: f (Term f v a) -> Term f v a
 unabs :: Term f v a -> ([v], Term f v a)
-instance Data.Traversable.Traversable f => Data.Traversable.Traversable (U.Core.ABT.ABT f v)
-instance Data.Foldable.Foldable f => Data.Foldable.Foldable (U.Core.ABT.ABT f v)
-instance GHC.Base.Functor f => GHC.Base.Functor (U.Core.ABT.ABT f v)
-instance (GHC.Show.Show v, GHC.Show.Show r, GHC.Show.Show (f r)) => GHC.Show.Show (U.Core.ABT.ABT f v r)
-instance Data.Traversable.Traversable f => Data.Traversable.Traversable (U.Core.ABT.Term f v)
-instance Data.Foldable.Foldable f => Data.Foldable.Foldable (U.Core.ABT.Term f v)
-instance GHC.Base.Functor f => GHC.Base.Functor (U.Core.ABT.Term f v)
-instance (forall q. GHC.Show.Show q => GHC.Show.Show (f q), GHC.Show.Show v, GHC.Show.Show a) => GHC.Show.Show (U.Core.ABT.Term f v a)
 
-module U.Core.ABT.Var
-
--- | A class for avoiding accidental variable capture
---   
---   <ul>
---   <li>`Set.notMember (freshIn vs v) vs`: <a>freshIn</a> returns a
---   variable not used in the <a>Set</a></li>
---   </ul>
-class Ord v => Var v
-freshIn :: Var v => Set v -> v -> v
+-- | Produce a variable which is free in both terms
+freshInBoth :: Var v => Term f v a -> Term f v a -> v -> v
 substsInheritAnnotation :: (Foldable f, Functor f, Var v) => [(v, Term f v b)] -> Term f v a -> Term f v a
 substInheritAnnotation :: (Foldable f, Functor f, Var v) => v -> Term f v b -> Term f v a -> Term f v a
 subst' :: (Foldable f, Functor f, Var v) => (a -> Term f v a) -> v -> Set v -> Term f v a -> Term f v a
@@ -79,3 +74,14 @@ subst' :: (Foldable f, Functor f, Var v) => (a -> Term f v a) -> v -> Set v -> T
 -- | renames <tt>old</tt> to <tt>new</tt> in the given term, ignoring
 --   subtrees that bind <tt>old</tt>
 rename :: (Foldable f, Functor f, Var v) => v -> v -> Term f v a -> Term f v a
+instance Data.Traversable.Traversable f => Data.Traversable.Traversable (U.Core.ABT.ABT f v)
+instance Data.Foldable.Foldable f => Data.Foldable.Foldable (U.Core.ABT.ABT f v)
+instance GHC.Base.Functor f => GHC.Base.Functor (U.Core.ABT.ABT f v)
+instance (GHC.Show.Show v, GHC.Show.Show r, GHC.Show.Show (f r)) => GHC.Show.Show (U.Core.ABT.ABT f v r)
+instance Data.Traversable.Traversable f => Data.Traversable.Traversable (U.Core.ABT.Term f v)
+instance GHC.Generics.Generic (U.Core.ABT.Term f v a)
+instance Data.Foldable.Foldable f => Data.Foldable.Foldable (U.Core.ABT.Term f v)
+instance GHC.Base.Functor f => GHC.Base.Functor (U.Core.ABT.Term f v)
+instance (Data.Foldable.Foldable f, GHC.Base.Functor f, forall a1. GHC.Classes.Eq a1 => GHC.Classes.Eq (f a1), U.Core.ABT.Var.Var v) => GHC.Classes.Eq (U.Core.ABT.Term f v a)
+instance (forall a1. GHC.Classes.Eq a1 => GHC.Classes.Eq (f a1), Data.Foldable.Foldable f, GHC.Base.Functor f, forall a1. GHC.Classes.Ord a1 => GHC.Classes.Ord (f a1), U.Core.ABT.Var.Var v) => GHC.Classes.Ord (U.Core.ABT.Term f v a)
+instance (forall a1. GHC.Show.Show a1 => GHC.Show.Show (f a1), GHC.Show.Show v) => GHC.Show.Show (U.Core.ABT.Term f v a)
