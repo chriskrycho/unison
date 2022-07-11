@@ -858,13 +858,13 @@ GetCausalHashByPathErrorNoReadPermission :: Path -> GetCausalHashByPathError
 
 -- | Generic Codeserver transport errors
 data CodeserverTransportError
-Unauthenticated :: BaseUrl -> CodeserverTransportError
+DecodeFailure :: Text -> Response -> CodeserverTransportError
 PermissionDenied :: Text -> CodeserverTransportError
-UnreachableCodeserver :: BaseUrl -> CodeserverTransportError
-InvalidResponse :: Response -> CodeserverTransportError
 RateLimitExceeded :: CodeserverTransportError
-InternalServerError :: CodeserverTransportError
 Timeout :: CodeserverTransportError
+Unauthenticated :: BaseUrl -> CodeserverTransportError
+UnexpectedResponse :: Response -> CodeserverTransportError
+UnreachableCodeserver :: BaseUrl -> CodeserverTransportError
 data SyncError e
 TransportError :: CodeserverTransportError -> SyncError e
 SyncError :: e -> SyncError e
@@ -1353,13 +1353,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3dpK v_a3dpL. Lens' (LoopState m_a3dpK v_a3dpL) (Branch m_a3dpK)
-numberedArgs :: forall m_a3dpK v_a3dpL. Lens' (LoopState m_a3dpK v_a3dpL) NumberedArgs
-latestTypecheckedFile :: forall m_a3dpK v_a3dpL v_a3e7K. Lens (LoopState m_a3dpK v_a3dpL) (LoopState m_a3dpK v_a3e7K) (Maybe (TypecheckedUnisonFile v_a3dpL Ann)) (Maybe (TypecheckedUnisonFile v_a3e7K Ann))
-latestFile :: forall m_a3dpK v_a3dpL. Lens' (LoopState m_a3dpK v_a3dpL) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3dpK v_a3dpL. Lens' (LoopState m_a3dpK v_a3dpL) (Branch m_a3dpK)
-lastInput :: forall m_a3dpK v_a3dpL. Lens' (LoopState m_a3dpK v_a3dpL) (Maybe Input)
-currentPathStack :: forall m_a3dpK v_a3dpL. Lens' (LoopState m_a3dpK v_a3dpL) (NonEmpty Absolute)
+root :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (Branch m_a3dLK)
+numberedArgs :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) NumberedArgs
+latestTypecheckedFile :: forall m_a3dLK v_a3dLL v_a3etK. Lens (LoopState m_a3dLK v_a3dLL) (LoopState m_a3dLK v_a3etK) (Maybe (TypecheckedUnisonFile v_a3dLL Ann)) (Maybe (TypecheckedUnisonFile v_a3etK Ann))
+latestFile :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (Branch m_a3dLK)
+lastInput :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (Maybe Input)
+currentPathStack :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
