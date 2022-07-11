@@ -493,18 +493,21 @@ module Unison.Codebase.Editor.VersionParser
 --   
 --   <pre>
 --   &gt;&gt;&gt; parseMaybe defaultBaseLib "release/M1j"
---   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.dev.base.releases._M1j})
+--   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.base.releases._M1j})
 --   </pre>
 --   
 --   <pre>
 --   &gt;&gt;&gt; parseMaybe defaultBaseLib "release/M1j.2"
---   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.dev.base.releases._M1j_2})
+--   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.base.releases._M1j_2})
 --   </pre>
 --   
 --   <pre>
 --   &gt;&gt;&gt; parseMaybe defaultBaseLib "latest-1234"
---   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.dev.base.trunk})
+--   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.base.main})
 --   </pre>
+--   
+--   A version with the <tt>dirty</tt> flag &gt;&gt;&gt; parseMaybe
+--   defaultBaseLib "release/M3-409-gbcdf68db3'" Nothing
 defaultBaseLib :: Parsec Void Text ReadShareRemoteNamespace
 
 
@@ -817,6 +820,12 @@ downloading :: Path -> Pretty ColorText
 header :: Text -> Pretty ColorText
 authorSuggestion :: Pretty ColorText
 getStarted :: FilePath -> IO (Pretty ColorText)
+instance GHC.Classes.Eq Unison.CommandLine.Welcome.DownloadBase
+instance GHC.Show.Show Unison.CommandLine.Welcome.DownloadBase
+instance GHC.Classes.Eq Unison.CommandLine.Welcome.CodebaseInitStatus
+instance GHC.Show.Show Unison.CommandLine.Welcome.CodebaseInitStatus
+instance GHC.Classes.Eq Unison.CommandLine.Welcome.Onboarding
+instance GHC.Show.Show Unison.CommandLine.Welcome.Onboarding
 
 module Unison.Share.Codeserver
 
@@ -1353,13 +1362,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (Branch m_a3dLK)
-numberedArgs :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) NumberedArgs
-latestTypecheckedFile :: forall m_a3dLK v_a3dLL v_a3etK. Lens (LoopState m_a3dLK v_a3dLL) (LoopState m_a3dLK v_a3etK) (Maybe (TypecheckedUnisonFile v_a3dLL Ann)) (Maybe (TypecheckedUnisonFile v_a3etK Ann))
-latestFile :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (Branch m_a3dLK)
-lastInput :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (Maybe Input)
-currentPathStack :: forall m_a3dLK v_a3dLL. Lens' (LoopState m_a3dLK v_a3dLL) (NonEmpty Absolute)
+root :: forall m_a3dPm v_a3dPn. Lens' (LoopState m_a3dPm v_a3dPn) (Branch m_a3dPm)
+numberedArgs :: forall m_a3dPm v_a3dPn. Lens' (LoopState m_a3dPm v_a3dPn) NumberedArgs
+latestTypecheckedFile :: forall m_a3dPm v_a3dPn v_a3exm. Lens (LoopState m_a3dPm v_a3dPn) (LoopState m_a3dPm v_a3exm) (Maybe (TypecheckedUnisonFile v_a3dPn Ann)) (Maybe (TypecheckedUnisonFile v_a3exm Ann))
+latestFile :: forall m_a3dPm v_a3dPn. Lens' (LoopState m_a3dPm v_a3dPn) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3dPm v_a3dPn. Lens' (LoopState m_a3dPm v_a3dPn) (Branch m_a3dPm)
+lastInput :: forall m_a3dPm v_a3dPn. Lens' (LoopState m_a3dPm v_a3dPn) (Maybe Input)
+currentPathStack :: forall m_a3dPm v_a3dPn. Lens' (LoopState m_a3dPm v_a3dPn) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
