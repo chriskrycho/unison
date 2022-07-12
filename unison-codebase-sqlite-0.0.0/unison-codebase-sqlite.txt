@@ -1002,11 +1002,11 @@ insertTypeNames :: [NamedRef TextReference] -> Transaction ()
 
 -- | Get the list of a term names in the root namespace according to the
 --   name lookup index
-rootTermNames :: Transaction [NamedRef (TextReferent, Maybe ConstructorType)]
+rootTermNamesByPath :: Maybe Text -> Transaction ([NamedRef (TextReferent, Maybe ConstructorType)], [NamedRef (TextReferent, Maybe ConstructorType)])
 
 -- | Get the list of a type names in the root namespace according to the
 --   name lookup index
-rootTypeNames :: Transaction [NamedRef TextReference]
+rootTypeNamesByPath :: Maybe Text -> Transaction ([NamedRef TextReference], [NamedRef TextReference])
 
 -- | Gets the count of all definitions within the given namespace. NOTE:
 --   This requires a working name lookup index.
@@ -1216,7 +1216,13 @@ rebuildNameIndex :: [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef Re
 
 -- | Get all the term and type names for the root namespace from the lookup
 --   table.
-rootBranchNames :: Transaction ([NamedRef (Referent, Maybe ConstructorType)], [NamedRef Reference])
+rootNamesByPath :: Maybe Text -> Transaction NamesByPath
+data NamesByPath
+NamesByPath :: [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef Reference] -> [NamedRef Reference] -> NamesByPath
+[$sel:termNamesInPath:NamesByPath] :: NamesByPath -> [NamedRef (Referent, Maybe ConstructorType)]
+[$sel:termNamesExternalToPath:NamesByPath] :: NamesByPath -> [NamedRef (Referent, Maybe ConstructorType)]
+[$sel:typeNamesInPath:NamesByPath] :: NamesByPath -> [NamedRef Reference]
+[$sel:typeNamesExternalToPath:NamesByPath] :: NamesByPath -> [NamedRef Reference]
 expectDbBranch :: BranchObjectId -> Transaction DbBranch
 
 -- | Save a <a>DbBranch</a>, given its hash (which the caller is expected

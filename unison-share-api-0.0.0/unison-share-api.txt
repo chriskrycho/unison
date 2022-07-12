@@ -452,7 +452,7 @@ newtype Backend m a
 Backend :: ReaderT BackendEnv (ExceptT BackendError m) a -> Backend m a
 [$sel:runBackend:Backend] :: Backend m a -> ReaderT BackendEnv (ExceptT BackendError m) a
 suffixifyNames :: Int -> Names -> PrettyPrintEnv
-prettyAndParseNamesForBranch :: Branch m -> NameScoping -> (Names, Names)
+namesForBranch :: Branch m -> NameScoping -> (Names, Names, Names)
 basicSuffixifiedNames :: Int -> Branch m -> NameScoping -> PrettyPrintEnv
 parseNamesForBranch :: Branch m -> NameScoping -> Names
 prettyNamesForBranch :: Branch m -> NameScoping -> Names
@@ -482,7 +482,7 @@ FoundTermRef :: Referent -> FoundRef
 FoundTypeRef :: Reference -> FoundRef
 fuzzyFind :: Names -> String -> [(Alignment, UnisonName, [FoundRef])]
 findShallow :: Monad m => Codebase m Symbol Ann -> Absolute -> m [ShallowListEntry Symbol Ann]
-findShallowReadmeInBranchAndRender :: Width -> Runtime Symbol -> Codebase IO Symbol Ann -> NamesWithHistory -> Branch m -> Backend IO (Maybe Doc)
+findShallowReadmeInBranchAndRender :: Width -> Runtime Symbol -> Codebase IO Symbol Ann -> PrettyPrintEnvDecl -> Branch m -> Backend IO (Maybe Doc)
 isDoc :: Monad m => Codebase m Symbol Ann -> Referent -> m Bool
 isDoc' :: (Var v, Monoid loc) => Maybe (Type v loc) -> Bool
 doc1Type :: (Ord v, Monoid a) => Type v a
@@ -577,7 +577,24 @@ renderDoc :: PrettyPrintEnvDecl -> Width -> Runtime Symbol -> Codebase IO Symbol
 docsInBranchToHtmlFiles :: Runtime Symbol -> Codebase IO Symbol Ann -> Branch IO -> Path -> FilePath -> IO ()
 bestNameForTerm :: forall v. Var v => PrettyPrintEnv -> Width -> Referent -> Text
 bestNameForType :: forall v. Var v => PrettyPrintEnv -> Width -> Reference -> Text
-scopedNamesForBranchHash :: forall m v a. Monad m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (Names, Names)
+
+-- | Returns (parse, pretty, local, ppe) where:
+--   
+--   <ul>
+--   <li><tt>parse</tt> includes ALL fully qualified names from the root,
+--   and ALSO all names from within the provided path, relative to that
+--   path.</li>
+--   <li><tt>pretty</tt> includes names within the provided path, relative
+--   to that path, and also all globally scoped names _outside_ of the
+--   path</li>
+--   <li><a>local</a> includes ONLY the names within the provided path</li>
+--   <li><tt>ppe</tt> is a ppe which searches for a name within the path
+--   first, but falls back to a global name search. The
+--   <a>$sel:suffixified:Suffixify</a> component of this ppe will search
+--   for the shortest unambiguous suffix within the scope in which the name
+--   is found (local, falling back to global)</li>
+--   </ul>
+scopedNamesForBranchHash :: forall m v a. Monad m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (Names, PrettyPrintEnvDecl)
 resolveCausalHash :: Monad m => Maybe CausalHash -> Codebase m v a -> Backend m (Branch m)
 resolveRootBranchHash :: Monad m => Maybe ShortBranchHash -> Codebase m v a -> Backend m (Branch m)
 
