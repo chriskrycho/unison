@@ -303,6 +303,15 @@ DumpNamespace :: Map Referent (Set NameSegment, Set Reference) -> Map Reference 
 [$sel:causalParents:DumpNamespace] :: DumpNamespace -> Set CausalHash
 instance GHC.Show.Show Unison.Codebase.Editor.Output.DumpNamespace.DumpNamespace
 
+module Unison.Codebase.Editor.Output.PushPull
+data PushPull
+Push :: PushPull
+Pull :: PushPull
+fold :: a -> a -> PushPull -> a
+instance GHC.Show.Show Unison.Codebase.Editor.Output.PushPull.PushPull
+instance GHC.Classes.Ord Unison.Codebase.Editor.Output.PushPull.PushPull
+instance GHC.Classes.Eq Unison.Codebase.Editor.Output.PushPull.PushPull
+
 module Unison.Codebase.Editor.SlurpComponent
 data SlurpComponent v
 SlurpComponent :: Set v -> Set v -> Set v -> SlurpComponent v
@@ -767,7 +776,7 @@ gitUrlArg :: ArgumentType
 -- | Refers to a namespace on some remote code host.
 remoteNamespaceArg :: ArgumentType
 collectNothings :: (a -> Maybe b) -> [a] -> [a]
-explainRemote :: Pretty ColorText
+explainRemote :: PushPull -> Pretty ColorText
 showErrorFancy :: ShowErrorComponent e => ErrorFancy e -> String
 showErrorItem :: ErrorItem (Token Text) -> String
 
@@ -1041,9 +1050,6 @@ NewlyComputed :: TestReportStats
 data UndoFailureReason
 CantUndoPastStart :: UndoFailureReason
 CantUndoPastMerge :: UndoFailureReason
-data PushPull
-Push :: PushPull
-Pull :: PushPull
 data ReflogEntry
 ReflogEntry :: ShortBranchHash -> Text -> ReflogEntry
 [$sel:hash:ReflogEntry] :: ReflogEntry -> ShortBranchHash
@@ -1054,12 +1060,8 @@ ShareErrorFastForwardPush :: FastForwardPushError -> ShareError
 ShareErrorPull :: PullError -> ShareError
 ShareErrorGetCausalHashByPath :: GetCausalHashByPathError -> ShareError
 ShareErrorTransport :: CodeserverTransportError -> ShareError
-pushPull :: a -> a -> PushPull -> a
 isFailure :: Ord v => Output v -> Bool
 isNumberedFailure :: NumberedOutput v -> Bool
-instance GHC.Show.Show Unison.Codebase.Editor.Output.PushPull
-instance GHC.Classes.Ord Unison.Codebase.Editor.Output.PushPull
-instance GHC.Classes.Eq Unison.Codebase.Editor.Output.PushPull
 instance GHC.Show.Show Unison.Codebase.Editor.Output.ReflogEntry
 instance GHC.Show.Show Unison.Codebase.Editor.Output.HistoryTail
 instance GHC.Show.Show Unison.Codebase.Editor.Output.TestReportStats
@@ -1362,13 +1364,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3dPs v_a3dPt. Lens' (LoopState m_a3dPs v_a3dPt) (Branch m_a3dPs)
-numberedArgs :: forall m_a3dPs v_a3dPt. Lens' (LoopState m_a3dPs v_a3dPt) NumberedArgs
-latestTypecheckedFile :: forall m_a3dPs v_a3dPt v_a3exs. Lens (LoopState m_a3dPs v_a3dPt) (LoopState m_a3dPs v_a3exs) (Maybe (TypecheckedUnisonFile v_a3dPt Ann)) (Maybe (TypecheckedUnisonFile v_a3exs Ann))
-latestFile :: forall m_a3dPs v_a3dPt. Lens' (LoopState m_a3dPs v_a3dPt) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3dPs v_a3dPt. Lens' (LoopState m_a3dPs v_a3dPt) (Branch m_a3dPs)
-lastInput :: forall m_a3dPs v_a3dPt. Lens' (LoopState m_a3dPs v_a3dPt) (Maybe Input)
-currentPathStack :: forall m_a3dPs v_a3dPt. Lens' (LoopState m_a3dPs v_a3dPt) (NonEmpty Absolute)
+root :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (Branch m_a3eg7)
+numberedArgs :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) NumberedArgs
+latestTypecheckedFile :: forall m_a3eg7 v_a3eg8 v_a3eY7. Lens (LoopState m_a3eg7 v_a3eg8) (LoopState m_a3eg7 v_a3eY7) (Maybe (TypecheckedUnisonFile v_a3eg8 Ann)) (Maybe (TypecheckedUnisonFile v_a3eY7 Ann))
+latestFile :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (Branch m_a3eg7)
+lastInput :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (Maybe Input)
+currentPathStack :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
