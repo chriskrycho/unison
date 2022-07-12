@@ -164,7 +164,7 @@ HistoryI :: Maybe Int -> Maybe Int -> BranchId -> Input
 ExecuteI :: String -> [String] -> Input
 IOTestI :: HashQualified Name -> Input
 MakeStandaloneI :: String -> HashQualified Name -> Input
-TestI :: Bool -> Bool -> Input
+TestI :: TestInput -> Input
 LinkI :: HashQualified Name -> [HQSplit'] -> Input
 UnlinkI :: HashQualified Name -> [HQSplit'] -> Input
 LinksI :: HQSplit' -> Maybe String -> Input
@@ -205,6 +205,13 @@ VersionI :: Input
 data GistInput
 GistInput :: WriteGitRepo -> GistInput
 [$sel:repo:GistInput] :: GistInput -> WriteGitRepo
+data TestInput
+TestInput :: Bool -> Bool -> Bool -> TestInput
+
+-- | Should we run tests in the <tt>lib</tt> namespace?
+[$sel:includeLibNamespace:TestInput] :: TestInput -> Bool
+[$sel:showFailures:TestInput] :: TestInput -> Bool
+[$sel:showSuccesses:TestInput] :: TestInput -> Bool
 data Event
 UnisonFileChanged :: SourceName -> Source -> Event
 IncomingRootBranch :: Set CausalHash -> Event
@@ -243,6 +250,8 @@ instance GHC.Show.Show Unison.Codebase.Editor.Input.PullMode
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.PullMode
 instance GHC.Show.Show Unison.Codebase.Editor.Input.GistInput
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.GistInput
+instance GHC.Show.Show Unison.Codebase.Editor.Input.TestInput
+instance GHC.Classes.Eq Unison.Codebase.Editor.Input.TestInput
 instance GHC.Show.Show Unison.Codebase.Editor.Input.OutputLocation
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.OutputLocation
 instance GHC.Show.Show Unison.Codebase.Editor.Input.FindScope
@@ -747,6 +756,7 @@ debugDumpNamespaceSimple :: InputPattern
 debugClearWatchCache :: InputPattern
 debugDoctor :: InputPattern
 test :: InputPattern
+testAll :: InputPattern
 docsToHtml :: InputPattern
 execute :: InputPattern
 ioTest :: InputPattern
@@ -1373,13 +1383,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (Branch m_a3eEE)
-numberedArgs :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) NumberedArgs
-latestTypecheckedFile :: forall m_a3eEE v_a3eEF v_a3fmE. Lens (LoopState m_a3eEE v_a3eEF) (LoopState m_a3eEE v_a3fmE) (Maybe (TypecheckedUnisonFile v_a3eEF Ann)) (Maybe (TypecheckedUnisonFile v_a3fmE Ann))
-latestFile :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (Branch m_a3eEE)
-lastInput :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (Maybe Input)
-currentPathStack :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (NonEmpty Absolute)
+root :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (Branch m_a3f23)
+numberedArgs :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) NumberedArgs
+latestTypecheckedFile :: forall m_a3f23 v_a3f24 v_a3fK3. Lens (LoopState m_a3f23 v_a3f24) (LoopState m_a3f23 v_a3fK3) (Maybe (TypecheckedUnisonFile v_a3f24 Ann)) (Maybe (TypecheckedUnisonFile v_a3fK3 Ann))
+latestFile :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (Branch m_a3f23)
+lastInput :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (Maybe Input)
+currentPathStack :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()

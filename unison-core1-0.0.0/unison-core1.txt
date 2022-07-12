@@ -261,10 +261,11 @@ pattern ConId :: ConstructorReferenceId -> ConstructorType -> Id
 fold :: (r -> a) -> (r -> ConstructorId -> ConstructorType -> a) -> Referent' r -> a
 toReference :: Referent -> Reference
 toReferenceId :: Referent -> Maybe Id
+toTermReference :: Referent -> Maybe TermReference
 
 -- | Inject a Term Reference into a Referent
-fromTermReference :: Reference -> Referent
-fromTermReferenceId :: Id -> Referent
+fromTermReference :: TermReference -> Referent
+fromTermReferenceId :: TermReferenceId -> Referent
 fromText :: Text -> Maybe Referent
 
 -- | A lens onto the reference in a referent.
