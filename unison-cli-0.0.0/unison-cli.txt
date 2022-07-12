@@ -171,7 +171,7 @@ LinksI :: HQSplit' -> Maybe String -> Input
 CreateAuthorI :: NameSegment -> Text -> Input
 DisplayI :: OutputLocation -> [HashQualified Name] -> Input
 DocsI :: [HQSplit'] -> Input
-FindI :: Bool -> IsGlobal -> [String] -> Input
+FindI :: Bool -> FindScope -> [String] -> Input
 FindShallowI :: Path' -> Input
 FindPatchI :: Input
 ShowDefinitionI :: OutputLocation -> [HashQualified Name] -> Input
@@ -229,6 +229,10 @@ data OptionalPatch
 NoPatch :: OptionalPatch
 DefaultPatch :: OptionalPatch
 UsePatch :: PatchPath -> OptionalPatch
+data FindScope
+Local :: FindScope
+LocalAndDeps :: FindScope
+Global :: FindScope
 type IsGlobal = Bool
 instance GHC.Show.Show Unison.Codebase.Editor.Input.OptionalPatch
 instance GHC.Classes.Ord Unison.Codebase.Editor.Input.OptionalPatch
@@ -241,6 +245,8 @@ instance GHC.Show.Show Unison.Codebase.Editor.Input.GistInput
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.GistInput
 instance GHC.Show.Show Unison.Codebase.Editor.Input.OutputLocation
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.OutputLocation
+instance GHC.Show.Show Unison.Codebase.Editor.Input.FindScope
+instance GHC.Classes.Eq Unison.Codebase.Editor.Input.FindScope
 instance GHC.Show.Show Unison.Codebase.Editor.Input.Input
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.Input
 
@@ -662,10 +668,12 @@ ui :: InputPattern
 undo :: InputPattern
 viewByPrefix :: InputPattern
 find :: InputPattern
+findAll :: InputPattern
 findGlobal :: InputPattern
-find' :: String -> Bool -> InputPattern
+find' :: String -> FindScope -> InputPattern
 findShallow :: InputPattern
 findVerbose :: InputPattern
+findVerboseAll :: InputPattern
 findPatch :: InputPattern
 renameTerm :: InputPattern
 renameType :: InputPattern
@@ -907,6 +915,7 @@ BranchNotEmpty :: Path' -> Output v
 LoadPullRequest :: ReadRemoteNamespace -> ReadRemoteNamespace -> Path' -> Path' -> Path' -> Path' -> Output v
 CreatedNewBranch :: Absolute -> Output v
 BranchAlreadyExists :: Path' -> Output v
+FindNoLocalMatches :: Output v
 PatchAlreadyExists :: Split' -> Output v
 NoExactTypeMatches :: Output v
 TypeAlreadyExists :: Split' -> Set Reference -> Output v
@@ -1364,13 +1373,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (Branch m_a3egY)
-numberedArgs :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) NumberedArgs
-latestTypecheckedFile :: forall m_a3egY v_a3egZ v_a3eYY. Lens (LoopState m_a3egY v_a3egZ) (LoopState m_a3egY v_a3eYY) (Maybe (TypecheckedUnisonFile v_a3egZ Ann)) (Maybe (TypecheckedUnisonFile v_a3eYY Ann))
-latestFile :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (Branch m_a3egY)
-lastInput :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (Maybe Input)
-currentPathStack :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (NonEmpty Absolute)
+root :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (Branch m_a3eEE)
+numberedArgs :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) NumberedArgs
+latestTypecheckedFile :: forall m_a3eEE v_a3eEF v_a3fmE. Lens (LoopState m_a3eEE v_a3eEF) (LoopState m_a3eEE v_a3fmE) (Maybe (TypecheckedUnisonFile v_a3eEF Ann)) (Maybe (TypecheckedUnisonFile v_a3fmE Ann))
+latestFile :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (Branch m_a3eEE)
+lastInput :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (Maybe Input)
+currentPathStack :: forall m_a3eEE v_a3eEF. Lens' (LoopState m_a3eEE v_a3eEF) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
