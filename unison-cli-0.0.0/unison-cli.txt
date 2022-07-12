@@ -1092,8 +1092,8 @@ data Command m i v a
 [LoadSource] :: SourceName -> Command m i v LoadSourceResult
 [Typecheck] :: AmbientAbilities v -> NamesWithHistory -> SourceName -> LexedSource -> Command m i v (TypecheckingResult v)
 [TypecheckFile] :: UnisonFile v Ann -> [Type v Ann] -> Command m i v (TypecheckingResult v)
-[Evaluate] :: PrettyPrintEnv -> TypecheckedUnisonFile v Ann -> Command m i v (Either Error (EvalResult v))
-[Evaluate1] :: PrettyPrintEnv -> UseCache -> Term v Ann -> Command m i v (Either Error (Term v Ann))
+[Evaluate] :: Bool -> PrettyPrintEnv -> TypecheckedUnisonFile v Ann -> Command m i v (Either Error (EvalResult v))
+[Evaluate1] :: Bool -> PrettyPrintEnv -> UseCache -> Term v Ann -> Command m i v (Either Error (Term v Ann))
 [PutWatch] :: WatchKind -> Id -> Term v Ann -> Command m i v ()
 [LoadWatches] :: WatchKind -> Set Reference -> Command m i v [(Reference, Term v Ann)]
 [LoadLocalRootBranch] :: Command m i v (Branch m)
@@ -1165,7 +1165,7 @@ instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagat
 module Unison.Codebase.Editor.HandleCommand
 typecheck :: Monad m => [Type Symbol Ann] -> Codebase m Symbol Ann -> ParsingEnv -> SourceName -> LexedSource -> m (TypecheckingResult Symbol)
 typecheck' :: Monad m => [Type Symbol Ann] -> Codebase m Symbol Ann -> UnisonFile Symbol Ann -> m (TypecheckingResult Symbol)
-commandLine :: forall i a gen. DRG gen => Config -> IO i -> (Branch IO -> IO ()) -> Runtime Symbol -> (Output Symbol -> IO ()) -> (NumberedOutput Symbol -> IO NumberedArgs) -> (SourceName -> IO LoadSourceResult) -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Int -> IO gen) -> Free (Command IO i Symbol) a -> IO a
+commandLine :: forall i a gen. DRG gen => Config -> IO i -> (Branch IO -> IO ()) -> Runtime Symbol -> Runtime Symbol -> (Output Symbol -> IO ()) -> (NumberedOutput Symbol -> IO NumberedArgs) -> (SourceName -> IO LoadSourceResult) -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Int -> IO gen) -> Free (Command IO i Symbol) a -> IO a
 
 module Unison.Util.HTTP
 addRequestMiddleware :: (Request -> IO Request) -> ManagerSettings -> ManagerSettings
@@ -1364,13 +1364,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (Branch m_a3eg7)
-numberedArgs :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) NumberedArgs
-latestTypecheckedFile :: forall m_a3eg7 v_a3eg8 v_a3eY7. Lens (LoopState m_a3eg7 v_a3eg8) (LoopState m_a3eg7 v_a3eY7) (Maybe (TypecheckedUnisonFile v_a3eg8 Ann)) (Maybe (TypecheckedUnisonFile v_a3eY7 Ann))
-latestFile :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (Branch m_a3eg7)
-lastInput :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (Maybe Input)
-currentPathStack :: forall m_a3eg7 v_a3eg8. Lens' (LoopState m_a3eg7 v_a3eg8) (NonEmpty Absolute)
+root :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (Branch m_a3egY)
+numberedArgs :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) NumberedArgs
+latestTypecheckedFile :: forall m_a3egY v_a3egZ v_a3eYY. Lens (LoopState m_a3egY v_a3egZ) (LoopState m_a3egY v_a3eYY) (Maybe (TypecheckedUnisonFile v_a3egZ Ann)) (Maybe (TypecheckedUnisonFile v_a3eYY Ann))
+latestFile :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (Branch m_a3egY)
+lastInput :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (Maybe Input)
+currentPathStack :: forall m_a3egY v_a3egZ. Lens' (LoopState m_a3egY v_a3egZ) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
@@ -1430,7 +1430,7 @@ loop :: forall m. MonadUnliftIO m => Action m (Either Event Input) Symbol ()
 parseSearchType :: (Monad m, Var v) => SrcLoc -> String -> Action' m v (Either (Output v) (Type v Ann))
 
 module Unison.CommandLine.Main
-main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> IO ()
+main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> IO ()
 
 module Unison.Codebase.TranscriptParser
 data Stanza

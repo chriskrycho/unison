@@ -4867,6 +4867,7 @@ builtinTypeNumbering :: Map Reference Word64
 builtinTermBackref :: EnumMap Word64 Reference
 builtinTypeBackref :: EnumMap Word64 Reference
 builtinForeigns :: EnumMap Word64 ForeignFunc
+sandboxedForeigns :: EnumMap Word64 ForeignFunc
 numberedTermLookup :: EnumMap Word64 (SuperNormal Symbol)
 data Sandbox
 Tracked :: Sandbox
@@ -4890,8 +4891,9 @@ type ActiveThreads = Maybe (IORef (Set ThreadId))
 type Tag = Word64
 type DEnv = EnumMap Word64 Closure
 data CCache
-CCache :: EnumMap Word64 ForeignFunc -> (Text -> Closure -> IO ()) -> TVar (EnumMap Word64 Combs) -> TVar (EnumMap Word64 Reference) -> TVar (EnumMap Word64 Reference) -> TVar Word64 -> TVar Word64 -> TVar (Map Reference (SuperGroup Symbol)) -> TVar (Map Reference Word64) -> TVar (Map Reference Word64) -> TVar (Map Reference (Set Reference)) -> CCache
+CCache :: EnumMap Word64 ForeignFunc -> Bool -> (Text -> Closure -> IO ()) -> TVar (EnumMap Word64 Combs) -> TVar (EnumMap Word64 Reference) -> TVar (EnumMap Word64 Reference) -> TVar Word64 -> TVar Word64 -> TVar (Map Reference (SuperGroup Symbol)) -> TVar (Map Reference Word64) -> TVar (Map Reference Word64) -> TVar (Map Reference (Set Reference)) -> CCache
 [$sel:foreignFuncs:CCache] :: CCache -> EnumMap Word64 ForeignFunc
+[$sel:sandboxed:CCache] :: CCache -> Bool
 [$sel:tracer:CCache] :: CCache -> Text -> Closure -> IO ()
 [$sel:combs:CCache] :: CCache -> TVar (EnumMap Word64 Combs)
 [$sel:combRefs:CCache] :: CCache -> TVar (EnumMap Word64 Reference)
@@ -4907,7 +4909,7 @@ refNumsTy :: CCache -> IO (Map Reference Word64)
 refNumTm :: CCache -> Reference -> IO Word64
 refNumTy :: CCache -> Reference -> IO Word64
 refNumTy' :: CCache -> Reference -> IO (Maybe Word64)
-baseCCache :: IO CCache
+baseCCache :: Bool -> IO CCache
 info :: Show a => String -> a -> IO ()
 infos :: String -> String -> IO ()
 eval0 :: CCache -> ActiveThreads -> Section -> IO ()
@@ -4970,7 +4972,7 @@ universalCompare :: (Foreign -> Foreign -> Ordering) -> Closure -> Closure -> Or
 arrayCmp :: (Closure -> Closure -> Ordering) -> Array Closure -> Array Closure -> Ordering
 
 module Unison.Runtime.Interface
-startRuntime :: RuntimeHost -> Text -> IO (Runtime Symbol)
+startRuntime :: Bool -> RuntimeHost -> Text -> IO (Runtime Symbol)
 standalone :: CCache -> Word64 -> IO StoredCache
 runStandalone :: StoredCache -> Word64 -> IO ()
 data StoredCache
