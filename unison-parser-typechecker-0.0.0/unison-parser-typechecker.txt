@@ -2417,7 +2417,7 @@ style :: s -> String -> Pretty (AnnotatedText s)
 stylePretty :: Color -> Pretty ColorText -> Pretty ColorText
 describeStyle :: Color -> Pretty ColorText
 renderTypeInfo :: forall v loc sty. (Var v, Annotated loc, Ord loc, Show loc) => TypeInfo v loc -> Env -> Pretty (AnnotatedText sty)
-renderTypeError :: forall v loc. (Var v, Annotated loc, Ord loc, Show loc) => TypeError v loc -> Env -> String -> Pretty ColorText
+renderTypeError :: forall v loc. (Var v, Annotated loc, Ord loc, Show loc) => TypeError v loc -> Env -> String -> Absolute -> Pretty ColorText
 renderCompilerBug :: (Var v, Annotated loc, Ord loc, Show loc) => Env -> String -> CompilerBug v loc -> Pretty ColorText
 renderContext :: (Var v, Ord loc) => Env -> Context v loc -> Pretty (AnnotatedText a)
 renderTerm :: (IsString s, Var v) => Env -> Term v loc -> s
@@ -2447,9 +2447,9 @@ rangeToEnglish :: IsString s => Range -> s
 annotatedToEnglish :: (Annotated a, IsString s) => a -> s
 rangeForAnnotated :: Annotated a => a -> Maybe Range
 showLexerOutput :: Bool
-renderNoteAsANSI :: (Var v, Annotated a, Show a, Ord a) => Width -> Env -> String -> Note v a -> String
+renderNoteAsANSI :: (Var v, Annotated a, Show a, Ord a) => Width -> Env -> String -> Absolute -> Note v a -> String
 renderParseErrorAsANSI :: Var v => Width -> String -> Err v -> String
-printNoteWithSource :: (Var v, Annotated a, Show a, Ord a) => Env -> String -> Note v a -> Pretty ColorText
+printNoteWithSource :: (Var v, Annotated a, Show a, Ord a) => Env -> String -> Absolute -> Note v a -> Pretty ColorText
 _printPosRange :: String -> Pos -> Pos -> String
 _printArrowsAtPos :: String -> Int -> Int -> String
 pattern LexerError :: [Token Lexeme] -> Err -> Maybe (ErrorItem (Token Lexeme))
@@ -2466,7 +2466,7 @@ showSourceMaybes :: Ord a => String -> [Maybe (Range, a)] -> Pretty (AnnotatedTe
 showSource :: Ord a => String -> [(Range, a)] -> Pretty (AnnotatedText a)
 showSource1 :: Ord a => String -> (Range, a) -> Pretty (AnnotatedText a)
 findTerm :: Seq (PathElement v loc) -> Maybe loc
-prettyTypecheckError :: (Var v, Ord loc, Show loc, Annotated loc) => ErrorNote v loc -> Env -> String -> Pretty ColorText
+prettyTypecheckError :: (Var v, Ord loc, Show loc, Annotated loc) => ErrorNote v loc -> Env -> String -> Absolute -> Pretty ColorText
 prettyTypeInfo :: (Var v, Ord loc, Show loc, Annotated loc) => InfoNote v loc -> Env -> Pretty ColorText
 intLiteralSyntaxTip :: Term v loc -> Type v loc -> Pretty ColorText
 
@@ -2474,6 +2474,7 @@ intLiteralSyntaxTip :: Term v loc -> Type v loc -> Pretty ColorText
 --   disambiguation suggestions.
 prettyResolutionFailures :: forall v a. (Annotated a, Var v, Ord a) => String -> [ResolutionFailure v a] -> Pretty ColorText
 useExamples :: Pretty ColorText
+prettyPath' :: Path' -> Pretty ColorText
 
 module Unison.Codebase.Runtime
 type Error = Pretty ColorText
