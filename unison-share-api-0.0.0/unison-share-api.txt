@@ -668,6 +668,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.Projects.Project
 instance Web.Internal.HttpApiData.FromHttpApiData Unison.Server.Endpoints.Projects.ProjectOwner
 
 module Unison.Server.Endpoints.NamespaceListing
+serve :: Codebase IO Symbol Ann -> Maybe ShortBranchHash -> Maybe NamespaceFQN -> Maybe NamespaceFQN -> Backend IO NamespaceListing
 type NamespaceListingAPI = "list" :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" NamespaceFQN :> QueryParam "namespace" NamespaceFQN :> APIGet NamespaceListing
 data NamespaceListing
 NamespaceListing :: UnisonName -> UnisonHash -> [NamespaceObject] -> NamespaceListing
@@ -690,8 +691,6 @@ NamedPatch :: HashQualifiedName -> NamedPatch
 newtype KindExpression
 KindExpression :: Text -> KindExpression
 [$sel:kindExpressionText:KindExpression] :: KindExpression -> Text
-backendListEntryToNamespaceObject :: Var v => PrettyPrintEnv -> Maybe Width -> ShallowListEntry v a -> NamespaceObject
-serve :: Codebase IO Symbol Ann -> Maybe ShortBranchHash -> Maybe NamespaceFQN -> Maybe NamespaceFQN -> Backend IO NamespaceListing
 instance GHC.Show.Show Unison.Server.Endpoints.NamespaceListing.NamedNamespace
 instance GHC.Generics.Generic Unison.Server.Endpoints.NamespaceListing.NamedNamespace
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Endpoints.NamespaceListing.NamedPatch
