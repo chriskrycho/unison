@@ -991,6 +991,7 @@ CantUndo :: UndoFailureReason -> Output v
 BustedBuiltins :: Set Reference -> Set Reference -> Output v
 GitError :: GitError -> Output v
 ShareError :: ShareError -> Output v
+ViewOnShare :: WriteShareRemotePath -> Output v
 ConfiguredMetadataParseError :: Path' -> String -> Pretty ColorText -> Output v
 NoConfiguredRemoteMapping :: PushPull -> Absolute -> Output v
 ConfiguredRemoteMappingParseError :: PushPull -> Absolute -> Text -> String -> Output v
@@ -1301,6 +1302,8 @@ prettyURI :: URI -> Pretty
 prettyReadRemoteNamespace :: ReadRemoteNamespace -> Pretty
 prettyWriteRemotePath :: WriteRemotePath -> Pretty
 notifyUser :: forall v. Var v => FilePath -> Output v -> IO Pretty
+shareOrigin :: Text
+prettyShareLink :: WriteShareRemotePath -> Pretty
 prettyFilePath :: FilePath -> Pretty
 prettyPath' :: Path' -> Pretty
 prettyBranchId :: AbsBranchId -> Pretty
@@ -1400,13 +1403,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3fYV v_a3fYW. Lens' (LoopState m_a3fYV v_a3fYW) (Branch m_a3fYV)
-numberedArgs :: forall m_a3fYV v_a3fYW. Lens' (LoopState m_a3fYV v_a3fYW) NumberedArgs
-latestTypecheckedFile :: forall m_a3fYV v_a3fYW v_a3gGV. Lens (LoopState m_a3fYV v_a3fYW) (LoopState m_a3fYV v_a3gGV) (Maybe (TypecheckedUnisonFile v_a3fYW Ann)) (Maybe (TypecheckedUnisonFile v_a3gGV Ann))
-latestFile :: forall m_a3fYV v_a3fYW. Lens' (LoopState m_a3fYV v_a3fYW) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3fYV v_a3fYW. Lens' (LoopState m_a3fYV v_a3fYW) (Branch m_a3fYV)
-lastInput :: forall m_a3fYV v_a3fYW. Lens' (LoopState m_a3fYV v_a3fYW) (Maybe Input)
-currentPathStack :: forall m_a3fYV v_a3fYW. Lens' (LoopState m_a3fYV v_a3fYW) (NonEmpty Absolute)
+root :: forall m_a3geG v_a3geH. Lens' (LoopState m_a3geG v_a3geH) (Branch m_a3geG)
+numberedArgs :: forall m_a3geG v_a3geH. Lens' (LoopState m_a3geG v_a3geH) NumberedArgs
+latestTypecheckedFile :: forall m_a3geG v_a3geH v_a3gWG. Lens (LoopState m_a3geG v_a3geH) (LoopState m_a3geG v_a3gWG) (Maybe (TypecheckedUnisonFile v_a3geH Ann)) (Maybe (TypecheckedUnisonFile v_a3gWG Ann))
+latestFile :: forall m_a3geG v_a3geH. Lens' (LoopState m_a3geG v_a3geH) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3geG v_a3geH. Lens' (LoopState m_a3geG v_a3geH) (Branch m_a3geG)
+lastInput :: forall m_a3geG v_a3geH. Lens' (LoopState m_a3geG v_a3geH) (Maybe Input)
+currentPathStack :: forall m_a3geG v_a3geH. Lens' (LoopState m_a3geG v_a3geH) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()

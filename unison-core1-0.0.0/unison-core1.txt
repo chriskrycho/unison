@@ -1117,11 +1117,12 @@ unionLeft :: Names -> Names -> Names
 --   don't know which <a>Names</a> is higher priority. So if we do have a
 --   preferred <a>Names</a>, don't use <a>unionLeftName</a> or (&lt;&gt;).
 --   You don't want to create new conflicts either if you have a preferred
---   <a>Names</a>. So in this case, don't use <tt>unionLeftRef</tt> either.
---   I guess that leaves <a>unionLeft</a>.
+--   <a>Names</a>. So in this case, don't use <a>unionLeftRef</a> either. I
+--   guess that leaves <a>unionLeft</a>.
 --   
 --   Not sure if the above is helpful or correct!
 unionLeftName :: Names -> Names -> Names
+unionLeftRef :: Names -> Names -> Names
 namesForReference :: Names -> Reference -> Set Name
 namesForReferent :: Names -> Referent -> Set Name
 shadowTerms :: [Name] -> Names -> Names

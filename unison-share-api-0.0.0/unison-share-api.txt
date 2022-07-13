@@ -594,7 +594,7 @@ bestNameForType :: forall v. Var v => PrettyPrintEnv -> Width -> Reference -> Te
 --   for the shortest unambiguous suffix within the scope in which the name
 --   is found (local, falling back to global)</li>
 --   </ul>
-scopedNamesForBranchHash :: forall m v a. Monad m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (Names, PrettyPrintEnvDecl)
+scopedNamesForBranchHash :: forall m v a. Monad m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (Names, Names, PrettyPrintEnvDecl)
 resolveCausalHash :: Monad m => Maybe CausalHash -> Codebase m v a -> Backend m (Branch m)
 resolveRootBranchHash :: Monad m => Maybe ShortBranchHash -> Codebase m v a -> Backend m (Branch m)
 
