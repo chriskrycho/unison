@@ -976,7 +976,7 @@ ListShallow :: PrettyPrintEnv -> [ShallowListEntry v Ann] -> Output v
 ListOfPatches :: Set Name -> Output v
 SlurpOutput :: Input -> PrettyPrintEnv -> SlurpResult v -> Output v
 ParseErrors :: Text -> [Err v] -> Output v
-TypeErrors :: Absolute -> Text -> PrettyPrintEnv -> [ErrorNote v Ann] -> Output v
+TypeErrors :: Text -> PrettyPrintEnv -> [ErrorNote v Ann] -> Output v
 CompilerBugs :: Text -> PrettyPrintEnv -> [CompilerBug v Ann] -> Output v
 DisplayConflicts :: Relation Name Referent -> Relation Name Reference -> Output v
 EvaluationFailure :: Error -> Output v
@@ -1400,13 +1400,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3fYW v_a3fYX. Lens' (LoopState m_a3fYW v_a3fYX) (Branch m_a3fYW)
-numberedArgs :: forall m_a3fYW v_a3fYX. Lens' (LoopState m_a3fYW v_a3fYX) NumberedArgs
-latestTypecheckedFile :: forall m_a3fYW v_a3fYX v_a3gGW. Lens (LoopState m_a3fYW v_a3fYX) (LoopState m_a3fYW v_a3gGW) (Maybe (TypecheckedUnisonFile v_a3fYX Ann)) (Maybe (TypecheckedUnisonFile v_a3gGW Ann))
-latestFile :: forall m_a3fYW v_a3fYX. Lens' (LoopState m_a3fYW v_a3fYX) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3fYW v_a3fYX. Lens' (LoopState m_a3fYW v_a3fYX) (Branch m_a3fYW)
-lastInput :: forall m_a3fYW v_a3fYX. Lens' (LoopState m_a3fYW v_a3fYX) (Maybe Input)
-currentPathStack :: forall m_a3fYW v_a3fYX. Lens' (LoopState m_a3fYW v_a3fYX) (NonEmpty Absolute)
+root :: forall m_a3fYH v_a3fYI. Lens' (LoopState m_a3fYH v_a3fYI) (Branch m_a3fYH)
+numberedArgs :: forall m_a3fYH v_a3fYI. Lens' (LoopState m_a3fYH v_a3fYI) NumberedArgs
+latestTypecheckedFile :: forall m_a3fYH v_a3fYI v_a3gGH. Lens (LoopState m_a3fYH v_a3fYI) (LoopState m_a3fYH v_a3gGH) (Maybe (TypecheckedUnisonFile v_a3fYI Ann)) (Maybe (TypecheckedUnisonFile v_a3gGH Ann))
+latestFile :: forall m_a3fYH v_a3fYI. Lens' (LoopState m_a3fYH v_a3fYI) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3fYH v_a3fYI. Lens' (LoopState m_a3fYH v_a3fYI) (Branch m_a3fYH)
+lastInput :: forall m_a3fYH v_a3fYI. Lens' (LoopState m_a3fYH v_a3fYI) (Maybe Input)
+currentPathStack :: forall m_a3fYH v_a3fYI. Lens' (LoopState m_a3fYH v_a3fYI) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
