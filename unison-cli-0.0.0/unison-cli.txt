@@ -958,6 +958,7 @@ HashAmbiguous :: ShortHash -> Set Referent -> Output v
 BranchHashAmbiguous :: ShortBranchHash -> Set ShortBranchHash -> Output v
 BadNamespace :: String -> String -> Output v
 BranchNotFound :: Path' -> Output v
+EmptyPush :: Path' -> Output v
 NameNotFound :: HQSplit' -> Output v
 PatchNotFound :: Split' -> Output v
 TypeNotFound :: HQSplit' -> Output v
@@ -1403,13 +1404,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3geF v_a3geG. Lens' (LoopState m_a3geF v_a3geG) (Branch m_a3geF)
-numberedArgs :: forall m_a3geF v_a3geG. Lens' (LoopState m_a3geF v_a3geG) NumberedArgs
-latestTypecheckedFile :: forall m_a3geF v_a3geG v_a3gWF. Lens (LoopState m_a3geF v_a3geG) (LoopState m_a3geF v_a3gWF) (Maybe (TypecheckedUnisonFile v_a3geG Ann)) (Maybe (TypecheckedUnisonFile v_a3gWF Ann))
-latestFile :: forall m_a3geF v_a3geG. Lens' (LoopState m_a3geF v_a3geG) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3geF v_a3geG. Lens' (LoopState m_a3geF v_a3geG) (Branch m_a3geF)
-lastInput :: forall m_a3geF v_a3geG. Lens' (LoopState m_a3geF v_a3geG) (Maybe Input)
-currentPathStack :: forall m_a3geF v_a3geG. Lens' (LoopState m_a3geF v_a3geG) (NonEmpty Absolute)
+root :: forall m_a3gli v_a3glj. Lens' (LoopState m_a3gli v_a3glj) (Branch m_a3gli)
+numberedArgs :: forall m_a3gli v_a3glj. Lens' (LoopState m_a3gli v_a3glj) NumberedArgs
+latestTypecheckedFile :: forall m_a3gli v_a3glj v_a3h3i. Lens (LoopState m_a3gli v_a3glj) (LoopState m_a3gli v_a3h3i) (Maybe (TypecheckedUnisonFile v_a3glj Ann)) (Maybe (TypecheckedUnisonFile v_a3h3i Ann))
+latestFile :: forall m_a3gli v_a3glj. Lens' (LoopState m_a3gli v_a3glj) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3gli v_a3glj. Lens' (LoopState m_a3gli v_a3glj) (Branch m_a3gli)
+lastInput :: forall m_a3gli v_a3glj. Lens' (LoopState m_a3gli v_a3glj) (Maybe Input)
+currentPathStack :: forall m_a3gli v_a3glj. Lens' (LoopState m_a3gli v_a3glj) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
