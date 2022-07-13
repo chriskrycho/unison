@@ -122,7 +122,7 @@ MergeLocalBranchI :: Path' -> Path' -> MergeMode -> Input
 PreviewMergeLocalBranchI :: Path' -> Path' -> Input
 DiffNamespaceI :: BranchId -> BranchId -> Input
 PullRemoteBranchI :: Maybe ReadRemoteNamespace -> Path' -> SyncMode -> PullMode -> Verbosity -> Input
-PushRemoteBranchI :: Maybe WriteRemotePath -> Path' -> PushBehavior -> SyncMode -> Input
+PushRemoteBranchI :: PushRemoteBranchInput -> Input
 CreatePullRequestI :: ReadRemoteNamespace -> ReadRemoteNamespace -> Input
 LoadPullRequestI :: ReadRemoteNamespace -> ReadRemoteNamespace -> Path' -> Input
 ResetRootI :: Either ShortBranchHash Path' -> Input
@@ -205,6 +205,20 @@ VersionI :: Input
 data GistInput
 GistInput :: WriteGitRepo -> GistInput
 [$sel:repo:GistInput] :: GistInput -> WriteGitRepo
+data PushRemoteBranchInput
+PushRemoteBranchInput :: Path' -> Maybe WriteRemotePath -> PushBehavior -> SyncMode -> PushRemoteBranchInput
+
+-- | The local path to push. If relative, it's resolved relative to the
+--   current path (<tt>cd</tt>).
+[$sel:localPath:PushRemoteBranchInput] :: PushRemoteBranchInput -> Path'
+
+-- | The repo to push to. If missing, it is looked up in `.unisonConfig`.
+[$sel:maybeRemoteRepo:PushRemoteBranchInput] :: PushRemoteBranchInput -> Maybe WriteRemotePath
+
+-- | The push behavior (whether the remote branch is required to be empty
+--   or non-empty).
+[$sel:pushBehavior:PushRemoteBranchInput] :: PushRemoteBranchInput -> PushBehavior
+[$sel:syncMode:PushRemoteBranchInput] :: PushRemoteBranchInput -> SyncMode
 data TestInput
 TestInput :: Bool -> Bool -> Bool -> TestInput
 
@@ -250,6 +264,8 @@ instance GHC.Show.Show Unison.Codebase.Editor.Input.PullMode
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.PullMode
 instance GHC.Show.Show Unison.Codebase.Editor.Input.GistInput
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.GistInput
+instance GHC.Show.Show Unison.Codebase.Editor.Input.PushRemoteBranchInput
+instance GHC.Classes.Eq Unison.Codebase.Editor.Input.PushRemoteBranchInput
 instance GHC.Show.Show Unison.Codebase.Editor.Input.TestInput
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.TestInput
 instance GHC.Show.Show Unison.Codebase.Editor.Input.OutputLocation
@@ -720,6 +736,7 @@ pullImpl :: String -> Verbosity -> PullMode -> Pretty ColorText -> InputPattern
 pullExhaustive :: InputPattern
 push :: InputPattern
 pushCreate :: InputPattern
+pushForce :: InputPattern
 pushExhaustive :: InputPattern
 createPullRequest :: InputPattern
 loadPullRequest :: InputPattern
@@ -1383,13 +1400,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (Branch m_a3f23)
-numberedArgs :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) NumberedArgs
-latestTypecheckedFile :: forall m_a3f23 v_a3f24 v_a3fK3. Lens (LoopState m_a3f23 v_a3f24) (LoopState m_a3f23 v_a3fK3) (Maybe (TypecheckedUnisonFile v_a3f24 Ann)) (Maybe (TypecheckedUnisonFile v_a3fK3 Ann))
-latestFile :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (Branch m_a3f23)
-lastInput :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (Maybe Input)
-currentPathStack :: forall m_a3f23 v_a3f24. Lens' (LoopState m_a3f23 v_a3f24) (NonEmpty Absolute)
+root :: forall m_a3fAo v_a3fAp. Lens' (LoopState m_a3fAo v_a3fAp) (Branch m_a3fAo)
+numberedArgs :: forall m_a3fAo v_a3fAp. Lens' (LoopState m_a3fAo v_a3fAp) NumberedArgs
+latestTypecheckedFile :: forall m_a3fAo v_a3fAp v_a3gio. Lens (LoopState m_a3fAo v_a3fAp) (LoopState m_a3fAo v_a3gio) (Maybe (TypecheckedUnisonFile v_a3fAp Ann)) (Maybe (TypecheckedUnisonFile v_a3gio Ann))
+latestFile :: forall m_a3fAo v_a3fAp. Lens' (LoopState m_a3fAo v_a3fAp) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3fAo v_a3fAp. Lens' (LoopState m_a3fAo v_a3fAp) (Branch m_a3fAo)
+lastInput :: forall m_a3fAo v_a3fAp. Lens' (LoopState m_a3fAo v_a3fAp) (Maybe Input)
+currentPathStack :: forall m_a3fAo v_a3fAp. Lens' (LoopState m_a3fAo v_a3fAp) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
