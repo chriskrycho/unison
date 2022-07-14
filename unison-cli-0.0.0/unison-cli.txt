@@ -532,22 +532,15 @@ module Unison.Codebase.Editor.VersionParser
 -- | Parse git version strings into valid unison namespaces.
 --   
 --   <pre>
---   &gt;&gt;&gt; parseMaybe defaultBaseLib "release/M1j"
---   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.base.releases._M1j})
---   </pre>
+--   &gt;&gt;&gt; parseMaybe defaultBaseLib "release/M4"
 --   
---   <pre>
---   &gt;&gt;&gt; parseMaybe defaultBaseLib "release/M1j.2"
---   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.base.releases._M1j_2})
---   </pre>
+--   &gt;&gt;&gt; parseMaybe defaultBaseLib "release/M4b"
 --   
---   <pre>
---   &gt;&gt;&gt; parseMaybe defaultBaseLib "latest-1234"
---   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.base.main})
+--   &gt;&gt;&gt; parseMaybe defaultBaseLib "release/M4c.2"
+--   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.base.releases.M4})
+--   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.base.releases.M4b})
+--   Just (ReadShareRemoteNamespace {server = DefaultCodeserver, repo = "unison", path = public.base.releases.M4c_2})
 --   </pre>
---   
---   A version with the <tt>dirty</tt> flag &gt;&gt;&gt; parseMaybe
---   defaultBaseLib "release/M3-409-gbcdf68db3'" Nothing
 defaultBaseLib :: Parsec Void Text ReadShareRemoteNamespace
 
 
@@ -1404,13 +1397,13 @@ LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipN
 type Action' m v = Action m (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3gkE v_a3gkF. Lens' (LoopState m_a3gkE v_a3gkF) (Branch m_a3gkE)
-numberedArgs :: forall m_a3gkE v_a3gkF. Lens' (LoopState m_a3gkE v_a3gkF) NumberedArgs
-latestTypecheckedFile :: forall m_a3gkE v_a3gkF v_a3h2E. Lens (LoopState m_a3gkE v_a3gkF) (LoopState m_a3gkE v_a3h2E) (Maybe (TypecheckedUnisonFile v_a3gkF Ann)) (Maybe (TypecheckedUnisonFile v_a3h2E Ann))
-latestFile :: forall m_a3gkE v_a3gkF. Lens' (LoopState m_a3gkE v_a3gkF) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3gkE v_a3gkF. Lens' (LoopState m_a3gkE v_a3gkF) (Branch m_a3gkE)
-lastInput :: forall m_a3gkE v_a3gkF. Lens' (LoopState m_a3gkE v_a3gkF) (Maybe Input)
-currentPathStack :: forall m_a3gkE v_a3gkF. Lens' (LoopState m_a3gkE v_a3gkF) (NonEmpty Absolute)
+root :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (Branch m_a3gl7)
+numberedArgs :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) NumberedArgs
+latestTypecheckedFile :: forall m_a3gl7 v_a3gl8 v_a3h37. Lens (LoopState m_a3gl7 v_a3gl8) (LoopState m_a3gl7 v_a3h37) (Maybe (TypecheckedUnisonFile v_a3gl8 Ann)) (Maybe (TypecheckedUnisonFile v_a3h37 Ann))
+latestFile :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (Branch m_a3gl7)
+lastInput :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (Maybe Input)
+currentPathStack :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (NonEmpty Absolute)
 currentPath :: Getter (LoopState m v) Absolute
 loopState0 :: Branch m -> Absolute -> LoopState m v
 respond :: MonadCommand n m i v => Output v -> n ()
