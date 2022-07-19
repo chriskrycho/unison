@@ -147,8 +147,8 @@ pattern Derived :: Hash -> Pos -> Reference
 pattern DerivedId :: () => Id -> Reference
 _DerivedId :: Prism' Reference Id
 
--- | <tt>Pos</tt> is a position into a cycle of size <tt>Size</tt>, as
---   cycles are hashed together.
+-- | <tt>Pos</tt> is a position into a cycle, as cycles are hashed
+--   together.
 data Id
 Id :: Hash -> Pos -> Id
 type Pos = Word64
