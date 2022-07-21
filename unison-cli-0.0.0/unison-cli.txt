@@ -1099,78 +1099,78 @@ instance GHC.Show.Show Unison.Codebase.Editor.Output.TestReportStats
 instance GHC.Show.Show Unison.Codebase.Editor.Output.UndoFailureReason
 
 module Unison.Codebase.Editor.Command
-data Command m i v a
-[Eval] :: m a -> Command m i v a
-[UI] :: Command m i v ()
-[API] :: Command m i v ()
-[DocsToHtml] :: Branch m -> Path -> FilePath -> Command m i v ()
-[HQNameQuery] :: Maybe Path -> Branch m -> [HashQualified Name] -> Command m i v QueryResult
-[LoadSearchResults] :: [SearchResult] -> Command m i v [SearchResult' v Ann]
-[GetDefinitionsBySuffixes] :: Maybe Path -> Branch m -> IncludeCycles -> [HashQualified Name] -> Command m i v (DefinitionResults v)
-[FindShallow] :: Absolute -> Command m i v [ShallowListEntry v Ann]
-[ConfigLookup] :: Configured a => Text -> Command m i v (Maybe a)
-[Input] :: Command m i v i
-[Notify] :: Output v -> Command m i v ()
-[NotifyNumbered] :: NumberedOutput v -> Command m i v NumberedArgs
-[AddDefsToCodebase] :: TypecheckedUnisonFile v Ann -> Command m i v ()
-[CodebaseHashLength] :: Command m i v Int
-[TypeReferencesByShortHash] :: ShortHash -> Command m i v (Set Reference)
-[TermReferencesByShortHash] :: ShortHash -> Command m i v (Set Reference)
-[TermReferentsByShortHash] :: ShortHash -> Command m i v (Set Referent)
-[BranchHashLength] :: Command m i v Int
-[BranchHashesByPrefix] :: ShortBranchHash -> Command m i v (Set CausalHash)
-[ParseType] :: NamesWithHistory -> LexedSource -> Command m i v (Either (Err v) (Type v Ann))
-[LoadSource] :: SourceName -> Command m i v LoadSourceResult
-[Typecheck] :: AmbientAbilities v -> NamesWithHistory -> SourceName -> LexedSource -> Command m i v (TypecheckingResult v)
-[TypecheckFile] :: UnisonFile v Ann -> [Type v Ann] -> Command m i v (TypecheckingResult v)
-[Evaluate] :: Bool -> PrettyPrintEnv -> TypecheckedUnisonFile v Ann -> Command m i v (Either Error (EvalResult v))
-[Evaluate1] :: Bool -> PrettyPrintEnv -> UseCache -> Term v Ann -> Command m i v (Either Error (Term v Ann))
-[PutWatch] :: WatchKind -> Id -> Term v Ann -> Command m i v ()
-[LoadWatches] :: WatchKind -> Set Reference -> Command m i v [(Reference, Term v Ann)]
-[LoadLocalRootBranch] :: Command m i v (Branch m)
-[LoadLocalBranch] :: CausalHash -> Command m i v (Branch m)
-[Merge] :: MergeMode -> Branch m -> Branch m -> Command m i v (Branch m)
-[ViewRemoteGitBranch] :: ReadGitRemoteNamespace -> GitBranchBehavior -> (Branch m -> Free (Command m i v) r) -> Command m i v (Either GitError r)
-[ImportRemoteGitBranch] :: ReadGitRemoteNamespace -> SyncMode -> Preprocessing m -> Command m i v (Either GitError (Branch m))
-[SyncLocalRootBranch] :: Branch m -> Command m i v ()
-[SyncRemoteGitBranch] :: WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> Command m i v (Either GitError (Either e (Branch m)))
-[AppendToReflog] :: Text -> Branch m -> Branch m -> Command m i v ()
-[LoadReflog] :: Command m i v [Entry CausalHash]
-[LoadTerm] :: Id -> Command m i v (Maybe (Term v Ann))
-[LoadTermComponentWithTypes] :: Hash -> Command m i v (Maybe [(Term v Ann, Type v Ann)])
-[LoadType] :: Id -> Command m i v (Maybe (Decl v Ann))
-[LoadDeclComponent] :: Hash -> Command m i v (Maybe [Decl v Ann])
-[LoadTypeOfTerm] :: Reference -> Command m i v (Maybe (Type v Ann))
-[PutTerm] :: Id -> Term v Ann -> Type v Ann -> Command m i v ()
-[PutDecl] :: Id -> Decl v Ann -> Command m i v ()
-[IsTerm] :: Reference -> Command m i v Bool
-[IsType] :: Reference -> Command m i v Bool
+data Command i v a
+[Eval] :: IO a -> Command i v a
+[UI] :: Command i v ()
+[API] :: Command i v ()
+[DocsToHtml] :: Branch IO -> Path -> FilePath -> Command i v ()
+[HQNameQuery] :: Maybe Path -> Branch IO -> [HashQualified Name] -> Command i v QueryResult
+[LoadSearchResults] :: [SearchResult] -> Command i v [SearchResult' v Ann]
+[GetDefinitionsBySuffixes] :: Maybe Path -> Branch IO -> IncludeCycles -> [HashQualified Name] -> Command i v (DefinitionResults v)
+[FindShallow] :: Absolute -> Command i v [ShallowListEntry v Ann]
+[ConfigLookup] :: Configured a => Text -> Command i v (Maybe a)
+[Input] :: Command i v i
+[Notify] :: Output v -> Command i v ()
+[NotifyNumbered] :: NumberedOutput v -> Command i v NumberedArgs
+[AddDefsToCodebase] :: TypecheckedUnisonFile v Ann -> Command i v ()
+[CodebaseHashLength] :: Command i v Int
+[TypeReferencesByShortHash] :: ShortHash -> Command i v (Set Reference)
+[TermReferencesByShortHash] :: ShortHash -> Command i v (Set Reference)
+[TermReferentsByShortHash] :: ShortHash -> Command i v (Set Referent)
+[BranchHashLength] :: Command i v Int
+[BranchHashesByPrefix] :: ShortBranchHash -> Command i v (Set CausalHash)
+[ParseType] :: NamesWithHistory -> LexedSource -> Command i v (Either (Err v) (Type v Ann))
+[LoadSource] :: SourceName -> Command i v LoadSourceResult
+[Typecheck] :: AmbientAbilities v -> NamesWithHistory -> SourceName -> LexedSource -> Command i v (TypecheckingResult v)
+[TypecheckFile] :: UnisonFile v Ann -> [Type v Ann] -> Command i v (TypecheckingResult v)
+[Evaluate] :: Bool -> PrettyPrintEnv -> TypecheckedUnisonFile v Ann -> Command i v (Either Error (EvalResult v))
+[Evaluate1] :: Bool -> PrettyPrintEnv -> UseCache -> Term v Ann -> Command i v (Either Error (Term v Ann))
+[PutWatch] :: WatchKind -> Id -> Term v Ann -> Command i v ()
+[LoadWatches] :: WatchKind -> Set Reference -> Command i v [(Reference, Term v Ann)]
+[LoadLocalRootBranch] :: Command i v (Branch IO)
+[LoadLocalBranch] :: CausalHash -> Command i v (Branch IO)
+[Merge] :: MergeMode -> Branch IO -> Branch IO -> Command i v (Branch IO)
+[ViewRemoteGitBranch] :: ReadGitRemoteNamespace -> GitBranchBehavior -> (Branch IO -> Free (Command i v) r) -> Command i v (Either GitError r)
+[ImportRemoteGitBranch] :: ReadGitRemoteNamespace -> SyncMode -> Preprocessing IO -> Command i v (Either GitError (Branch IO))
+[SyncLocalRootBranch] :: Branch IO -> Command i v ()
+[SyncRemoteGitBranch] :: WriteGitRepo -> PushGitBranchOpts -> (Branch IO -> IO (Either e (Branch IO))) -> Command i v (Either GitError (Either e (Branch IO)))
+[AppendToReflog] :: Text -> Branch IO -> Branch IO -> Command i v ()
+[LoadReflog] :: Command i v [Entry CausalHash]
+[LoadTerm] :: Id -> Command i v (Maybe (Term v Ann))
+[LoadTermComponentWithTypes] :: Hash -> Command i v (Maybe [(Term v Ann, Type v Ann)])
+[LoadType] :: Id -> Command i v (Maybe (Decl v Ann))
+[LoadDeclComponent] :: Hash -> Command i v (Maybe [Decl v Ann])
+[LoadTypeOfTerm] :: Reference -> Command i v (Maybe (Type v Ann))
+[PutTerm] :: Id -> Term v Ann -> Type v Ann -> Command i v ()
+[PutDecl] :: Id -> Decl v Ann -> Command i v ()
+[IsTerm] :: Reference -> Command i v Bool
+[IsType] :: Reference -> Command i v Bool
 
 -- | Get the immediate (not transitive) dependents of the given reference
 --   This might include historical definitions not in any current path;
 --   these should be filtered by the caller of this command if that's not
 --   desired.
-[GetDependents] :: Reference -> Command m i v (Set Reference)
-[GetDependentsOfComponent] :: Hash -> Command m i v (Set Reference)
-[GetTermsOfType] :: Type v Ann -> Command m i v (Set Referent)
-[GetTermsMentioningType] :: Type v Ann -> Command m i v (Set Referent)
-[Execute] :: PrettyPrintEnv -> TypecheckedUnisonFile v Ann -> [String] -> Command m i v (WatchResults v Ann)
-[CreateAuthorInfo] :: Text -> Command m i v (AuthorInfo v Ann)
-[RuntimeMain] :: Command m i v (Type v Ann)
-[RuntimeTest] :: Command m i v (Type v Ann)
-[ClearWatchCache] :: Command m i v ()
-[AnalyzeCodebaseIntegrity] :: Command m i v IntegrityResult
-[MakeStandalone] :: PrettyPrintEnv -> Reference -> String -> Command m i v (Maybe Error)
+[GetDependents] :: Reference -> Command i v (Set Reference)
+[GetDependentsOfComponent] :: Hash -> Command i v (Set Reference)
+[GetTermsOfType] :: Type v Ann -> Command i v (Set Referent)
+[GetTermsMentioningType] :: Type v Ann -> Command i v (Set Referent)
+[Execute] :: PrettyPrintEnv -> TypecheckedUnisonFile v Ann -> [String] -> Command i v (WatchResults v Ann)
+[CreateAuthorInfo] :: Text -> Command i v (AuthorInfo v Ann)
+[RuntimeMain] :: Command i v (Type v Ann)
+[RuntimeTest] :: Command i v (Type v Ann)
+[ClearWatchCache] :: Command i v ()
+[AnalyzeCodebaseIntegrity] :: Command i v IntegrityResult
+[MakeStandalone] :: PrettyPrintEnv -> Reference -> String -> Command i v (Maybe Error)
 
 -- | Trigger an interactive fuzzy search over the provided options and
 --   return all selected results.
-[FuzzySelect] :: Options -> (a -> Text) -> [a] -> Command m i v (Maybe [a])
+[FuzzySelect] :: Options -> (a -> Text) -> [a] -> Command i v (Maybe [a])
 
--- | This allows us to implement MonadUnliftIO for (Free (Command m i v)).
+-- | This allows us to implement MonadUnliftIO for (Free (Command i v)).
 --   Ideally we will eventually remove the Command type entirely and won't
 --   need this anymore.
-[CmdUnliftIO] :: Command m i v (UnliftIO (Free (Command m i v)))
-[UCMVersion] :: Command m i v UCMVersion
+[CmdUnliftIO] :: Command i v (UnliftIO (Free (Command i v)))
+[UCMVersion] :: Command i v UCMVersion
 type AmbientAbilities v = [Type v Ann]
 type LexedSource = (Text, [Token Lexeme])
 type Source = Text
@@ -1182,21 +1182,21 @@ LoadError :: LoadSourceResult
 LoadSuccess :: Text -> LoadSourceResult
 type UseCache = Bool
 type EvalResult v = ([(v, Term v ())], Map v (Ann, WatchKind, Id, Term v (), Term v (), IsCacheHit))
-commandName :: Command m i v a -> String
+commandName :: Command i v a -> String
 lookupEvalResult :: Ord v => v -> EvalResult v -> Maybe (Term v ())
-instance Control.Monad.IO.Class.MonadIO m => Control.Monad.IO.Class.MonadIO (Unison.Util.Free.Free (Unison.Codebase.Editor.Command.Command m i v))
-instance Control.Monad.IO.Class.MonadIO m => Control.Monad.IO.Unlift.MonadUnliftIO (Unison.Util.Free.Free (Unison.Codebase.Editor.Command.Command m i v))
+instance Control.Monad.IO.Class.MonadIO (Unison.Util.Free.Free (Unison.Codebase.Editor.Command.Command i v))
+instance Control.Monad.IO.Unlift.MonadUnliftIO (Unison.Util.Free.Free (Unison.Codebase.Editor.Command.Command i v))
 
 module Unison.Codebase.Editor.Propagate
 computeFrontier :: forall m. Monad m => (Reference -> m (Set Reference)) -> Patch -> (Reference -> Bool) -> m (Relation Reference Reference)
-propagateAndApply :: forall m i v. (Applicative m, Var v) => Names -> Patch -> Branch0 m -> F m i v (Branch0 m)
+propagateAndApply :: forall m i v. (Applicative m, Var v) => Names -> Patch -> Branch0 m -> F i v (Branch0 m)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Propagate.Edits v)
 instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
 
 module Unison.Codebase.Editor.HandleCommand
 typecheck :: Monad m => [Type Symbol Ann] -> Codebase m Symbol Ann -> ParsingEnv -> SourceName -> LexedSource -> m (TypecheckingResult Symbol)
 typecheck' :: Monad m => [Type Symbol Ann] -> Codebase m Symbol Ann -> UnisonFile Symbol Ann -> m (TypecheckingResult Symbol)
-commandLine :: forall i a gen. DRG gen => Config -> IO i -> (Branch IO -> IO ()) -> Runtime Symbol -> Runtime Symbol -> (Output Symbol -> IO ()) -> (NumberedOutput Symbol -> IO NumberedArgs) -> (SourceName -> IO LoadSourceResult) -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Int -> IO gen) -> Free (Command IO i Symbol) a -> IO a
+commandLine :: forall i a gen. DRG gen => Config -> IO i -> (Branch IO -> IO ()) -> Runtime Symbol -> Runtime Symbol -> (Output Symbol -> IO ()) -> (NumberedOutput Symbol -> IO NumberedArgs) -> (SourceName -> IO LoadSourceResult) -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Int -> IO gen) -> Free (Command i Symbol) a -> IO a
 
 module Unison.Util.HTTP
 addRequestMiddleware :: (Request -> IO Request) -> ManagerSettings -> ManagerSettings
@@ -1370,61 +1370,61 @@ termName :: PrettyPrintEnv -> Referent -> Pretty
 typeName :: PrettyPrintEnv -> Reference -> Pretty
 
 module Unison.Codebase.Editor.HandleInput.LoopState
-type F m i v = Free (Command m i v)
-data Env m v
-Env :: AuthenticatedHttpClient -> Codebase m v Ann -> CredentialManager -> Env m v
-[$sel:authHTTPClient:Env] :: Env m v -> AuthenticatedHttpClient
-[$sel:codebase:Env] :: Env m v -> Codebase m v Ann
-[$sel:credentialManager:Env] :: Env m v -> CredentialManager
-newtype Action m i v a
-Action :: MaybeT (ReaderT (Env m v) (StateT (LoopState m v) (F m i v))) a -> Action m i v a
-[$sel:unAction:Action] :: Action m i v a -> MaybeT (ReaderT (Env m v) (StateT (LoopState m v) (F m i v))) a
-runAction :: Env m v -> LoopState m v -> Action m i v a -> F m i v (Maybe a, LoopState m v)
-liftF :: F m i v a -> Action m i v a
+type F i v = Free (Command i v)
+data Env v
+Env :: AuthenticatedHttpClient -> Codebase IO v Ann -> CredentialManager -> Env v
+[$sel:authHTTPClient:Env] :: Env v -> AuthenticatedHttpClient
+[$sel:codebase:Env] :: Env v -> Codebase IO v Ann
+[$sel:credentialManager:Env] :: Env v -> CredentialManager
+newtype Action i v a
+Action :: MaybeT (ReaderT (Env v) (StateT (LoopState v) (F i v))) a -> Action i v a
+[$sel:unAction:Action] :: Action i v a -> MaybeT (ReaderT (Env v) (StateT (LoopState v) (F i v))) a
+runAction :: Env v -> LoopState v -> Action i v a -> F i v (Maybe a, LoopState v)
+liftF :: F i v a -> Action i v a
 
 -- | A typeclass representing monads which can evaluate <a>Command</a>s.
-class Monad n => MonadCommand n m v i | n -> m v i
-eval :: MonadCommand n m v i => Command m v i a -> n a
-data LoopState m v
-LoopState :: Branch m -> Branch m -> NonEmpty Absolute -> Maybe (FilePath, SkipNextUpdate) -> Maybe (TypecheckedUnisonFile v Ann) -> Maybe Input -> NumberedArgs -> LoopState m v
-[$sel:_root:LoopState] :: LoopState m v -> Branch m
-[$sel:_lastSavedRoot:LoopState] :: LoopState m v -> Branch m
-[$sel:_currentPathStack:LoopState] :: LoopState m v -> NonEmpty Absolute
-[$sel:_latestFile:LoopState] :: LoopState m v -> Maybe (FilePath, SkipNextUpdate)
-[$sel:_latestTypecheckedFile:LoopState] :: LoopState m v -> Maybe (TypecheckedUnisonFile v Ann)
-[$sel:_lastInput:LoopState] :: LoopState m v -> Maybe Input
-[$sel:_numberedArgs:LoopState] :: LoopState m v -> NumberedArgs
-type Action' m v = Action m (Either Event Input) v
+class Monad m => MonadCommand m v i | m -> v i
+eval :: MonadCommand m v i => Command v i a -> m a
+data LoopState v
+LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, SkipNextUpdate) -> Maybe (TypecheckedUnisonFile v Ann) -> Maybe Input -> NumberedArgs -> LoopState v
+[$sel:_root:LoopState] :: LoopState v -> Branch IO
+[$sel:_lastSavedRoot:LoopState] :: LoopState v -> Branch IO
+[$sel:_currentPathStack:LoopState] :: LoopState v -> NonEmpty Absolute
+[$sel:_latestFile:LoopState] :: LoopState v -> Maybe (FilePath, SkipNextUpdate)
+[$sel:_latestTypecheckedFile:LoopState] :: LoopState v -> Maybe (TypecheckedUnisonFile v Ann)
+[$sel:_lastInput:LoopState] :: LoopState v -> Maybe Input
+[$sel:_numberedArgs:LoopState] :: LoopState v -> NumberedArgs
+type Action' v = Action (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (Branch m_a3gl7)
-numberedArgs :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) NumberedArgs
-latestTypecheckedFile :: forall m_a3gl7 v_a3gl8 v_a3h37. Lens (LoopState m_a3gl7 v_a3gl8) (LoopState m_a3gl7 v_a3h37) (Maybe (TypecheckedUnisonFile v_a3gl8 Ann)) (Maybe (TypecheckedUnisonFile v_a3h37 Ann))
-latestFile :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (Branch m_a3gl7)
-lastInput :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (Maybe Input)
-currentPathStack :: forall m_a3gl7 v_a3gl8. Lens' (LoopState m_a3gl7 v_a3gl8) (NonEmpty Absolute)
-currentPath :: Getter (LoopState m v) Absolute
-loopState0 :: Branch m -> Absolute -> LoopState m v
-respond :: MonadCommand n m i v => Output v -> n ()
-respondNumbered :: NumberedOutput v -> Action m i v ()
+root :: forall v_a3g6T. Lens' (LoopState v_a3g6T) (Branch IO)
+numberedArgs :: forall v_a3g6T. Lens' (LoopState v_a3g6T) NumberedArgs
+latestTypecheckedFile :: forall v_a3g6T v_a3gHk. Lens (LoopState v_a3g6T) (LoopState v_a3gHk) (Maybe (TypecheckedUnisonFile v_a3g6T Ann)) (Maybe (TypecheckedUnisonFile v_a3gHk Ann))
+latestFile :: forall v_a3g6T. Lens' (LoopState v_a3g6T) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall v_a3g6T. Lens' (LoopState v_a3g6T) (Branch IO)
+lastInput :: forall v_a3g6T. Lens' (LoopState v_a3g6T) (Maybe Input)
+currentPathStack :: forall v_a3g6T. Lens' (LoopState v_a3g6T) (NonEmpty Absolute)
+currentPath :: Getter (LoopState v) Absolute
+loopState0 :: Branch IO -> Absolute -> LoopState v
+respond :: MonadCommand m i v => Output v -> m ()
+respondNumbered :: NumberedOutput v -> Action i v ()
 
 -- | Get the codebase out of the environment.
-askCodebase :: Action m i v (Codebase m v Ann)
-instance Control.Monad.Fail.MonadFail (Unison.Codebase.Editor.HandleInput.LoopState.Action m i v)
-instance Control.Monad.Reader.Class.MonadReader (Unison.Codebase.Editor.HandleInput.LoopState.Env m v) (Unison.Codebase.Editor.HandleInput.LoopState.Action m i v)
-instance Control.Monad.State.Class.MonadState (Unison.Codebase.Editor.HandleInput.LoopState.LoopState m v) (Unison.Codebase.Editor.HandleInput.LoopState.Action m i v)
-instance Control.Monad.IO.Class.MonadIO m => Control.Monad.IO.Class.MonadIO (Unison.Codebase.Editor.HandleInput.LoopState.Action m i v)
-instance GHC.Base.Monad (Unison.Codebase.Editor.HandleInput.LoopState.Action m i v)
-instance GHC.Base.Alternative (Unison.Codebase.Editor.HandleInput.LoopState.Action m i v)
-instance GHC.Base.Applicative (Unison.Codebase.Editor.HandleInput.LoopState.Action m i v)
-instance GHC.Base.Functor (Unison.Codebase.Editor.HandleInput.LoopState.Action m i v)
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Unison.Codebase.Editor.HandleInput.LoopState.Action m i v) m i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Unison.Util.Free.Free (Unison.Codebase.Editor.Command.Command m i v)) m i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand n m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.State.Lazy.StateT s n) m i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand n m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.Maybe.MaybeT n) m i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand n m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.Except.ExceptT e n) m i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand n m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.Reader.ReaderT r n) m i v
+askCodebase :: Action i v (Codebase IO v Ann)
+instance Control.Monad.Fail.MonadFail (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
+instance Control.Monad.Reader.Class.MonadReader (Unison.Codebase.Editor.HandleInput.LoopState.Env v) (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
+instance Control.Monad.State.Class.MonadState (Unison.Codebase.Editor.HandleInput.LoopState.LoopState v) (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
+instance Control.Monad.IO.Class.MonadIO (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
+instance GHC.Base.Monad (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
+instance GHC.Base.Alternative (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
+instance GHC.Base.Applicative (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
+instance GHC.Base.Functor (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
+instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Unison.Codebase.Editor.HandleInput.LoopState.Action i v) i v
+instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Unison.Util.Free.Free (Unison.Codebase.Editor.Command.Command i v)) i v
+instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.State.Lazy.StateT s m) i v
+instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.Maybe.MaybeT m) i v
+instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.Except.ExceptT e m) i v
+instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.Reader.ReaderT r m) i v
 
 module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
 
@@ -1443,24 +1443,24 @@ module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
 --   Returns a Set of names rather than using the PPE since we already have
 --   the correct names in scope on this branch, and also want to list ALL
 --   names of dependents, including aliases.
-namespaceDependencies :: forall m i v. Ord v => Branch0 m -> Action m i v (Map LabeledDependency (Set Name))
+namespaceDependencies :: forall m i v. Ord v => Branch0 m -> Action i v (Map LabeledDependency (Set Name))
 
 module Unison.Auth.OAuth
 
 -- | Direct the user through an authentication flow with the given server
 --   and store the credentials in the provided credential manager.
-authenticateCodeserver :: forall m n i v. (MonadUnliftIO m, MonadCommand m n i v) => CredentialManager -> CodeserverURI -> m (Either CredentialFailure ())
+authenticateCodeserver :: forall m i v. (MonadUnliftIO m, MonadCommand m i v) => CredentialManager -> CodeserverURI -> m (Either CredentialFailure ())
 
 module Unison.Codebase.Editor.HandleInput.AuthLogin
-authLogin :: MonadUnliftIO m => CodeserverURI -> Action m i v ()
+authLogin :: CodeserverURI -> Action i v ()
 
 -- | Checks if the user has valid auth for the given codeserver, and runs
 --   through an authentication flow if not.
-ensureAuthenticatedWithCodeserver :: MonadUnliftIO m => CodeserverURI -> Action m i v ()
+ensureAuthenticatedWithCodeserver :: CodeserverURI -> Action i v ()
 
 module Unison.Codebase.Editor.HandleInput
-loop :: forall m. MonadUnliftIO m => Action m (Either Event Input) Symbol ()
-parseSearchType :: (Monad m, Var v) => SrcLoc -> String -> Action' m v (Either (Output v) (Type v Ann))
+loop :: Action (Either Event Input) Symbol ()
+parseSearchType :: Var v => SrcLoc -> String -> Action' v (Either (Output v) (Type v Ann))
 
 module Unison.CommandLine.Main
 main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> IO ()
