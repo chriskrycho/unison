@@ -4124,7 +4124,7 @@ Cont :: [Word64] -> [Value] -> Cont -> Value
 BLit :: BLit -> Value
 data Cont
 KE :: Cont
-Mark :: [Reference] -> Map Reference Value -> Cont -> Cont
+Mark :: Word64 -> Word64 -> [Reference] -> Map Reference Value -> Cont -> Cont
 Push :: Word64 -> Word64 -> Word64 -> Word64 -> GroupRef -> Cont -> Cont
 data BLit
 Text :: Text -> BLit
@@ -4546,7 +4546,7 @@ module Unison.Runtime.Stack
 data K
 KE :: K
 CB :: Callback -> K
-Mark :: !EnumSet Word64 -> !EnumMap Word64 Closure -> !K -> K
+Mark :: !Int -> !Int -> !EnumSet Word64 -> !EnumMap Word64 Closure -> !K -> K
 Push :: !Int -> !Int -> !Int -> !Int -> !CombIx -> !K -> K
 data Closure
 PAp :: {-# UNPACK #-} !CombIx -> {-# UNPACK #-} !Seg 'UN -> !Seg 'BX -> Closure
@@ -4557,12 +4557,12 @@ DataB1 :: !Reference -> !Word64 -> !Closure -> Closure
 DataB2 :: !Reference -> !Word64 -> !Closure -> !Closure -> Closure
 DataUB :: !Reference -> !Word64 -> !Int -> !Closure -> Closure
 DataG :: !Reference -> !Word64 -> !Seg 'UN -> !Seg 'BX -> Closure
-Captured :: !K -> {-# UNPACK #-} !Seg 'UN -> !Seg 'BX -> Closure
+Captured :: !K -> !Int -> !Int -> {-# UNPACK #-} !Seg 'UN -> !Seg 'BX -> Closure
 Foreign :: !Foreign -> Closure
 BlackHole :: Closure
 pattern DataC :: Reference -> Word64 -> [Int] -> [Closure] -> Closure
 pattern PApV :: CombIx -> [Int] -> [Closure] -> Closure
-pattern CapV :: K -> [Int] -> [Closure] -> Closure
+pattern CapV :: K -> Int -> Int -> [Int] -> [Closure] -> Closure
 newtype Callback
 Hook :: (Stack 'UN -> Stack 'BX -> IO ()) -> Callback
 data Augment
@@ -4571,7 +4571,7 @@ K :: Augment
 C :: Augment
 data Dump
 A :: Dump
-F :: Int -> Dump
+F :: Int -> Int -> Dump
 S :: Dump
 class MEM (b :: Mem) where {
     data family Stack b :: *;
@@ -4590,17 +4590,20 @@ bumpn :: MEM b => Stack b -> SZ -> IO (Stack b)
 duplicate :: MEM b => Stack b -> IO (Stack b)
 discardFrame :: MEM b => Stack b -> IO (Stack b)
 saveFrame :: MEM b => Stack b -> IO (Stack b, SZ, SZ)
+saveArgs :: MEM b => Stack b -> IO (Stack b, SZ)
 restoreFrame :: MEM b => Stack b -> SZ -> SZ -> IO (Stack b)
 prepareArgs :: MEM b => Stack b -> Args' -> IO (Stack b)
 acceptArgs :: MEM b => Stack b -> Int -> IO (Stack b)
 frameArgs :: MEM b => Stack b -> IO (Stack b)
 augSeg :: MEM b => Augment -> Stack b -> Seg b -> Maybe Args' -> IO (Seg b)
 dumpSeg :: MEM b => Stack b -> Seg b -> Dump -> IO (Stack b)
+adjustArgs :: MEM b => Stack b -> SZ -> IO (Stack b)
 fsize :: MEM b => Stack b -> SZ
 asize :: MEM b => Stack b -> SZ
 type Off = Int
 type SZ = Int
 type FP = Int
+frameDataSize :: K -> (Int, Int)
 marshalToForeign :: HasCallStack => Closure -> Foreign
 unull :: Seg 'UN
 bnull :: Seg 'BX
@@ -4706,6 +4709,7 @@ instance Unison.Runtime.Serialize.Tag Unison.Runtime.MCode.Serialize.InstrT
 instance Unison.Runtime.Serialize.Tag Unison.Runtime.MCode.Serialize.SectionT
 
 module Unison.Runtime.ANF.Serialize
+type Version = Word32
 data TmTag
 VarT :: TmTag
 ForceT :: TmTag
@@ -4785,7 +4789,7 @@ word2pop :: Map Word16 POp
 putLit :: MonadPut m => Lit -> m ()
 getLit :: MonadGet m => m Lit
 putBLit :: MonadPut m => BLit -> m ()
-getBLit :: MonadGet m => m BLit
+getBLit :: MonadGet m => Version -> m BLit
 putRefs :: MonadPut m => [Reference] -> m ()
 getRefs :: MonadGet m => m [Reference]
 putBranches :: MonadPut m => Var v => EnumMap FOp Text -> [v] -> Branched (ANormal v) -> m ()
@@ -4797,9 +4801,9 @@ getCTag :: MonadGet m => m CTag
 putGroupRef :: MonadPut m => GroupRef -> m ()
 getGroupRef :: MonadGet m => m GroupRef
 putValue :: MonadPut m => Value -> m ()
-getValue :: MonadGet m => m Value
+getValue :: MonadGet m => Version -> m Value
 putCont :: MonadPut m => Cont -> m ()
-getCont :: MonadGet m => m Cont
+getCont :: MonadGet m => Version -> m Cont
 deserializeGroup :: Var v => ByteString -> Either String (SuperGroup v)
 serializeGroup :: Var v => EnumMap FOp Text -> SuperGroup v -> ByteString
 deserializeValue :: ByteString -> Either String Value
@@ -4920,6 +4924,7 @@ refNumTy' :: CCache -> Reference -> IO (Maybe Word64)
 baseCCache :: Bool -> IO CCache
 info :: Show a => String -> a -> IO ()
 infos :: String -> String -> IO ()
+stk'info :: Stack 'BX -> IO ()
 eval0 :: CCache -> ActiveThreads -> Section -> IO ()
 topDEnv :: Map Reference Word64 -> Map Reference Word64 -> (DEnv, K -> K)
 apply0 :: Maybe (Stack 'UN -> Stack 'BX -> IO ()) -> CCache -> ActiveThreads -> Word64 -> IO ()
@@ -4948,7 +4953,7 @@ bprim2 :: Stack 'UN -> Stack 'BX -> BPrim2 -> Int -> Int -> IO (Stack 'UN, Stack
 yield :: CCache -> DEnv -> ActiveThreads -> Stack 'UN -> Stack 'BX -> K -> IO ()
 selectTextBranch :: Text -> Section -> Map Text Section -> Section
 selectBranch :: Tag -> Branch -> Section
-splitCont :: DEnv -> Stack 'UN -> Stack 'BX -> K -> Word64 -> IO (K, DEnv, Stack 'UN, Stack 'BX, Seg 'UN, Seg 'BX, K)
+splitCont :: DEnv -> Stack 'UN -> Stack 'BX -> K -> Word64 -> IO (Closure, DEnv, Stack 'UN, Stack 'BX, K)
 discardCont :: DEnv -> Stack 'UN -> Stack 'BX -> K -> Word64 -> IO (DEnv, Stack 'UN, Stack 'BX, K)
 resolve :: CCache -> DEnv -> Stack 'BX -> Ref -> IO Closure
 combSection :: HasCallStack => CCache -> CombIx -> IO Comb
