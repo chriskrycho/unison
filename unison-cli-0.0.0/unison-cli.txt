@@ -921,153 +921,153 @@ instance GHC.Exception.Type.Exception Unison.Share.Sync.Types.CodeserverTranspor
 instance GHC.Show.Show Unison.Share.Sync.Types.CodeserverTransportError
 
 module Unison.Codebase.Editor.Output
-data Output v
-Success :: Output v
-NoUnisonFile :: Output v
-PrintMessage :: Pretty ColorText -> Output v
-InvalidSourceName :: String -> Output v
-SourceLoadFailed :: String -> Output v
-NoMainFunction :: String -> PrettyPrintEnv -> [Type v Ann] -> Output v
-BadMainFunction :: String -> Type v Ann -> PrettyPrintEnv -> [Type v Ann] -> Output v
-BranchEmpty :: Either ShortBranchHash Path' -> Output v
-BranchNotEmpty :: Path' -> Output v
-LoadPullRequest :: ReadRemoteNamespace -> ReadRemoteNamespace -> Path' -> Path' -> Path' -> Path' -> Output v
-CreatedNewBranch :: Absolute -> Output v
-BranchAlreadyExists :: Path' -> Output v
-FindNoLocalMatches :: Output v
-PatchAlreadyExists :: Split' -> Output v
-NoExactTypeMatches :: Output v
-TypeAlreadyExists :: Split' -> Set Reference -> Output v
-TypeParseError :: String -> Err v -> Output v
-ParseResolutionFailures :: String -> [ResolutionFailure v Ann] -> Output v
-TypeHasFreeVars :: Type v Ann -> Output v
-TermAlreadyExists :: Split' -> Set Referent -> Output v
-LabeledReferenceAmbiguous :: Int -> HashQualified Name -> Set LabeledDependency -> Output v
-LabeledReferenceNotFound :: HashQualified Name -> Output v
-DeleteNameAmbiguous :: Int -> HQSplit' -> Set Referent -> Set Reference -> Output v
-TermAmbiguous :: HashQualified Name -> Set Referent -> Output v
-HashAmbiguous :: ShortHash -> Set Referent -> Output v
-BranchHashAmbiguous :: ShortBranchHash -> Set ShortBranchHash -> Output v
-BadNamespace :: String -> String -> Output v
-BranchNotFound :: Path' -> Output v
-EmptyPush :: Path' -> Output v
-NameNotFound :: HQSplit' -> Output v
-PatchNotFound :: Split' -> Output v
-TypeNotFound :: HQSplit' -> Output v
-TermNotFound :: HQSplit' -> Output v
-TypeNotFound' :: ShortHash -> Output v
-TermNotFound' :: ShortHash -> Output v
-TypeTermMismatch :: HashQualified Name -> HashQualified Name -> Output v
-SearchTermsNotFound :: [HashQualified Name] -> Output v
-DeleteBranchConfirmation :: [(Path', (Names, [SearchResult' v Ann]))] -> Output v
-DeleteEverythingConfirmation :: Output v
-DeletedEverything :: Output v
-ListNames :: IsGlobal -> Int -> [(Reference, Set (HashQualified Name))] -> [(Referent, Set (HashQualified Name))] -> Output v
-ListOfDefinitions :: PrettyPrintEnv -> ListDetailed -> [SearchResult' v Ann] -> Output v
-ListOfLinks :: PrettyPrintEnv -> [(HashQualified Name, Reference, Maybe (Type v Ann))] -> Output v
-ListShallow :: PrettyPrintEnv -> [ShallowListEntry v Ann] -> Output v
-ListOfPatches :: Set Name -> Output v
-SlurpOutput :: Input -> PrettyPrintEnv -> SlurpResult v -> Output v
-ParseErrors :: Text -> [Err v] -> Output v
-TypeErrors :: Absolute -> Text -> PrettyPrintEnv -> [ErrorNote v Ann] -> Output v
-CompilerBugs :: Text -> PrettyPrintEnv -> [CompilerBug v Ann] -> Output v
-DisplayConflicts :: Relation Name Referent -> Relation Name Reference -> Output v
-EvaluationFailure :: Error -> Output v
-Evaluated :: SourceFileContents -> PrettyPrintEnv -> [(v, Term v ())] -> Map v (Ann, WatchKind, Term v (), IsCacheHit) -> Output v
-Typechecked :: SourceName -> PrettyPrintEnv -> SlurpResult v -> TypecheckedUnisonFile v Ann -> Output v
-DisplayRendered :: Maybe FilePath -> Pretty ColorText -> Output v
-DisplayDefinitions :: Maybe FilePath -> PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl v Ann)) -> Map Reference (DisplayObject (Type v Ann) (Term v Ann)) -> Output v
-TestIncrementalOutputStart :: PrettyPrintEnv -> (Int, Int) -> Reference -> Term v Ann -> Output v
-TestIncrementalOutputEnd :: PrettyPrintEnv -> (Int, Int) -> Reference -> Term v Ann -> Output v
-TestResults :: TestReportStats -> PrettyPrintEnv -> ShowSuccesses -> ShowFailures -> [(Reference, Text)] -> [(Reference, Text)] -> Output v
-CantUndo :: UndoFailureReason -> Output v
-BustedBuiltins :: Set Reference -> Set Reference -> Output v
-GitError :: GitError -> Output v
-ShareError :: ShareError -> Output v
-ViewOnShare :: WriteShareRemotePath -> Output v
-ConfiguredMetadataParseError :: Path' -> String -> Pretty ColorText -> Output v
-NoConfiguredRemoteMapping :: PushPull -> Absolute -> Output v
-ConfiguredRemoteMappingParseError :: PushPull -> Absolute -> Text -> String -> Output v
-MetadataMissingType :: PrettyPrintEnv -> Referent -> Output v
-TermMissingType :: Reference -> Output v
-MetadataAmbiguous :: HashQualified Name -> PrettyPrintEnv -> [Referent] -> Output v
-NothingToPatch :: PatchPath -> Path' -> Output v
-PatchNeedsToBeConflictFree :: Output v
-PatchInvolvesExternalDependents :: PrettyPrintEnv -> Set Reference -> Output v
-WarnIncomingRootBranch :: ShortBranchHash -> Set ShortBranchHash -> Output v
-StartOfCurrentPathHistory :: Output v
-ShowReflog :: [ReflogEntry] -> Output v
-PullAlreadyUpToDate :: ReadRemoteNamespace -> Path' -> Output v
-PullSuccessful :: ReadRemoteNamespace -> Path' -> Output v
+data Output
+Success :: Output
+NoUnisonFile :: Output
+PrintMessage :: Pretty ColorText -> Output
+InvalidSourceName :: String -> Output
+SourceLoadFailed :: String -> Output
+NoMainFunction :: String -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
+BadMainFunction :: String -> Type Symbol Ann -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
+BranchEmpty :: Either ShortBranchHash Path' -> Output
+BranchNotEmpty :: Path' -> Output
+LoadPullRequest :: ReadRemoteNamespace -> ReadRemoteNamespace -> Path' -> Path' -> Path' -> Path' -> Output
+CreatedNewBranch :: Absolute -> Output
+BranchAlreadyExists :: Path' -> Output
+FindNoLocalMatches :: Output
+PatchAlreadyExists :: Split' -> Output
+NoExactTypeMatches :: Output
+TypeAlreadyExists :: Split' -> Set Reference -> Output
+TypeParseError :: String -> Err Symbol -> Output
+ParseResolutionFailures :: String -> [ResolutionFailure Symbol Ann] -> Output
+TypeHasFreeVars :: Type Symbol Ann -> Output
+TermAlreadyExists :: Split' -> Set Referent -> Output
+LabeledReferenceAmbiguous :: Int -> HashQualified Name -> Set LabeledDependency -> Output
+LabeledReferenceNotFound :: HashQualified Name -> Output
+DeleteNameAmbiguous :: Int -> HQSplit' -> Set Referent -> Set Reference -> Output
+TermAmbiguous :: HashQualified Name -> Set Referent -> Output
+HashAmbiguous :: ShortHash -> Set Referent -> Output
+BranchHashAmbiguous :: ShortBranchHash -> Set ShortBranchHash -> Output
+BadNamespace :: String -> String -> Output
+BranchNotFound :: Path' -> Output
+EmptyPush :: Path' -> Output
+NameNotFound :: HQSplit' -> Output
+PatchNotFound :: Split' -> Output
+TypeNotFound :: HQSplit' -> Output
+TermNotFound :: HQSplit' -> Output
+TypeNotFound' :: ShortHash -> Output
+TermNotFound' :: ShortHash -> Output
+TypeTermMismatch :: HashQualified Name -> HashQualified Name -> Output
+SearchTermsNotFound :: [HashQualified Name] -> Output
+DeleteBranchConfirmation :: [(Path', (Names, [SearchResult' Symbol Ann]))] -> Output
+DeleteEverythingConfirmation :: Output
+DeletedEverything :: Output
+ListNames :: IsGlobal -> Int -> [(Reference, Set (HashQualified Name))] -> [(Referent, Set (HashQualified Name))] -> Output
+ListOfDefinitions :: PrettyPrintEnv -> ListDetailed -> [SearchResult' Symbol Ann] -> Output
+ListOfLinks :: PrettyPrintEnv -> [(HashQualified Name, Reference, Maybe (Type Symbol Ann))] -> Output
+ListShallow :: PrettyPrintEnv -> [ShallowListEntry Symbol Ann] -> Output
+ListOfPatches :: Set Name -> Output
+SlurpOutput :: Input -> PrettyPrintEnv -> SlurpResult Symbol -> Output
+ParseErrors :: Text -> [Err Symbol] -> Output
+TypeErrors :: Absolute -> Text -> PrettyPrintEnv -> [ErrorNote Symbol Ann] -> Output
+CompilerBugs :: Text -> PrettyPrintEnv -> [CompilerBug Symbol Ann] -> Output
+DisplayConflicts :: Relation Name Referent -> Relation Name Reference -> Output
+EvaluationFailure :: Error -> Output
+Evaluated :: SourceFileContents -> PrettyPrintEnv -> [(Symbol, Term Symbol ())] -> Map Symbol (Ann, WatchKind, Term Symbol (), IsCacheHit) -> Output
+Typechecked :: SourceName -> PrettyPrintEnv -> SlurpResult Symbol -> TypecheckedUnisonFile Symbol Ann -> Output
+DisplayRendered :: Maybe FilePath -> Pretty ColorText -> Output
+DisplayDefinitions :: Maybe FilePath -> PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl Symbol Ann)) -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann)) -> Output
+TestIncrementalOutputStart :: PrettyPrintEnv -> (Int, Int) -> Reference -> Term Symbol Ann -> Output
+TestIncrementalOutputEnd :: PrettyPrintEnv -> (Int, Int) -> Reference -> Term Symbol Ann -> Output
+TestResults :: TestReportStats -> PrettyPrintEnv -> ShowSuccesses -> ShowFailures -> [(Reference, Text)] -> [(Reference, Text)] -> Output
+CantUndo :: UndoFailureReason -> Output
+BustedBuiltins :: Set Reference -> Set Reference -> Output
+GitError :: GitError -> Output
+ShareError :: ShareError -> Output
+ViewOnShare :: WriteShareRemotePath -> Output
+ConfiguredMetadataParseError :: Path' -> String -> Pretty ColorText -> Output
+NoConfiguredRemoteMapping :: PushPull -> Absolute -> Output
+ConfiguredRemoteMappingParseError :: PushPull -> Absolute -> Text -> String -> Output
+MetadataMissingType :: PrettyPrintEnv -> Referent -> Output
+TermMissingType :: Reference -> Output
+MetadataAmbiguous :: HashQualified Name -> PrettyPrintEnv -> [Referent] -> Output
+NothingToPatch :: PatchPath -> Path' -> Output
+PatchNeedsToBeConflictFree :: Output
+PatchInvolvesExternalDependents :: PrettyPrintEnv -> Set Reference -> Output
+WarnIncomingRootBranch :: ShortBranchHash -> Set ShortBranchHash -> Output
+StartOfCurrentPathHistory :: Output
+ShowReflog :: [ReflogEntry] -> Output
+PullAlreadyUpToDate :: ReadRemoteNamespace -> Path' -> Output
+PullSuccessful :: ReadRemoteNamespace -> Path' -> Output
 
 -- | Indicates a trivial merge where the destination was empty and was just
 --   replaced.
-MergeOverEmpty :: Path' -> Output v
-MergeAlreadyUpToDate :: Path' -> Path' -> Output v
-PreviewMergeAlreadyUpToDate :: Path' -> Path' -> Output v
+MergeOverEmpty :: Path' -> Output
+MergeAlreadyUpToDate :: Path' -> Path' -> Output
+PreviewMergeAlreadyUpToDate :: Path' -> Path' -> Output
 
 -- | No conflicts or edits remain for the current patch.
-NoConflictsOrEdits :: Output v
-NotImplemented :: Output v
-NoBranchWithHash :: ShortBranchHash -> Output v
-ListDependencies :: Int -> LabeledDependency -> [(Name, Reference)] -> Set Reference -> Output v
+NoConflictsOrEdits :: Output
+NotImplemented :: Output
+NoBranchWithHash :: ShortBranchHash -> Output
+ListDependencies :: Int -> LabeledDependency -> [(Name, Reference)] -> Set Reference -> Output
 
 -- | List dependents of a type or term.
-ListDependents :: Int -> LabeledDependency -> [(Reference, Maybe Name)] -> Output v
+ListDependents :: Int -> LabeledDependency -> [(Reference, Maybe Name)] -> Output
 
 -- | List all direct dependencies which don't have any names in the current
 --   branch
-ListNamespaceDependencies :: PrettyPrintEnv -> Absolute -> Map LabeledDependency (Set Name) -> Output v
-DumpNumberedArgs :: NumberedArgs -> Output v
-DumpBitBooster :: CausalHash -> Map CausalHash [CausalHash] -> Output v
-DumpUnisonFileHashes :: Int -> [(Name, Id)] -> [(Name, Id)] -> [(Name, Id)] -> Output v
-BadName :: String -> Output v
-DefaultMetadataNotification :: Output v
-CouldntLoadBranch :: CausalHash -> Output v
-HelpMessage :: InputPattern -> Output v
-NamespaceEmpty :: NonEmpty AbsBranchId -> Output v
-NoOp :: Output v
-RefusedToPush :: PushBehavior -> WriteRemotePath -> Output v
+ListNamespaceDependencies :: PrettyPrintEnv -> Absolute -> Map LabeledDependency (Set Name) -> Output
+DumpNumberedArgs :: NumberedArgs -> Output
+DumpBitBooster :: CausalHash -> Map CausalHash [CausalHash] -> Output
+DumpUnisonFileHashes :: Int -> [(Name, Id)] -> [(Name, Id)] -> [(Name, Id)] -> Output
+BadName :: String -> Output
+DefaultMetadataNotification :: Output
+CouldntLoadBranch :: CausalHash -> Output
+HelpMessage :: InputPattern -> Output
+NamespaceEmpty :: NonEmpty AbsBranchId -> Output
+NoOp :: Output
+RefusedToPush :: PushBehavior -> WriteRemotePath -> Output
 
 -- | <tt>GistCreated repo</tt> means a causal was just published to
 --   <tt>repo</tt>.
-GistCreated :: ReadRemoteNamespace -> Output v
+GistCreated :: ReadRemoteNamespace -> Output
 
 -- | Directs the user to URI to begin an authorization flow.
-InitiateAuthFlow :: URI -> Output v
-UnknownCodeServer :: Text -> Output v
-CredentialFailureMsg :: CredentialFailure -> Output v
-PrintVersion :: Text -> Output v
-IntegrityCheck :: IntegrityResult -> Output v
-data NumberedOutput v
-ShowDiffNamespace :: AbsBranchId -> AbsBranchId -> PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterUndo :: PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterDeleteDefinitions :: PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterDeleteBranch :: Absolute -> PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterModifyBranch :: Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterMerge :: Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterMergePropagate :: Path' -> Absolute -> Path' -> PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterMergePreview :: Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterPull :: Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterCreatePR :: ReadRemoteNamespace -> ReadRemoteNamespace -> PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
-ShowDiffAfterCreateAuthor :: NameSegment -> Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput v Ann -> NumberedOutput v
+InitiateAuthFlow :: URI -> Output
+UnknownCodeServer :: Text -> Output
+CredentialFailureMsg :: CredentialFailure -> Output
+PrintVersion :: Text -> Output
+IntegrityCheck :: IntegrityResult -> Output
+data NumberedOutput
+ShowDiffNamespace :: AbsBranchId -> AbsBranchId -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterUndo :: PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterDeleteDefinitions :: PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterDeleteBranch :: Absolute -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterModifyBranch :: Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterMerge :: Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterMergePropagate :: Path' -> Absolute -> Path' -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterMergePreview :: Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterPull :: Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterCreatePR :: ReadRemoteNamespace -> ReadRemoteNamespace -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
+ShowDiffAfterCreateAuthor :: NameSegment -> Path' -> Absolute -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
 
 -- | Invariant: there's at least one conflict or edit in the TodoOutput.
-TodoOutput :: PrettyPrintEnvDecl -> TodoOutput v Ann -> NumberedOutput v
+TodoOutput :: PrettyPrintEnvDecl -> TodoOutput Symbol Ann -> NumberedOutput
 
 -- | CantDeleteDefinitions ppe couldntDelete becauseTheseStillReferenceThem
-CantDeleteDefinitions :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> NumberedOutput v
+CantDeleteDefinitions :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> NumberedOutput
 
 -- | CantDeleteNamespace ppe couldntDelete becauseTheseStillReferenceThem
-CantDeleteNamespace :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> NumberedOutput v
+CantDeleteNamespace :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> NumberedOutput
 
 -- | DeletedDespiteDependents ppe deletedThings
 --   thingsWhichNowHaveUnnamedReferences
-DeletedDespiteDependents :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> NumberedOutput v
+DeletedDespiteDependents :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> NumberedOutput
 
 -- | size limit, history , how the history ends
-History :: Maybe Int -> HashLength -> [(CausalHash, Diff)] -> HistoryTail -> NumberedOutput v
-ListEdits :: Patch -> PrettyPrintEnv -> NumberedOutput v
+History :: Maybe Int -> HashLength -> [(CausalHash, Diff)] -> HistoryTail -> NumberedOutput
+ListEdits :: Patch -> PrettyPrintEnv -> NumberedOutput
 type NumberedArgs = [String]
 type ListDetailed = Bool
 data HistoryTail
@@ -1090,112 +1090,12 @@ ShareErrorFastForwardPush :: FastForwardPushError -> ShareError
 ShareErrorPull :: PullError -> ShareError
 ShareErrorGetCausalHashByPath :: GetCausalHashByPathError -> ShareError
 ShareErrorTransport :: CodeserverTransportError -> ShareError
-isFailure :: Ord v => Output v -> Bool
-isNumberedFailure :: NumberedOutput v -> Bool
+isFailure :: Output -> Bool
+isNumberedFailure :: NumberedOutput -> Bool
 instance GHC.Show.Show Unison.Codebase.Editor.Output.ReflogEntry
 instance GHC.Show.Show Unison.Codebase.Editor.Output.HistoryTail
 instance GHC.Show.Show Unison.Codebase.Editor.Output.TestReportStats
 instance GHC.Show.Show Unison.Codebase.Editor.Output.UndoFailureReason
-
-module Unison.Codebase.Editor.Command
-data Command i v a
-[Eval] :: IO a -> Command i v a
-[UI] :: Command i v ()
-[API] :: Command i v ()
-[DocsToHtml] :: Branch IO -> Path -> FilePath -> Command i v ()
-[HQNameQuery] :: Maybe Path -> Branch IO -> [HashQualified Name] -> Command i v QueryResult
-[LoadSearchResults] :: [SearchResult] -> Command i v [SearchResult' v Ann]
-[GetDefinitionsBySuffixes] :: Maybe Path -> Branch IO -> IncludeCycles -> [HashQualified Name] -> Command i v (DefinitionResults v)
-[FindShallow] :: Absolute -> Command i v [ShallowListEntry v Ann]
-[ConfigLookup] :: Configured a => Text -> Command i v (Maybe a)
-[Input] :: Command i v i
-[Notify] :: Output v -> Command i v ()
-[NotifyNumbered] :: NumberedOutput v -> Command i v NumberedArgs
-[AddDefsToCodebase] :: TypecheckedUnisonFile v Ann -> Command i v ()
-[CodebaseHashLength] :: Command i v Int
-[TypeReferencesByShortHash] :: ShortHash -> Command i v (Set Reference)
-[TermReferencesByShortHash] :: ShortHash -> Command i v (Set Reference)
-[TermReferentsByShortHash] :: ShortHash -> Command i v (Set Referent)
-[BranchHashLength] :: Command i v Int
-[BranchHashesByPrefix] :: ShortBranchHash -> Command i v (Set CausalHash)
-[ParseType] :: NamesWithHistory -> LexedSource -> Command i v (Either (Err v) (Type v Ann))
-[LoadSource] :: SourceName -> Command i v LoadSourceResult
-[Typecheck] :: AmbientAbilities v -> NamesWithHistory -> SourceName -> LexedSource -> Command i v (TypecheckingResult v)
-[TypecheckFile] :: UnisonFile v Ann -> [Type v Ann] -> Command i v (TypecheckingResult v)
-[Evaluate] :: Bool -> PrettyPrintEnv -> TypecheckedUnisonFile v Ann -> Command i v (Either Error (EvalResult v))
-[Evaluate1] :: Bool -> PrettyPrintEnv -> UseCache -> Term v Ann -> Command i v (Either Error (Term v Ann))
-[PutWatch] :: WatchKind -> Id -> Term v Ann -> Command i v ()
-[LoadWatches] :: WatchKind -> Set Reference -> Command i v [(Reference, Term v Ann)]
-[LoadLocalRootBranch] :: Command i v (Branch IO)
-[LoadLocalBranch] :: CausalHash -> Command i v (Branch IO)
-[Merge] :: MergeMode -> Branch IO -> Branch IO -> Command i v (Branch IO)
-[ViewRemoteGitBranch] :: ReadGitRemoteNamespace -> GitBranchBehavior -> (Branch IO -> Free (Command i v) r) -> Command i v (Either GitError r)
-[ImportRemoteGitBranch] :: ReadGitRemoteNamespace -> SyncMode -> Preprocessing IO -> Command i v (Either GitError (Branch IO))
-[SyncLocalRootBranch] :: Branch IO -> Command i v ()
-[SyncRemoteGitBranch] :: WriteGitRepo -> PushGitBranchOpts -> (Branch IO -> IO (Either e (Branch IO))) -> Command i v (Either GitError (Either e (Branch IO)))
-[AppendToReflog] :: Text -> Branch IO -> Branch IO -> Command i v ()
-[LoadReflog] :: Command i v [Entry CausalHash]
-[LoadTerm] :: Id -> Command i v (Maybe (Term v Ann))
-[LoadTermComponentWithTypes] :: Hash -> Command i v (Maybe [(Term v Ann, Type v Ann)])
-[LoadType] :: Id -> Command i v (Maybe (Decl v Ann))
-[LoadDeclComponent] :: Hash -> Command i v (Maybe [Decl v Ann])
-[LoadTypeOfTerm] :: Reference -> Command i v (Maybe (Type v Ann))
-[PutTerm] :: Id -> Term v Ann -> Type v Ann -> Command i v ()
-[PutDecl] :: Id -> Decl v Ann -> Command i v ()
-[IsTerm] :: Reference -> Command i v Bool
-[IsType] :: Reference -> Command i v Bool
-
--- | Get the immediate (not transitive) dependents of the given reference
---   This might include historical definitions not in any current path;
---   these should be filtered by the caller of this command if that's not
---   desired.
-[GetDependents] :: Reference -> Command i v (Set Reference)
-[GetDependentsOfComponent] :: Hash -> Command i v (Set Reference)
-[GetTermsOfType] :: Type v Ann -> Command i v (Set Referent)
-[GetTermsMentioningType] :: Type v Ann -> Command i v (Set Referent)
-[Execute] :: PrettyPrintEnv -> TypecheckedUnisonFile v Ann -> [String] -> Command i v (WatchResults v Ann)
-[CreateAuthorInfo] :: Text -> Command i v (AuthorInfo v Ann)
-[RuntimeMain] :: Command i v (Type v Ann)
-[RuntimeTest] :: Command i v (Type v Ann)
-[ClearWatchCache] :: Command i v ()
-[AnalyzeCodebaseIntegrity] :: Command i v IntegrityResult
-[MakeStandalone] :: PrettyPrintEnv -> Reference -> String -> Command i v (Maybe Error)
-
--- | Trigger an interactive fuzzy search over the provided options and
---   return all selected results.
-[FuzzySelect] :: Options -> (a -> Text) -> [a] -> Command i v (Maybe [a])
-
--- | This allows us to implement MonadUnliftIO for (Free (Command i v)).
---   Ideally we will eventually remove the Command type entirely and won't
---   need this anymore.
-[CmdUnliftIO] :: Command i v (UnliftIO (Free (Command i v)))
-[UCMVersion] :: Command i v UCMVersion
-type AmbientAbilities v = [Type v Ann]
-type LexedSource = (Text, [Token Lexeme])
-type Source = Text
-type SourceName = Text
-type TypecheckingResult v = Result (Seq (Note v Ann)) (Either Names (TypecheckedUnisonFile v Ann))
-data LoadSourceResult
-InvalidSourceNameError :: LoadSourceResult
-LoadError :: LoadSourceResult
-LoadSuccess :: Text -> LoadSourceResult
-type UseCache = Bool
-type EvalResult v = ([(v, Term v ())], Map v (Ann, WatchKind, Id, Term v (), Term v (), IsCacheHit))
-commandName :: Command i v a -> String
-lookupEvalResult :: Ord v => v -> EvalResult v -> Maybe (Term v ())
-instance Control.Monad.IO.Class.MonadIO (Unison.Util.Free.Free (Unison.Codebase.Editor.Command.Command i v))
-instance Control.Monad.IO.Unlift.MonadUnliftIO (Unison.Util.Free.Free (Unison.Codebase.Editor.Command.Command i v))
-
-module Unison.Codebase.Editor.Propagate
-computeFrontier :: forall m. Monad m => (Reference -> m (Set Reference)) -> Patch -> (Reference -> Bool) -> m (Relation Reference Reference)
-propagateAndApply :: forall m i v. (Applicative m, Var v) => Names -> Patch -> Branch0 m -> F i v (Branch0 m)
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Propagate.Edits v)
-instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
-
-module Unison.Codebase.Editor.HandleCommand
-typecheck :: Monad m => [Type Symbol Ann] -> Codebase m Symbol Ann -> ParsingEnv -> SourceName -> LexedSource -> m (TypecheckingResult Symbol)
-typecheck' :: Monad m => [Type Symbol Ann] -> Codebase m Symbol Ann -> UnisonFile Symbol Ann -> m (TypecheckingResult Symbol)
-commandLine :: forall i a gen. DRG gen => Config -> IO i -> (Branch IO -> IO ()) -> Runtime Symbol -> Runtime Symbol -> (Output Symbol -> IO ()) -> (NumberedOutput Symbol -> IO NumberedArgs) -> (SourceName -> IO LoadSourceResult) -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Int -> IO gen) -> Free (Command i Symbol) a -> IO a
 
 module Unison.Util.HTTP
 addRequestMiddleware :: (Request -> IO Request) -> ManagerSettings -> ManagerSettings
@@ -1289,12 +1189,12 @@ module Unison.CommandLine.OutputMessages
 type Pretty = Pretty ColorText
 shortenDirectory :: FilePath -> IO FilePath
 renderFileName :: FilePath -> IO Pretty
-notifyNumbered :: Var v => NumberedOutput v -> (Pretty, NumberedArgs)
+notifyNumbered :: NumberedOutput -> (Pretty, NumberedArgs)
 showListEdits :: Patch -> PrettyPrintEnv -> (Pretty ColorText, NumberedArgs)
 prettyURI :: URI -> Pretty
 prettyReadRemoteNamespace :: ReadRemoteNamespace -> Pretty
 prettyWriteRemotePath :: WriteRemotePath -> Pretty
-notifyUser :: forall v. Var v => FilePath -> Output v -> IO Pretty
+notifyUser :: FilePath -> Output -> IO Pretty
 shareOrigin :: Text
 prettyShareLink :: WriteShareRemotePath -> Pretty
 prettyFilePath :: FilePath -> Pretty
@@ -1368,62 +1268,121 @@ displayDoc :: forall v m. (Var v, Monad m) => PrettyPrintEnvDecl -> (Reference -
 termName :: PrettyPrintEnv -> Referent -> Pretty
 typeName :: PrettyPrintEnv -> Reference -> Pretty
 
-module Unison.Codebase.Editor.HandleInput.LoopState
-type F i v = Free (Command i v)
-data Env v
-Env :: AuthenticatedHttpClient -> Codebase IO v Ann -> CredentialManager -> Env v
-[$sel:authHTTPClient:Env] :: Env v -> AuthenticatedHttpClient
-[$sel:codebase:Env] :: Env v -> Codebase IO v Ann
-[$sel:credentialManager:Env] :: Env v -> CredentialManager
-newtype Action i v a
-Action :: MaybeT (ReaderT (Env v) (StateT (LoopState v) (F i v))) a -> Action i v a
-[$sel:unAction:Action] :: Action i v a -> MaybeT (ReaderT (Env v) (StateT (LoopState v) (F i v))) a
-runAction :: Env v -> LoopState v -> Action i v a -> F i v (Maybe a, LoopState v)
-liftF :: F i v a -> Action i v a
+module Unison.Codebase.Editor.Command
+data Command a
+[AskEnv] :: Command Env
+[LocalEnv] :: (Env -> Env) -> Free Command a -> Command a
+[GetLoopState] :: Command LoopState
+[PutLoopState] :: LoopState -> Command ()
+[Eval] :: IO a -> Command a
+[WithRunInIO] :: ((forall x. Action x -> IO x) -> IO a) -> Command a
+[WithResource] :: (forall r. (a -> IO r) -> IO r) -> Command a
+[Reset] :: Action a -> Command a
+[Abort] :: Command a
+[Quit] :: Command a
+data Env
+Env :: AuthenticatedHttpClient -> Codebase IO Symbol Ann -> Config -> CredentialManager -> IO UniqueName -> (SourceName -> IO LoadSourceResult) -> (Output -> IO ()) -> (NumberedOutput -> IO NumberedArgs) -> Runtime Symbol -> Runtime Symbol -> Maybe BaseUrl -> UCMVersion -> Env
+[$sel:authHTTPClient:Env] :: Env -> AuthenticatedHttpClient
+[$sel:codebase:Env] :: Env -> Codebase IO Symbol Ann
+[$sel:config:Env] :: Env -> Config
+[$sel:credentialManager:Env] :: Env -> CredentialManager
 
--- | A typeclass representing monads which can evaluate <a>Command</a>s.
-class Monad m => MonadCommand m v i | m -> v i
-eval :: MonadCommand m v i => Command v i a -> m a
-data LoopState v
-LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, SkipNextUpdate) -> Maybe (TypecheckedUnisonFile v Ann) -> Maybe Input -> NumberedArgs -> LoopState v
-[$sel:_root:LoopState] :: LoopState v -> Branch IO
-[$sel:_lastSavedRoot:LoopState] :: LoopState v -> Branch IO
-[$sel:_currentPathStack:LoopState] :: LoopState v -> NonEmpty Absolute
-[$sel:_latestFile:LoopState] :: LoopState v -> Maybe (FilePath, SkipNextUpdate)
-[$sel:_latestTypecheckedFile:LoopState] :: LoopState v -> Maybe (TypecheckedUnisonFile v Ann)
-[$sel:_lastInput:LoopState] :: LoopState v -> Maybe Input
-[$sel:_numberedArgs:LoopState] :: LoopState v -> NumberedArgs
-type Action' v = Action (Either Event Input) v
-type SkipNextUpdate = Bool
-type InputDescription = Text
-root :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (Branch IO)
-numberedArgs :: forall v_a3fQY. Lens' (LoopState v_a3fQY) NumberedArgs
-latestTypecheckedFile :: forall v_a3fQY v_a3grp. Lens (LoopState v_a3fQY) (LoopState v_a3grp) (Maybe (TypecheckedUnisonFile v_a3fQY Ann)) (Maybe (TypecheckedUnisonFile v_a3grp Ann))
-latestFile :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (Branch IO)
-lastInput :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (Maybe Input)
-currentPathStack :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (NonEmpty Absolute)
-currentPath :: Getter (LoopState v) Absolute
-loopState0 :: Branch IO -> Absolute -> LoopState v
-respond :: MonadCommand m i v => Output v -> m ()
-respondNumbered :: NumberedOutput v -> Action i v ()
+-- | Generate a unique name.
+[$sel:generateUniqueName:Env] :: Env -> IO UniqueName
+
+-- | How to load source code.
+[$sel:loadSource:Env] :: Env -> SourceName -> IO LoadSourceResult
+
+-- | What to do with output for the user.
+[$sel:notify:Env] :: Env -> Output -> IO ()
+
+-- | What to do with numbered output for the user.
+[$sel:notifyNumbered:Env] :: Env -> NumberedOutput -> IO NumberedArgs
+[$sel:runtime:Env] :: Env -> Runtime Symbol
+[$sel:sandboxedRuntime:Env] :: Env -> Runtime Symbol
+[$sel:serverBaseUrl:Env] :: Env -> Maybe BaseUrl
+[$sel:ucmVersion:Env] :: Env -> UCMVersion
+data LoopState
+LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, SkipNextUpdate) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Maybe Input -> NumberedArgs -> LoopState
+[$sel:_root:LoopState] :: LoopState -> Branch IO
+[$sel:_lastSavedRoot:LoopState] :: LoopState -> Branch IO
+[$sel:_currentPathStack:LoopState] :: LoopState -> NonEmpty Absolute
+[$sel:_latestFile:LoopState] :: LoopState -> Maybe (FilePath, SkipNextUpdate)
+[$sel:_latestTypecheckedFile:LoopState] :: LoopState -> Maybe (TypecheckedUnisonFile Symbol Ann)
+[$sel:_lastInput:LoopState] :: LoopState -> Maybe Input
+[$sel:_numberedArgs:LoopState] :: LoopState -> NumberedArgs
+type AmbientAbilities v = [Type v Ann]
+type LexedSource = (Text, [Token Lexeme])
+type Source = Text
+type SourceName = Text
+type TypecheckingResult v = Result (Seq (Note v Ann)) (Either Names (TypecheckedUnisonFile v Ann))
+data LoadSourceResult
+InvalidSourceNameError :: LoadSourceResult
+LoadError :: LoadSourceResult
+LoadSuccess :: Text -> LoadSourceResult
+type UseCache = Bool
+type EvalResult v = ([(v, Term v ())], Map v (Ann, WatchKind, Id, Term v (), Term v (), IsCacheHit))
+commandName :: Command a -> String
+lookupEvalResult :: Ord v => v -> EvalResult v -> Maybe (Term v ())
+abort :: Action a
+quit :: Action a
+
+-- | Acquire a resource for the duration of an action.
+with :: (forall b. (a -> IO b) -> IO b) -> Action a
+
+-- | Delimit the scope of inner <a>with</a> actions.
+reset :: Action a -> Action a
+root :: Lens' LoopState (Branch IO)
+numberedArgs :: Lens' LoopState NumberedArgs
+currentPathStack :: Lens' LoopState (NonEmpty Absolute)
+lastInput :: Lens' LoopState (Maybe Input)
+lastSavedRoot :: Lens' LoopState (Branch IO)
+latestFile :: Lens' LoopState (Maybe (FilePath, SkipNextUpdate))
+latestTypecheckedFile :: Lens' LoopState (Maybe (TypecheckedUnisonFile Symbol Ann))
+currentPath :: Getter LoopState Absolute
+loopState0 :: Branch IO -> Absolute -> LoopState
+respond :: Output -> Action ()
+respondNumbered :: NumberedOutput -> Action ()
 
 -- | Get the codebase out of the environment.
-askCodebase :: Action i v (Codebase IO v Ann)
-instance Control.Monad.Fail.MonadFail (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
-instance Control.Monad.Reader.Class.MonadReader (Unison.Codebase.Editor.HandleInput.LoopState.Env v) (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
-instance Control.Monad.State.Class.MonadState (Unison.Codebase.Editor.HandleInput.LoopState.LoopState v) (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
-instance Control.Monad.IO.Class.MonadIO (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
-instance GHC.Base.Monad (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
-instance GHC.Base.Alternative (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
-instance GHC.Base.Applicative (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
-instance GHC.Base.Functor (Unison.Codebase.Editor.HandleInput.LoopState.Action i v)
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Unison.Codebase.Editor.HandleInput.LoopState.Action i v) i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Unison.Util.Free.Free (Unison.Codebase.Editor.Command.Command i v)) i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.State.Lazy.StateT s m) i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.Maybe.MaybeT m) i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.Except.ExceptT e m) i v
-instance Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand m i v => Unison.Codebase.Editor.HandleInput.LoopState.MonadCommand (Control.Monad.Trans.Reader.ReaderT r m) i v
+askCodebase :: Action (Codebase IO Symbol Ann)
+
+-- | Get an action that generates a unique name out of the environment.
+askGenerateUniqueName :: Action (IO UniqueName)
+
+-- | Get how to load source code out of the environment.
+askLoadSource :: Action (SourceName -> IO LoadSourceResult)
+
+-- | Get the runtime out of the environment.
+askRuntime :: Action (Runtime Symbol)
+
+-- | Get the sandboxed runtime out of the environment.
+askSandboxedRuntime :: Action (Runtime Symbol)
+
+-- | Get the server base url out of the environment.
+askServerBaseUrl :: Action (Maybe BaseUrl)
+
+-- | Lookup a config value by key.
+getConfig :: Configured a => Text -> Action (Maybe a)
+type InputDescription = Text
+newtype Action a
+Action :: Free Command a -> Action a
+[$sel:unAction:Action] :: Action a -> Free Command a
+eval :: Command a -> Action a
+instance Control.Monad.IO.Class.MonadIO Unison.Codebase.Editor.Command.Action
+instance GHC.Base.Monad Unison.Codebase.Editor.Command.Action
+instance GHC.Base.Applicative Unison.Codebase.Editor.Command.Action
+instance GHC.Base.Functor Unison.Codebase.Editor.Command.Action
+instance Control.Monad.IO.Class.MonadIO (Unison.Util.Free.Free Unison.Codebase.Editor.Command.Command)
+instance Control.Monad.Reader.Class.MonadReader Unison.Codebase.Editor.Command.Env Unison.Codebase.Editor.Command.Action
+instance Control.Monad.State.Class.MonadState Unison.Codebase.Editor.Command.LoopState Unison.Codebase.Editor.Command.Action
+instance Control.Monad.IO.Unlift.MonadUnliftIO Unison.Codebase.Editor.Command.Action
+
+module Unison.Codebase.Editor.Propagate
+computeFrontier :: forall m. Monad m => (Reference -> m (Set Reference)) -> Patch -> (Reference -> Bool) -> m (Relation Reference Reference)
+propagateAndApply :: Codebase IO Symbol Ann -> Names -> Patch -> Branch0 IO -> Action (Branch0 IO)
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Propagate.Edits v)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
 
 module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
 
@@ -1442,24 +1401,76 @@ module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
 --   Returns a Set of names rather than using the PPE since we already have
 --   the correct names in scope on this branch, and also want to list ALL
 --   names of dependents, including aliases.
-namespaceDependencies :: forall m i v. Ord v => Branch0 m -> Action i v (Map LabeledDependency (Set Name))
+namespaceDependencies :: forall m. Branch0 m -> Action (Map LabeledDependency (Set Name))
+
+module Unison.Codebase.Editor.HandleCommand
+data ReturnType a
+Success :: a -> ReturnType a
+HaltStep :: ReturnType a
+HaltRepl :: ReturnType a
+data Bailing
+HaltingStep :: Bailing
+HaltingRepl :: Bailing
+newtype Cli r a
+Cli :: ((a -> Env -> IO (ReturnType r)) -> Env -> IO (ReturnType r)) -> Cli r a
+[$sel:unCli:Cli] :: Cli r a -> (a -> Env -> IO (ReturnType r)) -> Env -> IO (ReturnType r)
+
+-- | <a>withCliToIO</a> generalized to accept other monads that we can turn
+--   into <a>Cli</a> (e.g. Action)
+withCliToIO' :: forall r a. ((forall m x. (m x -> Cli x x) -> m x -> IO x) -> IO a) -> Cli r a
+
+-- | Provide a way to run <a>Cli</a> to IO. Note that this also delimits
+--   the scope of and <a>succeedWith</a> or <a>with</a> calls.
+withCliToIO :: ((forall x. Cli x x -> IO x) -> IO a) -> Cli r a
+short :: ReturnType r -> Cli r a
+
+-- | Short-circuit success. Returns <tt>r</tt> to the nearest enclosing
+--   <a>scopeWith</a>
+succeedWith :: r -> Cli r a
+
+-- | Short-circuit success
+abortStep :: Cli r a
+
+-- | Halt the repl
+haltRepl :: Cli r a
+
+-- | Wrap a continuation with <a>Cli</a>. Provides a nicer syntax to
+--   resource acquiring functions.
+--   
+--   <pre>
+--   resource &lt;- with (bracket acquire close)
+--   </pre>
+--   
+--   Delimit the scope of acquired resources with <a>scopeWith</a>.
+with :: (forall x. (a -> IO x) -> IO x) -> Cli r a
+
+-- | Delimit the scope of <a>with</a> calls
+scopeWith :: Cli x x -> Cli r x
+commandLine :: Env -> LoopState -> IO (Either Event Input) -> (Either Event Input -> Action ()) -> IO (Maybe (), LoopState)
+instance GHC.Exception.Type.Exception Unison.Codebase.Editor.HandleCommand.Bailing
+instance GHC.Show.Show Unison.Codebase.Editor.HandleCommand.Bailing
+instance Control.Monad.Reader.Class.MonadReader Unison.Codebase.Editor.Command.Env (Unison.Codebase.Editor.HandleCommand.Cli r)
+instance Control.Monad.IO.Class.MonadIO (Unison.Codebase.Editor.HandleCommand.Cli r)
+instance GHC.Base.Monad (Unison.Codebase.Editor.HandleCommand.Cli r)
+instance GHC.Base.Applicative (Unison.Codebase.Editor.HandleCommand.Cli r)
+instance GHC.Base.Functor (Unison.Codebase.Editor.HandleCommand.Cli r)
 
 module Unison.Auth.OAuth
 
 -- | Direct the user through an authentication flow with the given server
 --   and store the credentials in the provided credential manager.
-authenticateCodeserver :: forall m i v. (MonadUnliftIO m, MonadCommand m i v) => CredentialManager -> CodeserverURI -> m (Either CredentialFailure ())
+authenticateCodeserver :: CredentialManager -> CodeserverURI -> Action (Either CredentialFailure ())
 
 module Unison.Codebase.Editor.HandleInput.AuthLogin
-authLogin :: CodeserverURI -> Action i v ()
+authLogin :: CodeserverURI -> Action ()
 
 -- | Checks if the user has valid auth for the given codeserver, and runs
 --   through an authentication flow if not.
-ensureAuthenticatedWithCodeserver :: CodeserverURI -> Action i v ()
+ensureAuthenticatedWithCodeserver :: CodeserverURI -> Action ()
 
 module Unison.Codebase.Editor.HandleInput
-loop :: Action (Either Event Input) Symbol ()
-parseSearchType :: Var v => SrcLoc -> String -> Action' v (Either (Output v) (Type v Ann))
+loop :: Either Event Input -> Action ()
+parseSearchType :: SrcLoc -> String -> Action (Either Output (Type Symbol Ann))
 
 module Unison.CommandLine.Main
 main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> IO ()
