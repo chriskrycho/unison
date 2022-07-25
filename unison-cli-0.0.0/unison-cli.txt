@@ -654,7 +654,6 @@ fixupCompletion :: String -> [Completion] -> [Completion]
 completeWithinQueryNamespace :: String -> [String] -> [Completion]
 parseInput :: Branch0 m -> Absolute -> [String] -> Map String InputPattern -> [String] -> Either (Pretty ColorText) Input
 prompt :: String
-watchBranchUpdates :: IO (Branch IO) -> TQueue Event -> Codebase IO v a -> IO (IO ())
 watchConfig :: FilePath -> IO (Config, IO ())
 watchFileSystem :: TQueue Event -> FilePath -> IO (IO ())
 
@@ -1397,13 +1396,13 @@ LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, Ski
 type Action' v = Action (Either Event Input) v
 type SkipNextUpdate = Bool
 type InputDescription = Text
-root :: forall v_a3g6Y. Lens' (LoopState v_a3g6Y) (Branch IO)
-numberedArgs :: forall v_a3g6Y. Lens' (LoopState v_a3g6Y) NumberedArgs
-latestTypecheckedFile :: forall v_a3g6Y v_a3gHp. Lens (LoopState v_a3g6Y) (LoopState v_a3gHp) (Maybe (TypecheckedUnisonFile v_a3g6Y Ann)) (Maybe (TypecheckedUnisonFile v_a3gHp Ann))
-latestFile :: forall v_a3g6Y. Lens' (LoopState v_a3g6Y) (Maybe (FilePath, SkipNextUpdate))
-lastSavedRoot :: forall v_a3g6Y. Lens' (LoopState v_a3g6Y) (Branch IO)
-lastInput :: forall v_a3g6Y. Lens' (LoopState v_a3g6Y) (Maybe Input)
-currentPathStack :: forall v_a3g6Y. Lens' (LoopState v_a3g6Y) (NonEmpty Absolute)
+root :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (Branch IO)
+numberedArgs :: forall v_a3fQY. Lens' (LoopState v_a3fQY) NumberedArgs
+latestTypecheckedFile :: forall v_a3fQY v_a3grp. Lens (LoopState v_a3fQY) (LoopState v_a3grp) (Maybe (TypecheckedUnisonFile v_a3fQY Ann)) (Maybe (TypecheckedUnisonFile v_a3grp Ann))
+latestFile :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (Maybe (FilePath, SkipNextUpdate))
+lastSavedRoot :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (Branch IO)
+lastInput :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (Maybe Input)
+currentPathStack :: forall v_a3fQY. Lens' (LoopState v_a3fQY) (NonEmpty Absolute)
 currentPath :: Getter (LoopState v) Absolute
 loopState0 :: Branch IO -> Absolute -> LoopState v
 respond :: MonadCommand m i v => Output v -> m ()
