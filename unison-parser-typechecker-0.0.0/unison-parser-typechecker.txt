@@ -4087,8 +4087,8 @@ ATOM :: POp
 type FOp = Word64
 close :: (Var v, Monoid a) => Set v -> Term v a -> Term v a
 saturate :: (Var v, Monoid a) => Map ConstructorReference Int -> Term v a -> Term v a
-float :: (Var v, Monoid a) => Term v a -> (Term v a, [(v, Term v a)])
-lamLift :: (Var v, Monoid a) => Term v a -> (Term v a, [(v, Term v a)])
+float :: Var v => Monoid a => Term v a -> (Term v a, [(Reference, Term v a)], [(Reference, Term v a)])
+lamLift :: Var v => Monoid a => Term v a -> (Term v a, [(Reference, Term v a)], [(Reference, Term v a)])
 inlineAlias :: Var v => Monoid a => Term v a -> Term v a
 addDefaultCases :: Var v => Monoid a => String -> Term v a -> Term v a
 data ANormalF v e
