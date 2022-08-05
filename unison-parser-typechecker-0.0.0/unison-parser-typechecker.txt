@@ -3166,6 +3166,22 @@ instance GHC.Show.Show Unison.Codebase.Type.LocalOrRemote
 instance GHC.Show.Show Unison.Codebase.Type.GitError
 instance GHC.Exception.Type.Exception Unison.Codebase.Type.GitError
 
+module Unison.Codebase.SqliteCodebase.Branch.Cache
+
+-- | A cache of <a>Branch</a> by <a>CausalHash</a>es.
+data BranchCache m
+BranchCache :: (CausalHash -> m (Maybe (Branch m))) -> (CausalHash -> Branch m -> m ()) -> BranchCache m
+[$sel:lookupCachedBranch:BranchCache] :: BranchCache m -> CausalHash -> m (Maybe (Branch m))
+[$sel:insertCachedBranch:BranchCache] :: BranchCache m -> CausalHash -> Branch m -> m ()
+
+-- | Creates a <a>BranchCache</a> which uses weak references to only keep
+--   branches in the cache for as long as they're reachable by something
+--   else in the app.
+--   
+--   This means you don't need to worry about a Branch not being GC'd
+--   because it's in the cache.
+newBranchCache :: forall m. MonadIO m => m (BranchCache Transaction)
+
 module Unison.Codebase.SqliteCodebase.Conversions
 sbh1to2 :: ShortBranchHash -> ShortBranchHash
 decltype2to1 :: DeclType -> ConstructorType
@@ -3209,8 +3225,8 @@ ttype1to2 :: Type Symbol a -> TypeT Symbol
 type1to2' :: (Reference -> r) -> Type Symbol a -> TypeR r Symbol
 
 -- | forces loading v1 branches even if they may not exist
-causalbranch2to1 :: Monad m => (Reference -> m ConstructorType) -> CausalBranch m -> m (Branch m)
-causalbranch2to1' :: Monad m => (Reference -> m ConstructorType) -> CausalBranch m -> m (UnwrappedBranch m)
+causalbranch2to1 :: Monad m => BranchCache m -> (Reference -> m ConstructorType) -> CausalBranch m -> m (Branch m)
+causalbranch2to1' :: Monad m => BranchCache m -> (Reference -> m ConstructorType) -> CausalBranch m -> m (UnwrappedBranch m)
 causalbranch1to2 :: forall m. Monad m => Branch m -> CausalBranch m
 patch2to1 :: Patch -> Patch
 patch1to2 :: Patch -> Patch
@@ -3218,7 +3234,7 @@ edithash2to1 :: PatchHash -> EditHash
 edithash1to2 :: EditHash -> PatchHash
 namesegment2to1 :: NameSegment -> NameSegment
 namesegment1to2 :: NameSegment -> NameSegment
-branch2to1 :: Monad m => (Reference -> m ConstructorType) -> Branch m -> m (Branch0 m)
+branch2to1 :: Monad m => BranchCache m -> (Reference -> m ConstructorType) -> Branch m -> m (Branch0 m)
 
 module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema1To2.DbHelpers
 dbBranchHash :: DbBranch -> Transaction BranchHash
@@ -3402,11 +3418,11 @@ tryFlushTermBuffer :: TVar (Map Hash TermBufferEntry) -> Hash -> Transaction ()
 addDeclComponentTypeIndex :: ObjectId -> [[Type Symbol Ann]] -> Transaction ()
 putTypeDeclaration :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Id -> Decl Symbol Ann -> Transaction ()
 tryFlushDeclBuffer :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Hash -> Transaction ()
-getRootBranch :: (Reference -> Transaction ConstructorType) -> TVar (Maybe (DataVersion, Branch Transaction)) -> Transaction (Branch Transaction)
-uncachedLoadRootBranch :: (Reference -> Transaction ConstructorType) -> Transaction (Branch Transaction)
+getRootBranch :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> TVar (Maybe (DataVersion, Branch Transaction)) -> Transaction (Branch Transaction)
+uncachedLoadRootBranch :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> Transaction (Branch Transaction)
 getRootBranchExists :: Transaction Bool
 putRootBranch :: TVar (Maybe (DataVersion, Branch Transaction)) -> Branch Transaction -> Transaction ()
-getBranchForHash :: (Reference -> Transaction ConstructorType) -> CausalHash -> Transaction (Maybe (Branch Transaction))
+getBranchForHash :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> CausalHash -> Transaction (Maybe (Branch Transaction))
 putBranch :: Branch Transaction -> Transaction ()
 isCausalHash :: CausalHash -> Transaction Bool
 getPatch :: EditHash -> Transaction (Maybe Patch)
