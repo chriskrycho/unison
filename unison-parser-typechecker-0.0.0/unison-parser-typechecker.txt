@@ -2138,9 +2138,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3naE loc_a3naF. Lens' (Env v_a3naE loc_a3naF) (TypeLookup v_a3naE loc_a3naF)
-termsByShortname :: forall v_a3naE loc_a3naF. Lens' (Env v_a3naE loc_a3naF) (Map Name [NamedReference v_a3naE loc_a3naF])
-ambientAbilities :: forall v_a3naE loc_a3naF. Lens' (Env v_a3naE loc_a3naF) [Type v_a3naE loc_a3naF]
+typeLookup :: forall v_a3naM loc_a3naN. Lens' (Env v_a3naM loc_a3naN) (TypeLookup v_a3naM loc_a3naN)
+termsByShortname :: forall v_a3naM loc_a3naN. Lens' (Env v_a3naM loc_a3naN) (Map Name [NamedReference v_a3naM loc_a3naN])
+ambientAbilities :: forall v_a3naM loc_a3naN. Lens' (Env v_a3naM loc_a3naN) [Type v_a3naM loc_a3naN]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -2486,6 +2486,7 @@ _printArrowsAtPos :: String -> Int -> Int -> String
 pattern LexerError :: [Token Lexeme] -> Err -> Maybe (ErrorItem (Token Lexeme))
 firstLexerError :: Foldable t => t (Token Lexeme) -> Maybe ([Token Lexeme], Err)
 prettyParseError :: forall v. Var v => String -> Err v -> Pretty ColorText
+renderParseErrors :: forall v. Var v => String -> Err v -> [(Pretty ColorText, [Range])]
 annotatedAsErrorSite :: Annotated a => String -> a -> Pretty ColorText
 annotatedAsStyle :: (Ord style, Annotated a) => style -> String -> a -> Pretty (AnnotatedText style)
 annotatedsAsErrorSite :: Annotated a => String -> [a] -> Pretty ColorText
@@ -2582,7 +2583,7 @@ type UnisonFile v = UnisonFile v Ann
 type Result' v = Result (Seq (Note v Ann))
 debug :: Bool
 convertNotes :: Ord v => Notes v ann -> Seq (Note v ann)
-parseAndSynthesizeFile :: (Var v, Monad m) => [Type v] -> (Set Reference -> m (TypeLookup v Ann)) -> ParsingEnv -> FilePath -> Text -> ResultT (Seq (Note v Ann)) m (Either Names (TypecheckedUnisonFile v Ann))
+parseAndSynthesizeFile :: (Var v, Monad m) => [Type v] -> (Set Reference -> m (TypeLookup v Ann)) -> ParsingEnv -> FilePath -> Text -> ResultT (Seq (Note v Ann)) m (Either (UnisonFile v Ann) (TypecheckedUnisonFile v Ann))
 type TDNRMap v = Map Name [NamedReference v Ann]
 resolveNames :: (Var v, Monad m) => (Set Reference -> m (TypeLookup v Ann)) -> Names -> UnisonFile v -> ResultT (Seq (Note v Ann)) m (Term v, TDNRMap v, TypeLookup v Ann)
 synthesizeFile' :: forall v. Var v => [Type v] -> TypeLookup v Ann -> UnisonFile v -> Result (Seq (Note v Ann)) (TypecheckedUnisonFile v Ann)

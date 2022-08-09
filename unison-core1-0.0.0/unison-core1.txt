@@ -1246,6 +1246,8 @@ lookupHQPattern :: HashQualified Name -> ConstructorType -> NamesWithHistory -> 
 importing :: [(Name, Name)] -> NamesWithHistory -> NamesWithHistory
 instance GHC.Show.Show Unison.NamesWithHistory.NamesWithHistory
 instance GHC.Show.Show Unison.NamesWithHistory.Diff
+instance GHC.Base.Semigroup Unison.NamesWithHistory.NamesWithHistory
+instance GHC.Base.Monoid Unison.NamesWithHistory.NamesWithHistory
 
 module Unison.Names.Scoped
 
@@ -1282,6 +1284,9 @@ type ResolutionResult v a r = Either (Seq (ResolutionFailure v a)) r
 instance GHC.Show.Show ref => GHC.Show.Show (Unison.Names.ResolutionResult.ResolutionError ref)
 instance GHC.Classes.Ord ref => GHC.Classes.Ord (Unison.Names.ResolutionResult.ResolutionError ref)
 instance GHC.Classes.Eq ref => GHC.Classes.Eq (Unison.Names.ResolutionResult.ResolutionError ref)
+instance Data.Traversable.Traversable (Unison.Names.ResolutionResult.ResolutionFailure var)
+instance Data.Foldable.Foldable (Unison.Names.ResolutionResult.ResolutionFailure var)
+instance GHC.Base.Functor (Unison.Names.ResolutionResult.ResolutionFailure var)
 instance (GHC.Show.Show var, GHC.Show.Show annotation) => GHC.Show.Show (Unison.Names.ResolutionResult.ResolutionFailure var annotation)
 instance (GHC.Classes.Ord var, GHC.Classes.Ord annotation) => GHC.Classes.Ord (Unison.Names.ResolutionResult.ResolutionFailure var annotation)
 instance (GHC.Classes.Eq var, GHC.Classes.Eq annotation) => GHC.Classes.Eq (Unison.Names.ResolutionResult.ResolutionFailure var annotation)

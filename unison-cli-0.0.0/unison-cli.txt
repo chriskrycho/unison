@@ -1315,7 +1315,7 @@ type AmbientAbilities v = [Type v Ann]
 type LexedSource = (Text, [Token Lexeme])
 type Source = Text
 type SourceName = Text
-type TypecheckingResult v = Result (Seq (Note v Ann)) (Either Names (TypecheckedUnisonFile v Ann))
+type TypecheckingResult v = Result (Seq (Note v Ann)) (Either (UnisonFile v Ann) (TypecheckedUnisonFile v Ann))
 data LoadSourceResult
 InvalidSourceNameError :: LoadSourceResult
 LoadError :: LoadSourceResult

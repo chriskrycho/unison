@@ -15,10 +15,10 @@
 </span><span id="line-15"></span><span class="hs-comment">-- and runs through an authentication flow if not.</span><span>
 </span><span id="line-16"></span><span class="annot"><a href="Unison.Codebase.Editor.HandleInput.AuthLogin.html#ensureAuthenticatedWithCodeserver"><span class="hs-identifier hs-type">ensureAuthenticatedWithCodeserver</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">CodeserverURI</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.Command.html#Action"><span class="hs-identifier hs-type">Action</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-17"></span><span id="ensureAuthenticatedWithCodeserver"><span class="annot"><span class="annottext">ensureAuthenticatedWithCodeserver :: CodeserverURI -&gt; Action ()
-</span><a href="Unison.Codebase.Editor.HandleInput.AuthLogin.html#ensureAuthenticatedWithCodeserver"><span class="hs-identifier hs-var hs-var">ensureAuthenticatedWithCodeserver</span></a></span></span><span> </span><span id="local-6989586621680025025"><span class="annot"><span class="annottext">CodeserverURI
-</span><a href="#local-6989586621680025025"><span class="hs-identifier hs-var">codeserverURI</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-18"></span><span>  </span><span id="local-6989586621680025024"><span class="annot"><span class="annottext">CredentialManager
-</span><a href="#local-6989586621680025024"><span class="hs-identifier hs-var">credsMan</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; CredentialManager) -&gt; Action CredentialManager
+</span><a href="Unison.Codebase.Editor.HandleInput.AuthLogin.html#ensureAuthenticatedWithCodeserver"><span class="hs-identifier hs-var hs-var">ensureAuthenticatedWithCodeserver</span></a></span></span><span> </span><span id="local-6989586621680025071"><span class="annot"><span class="annottext">CodeserverURI
+</span><a href="#local-6989586621680025071"><span class="hs-identifier hs-var">codeserverURI</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-18"></span><span>  </span><span id="local-6989586621680025070"><span class="annot"><span class="annottext">CredentialManager
+</span><a href="#local-6989586621680025070"><span class="hs-identifier hs-var">credsMan</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; CredentialManager) -&gt; Action CredentialManager
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; CredentialManager
 </span><a href="Unison.Codebase.Editor.Command.html#%24sel%3AcredentialManager%3AEnv"><span class="hs-identifier hs-var hs-var">credentialManager</span></a></span><span>
@@ -31,9 +31,9 @@ CredentialManager
 -&gt; CodeserverId
 -&gt; m (Either CredentialFailure CodeserverCredentials)
 </span><a href="Unison.Auth.CredentialManager.html#getCredentials"><span class="hs-identifier hs-var">getCredentials</span></a></span><span> </span><span class="annot"><span class="annottext">CredentialManager
-</span><a href="#local-6989586621680025024"><span class="hs-identifier hs-var">credsMan</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">CodeserverURI -&gt; CodeserverId
+</span><a href="#local-6989586621680025070"><span class="hs-identifier hs-var">credsMan</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">CodeserverURI -&gt; CodeserverId
 </span><span class="hs-identifier hs-var">codeserverIdFromCodeserverURI</span></span><span> </span><span class="annot"><span class="annottext">CodeserverURI
-</span><a href="#local-6989586621680025025"><span class="hs-identifier hs-var">codeserverURI</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Action (Either CredentialFailure CodeserverCredentials)
+</span><a href="#local-6989586621680025071"><span class="hs-identifier hs-var">codeserverURI</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Action (Either CredentialFailure CodeserverCredentials)
 -&gt; (Either CredentialFailure CodeserverCredentials -&gt; Action ())
 -&gt; Action ()
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
@@ -45,30 +45,30 @@ forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span id="line-21"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span class="annot"><span class="annottext">CredentialFailure
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">CodeserverURI -&gt; Action ()
 </span><a href="Unison.Codebase.Editor.HandleInput.AuthLogin.html#authLogin"><span class="hs-identifier hs-var">authLogin</span></a></span><span> </span><span class="annot"><span class="annottext">CodeserverURI
-</span><a href="#local-6989586621680025025"><span class="hs-identifier hs-var">codeserverURI</span></a></span><span>
+</span><a href="#local-6989586621680025071"><span class="hs-identifier hs-var">codeserverURI</span></a></span><span>
 </span><span id="line-22"></span><span>
 </span><span id="line-23"></span><span class="annot"><a href="Unison.Codebase.Editor.HandleInput.AuthLogin.html#authLogin"><span class="hs-identifier hs-type">authLogin</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">CodeserverURI</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.Command.html#Action"><span class="hs-identifier hs-type">Action</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-24"></span><span id="authLogin"><span class="annot"><span class="annottext">authLogin :: CodeserverURI -&gt; Action ()
-</span><a href="Unison.Codebase.Editor.HandleInput.AuthLogin.html#authLogin"><span class="hs-identifier hs-var hs-var">authLogin</span></a></span></span><span> </span><span id="local-6989586621680025021"><span class="annot"><span class="annottext">CodeserverURI
-</span><a href="#local-6989586621680025021"><span class="hs-identifier hs-var">host</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-25"></span><span>  </span><span id="local-6989586621680025020"><span class="annot"><span class="annottext">CredentialManager
-</span><a href="#local-6989586621680025020"><span class="hs-identifier hs-var">credsMan</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; CredentialManager) -&gt; Action CredentialManager
+</span><a href="Unison.Codebase.Editor.HandleInput.AuthLogin.html#authLogin"><span class="hs-identifier hs-var hs-var">authLogin</span></a></span></span><span> </span><span id="local-6989586621680025067"><span class="annot"><span class="annottext">CodeserverURI
+</span><a href="#local-6989586621680025067"><span class="hs-identifier hs-var">host</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-25"></span><span>  </span><span id="local-6989586621680025066"><span class="annot"><span class="annottext">CredentialManager
+</span><a href="#local-6989586621680025066"><span class="hs-identifier hs-var">credsMan</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; CredentialManager) -&gt; Action CredentialManager
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; CredentialManager
 </span><a href="Unison.Codebase.Editor.Command.html#%24sel%3AcredentialManager%3AEnv"><span class="hs-identifier hs-var hs-var">credentialManager</span></a></span><span>
 </span><span id="line-26"></span><span>  </span><span class="annot"><span class="annottext">CredentialManager
 -&gt; CodeserverURI -&gt; Action (Either CredentialFailure ())
 </span><a href="Unison.Auth.OAuth.html#authenticateCodeserver"><span class="hs-identifier hs-var">authenticateCodeserver</span></a></span><span> </span><span class="annot"><span class="annottext">CredentialManager
-</span><a href="#local-6989586621680025020"><span class="hs-identifier hs-var">credsMan</span></a></span><span> </span><span class="annot"><span class="annottext">CodeserverURI
-</span><a href="#local-6989586621680025021"><span class="hs-identifier hs-var">host</span></a></span><span> </span><span class="annot"><span class="annottext">Action (Either CredentialFailure ())
+</span><a href="#local-6989586621680025066"><span class="hs-identifier hs-var">credsMan</span></a></span><span> </span><span class="annot"><span class="annottext">CodeserverURI
+</span><a href="#local-6989586621680025067"><span class="hs-identifier hs-var">host</span></a></span><span> </span><span class="annot"><span class="annottext">Action (Either CredentialFailure ())
 -&gt; (Either CredentialFailure () -&gt; Action ()) -&gt; Action ()
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-27"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621680025019"><span class="annot"><span class="annottext">CredentialFailure
-</span><a href="#local-6989586621680025019"><span class="hs-identifier hs-var">err</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Output -&gt; Action ()
+</span><span id="line-27"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621680025065"><span class="annot"><span class="annottext">CredentialFailure
+</span><a href="#local-6989586621680025065"><span class="hs-identifier hs-var">err</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Output -&gt; Action ()
 </span><a href="Unison.Codebase.Editor.Command.html#respond"><span class="hs-identifier hs-var">respond</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">CredentialFailure -&gt; Output
 </span><a href="Unison.Codebase.Editor.Output.html#CredentialFailureMsg"><span class="hs-identifier hs-var">CredentialFailureMsg</span></a></span><span> </span><span class="annot"><span class="annottext">CredentialFailure
-</span><a href="#local-6989586621680025019"><span class="hs-identifier hs-var">err</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680025065"><span class="hs-identifier hs-var">err</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-28"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Output -&gt; Action ()
 </span><a href="Unison.Codebase.Editor.Command.html#respond"><span class="hs-identifier hs-var">respond</span></a></span><span> </span><span class="annot"><span class="annottext">Output
 </span><a href="Unison.Codebase.Editor.Output.html#Success"><span class="hs-identifier hs-var">Success</span></a></span><span>
