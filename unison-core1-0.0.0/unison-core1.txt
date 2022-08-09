@@ -867,6 +867,32 @@ searchByRankedSuffix :: Ord r => Name -> Relation Name r -> Set r
 suffixFrom :: Name -> Name -> Maybe Name
 shortestUniqueSuffix :: forall r. Ord r => Name -> r -> Relation Name r -> Name
 
+-- | Returns the common prefix of two names as segments
+--   
+--   Note: the returned segments are NOT reversed.
+--   
+--   <pre>
+--   &gt;&gt;&gt; commonPrefix "a.b.x" "a.b.y"
+--   [a,b]
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; commonPrefix "x.y.z" "a.b.c"
+--   []
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; commonPrefix "a.b.c" "a.b.c.d.e"
+--   [a,b,c]
+--   </pre>
+--   
+--   Must have equivalent positions or no there's no common prefix
+--   &gt;&gt;&gt; commonPrefix ".a.b.c" "a.b.c.d.e" []
+--   
+--   Prefix matches are performed at the *segment* level: &gt;&gt;&gt;
+--   commonPrefix "a.bears" "a.beats" [a]
+commonPrefix :: Name -> Name -> [NameSegment]
+
 -- | Convert a name to a string representation.
 toString :: Name -> String
 
@@ -1208,8 +1234,6 @@ typeName :: Int -> Reference -> NamesWithHistory -> Set (HashQualified Name)
 termNamesByLength :: Int -> Referent -> NamesWithHistory -> [HashQualified Name]
 longestTermName :: Int -> Referent -> NamesWithHistory -> HashQualified Name
 termName :: Int -> Referent -> NamesWithHistory -> Set (HashQualified Name)
-suffixedTypeName :: Int -> Reference -> NamesWithHistory -> [HashQualified Name]
-suffixedTermName :: Int -> Referent -> NamesWithHistory -> [HashQualified Name]
 lookupHQPattern :: HashQualified Name -> ConstructorType -> NamesWithHistory -> Set ConstructorReference
 
 -- | Given a mapping from name to qualified name, update a <a>Names</a>, so

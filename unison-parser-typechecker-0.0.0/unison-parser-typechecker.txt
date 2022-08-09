@@ -124,7 +124,7 @@ unprefix :: Absolute -> Path' -> Path
 prefixName :: Absolute -> Name -> Name
 
 -- | what is this? —AI
-unprefixName :: Absolute -> Name -> Name
+unprefixName :: Absolute -> Name -> Maybe Name
 type HQSplit = (Path, HQSegment)
 type Split = (Path, NameSegment)
 type Split' = (Path', NameSegment)
@@ -142,10 +142,14 @@ fromPath' :: Path' -> Path
 fromText :: Text -> Path
 toAbsoluteSplit :: Absolute -> (Path', a) -> (Absolute, a)
 toList :: Path -> [NameSegment]
-toName :: Path -> Name
+toName :: Path -> Maybe Name
 
 -- | Convert a Path' to a Name
-toName' :: Path' -> Name
+toName' :: Path' -> Maybe Name
+unsafeToName :: Path -> Name
+
+-- | Convert a Path' to a Name
+unsafeToName' :: Path' -> Name
 toPath' :: Path -> Path'
 
 -- | Note: This treats the path as relative.
@@ -188,7 +192,6 @@ instance Unison.Name.Convert Unison.Codebase.Path.HQSplit (Unison.HashQualified'
 instance Unison.Name.Parse Unison.Name.Name Unison.Codebase.Path.Split
 instance GHC.Show.Show Unison.Codebase.Path.Path'
 instance Control.Lens.Cons.Snoc Unison.Codebase.Path.Path' Unison.Codebase.Path.Path' Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
-instance Unison.Name.Convert Unison.Codebase.Path.Path' Unison.Name.Name
 instance GHC.Show.Show Unison.Codebase.Path.Relative
 instance Control.Lens.Cons.Snoc Unison.Codebase.Path.Relative Unison.Codebase.Path.Relative Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
 instance Unison.Name.Convert Unison.Codebase.Path.Relative Data.Text.Internal.Text
@@ -203,7 +206,6 @@ instance Control.Lens.Cons.Cons Unison.Codebase.Path.Path Unison.Codebase.Path.P
 instance Control.Lens.Cons.Snoc Unison.Codebase.Path.Path Unison.Codebase.Path.Path Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
 instance Unison.Name.Convert [Unison.NameSegment.NameSegment] Unison.Codebase.Path.Path
 instance Unison.Name.Convert Unison.Codebase.Path.Path [Unison.NameSegment.NameSegment]
-instance Unison.Name.Convert Unison.Codebase.Path.Path Unison.Name.Name
 
 
 -- | This module defines the <a>PushBehavior</a> type.
@@ -439,20 +441,46 @@ instance Unison.Codebase.BuiltinAnnotation.BuiltinAnnotation Unison.Parser.Ann.A
 
 module Unison.PrettyPrintEnv
 data PrettyPrintEnv
-PrettyPrintEnv :: (Referent -> Maybe (HashQualified Name)) -> (Reference -> Maybe (HashQualified Name)) -> PrettyPrintEnv
-[$sel:terms:PrettyPrintEnv] :: PrettyPrintEnv -> Referent -> Maybe (HashQualified Name)
-[$sel:types:PrettyPrintEnv] :: PrettyPrintEnv -> Reference -> Maybe (HashQualified Name)
+PrettyPrintEnv :: (Referent -> [(HashQualified Name, HashQualified Name)]) -> (Reference -> [(HashQualified Name, HashQualified Name)]) -> PrettyPrintEnv
+[$sel:termNames:PrettyPrintEnv] :: PrettyPrintEnv -> Referent -> [(HashQualified Name, HashQualified Name)]
+[$sel:typeNames:PrettyPrintEnv] :: PrettyPrintEnv -> Reference -> [(HashQualified Name, HashQualified Name)]
 patterns :: PrettyPrintEnv -> ConstructorReference -> Maybe (HashQualified Name)
 patternName :: PrettyPrintEnv -> ConstructorReference -> HashQualified Name
+terms :: PrettyPrintEnv -> Referent -> Maybe (HashQualified Name)
+types :: PrettyPrintEnv -> Reference -> Maybe (HashQualified Name)
 termName :: PrettyPrintEnv -> Referent -> HashQualified Name
 typeName :: PrettyPrintEnv -> Reference -> HashQualified Name
+
+-- | Prefer names which share a common prefix with any provided target.
+--   
+--   Results are sorted according to the longest common prefix found
+--   against ANY target.
+biasTo :: [Name] -> PrettyPrintEnv -> PrettyPrintEnv
 
 -- | Get a name for a LabeledDependency from the PPE.
 labeledRefName :: PrettyPrintEnv -> LabeledDependency -> HashQualified Name
 todoHashLength :: Int
+
+-- | Attempts to find a name in primary ppe, falls back to backup ppe only
+--   if no names are found. Typically one can use this to shadow global or
+--   absolute names with names that are within the current path.
+addFallback :: PrettyPrintEnv -> PrettyPrintEnv -> PrettyPrintEnv
+
+-- | Finds names from both PPEs, if left unbiased the name from the left
+--   ppe is preferred.
+--   
+--   This is distinct from <a>addFallback</a> with respect to biasing; A
+--   bias applied to a union might select a name in the right half of the
+--   union. Whereas, a bias applied to the result of <a>addFallback</a>
+--   will bias within the available names inside the left PPE and will only
+--   search in the fallback if there aren't ANY names in the primary ppe.
+--   
+--   If you don't know the difference, it's likely you want
+--   <a>addFallback</a> where you add global names as a fallback for local
+--   names.
+union :: PrettyPrintEnv -> PrettyPrintEnv -> PrettyPrintEnv
+empty :: PrettyPrintEnv
 instance GHC.Show.Show Unison.PrettyPrintEnv.PrettyPrintEnv
-instance GHC.Base.Monoid Unison.PrettyPrintEnv.PrettyPrintEnv
-instance GHC.Base.Semigroup Unison.PrettyPrintEnv.PrettyPrintEnv
 
 module Unison.PrettyPrintEnv.FQN
 type Imports = Map Name Suffix
@@ -469,6 +497,9 @@ data PrettyPrintEnvDecl
 PrettyPrintEnvDecl :: PrettyPrintEnv -> PrettyPrintEnv -> PrettyPrintEnvDecl
 [$sel:unsuffixifiedPPE:PrettyPrintEnvDecl] :: PrettyPrintEnvDecl -> PrettyPrintEnv
 [$sel:suffixifiedPPE:PrettyPrintEnvDecl] :: PrettyPrintEnvDecl -> PrettyPrintEnv
+
+-- | Lifts <a>biasTo</a> over a PrettyPrintEnvDecl
+biasTo :: [Name] -> PrettyPrintEnvDecl -> PrettyPrintEnvDecl
 instance GHC.Show.Show Unison.PrettyPrintEnvDecl.PrettyPrintEnvDecl
 
 module Unison.PrettyPrintEnv.Util
@@ -2107,9 +2138,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3mre loc_a3mrf. Lens' (Env v_a3mre loc_a3mrf) (TypeLookup v_a3mre loc_a3mrf)
-termsByShortname :: forall v_a3mre loc_a3mrf. Lens' (Env v_a3mre loc_a3mrf) (Map Name [NamedReference v_a3mre loc_a3mrf])
-ambientAbilities :: forall v_a3mre loc_a3mrf. Lens' (Env v_a3mre loc_a3mrf) [Type v_a3mre loc_a3mrf]
+typeLookup :: forall v_a3naE loc_a3naF. Lens' (Env v_a3naE loc_a3naF) (TypeLookup v_a3naE loc_a3naF)
+termsByShortname :: forall v_a3naE loc_a3naF. Lens' (Env v_a3naE loc_a3naF) (Map Name [NamedReference v_a3naE loc_a3naF])
+ambientAbilities :: forall v_a3naE loc_a3naF. Lens' (Env v_a3naE loc_a3naF) [Type v_a3naE loc_a3naF]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
