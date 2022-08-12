@@ -134,7 +134,6 @@ isCurrentPath :: Path' -> Bool
 isRoot :: Absolute -> Bool
 isRoot' :: Path' -> Bool
 absoluteToPath' :: Absolute -> Path'
-fromAbsoluteSplit :: (Absolute, a) -> (Path, a)
 fromList :: [NameSegment] -> Path
 fromName :: Name -> Path
 fromName' :: Name -> Path'
@@ -150,6 +149,9 @@ unsafeToName :: Path -> Name
 
 -- | Convert a Path' to a Name
 unsafeToName' :: Path' -> Name
+
+-- | Mitchell: this function is bogus, because an empty name segment is
+--   bogus
 toPath' :: Path -> Path'
 
 -- | Note: This treats the path as relative.
@@ -157,6 +159,7 @@ toText :: Path -> Text
 toText' :: Path' -> Text
 unsplit :: Split -> Path
 unsplit' :: Split' -> Path'
+unsplitAbsolute :: (Absolute, NameSegment) -> Absolute
 unsplitHQ :: HQSplit -> HashQualified Path
 unsplitHQ' :: HQSplit' -> HashQualified Path'
 splitFromName :: Name -> Maybe Split
@@ -192,12 +195,14 @@ instance Unison.Name.Convert Unison.Codebase.Path.HQSplit (Unison.HashQualified'
 instance Unison.Name.Parse Unison.Name.Name Unison.Codebase.Path.Split
 instance GHC.Show.Show Unison.Codebase.Path.Path'
 instance Control.Lens.Cons.Snoc Unison.Codebase.Path.Path' Unison.Codebase.Path.Path' Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
+instance Unison.Name.Convert Unison.Codebase.Path.Absolute Unison.Codebase.Path.Path'
 instance GHC.Show.Show Unison.Codebase.Path.Relative
 instance Control.Lens.Cons.Snoc Unison.Codebase.Path.Relative Unison.Codebase.Path.Relative Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
 instance Unison.Name.Convert Unison.Codebase.Path.Relative Data.Text.Internal.Text
 instance Unison.Name.Convert Unison.Codebase.Path.Relative GHC.Base.String
 instance GHC.Show.Show Unison.Codebase.Path.Absolute
 instance Control.Lens.Cons.Snoc Unison.Codebase.Path.Absolute Unison.Codebase.Path.Absolute Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
+instance Unison.Name.Convert Unison.Codebase.Path.Absolute Unison.Codebase.Path.Path
 instance Unison.Name.Convert Unison.Codebase.Path.Absolute Data.Text.Internal.Text
 instance Unison.Name.Convert Unison.Codebase.Path.Absolute GHC.Base.String
 instance GHC.Exts.IsList Unison.Codebase.Path.Path
@@ -206,6 +211,8 @@ instance Control.Lens.Cons.Cons Unison.Codebase.Path.Path Unison.Codebase.Path.P
 instance Control.Lens.Cons.Snoc Unison.Codebase.Path.Path Unison.Codebase.Path.Path Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
 instance Unison.Name.Convert [Unison.NameSegment.NameSegment] Unison.Codebase.Path.Path
 instance Unison.Name.Convert Unison.Codebase.Path.Path [Unison.NameSegment.NameSegment]
+instance Unison.Name.Convert (path, Unison.NameSegment.NameSegment) (path, Unison.HashQualified'.HQSegment)
+instance Unison.Name.Convert path0 path1 => Unison.Name.Convert (path0, name) (path1, name)
 
 
 -- | This module defines the <a>PushBehavior</a> type.
@@ -967,22 +974,6 @@ instance Unison.Util.EnumContainers.EnumKey GHC.Word.Word16
 module Unison.Util.Exception
 tryAny :: MonadIO m => IO a -> m (Either SomeException a)
 catchAny :: IO a -> (SomeException -> IO a) -> IO a
-
-module Unison.Util.Free
-data Free f a
-Pure :: a -> Free f a
-Bind :: f x -> (x -> Free f a) -> Free f a
-eval :: f a -> Free f a
-fold :: Monad m => (forall x. f x -> m x) -> Free f a -> m a
-unfold :: (v -> Either a (f v)) -> v -> Free f a
-unfold' :: (v -> Free f (Either a v)) -> v -> Free f a
-unfoldM :: (Traversable f, Applicative m, Monad m) => (b -> m (Either a (f b))) -> b -> m (Free f a)
-free :: Traversable f => f (Free f a) -> Free f a
-foldWithIndex :: forall f m a. Monad m => (forall x. Int -> f x -> m x) -> Free f a -> m a
-instance GHC.Base.Functor (Unison.Util.Free.Free f)
-instance GHC.Base.Monad (Unison.Util.Free.Free f)
-instance GHC.Base.Applicative (Unison.Util.Free.Free f)
-instance Control.Monad.Trans.Class.MonadTrans Unison.Util.Free.Free
 
 
 -- | Small logging library. Typical usage, import qualified:
@@ -2138,9 +2129,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3naM loc_a3naN. Lens' (Env v_a3naM loc_a3naN) (TypeLookup v_a3naM loc_a3naN)
-termsByShortname :: forall v_a3naM loc_a3naN. Lens' (Env v_a3naM loc_a3naN) (Map Name [NamedReference v_a3naM loc_a3naN])
-ambientAbilities :: forall v_a3naM loc_a3naN. Lens' (Env v_a3naM loc_a3naN) [Type v_a3naM loc_a3naN]
+typeLookup :: forall v_a3kun loc_a3kuo. Lens' (Env v_a3kun loc_a3kuo) (TypeLookup v_a3kun loc_a3kuo)
+termsByShortname :: forall v_a3kun loc_a3kuo. Lens' (Env v_a3kun loc_a3kuo) (Map Name [NamedReference v_a3kun loc_a3kuo])
+ambientAbilities :: forall v_a3kun loc_a3kuo. Lens' (Env v_a3kun loc_a3kuo) [Type v_a3kun loc_a3kuo]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.

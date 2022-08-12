@@ -2249,9 +2249,11 @@ wundefined :: HasCallStack => a
 --   
 --   @<tt> onNothing (throwIO MissingPerson) $ mayThing </tt>@
 onNothing :: Applicative m => m a -> Maybe a -> m a
+onNothingM :: Monad m => m a -> m (Maybe a) -> m a
 
 -- | E.g. <tt>maybePerson <a>whenNothing</a> throwIO MissingPerson</tt>
 whenNothing :: Applicative m => Maybe a -> m a -> m a
+whenNothingM :: Monad m => m (Maybe a) -> m a -> m a
 whenJust :: Applicative m => Maybe a -> (a -> m ()) -> m ()
 whenJustM :: Monad m => m (Maybe a) -> (a -> m ()) -> m ()
 
@@ -2272,7 +2274,10 @@ eitherToMaybe :: Either a b -> Maybe b
 --   \a -&gt; maybeToEither a Nothing == Left a
 --   </pre>
 maybeToEither :: a -> Maybe b -> Either a b
+onLeft :: Applicative m => (a -> m b) -> Either a b -> m b
+onLeftM :: Monad m => (a -> m b) -> m (Either a b) -> m b
 whenLeft :: Applicative m => Either a b -> (a -> m b) -> m b
+whenLeftM :: Monad m => m (Either a b) -> (a -> m b) -> m b
 throwEitherM :: forall e m a. (MonadIO m, Exception e) => m (Either e a) -> m a
 throwEitherMWith :: forall e e' m a. (MonadIO m, Exception e') => (e -> e') -> m (Either e a) -> m a
 throwExceptT :: (MonadIO m, Exception e) => ExceptT e m a -> m a
@@ -2312,6 +2317,9 @@ nonEmpty :: (Eq a, Monoid a) => a -> Bool
 foldMapM :: (Monad m, Foldable f, Monoid b) => (a -> m b) -> f a -> m b
 
 module Unison.Util.Set
+
+-- | Get the only member of a set, iff it's a singleton.
+asSingleton :: Set a -> Maybe a
 
 -- | Set difference, but return <tt>Nothing</tt> if the difference is
 --   empty.

@@ -1268,20 +1268,49 @@ displayDoc :: forall v m. (Var v, Monad m) => PrettyPrintEnvDecl -> (Reference -
 termName :: PrettyPrintEnv -> Referent -> Pretty
 typeName :: PrettyPrintEnv -> Reference -> Pretty
 
-module Unison.Codebase.Editor.Command
-data Command a
-[AskEnv] :: Command Env
-[LocalEnv] :: (Env -> Env) -> Free Command a -> Command a
-[GetLoopState] :: Command LoopState
-[PutLoopState] :: LoopState -> Command ()
-[Eval] :: IO a -> Command a
-[WithRunInIO] :: ((forall x. Action x -> IO x) -> IO a) -> Command a
-[WithResource] :: (forall r. (a -> IO r) -> IO r) -> Command a
-[Reset] :: Action a -> Command a
-[Abort] :: Command a
-[Quit] :: Command a
+
+-- | The main CLI monad.
+module Unison.Cli.Monad
+
+-- | The main command-line app monad.
+--   
+--   <ul>
+--   <li>It is a reader monad of <a>Env</a>.</li>
+--   <li>It is a state monad of <a>LoopState</a>.</li>
+--   <li>It is a short-circuiting monad: a <tt>Cli</tt> computation can
+--   short-circuit with success or failure.</li>
+--   <li>It is a resource monad: resources can be acquired with
+--   straight-line syntax, and will be released at the end of
+--   do-block.</li>
+--   <li>It is an IO monad: you can do IO things, but throwing synchronous
+--   exceptions is discouraged. Use the built-in short-circuiting mechanism
+--   instead.</li>
+--   </ul>
+--   
+--   The <tt>r</tt> type variable is boilerplate. It starts out as
+--   <tt>r</tt>, and grows an new <a>R</a> layer for each scoped action
+--   (e.g. <a>with</a> / <a>label</a>). For this reason, whenever you find
+--   yourself writing down an explicit type that has to carefully mention
+--   how many <a>R</a> layers are inferred, you may prefer to use an
+--   <tt>_</tt> (with <tt>PartialTypeSignatures</tt>) instead, as the
+--   precise type is not very meaningful useful to a reader.
+data Cli r a
+
+-- | What a Cli action returns: a value, an instruction to continue
+--   processing input, or an instruction to stop processing input.
+data ReturnType a
+Success :: a -> ReturnType a
+Continue :: ReturnType a
+HaltRepl :: ReturnType a
+
+-- | Run a <tt>Cli</tt> action down to <tt>IO</tt>.
+runCli :: Env -> LoopState -> Cli a a -> IO (ReturnType a, LoopState)
+
+-- | The command-line app monad environment.
+--   
+--   Get the environment with <a>ask</a>.
 data Env
-Env :: AuthenticatedHttpClient -> Codebase IO Symbol Ann -> Config -> CredentialManager -> IO UniqueName -> (SourceName -> IO LoadSourceResult) -> (Output -> IO ()) -> (NumberedOutput -> IO NumberedArgs) -> Runtime Symbol -> Runtime Symbol -> Maybe BaseUrl -> UCMVersion -> Env
+Env :: AuthenticatedHttpClient -> Codebase IO Symbol Ann -> Config -> CredentialManager -> IO UniqueName -> (Text -> IO LoadSourceResult) -> (Output -> IO ()) -> (NumberedOutput -> IO NumberedArgs) -> Runtime Symbol -> Runtime Symbol -> Maybe BaseUrl -> UCMVersion -> Env
 [$sel:authHTTPClient:Env] :: Env -> AuthenticatedHttpClient
 [$sel:codebase:Env] :: Env -> Codebase IO Symbol Ann
 [$sel:config:Env] :: Env -> Config
@@ -1291,7 +1320,7 @@ Env :: AuthenticatedHttpClient -> Codebase IO Symbol Ann -> Config -> Credential
 [$sel:generateUniqueName:Env] :: Env -> IO UniqueName
 
 -- | How to load source code.
-[$sel:loadSource:Env] :: Env -> SourceName -> IO LoadSourceResult
+[$sel:loadSource:Env] :: Env -> Text -> IO LoadSourceResult
 
 -- | What to do with output for the user.
 [$sel:notify:Env] :: Env -> Output -> IO ()
@@ -1302,87 +1331,93 @@ Env :: AuthenticatedHttpClient -> Codebase IO Symbol Ann -> Config -> Credential
 [$sel:sandboxedRuntime:Env] :: Env -> Runtime Symbol
 [$sel:serverBaseUrl:Env] :: Env -> Maybe BaseUrl
 [$sel:ucmVersion:Env] :: Env -> UCMVersion
+
+-- | The command-line app monad mutable state.
+--   
+--   There's an additional pseudo <tt>"currentPath"</tt> field lens, for
+--   convenience.
 data LoopState
-LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, SkipNextUpdate) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Maybe Input -> NumberedArgs -> LoopState
-[$sel:_root:LoopState] :: LoopState -> Branch IO
-[$sel:_lastSavedRoot:LoopState] :: LoopState -> Branch IO
-[$sel:_currentPathStack:LoopState] :: LoopState -> NonEmpty Absolute
-[$sel:_latestFile:LoopState] :: LoopState -> Maybe (FilePath, SkipNextUpdate)
-[$sel:_latestTypecheckedFile:LoopState] :: LoopState -> Maybe (TypecheckedUnisonFile Symbol Ann)
-[$sel:_lastInput:LoopState] :: LoopState -> Maybe Input
-[$sel:_numberedArgs:LoopState] :: LoopState -> NumberedArgs
-type AmbientAbilities v = [Type v Ann]
-type LexedSource = (Text, [Token Lexeme])
-type Source = Text
-type SourceName = Text
-type TypecheckingResult v = Result (Seq (Note v Ann)) (Either (UnisonFile v Ann) (TypecheckedUnisonFile v Ann))
+LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, Bool) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Maybe Input -> NumberedArgs -> LoopState
+[$sel:root:LoopState] :: LoopState -> Branch IO
+[$sel:lastSavedRoot:LoopState] :: LoopState -> Branch IO
+[$sel:currentPathStack:LoopState] :: LoopState -> NonEmpty Absolute
+[$sel:latestFile:LoopState] :: LoopState -> Maybe (FilePath, Bool)
+[$sel:latestTypecheckedFile:LoopState] :: LoopState -> Maybe (TypecheckedUnisonFile Symbol Ann)
+[$sel:lastInput:LoopState] :: LoopState -> Maybe Input
+[$sel:numberedArgs:LoopState] :: LoopState -> NumberedArgs
+
+-- | Create an initial loop state given a root branch and the current path.
+loopState0 :: Branch IO -> Absolute -> LoopState
+
+-- | Lift an action of type <tt>IO (Either e a)</tt>, given a continuation
+--   for <tt>e</tt>.
+ioE :: IO (Either e a) -> (e -> Cli r a) -> Cli r a
+
+-- | Wrap a continuation with <a>Cli</a>.
+--   
+--   Useful for resource acquisition:
+--   
+--   <pre>
+--   with (bracket create destroy) \resource -&gt;
+--     ...
+--   </pre>
+with :: (forall x. (a -> IO x) -> IO x) -> (a -> Cli (R r b) b) -> Cli r b
+
+-- | A variant of <a>with</a> for actions that don't acquire a resource
+--   (like <a>bracket_</a>).
+with_ :: (forall x. IO x -> IO x) -> Cli (R r a) a -> Cli r a
+
+-- | A variant of <a>with</a> for the variant of bracketing function that
+--   may return a Left rather than call the provided continuation.
+withE :: (forall x. (a -> IO x) -> IO (Either e x)) -> (Either e a -> Cli (R r b) b) -> Cli r b
+
+-- | Create a label that can be jumped to.
+--   
+--   <pre>
+--   x &lt;- label \j0 -&gt; do
+--     ...
+--     label \j1 -&gt; do
+--       ...
+--       j0 someValue
+--       ... -- We don't get here
+--     ... -- We don't get here
+--   -- x is bound to someValue
+--   </pre>
+label :: forall r a. ((forall t b. Label (R r a) t => a -> Cli t b) -> Cli (R r a) a) -> Cli r a
+
+-- | Short-circuit the processing of the current input.
+returnEarly :: Output -> Cli r a
+
+-- | Variant of <a>returnEarly</a> that doesn't take a final output
+--   message.
+returnEarlyWithoutOutput :: Cli r a
+
+-- | Stop processing inputs from the user.
+haltRepl :: Cli r a
+respond :: Output -> Cli r ()
+respondNumbered :: NumberedOutput -> Cli r ()
+
+-- | Time an action.
+time :: String -> Cli r a -> Cli r a
+
+-- | The result of calling <a>$sel:loadSource:Env</a>.
 data LoadSourceResult
 InvalidSourceNameError :: LoadSourceResult
 LoadError :: LoadSourceResult
 LoadSuccess :: Text -> LoadSourceResult
-type UseCache = Bool
-type EvalResult v = ([(v, Term v ())], Map v (Ann, WatchKind, Id, Term v (), Term v (), IsCacheHit))
-commandName :: Command a -> String
-lookupEvalResult :: Ord v => v -> EvalResult v -> Maybe (Term v ())
-abort :: Action a
-quit :: Action a
-
--- | Acquire a resource for the duration of an action.
-with :: (forall b. (a -> IO b) -> IO b) -> Action a
-
--- | Delimit the scope of inner <a>with</a> actions.
-reset :: Action a -> Action a
-root :: Lens' LoopState (Branch IO)
-numberedArgs :: Lens' LoopState NumberedArgs
-currentPathStack :: Lens' LoopState (NonEmpty Absolute)
-lastInput :: Lens' LoopState (Maybe Input)
-lastSavedRoot :: Lens' LoopState (Branch IO)
-latestFile :: Lens' LoopState (Maybe (FilePath, SkipNextUpdate))
-latestTypecheckedFile :: Lens' LoopState (Maybe (TypecheckedUnisonFile Symbol Ann))
-currentPath :: Getter LoopState Absolute
-loopState0 :: Branch IO -> Absolute -> LoopState
-respond :: Output -> Action ()
-respondNumbered :: NumberedOutput -> Action ()
-
--- | Get the codebase out of the environment.
-askCodebase :: Action (Codebase IO Symbol Ann)
-
--- | Get an action that generates a unique name out of the environment.
-askGenerateUniqueName :: Action (IO UniqueName)
-
--- | Get how to load source code out of the environment.
-askLoadSource :: Action (SourceName -> IO LoadSourceResult)
-
--- | Get the runtime out of the environment.
-askRuntime :: Action (Runtime Symbol)
-
--- | Get the sandboxed runtime out of the environment.
-askSandboxedRuntime :: Action (Runtime Symbol)
-
--- | Get the server base url out of the environment.
-askServerBaseUrl :: Action (Maybe BaseUrl)
-
--- | Lookup a config value by key.
-getConfig :: Configured a => Text -> Action (Maybe a)
-type InputDescription = Text
-newtype Action a
-Action :: Free Command a -> Action a
-[$sel:unAction:Action] :: Action a -> Free Command a
-eval :: Command a -> Action a
-instance Control.Monad.IO.Class.MonadIO Unison.Codebase.Editor.Command.Action
-instance GHC.Base.Monad Unison.Codebase.Editor.Command.Action
-instance GHC.Base.Applicative Unison.Codebase.Editor.Command.Action
-instance GHC.Base.Functor Unison.Codebase.Editor.Command.Action
-instance Control.Monad.IO.Class.MonadIO (Unison.Util.Free.Free Unison.Codebase.Editor.Command.Command)
-instance Control.Monad.Reader.Class.MonadReader Unison.Codebase.Editor.Command.Env Unison.Codebase.Editor.Command.Action
-instance Control.Monad.State.Class.MonadState Unison.Codebase.Editor.Command.LoopState Unison.Codebase.Editor.Command.Action
-instance Control.Monad.IO.Unlift.MonadUnliftIO Unison.Codebase.Editor.Command.Action
-
-module Unison.Codebase.Editor.Propagate
-computeFrontier :: forall m. Monad m => (Reference -> m (Set Reference)) -> Patch -> (Reference -> Bool) -> m (Relation Reference Reference)
-propagateAndApply :: Codebase IO Symbol Ann -> Names -> Patch -> Branch0 IO -> Action (Branch0 IO)
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Propagate.Edits v)
-instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
+class Label s t
+data R a b
+instance GHC.Generics.Generic Unison.Cli.Monad.LoopState
+instance GHC.Generics.Generic Unison.Cli.Monad.Env
+instance Control.Monad.State.Class.MonadState Unison.Cli.Monad.LoopState (Unison.Cli.Monad.Cli r)
+instance Control.Monad.Reader.Class.MonadReader Unison.Cli.Monad.Env (Unison.Cli.Monad.Cli r)
+instance Control.Monad.IO.Class.MonadIO (Unison.Cli.Monad.Cli r)
+instance GHC.Base.Monad (Unison.Cli.Monad.Cli r)
+instance GHC.Base.Applicative (Unison.Cli.Monad.Cli r)
+instance GHC.Base.Functor (Unison.Cli.Monad.Cli r)
+instance Unison.Cli.Monad.Label t (Unison.Cli.Monad.R t x)
+instance Unison.Cli.Monad.Label s t => Unison.Cli.Monad.Label s (Unison.Cli.Monad.R t x)
+instance GHC.Base.Functor f => GHC.OverloadedLabels.IsLabel "currentPath" ((Unison.Codebase.Path.Absolute -> f Unison.Codebase.Path.Absolute) -> Unison.Cli.Monad.LoopState -> f Unison.Cli.Monad.LoopState)
 
 module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
 
@@ -1401,76 +1436,113 @@ module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
 --   Returns a Set of names rather than using the PPE since we already have
 --   the correct names in scope on this branch, and also want to list ALL
 --   names of dependents, including aliases.
-namespaceDependencies :: forall m. Branch0 m -> Action (Map LabeledDependency (Set Name))
+namespaceDependencies :: forall m r. Branch0 m -> Cli r (Map LabeledDependency (Set Name))
 
-module Unison.Codebase.Editor.HandleCommand
-data ReturnType a
-Success :: a -> ReturnType a
-HaltStep :: ReturnType a
-HaltRepl :: ReturnType a
-data Bailing
-HaltingStep :: Bailing
-HaltingRepl :: Bailing
-newtype Cli r a
-Cli :: ((a -> Env -> IO (ReturnType r)) -> Env -> IO (ReturnType r)) -> Cli r a
-[$sel:unCli:Cli] :: Cli r a -> (a -> Env -> IO (ReturnType r)) -> Env -> IO (ReturnType r)
-
--- | <a>withCliToIO</a> generalized to accept other monads that we can turn
---   into <a>Cli</a> (e.g. Action)
-withCliToIO' :: forall r a. ((forall m x. (m x -> Cli x x) -> m x -> IO x) -> IO a) -> Cli r a
-
--- | Provide a way to run <a>Cli</a> to IO. Note that this also delimits
---   the scope of and <a>succeedWith</a> or <a>with</a> calls.
-withCliToIO :: ((forall x. Cli x x -> IO x) -> IO a) -> Cli r a
-short :: ReturnType r -> Cli r a
-
--- | Short-circuit success. Returns <tt>r</tt> to the nearest enclosing
---   <a>scopeWith</a>
-succeedWith :: r -> Cli r a
-
--- | Short-circuit success
-abortStep :: Cli r a
-
--- | Halt the repl
-haltRepl :: Cli r a
-
--- | Wrap a continuation with <a>Cli</a>. Provides a nicer syntax to
---   resource acquiring functions.
---   
---   <pre>
---   resource &lt;- with (bracket acquire close)
---   </pre>
---   
---   Delimit the scope of acquired resources with <a>scopeWith</a>.
-with :: (forall x. (a -> IO x) -> IO x) -> Cli r a
-
--- | Delimit the scope of <a>with</a> calls
-scopeWith :: Cli x x -> Cli r x
-commandLine :: Env -> LoopState -> IO (Either Event Input) -> (Either Event Input -> Action ()) -> IO (Maybe (), LoopState)
-instance GHC.Exception.Type.Exception Unison.Codebase.Editor.HandleCommand.Bailing
-instance GHC.Show.Show Unison.Codebase.Editor.HandleCommand.Bailing
-instance Control.Monad.Reader.Class.MonadReader Unison.Codebase.Editor.Command.Env (Unison.Codebase.Editor.HandleCommand.Cli r)
-instance Control.Monad.IO.Class.MonadIO (Unison.Codebase.Editor.HandleCommand.Cli r)
-instance GHC.Base.Monad (Unison.Codebase.Editor.HandleCommand.Cli r)
-instance GHC.Base.Applicative (Unison.Codebase.Editor.HandleCommand.Cli r)
-instance GHC.Base.Functor (Unison.Codebase.Editor.HandleCommand.Cli r)
-
-module Unison.Auth.OAuth
+module Unison.Codebase.Editor.HandleInput.AuthLogin
 
 -- | Direct the user through an authentication flow with the given server
 --   and store the credentials in the provided credential manager.
-authenticateCodeserver :: CredentialManager -> CodeserverURI -> Action (Either CredentialFailure ())
-
-module Unison.Codebase.Editor.HandleInput.AuthLogin
-authLogin :: CodeserverURI -> Action ()
+authLogin :: CodeserverURI -> Cli r ()
 
 -- | Checks if the user has valid auth for the given codeserver, and runs
 --   through an authentication flow if not.
-ensureAuthenticatedWithCodeserver :: CodeserverURI -> Action ()
+ensureAuthenticatedWithCodeserver :: CodeserverURI -> Cli r ()
+
+
+-- | This module contains miscellaneous helper utils for rote actions in
+--   the Cli monad, like resolving a relative path to an absolute path, per
+--   the current path.
+module Unison.Cli.MonadUtils
+
+-- | Lookup a config value by key.
+getConfig :: Configured a => Text -> Cli r (Maybe a)
+
+-- | Get the current path.
+getCurrentPath :: Cli r Absolute
+
+-- | Resolve a <tt>Path'</tt> to a <tt>Path.Absolute</tt>, per the current
+--   path.
+resolvePath' :: Path' -> Cli r Absolute
+
+-- | Resolve a path split, per the current path.
+resolveSplit' :: (Path', a) -> Cli r (Absolute, a)
+
+-- | Resolve an <tt>AbsBranchId</tt> to the corresponding <tt>Branch
+--   IO</tt>, or fail if no such branch hash is found. (Non-existent
+--   branches by path are OK - the empty branch will be returned).
+resolveAbsBranchId :: AbsBranchId -> Cli r (Branch IO)
+
+-- | Resolve a <tt>ShortBranchHash</tt> to the corresponding <tt>Branch
+--   IO</tt>, or fail if no such branch hash is found.
+resolveShortBranchHash :: ShortBranchHash -> Cli r (Branch IO)
+
+-- | Get the root branch.
+getRootBranch :: Cli r (Branch IO)
+
+-- | Get the root branch0.
+getRootBranch0 :: Cli r (Branch0 IO)
+
+-- | Get the current branch.
+getCurrentBranch :: Cli r (Branch IO)
+
+-- | Get the current branch0.
+getCurrentBranch0 :: Cli r (Branch0 IO)
+
+-- | Get the branch at an absolute path.
+getBranchAt :: Absolute -> Cli r (Branch IO)
+
+-- | Get the branch0 at an absolute path.
+getBranch0At :: Absolute -> Cli r (Branch0 IO)
+
+-- | Get the maybe-branch at an absolute path.
+getMaybeBranchAt :: Absolute -> Cli r (Maybe (Branch IO))
+
+-- | Get the branch at an absolute or relative path, or return early if
+--   there's no such branch.
+expectBranchAtPath' :: Path' -> Cli r (Branch IO)
+
+-- | Assert that there's "no branch" at an absolute or relative path, or
+--   return early if there is one, where "no branch" means either there's
+--   actually no branch, or there is a branch whose head is empty (i.e. it
+--   may have a history, but no current terms/types etc).
+assertNoBranchAtPath' :: Path' -> Cli r ()
+getTermsAt :: (Absolute, HQSegment) -> Cli r (Set Referent)
+getTypesAt :: (Absolute, HQSegment) -> Cli r (Set TypeReference)
+defaultPatchNameSegment :: NameSegment
+
+-- | The default patch path.
+defaultPatchPath :: Split'
+
+-- | Get the patch at a path, or the empty patch if there's no such patch.
+getPatchAt :: Split' -> Cli r Patch
+
+-- | Get the patch at a path.
+getMaybePatchAt :: Split' -> Cli r (Maybe Patch)
+
+-- | Get the patch at a path, or return early if there's no such patch.
+expectPatchAt :: Split' -> Cli r Patch
+
+-- | Assert that there's no patch at a path, or return early if there is
+--   one.
+assertNoPatchAt :: Split' -> Cli r ()
+getLatestFile :: Cli r (Maybe (FilePath, Bool))
+expectLatestFile :: Cli r (FilePath, Bool)
+
+-- | Get the latest typechecked unison file.
+getLatestTypecheckedFile :: Cli r (Maybe (TypecheckedUnisonFile Symbol Ann))
+
+-- | Get the latest typechecked unison file, or return early if there isn't
+--   one.
+expectLatestTypecheckedFile :: Cli r (TypecheckedUnisonFile Symbol Ann)
+
+module Unison.Codebase.Editor.Propagate
+computeFrontier :: forall m. Monad m => (Reference -> m (Set Reference)) -> Patch -> (Reference -> Bool) -> m (Relation Reference Reference)
+propagateAndApply :: Patch -> Branch0 IO -> Cli r (Branch0 IO)
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Propagate.Edits v)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
 
 module Unison.Codebase.Editor.HandleInput
-loop :: Either Event Input -> Action ()
-parseSearchType :: SrcLoc -> String -> Action (Either Output (Type Symbol Ann))
+loop :: Either Event Input -> Cli r ()
 
 module Unison.CommandLine.Main
 main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> IO ()
