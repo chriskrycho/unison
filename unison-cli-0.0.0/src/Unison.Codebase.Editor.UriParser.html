@@ -29,10 +29,10 @@
 </span><span id="line-29"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase.Path</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Path</span></span><span>
 </span><span id="line-30"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase.ShortBranchHash</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ShortBranchHash</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-31"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Hash</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Hash</span></span><span>
-</span><span id="line-32"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Lexer</span></span><span>
-</span><span id="line-33"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-34"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.NameSegment</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">NameSegment</span></span><span>
-</span><span id="line-35"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
+</span><span id="line-32"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-33"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.NameSegment</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">NameSegment</span></span><span>
+</span><span id="line-34"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
+</span><span id="line-35"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Syntax.Lexer</span></span><span>
 </span><span id="line-36"></span><span>
 </span><span id="line-37"></span><span class="hs-keyword">type</span><span> </span><span id="P"><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-var">P</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P.Parsec</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Void</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text.Text</span></span><span>
 </span><span id="line-38"></span><span>
@@ -1542,7 +1542,7 @@ MonadParsec e s m =&gt;
 (Token s -&gt; Bool) -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">P.satisfy</span></span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
 Token Text -&gt; Bool
-</span><span class="hs-identifier hs-var">Unison.Lexer.wordyIdStartChar</span></span><span>
+</span><span class="hs-identifier hs-var">Unison.Syntax.Lexer.wordyIdStartChar</span></span><span>
 </span><span id="line-344"></span><span>            </span><span class="annot"><span class="annottext">ParsecT Void Text Identity ShowS
 -&gt; ParsecT Void Text Identity String
 -&gt; ParsecT Void Text Identity String
@@ -1556,7 +1556,7 @@ MonadParsec e s m =&gt;
 (Token s -&gt; Bool) -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">P.satisfy</span></span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
 Token Text -&gt; Bool
-</span><span class="hs-identifier hs-var">Unison.Lexer.wordyIdChar</span></span><span class="hs-special">)</span><span>
+</span><span class="hs-identifier hs-var">Unison.Syntax.Lexer.wordyIdChar</span></span><span class="hs-special">)</span><span>
 </span><span id="line-345"></span><span>        </span><span class="hs-special">)</span><span>
 </span><span id="line-346"></span><span>
 </span><span id="line-347"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#gitTreeishSuffix"><span class="hs-identifier hs-type">gitTreeishSuffix</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>

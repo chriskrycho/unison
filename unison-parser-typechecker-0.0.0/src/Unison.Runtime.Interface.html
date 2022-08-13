@@ -99,8 +99,8 @@
 </span><span id="line-99"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Runtime.Serialize.html"><span class="hs-identifier">Unison.Runtime.Serialize</span></a></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">SER</span></span><span>
 </span><span id="line-100"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Runtime.Stack.html"><span class="hs-identifier">Unison.Runtime.Stack</span></a></span><span>
 </span><span id="line-101"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Symbol</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Symbol</span></span><span class="hs-special">)</span><span>
-</span><span id="line-102"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Term</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Tm</span></span><span>
-</span><span id="line-103"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.TermPrinter.html"><span class="hs-identifier">Unison.TermPrinter</span></a></span><span>
+</span><span id="line-102"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Syntax.TermPrinter.html"><span class="hs-identifier">Unison.Syntax.TermPrinter</span></a></span><span>
+</span><span id="line-103"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Term</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Tm</span></span><span>
 </span><span id="line-104"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Util.EnumContainers.html"><span class="hs-identifier">Unison.Util.EnumContainers</span></a></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">EC</span></span><span>
 </span><span id="line-105"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Util.Pretty</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">P</span></span><span>
 </span><span id="line-106"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><a href="Unison.Util.Text.html"><span class="hs-identifier">Unison.Util.Text</span></a></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">UT</span></span><span>
@@ -1542,7 +1542,7 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Term Symbol -&gt; Error
 forall v a. Var v =&gt; PrettyPrintEnv -&gt; Term v a -&gt; Error
-</span><a href="Unison.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="Unison.Syntax.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
 </span><a href="#local-6989586621680756652"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol
 </span><a href="#local-6989586621680756630"><span class="hs-identifier hs-var">dv</span></a></span><span>
 </span><span id="line-377"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span class="annot"><span class="annottext">Error
@@ -1780,7 +1780,7 @@ Width -&gt; Pretty s -&gt; Pretty s
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Term Symbol -&gt; Error
 forall v a. Var v =&gt; PrettyPrintEnv -&gt; Term v a -&gt; Error
-</span><a href="Unison.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="Unison.Syntax.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
 </span><a href="#local-6989586621680756601"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol
 </span><a href="#local-6989586621680756599"><span class="hs-identifier hs-var">tm</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-415"></span><span>          </span><span class="annot"><span class="annottext">Error
@@ -1833,7 +1833,7 @@ Width -&gt; Pretty s -&gt; Pretty s
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Term Symbol -&gt; Error
 forall v a. Var v =&gt; PrettyPrintEnv -&gt; Term v a -&gt; Error
-</span><a href="Unison.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="Unison.Syntax.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
 </span><a href="#local-6989586621680756601"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol
 </span><a href="#local-6989586621680756599"><span class="hs-identifier hs-var">tm</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-426"></span><span>          </span><span class="annot"><span class="annottext">Error
@@ -1878,7 +1878,7 @@ Width -&gt; Pretty s -&gt; Pretty s
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Term Symbol -&gt; Error
 forall v a. Var v =&gt; PrettyPrintEnv -&gt; Term v a -&gt; Error
-</span><a href="Unison.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="Unison.Syntax.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
 </span><a href="#local-6989586621680756601"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol
 </span><a href="#local-6989586621680756599"><span class="hs-identifier hs-var">tm</span></a></span><span>
 </span><span id="line-436"></span><span>        </span><span class="hs-special">]</span><span>
@@ -1936,7 +1936,7 @@ Width -&gt; Pretty s -&gt; Pretty s
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Term Symbol -&gt; Error
 forall v a. Var v =&gt; PrettyPrintEnv -&gt; Term v a -&gt; Error
-</span><a href="Unison.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="Unison.Syntax.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
 </span><a href="#local-6989586621680756601"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol
 </span><a href="#local-6989586621680756587"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-447"></span><span>          </span><span class="annot"><span class="annottext">Error
@@ -1992,7 +1992,7 @@ Width -&gt; Pretty s -&gt; Pretty s
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Term Symbol -&gt; Error
 forall v a. Var v =&gt; PrettyPrintEnv -&gt; Term v a -&gt; Error
-</span><a href="Unison.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="Unison.Syntax.TermPrinter.html#pretty"><span class="hs-identifier hs-var">pretty</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
 </span><a href="#local-6989586621680756586"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol
 </span><a href="#local-6989586621680756584"><span class="hs-identifier hs-var">tm</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-460"></span><span>      </span><span class="annot"><span class="annottext">Error

@@ -399,34 +399,6 @@ module Unison.CodebasePath
 type CodebasePath = FilePath
 getCodebaseDir :: MonadIO m => Maybe CodebasePath -> m CodebasePath
 
-module Unison.NamePrinter
-type SyntaxText = SyntaxText' Reference
-prettyName :: IsString s => Name -> Pretty s
-prettyHashQualified :: HashQualified Name -> Pretty SyntaxText
-prettyHashQualified' :: HashQualified Name -> Pretty SyntaxText
-prettyHashQualified0 :: IsString s => HashQualified Name -> Pretty s
-
--- | Pretty-print a reference as a name and the given number of characters
---   of its hash.
-prettyNamedReference :: Int -> Name -> Reference -> Pretty SyntaxText
-
--- | Pretty-print a referent as a name and the given number of characters
---   of its hash.
-prettyNamedReferent :: Int -> Name -> Referent -> Pretty SyntaxText
-
--- | Pretty-print a reference as the given number of characters of its
---   hash.
-prettyReference :: Int -> Reference -> Pretty SyntaxText
-
--- | Pretty-print a referent as the given number of characters of its hash.
-prettyReferent :: Int -> Referent -> Pretty SyntaxText
-prettyLabeledDependency :: Int -> LabeledDependency -> Pretty SyntaxText
-prettyShortHash :: IsString s => ShortHash -> Pretty s
-styleHashQualified :: IsString s => (Pretty s -> Pretty s) -> HashQualified Name -> Pretty s
-styleHashQualified' :: IsString s => (Pretty s -> Pretty s) -> (Pretty s -> Pretty s) -> HashQualified Name -> Pretty s
-styleHashQualified'' :: (Pretty SyntaxText -> Pretty SyntaxText) -> HashQualified Name -> Pretty SyntaxText
-fmt :: Element r -> Pretty (SyntaxText' r) -> Pretty (SyntaxText' r)
-
 module Unison.Parser.Ann
 data Ann
 Intrinsic :: Ann
@@ -799,6 +771,34 @@ Bare :: FilePath -> GitRepo
 Worktree :: FilePath -> GitRepo
 gitCacheDir :: MonadIO m => Text -> m FilePath
 instance GHC.Show.Show Unison.Codebase.Editor.Git.GitRepo
+
+module Unison.Syntax.NamePrinter
+type SyntaxText = SyntaxText' Reference
+prettyName :: IsString s => Name -> Pretty s
+prettyHashQualified :: HashQualified Name -> Pretty SyntaxText
+prettyHashQualified' :: HashQualified Name -> Pretty SyntaxText
+prettyHashQualified0 :: IsString s => HashQualified Name -> Pretty s
+
+-- | Pretty-print a reference as a name and the given number of characters
+--   of its hash.
+prettyNamedReference :: Int -> Name -> Reference -> Pretty SyntaxText
+
+-- | Pretty-print a referent as a name and the given number of characters
+--   of its hash.
+prettyNamedReferent :: Int -> Name -> Referent -> Pretty SyntaxText
+
+-- | Pretty-print a reference as the given number of characters of its
+--   hash.
+prettyReference :: Int -> Reference -> Pretty SyntaxText
+
+-- | Pretty-print a referent as the given number of characters of its hash.
+prettyReferent :: Int -> Referent -> Pretty SyntaxText
+prettyLabeledDependency :: Int -> LabeledDependency -> Pretty SyntaxText
+prettyShortHash :: IsString s => ShortHash -> Pretty s
+styleHashQualified :: IsString s => (Pretty s -> Pretty s) -> HashQualified Name -> Pretty s
+styleHashQualified' :: IsString s => (Pretty s -> Pretty s) -> (Pretty s -> Pretty s) -> HashQualified Name -> Pretty s
+styleHashQualified'' :: (Pretty SyntaxText -> Pretty SyntaxText) -> HashQualified Name -> Pretty SyntaxText
+fmt :: Element r -> Pretty (SyntaxText' r) -> Pretty (SyntaxText' r)
 
 module Unison.Typechecker.Components
 
@@ -1188,7 +1188,7 @@ instance Unison.Util.Rope.Take Unison.Util.Bytes.Chunk
 instance Unison.Util.Rope.Index Unison.Util.Bytes.Chunk GHC.Word.Word8
 instance Unison.Util.Rope.Reverse Unison.Util.Bytes.Chunk
 
-module Unison.Lexer
+module Unison.Syntax.Lexer
 data Token a
 Token :: a -> !Pos -> !Pos -> Token a
 [$sel:payload:Token] :: Token a -> a
@@ -1253,28 +1253,28 @@ wordyId :: String -> Either Err (String, String)
 symbolyId :: String -> Either Err (String, String)
 wordyId0 :: String -> Either Err (String, String)
 symbolyId0 :: String -> Either Err (String, String)
-instance Data.Traversable.Traversable Unison.Lexer.T
-instance Data.Foldable.Foldable Unison.Lexer.T
-instance GHC.Base.Functor Unison.Lexer.T
-instance GHC.Show.Show a => GHC.Show.Show (Unison.Lexer.T a)
-instance Text.Megaparsec.Error.ShowErrorComponent (Unison.Lexer.Token Unison.Lexer.Err)
-instance Text.Megaparsec.Stream.VisualStream [Unison.Lexer.Token Unison.Lexer.Lexeme]
-instance GHC.Base.Applicative Unison.Lexer.Token
-instance Data.Traversable.Traversable Unison.Lexer.Token
-instance Data.Foldable.Foldable Unison.Lexer.Token
-instance GHC.Base.Functor Unison.Lexer.Token
-instance GHC.Show.Show a => GHC.Show.Show (Unison.Lexer.Token a)
-instance GHC.Classes.Ord a => GHC.Classes.Ord (Unison.Lexer.Token a)
-instance GHC.Classes.Eq a => GHC.Classes.Eq (Unison.Lexer.Token a)
-instance GHC.Show.Show Unison.Lexer.ParsingEnv
-instance GHC.Show.Show Unison.Lexer.Err
-instance GHC.Classes.Ord Unison.Lexer.Err
-instance GHC.Classes.Eq Unison.Lexer.Err
-instance GHC.Classes.Ord Unison.Lexer.Lexeme
-instance GHC.Show.Show Unison.Lexer.Lexeme
-instance GHC.Classes.Eq Unison.Lexer.Lexeme
+instance Data.Traversable.Traversable Unison.Syntax.Lexer.T
+instance Data.Foldable.Foldable Unison.Syntax.Lexer.T
+instance GHC.Base.Functor Unison.Syntax.Lexer.T
+instance GHC.Show.Show a => GHC.Show.Show (Unison.Syntax.Lexer.T a)
+instance Text.Megaparsec.Error.ShowErrorComponent (Unison.Syntax.Lexer.Token Unison.Syntax.Lexer.Err)
+instance Text.Megaparsec.Stream.VisualStream [Unison.Syntax.Lexer.Token Unison.Syntax.Lexer.Lexeme]
+instance GHC.Base.Applicative Unison.Syntax.Lexer.Token
+instance Data.Traversable.Traversable Unison.Syntax.Lexer.Token
+instance Data.Foldable.Foldable Unison.Syntax.Lexer.Token
+instance GHC.Base.Functor Unison.Syntax.Lexer.Token
+instance GHC.Show.Show a => GHC.Show.Show (Unison.Syntax.Lexer.Token a)
+instance GHC.Classes.Ord a => GHC.Classes.Ord (Unison.Syntax.Lexer.Token a)
+instance GHC.Classes.Eq a => GHC.Classes.Eq (Unison.Syntax.Lexer.Token a)
+instance GHC.Show.Show Unison.Syntax.Lexer.ParsingEnv
+instance GHC.Show.Show Unison.Syntax.Lexer.Err
+instance GHC.Classes.Ord Unison.Syntax.Lexer.Err
+instance GHC.Classes.Eq Unison.Syntax.Lexer.Err
+instance GHC.Classes.Ord Unison.Syntax.Lexer.Lexeme
+instance GHC.Show.Show Unison.Syntax.Lexer.Lexeme
+instance GHC.Classes.Eq Unison.Syntax.Lexer.Lexeme
 
-module Unison.Parser
+module Unison.Syntax.Parser
 debug :: Bool
 type P v = ParsecT (Error v) Input ((->) ParsingEnv)
 type Token s = Token s
@@ -1366,23 +1366,23 @@ chainr1 :: Ord v => P v a -> P v (a -> a -> a) -> P v a
 chainl1 :: Ord v => P v a -> P v (a -> a -> a) -> P v a
 failureIf :: Ord v => P v (P v b) -> P v a -> P v b
 positionalVar :: (Annotated a, Var v) => a -> v -> v
-instance GHC.Classes.Ord v => GHC.Classes.Ord (Unison.Parser.Error v)
-instance GHC.Classes.Eq v => GHC.Classes.Eq (Unison.Parser.Error v)
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Parser.Error v)
-instance Text.Megaparsec.Stream.VisualStream Unison.Parser.Input
-instance Text.Megaparsec.Stream.Stream Unison.Parser.Input
-instance GHC.Show.Show Unison.Parser.Input
-instance GHC.Classes.Ord Unison.Parser.Input
-instance GHC.Classes.Eq Unison.Parser.Input
-instance Unison.Parser.Annotated Unison.Parser.Ann.Ann
-instance Unison.Parser.Annotated (Unison.Lexer.Token a)
-instance Unison.Parser.Annotated a => Unison.Parser.Annotated (U.Core.ABT.Term f v a)
-instance Unison.Parser.Annotated a => Unison.Parser.Annotated (Unison.Pattern.Pattern a)
-instance Unison.Parser.Annotated a => Unison.Parser.Annotated [a]
-instance (Unison.Parser.Annotated a, Unison.Parser.Annotated b) => Unison.Parser.Annotated (Unison.Term.MatchCase a b)
-instance (GHC.Classes.Ord v, GHC.Show.Show v) => Text.Megaparsec.Error.ShowErrorComponent (Unison.Parser.Error v)
-instance GHC.Base.Semigroup Unison.Parser.UniqueName
-instance GHC.Base.Monoid Unison.Parser.UniqueName
+instance GHC.Classes.Ord v => GHC.Classes.Ord (Unison.Syntax.Parser.Error v)
+instance GHC.Classes.Eq v => GHC.Classes.Eq (Unison.Syntax.Parser.Error v)
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Syntax.Parser.Error v)
+instance Text.Megaparsec.Stream.VisualStream Unison.Syntax.Parser.Input
+instance Text.Megaparsec.Stream.Stream Unison.Syntax.Parser.Input
+instance GHC.Show.Show Unison.Syntax.Parser.Input
+instance GHC.Classes.Ord Unison.Syntax.Parser.Input
+instance GHC.Classes.Eq Unison.Syntax.Parser.Input
+instance Unison.Syntax.Parser.Annotated Unison.Parser.Ann.Ann
+instance Unison.Syntax.Parser.Annotated (Unison.Syntax.Lexer.Token a)
+instance Unison.Syntax.Parser.Annotated a => Unison.Syntax.Parser.Annotated (U.Core.ABT.Term f v a)
+instance Unison.Syntax.Parser.Annotated a => Unison.Syntax.Parser.Annotated (Unison.Pattern.Pattern a)
+instance Unison.Syntax.Parser.Annotated a => Unison.Syntax.Parser.Annotated [a]
+instance (Unison.Syntax.Parser.Annotated a, Unison.Syntax.Parser.Annotated b) => Unison.Syntax.Parser.Annotated (Unison.Term.MatchCase a b)
+instance (GHC.Classes.Ord v, GHC.Show.Show v) => Text.Megaparsec.Error.ShowErrorComponent (Unison.Syntax.Parser.Error v)
+instance GHC.Base.Semigroup Unison.Syntax.Parser.UniqueName
+instance GHC.Base.Monoid Unison.Syntax.Parser.UniqueName
 
 module Unison.Codebase.Path.Parse
 parsePath' :: String -> Either String Path'
@@ -1743,7 +1743,7 @@ environmentFor :: forall v a. Var v => Names -> Map v (DataDeclaration v a) -> M
 module Unison.Codebase.CodeLookup.Util
 fromTypecheckedUnisonFile :: forall m v a. (Var v, Monad m) => TypecheckedUnisonFile v a -> CodeLookup v m a
 
-module Unison.TypePrinter
+module Unison.Syntax.TypePrinter
 pretty :: forall v a. Var v => PrettyPrintEnv -> Type v a -> Pretty ColorText
 pretty0 :: forall v a. Var v => PrettyPrintEnv -> Imports -> Int -> Type v a -> Pretty SyntaxText
 prettyRaw :: forall v a. Var v => PrettyPrintEnv -> Imports -> Int -> Type v a -> Pretty SyntaxText
@@ -2178,12 +2178,12 @@ instance GHC.Base.Monoid (Unison.Typechecker.Notes v loc)
 module Unison.Codebase.TermEdit.Typing
 typing :: Var v => Type v loc -> Type v loc -> Typing
 
-module Unison.DeclPrinter
+module Unison.Syntax.DeclPrinter
 prettyDecl :: Var v => PrettyPrintEnvDecl -> Reference -> HashQualified Name -> Decl v a -> Pretty SyntaxText
 prettyDeclHeader :: Var v => HashQualified Name -> Either (EffectDeclaration v a) (DataDeclaration v a) -> Pretty SyntaxText
 prettyDeclOrBuiltinHeader :: Var v => HashQualified Name -> DeclOrBuiltin v a -> Pretty SyntaxText
 
-module Unison.TypeParser
+module Unison.Syntax.TypeParser
 type TypeP v = P v (Type v Ann)
 valueType :: Var v => TypeP v
 computationType :: Var v => TypeP v
@@ -2200,7 +2200,7 @@ tupleOrParenthesizedType :: Var v => TypeP v -> TypeP v
 arrow :: Var v => TypeP v -> TypeP v
 forall :: Var v => TypeP v -> TypeP v
 
-module Unison.TermPrinter
+module Unison.Syntax.TermPrinter
 type SyntaxText = SyntaxText' Reference
 pretty :: Var v => PrettyPrintEnv -> Term v a -> Pretty ColorText
 prettyBlock :: Var v => Bool -> PrettyPrintEnv -> Term v a -> Pretty ColorText
@@ -2309,17 +2309,17 @@ toDocBulletedList :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [Term3 v
 toDocNumberedList :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Word64, [Term3 v PrintAnnotation])
 toDocSection :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation, [Term3 v PrintAnnotation])
 nameEndsWith :: PrettyPrintEnv -> Text -> Reference -> Bool
-instance GHC.Show.Show Unison.TermPrinter.BlockContext
-instance GHC.Classes.Eq Unison.TermPrinter.BlockContext
-instance GHC.Show.Show Unison.TermPrinter.InfixContext
-instance GHC.Classes.Eq Unison.TermPrinter.InfixContext
-instance GHC.Show.Show Unison.TermPrinter.DocLiteralContext
-instance GHC.Classes.Eq Unison.TermPrinter.DocLiteralContext
-instance GHC.Show.Show Unison.TermPrinter.PrintAnnotation
-instance GHC.Base.Semigroup Unison.TermPrinter.PrintAnnotation
-instance GHC.Base.Monoid Unison.TermPrinter.PrintAnnotation
+instance GHC.Show.Show Unison.Syntax.TermPrinter.BlockContext
+instance GHC.Classes.Eq Unison.Syntax.TermPrinter.BlockContext
+instance GHC.Show.Show Unison.Syntax.TermPrinter.InfixContext
+instance GHC.Classes.Eq Unison.Syntax.TermPrinter.InfixContext
+instance GHC.Show.Show Unison.Syntax.TermPrinter.DocLiteralContext
+instance GHC.Classes.Eq Unison.Syntax.TermPrinter.DocLiteralContext
+instance GHC.Show.Show Unison.Syntax.TermPrinter.PrintAnnotation
+instance GHC.Base.Semigroup Unison.Syntax.TermPrinter.PrintAnnotation
+instance GHC.Base.Monoid Unison.Syntax.TermPrinter.PrintAnnotation
 
-module Unison.TermParser
+module Unison.Syntax.TermParser
 watch :: Show a => String -> a -> a
 type TermP v = P v (Term v Ann)
 term :: Var v => TermP v
@@ -2385,11 +2385,11 @@ number :: Var v => TermP v
 bytes :: Var v => TermP v
 number' :: Ord v => (Token Int64 -> a) -> (Token Word64 -> a) -> (Token Double -> a) -> P v a
 tupleOrParenthesizedTerm :: Var v => TermP v
-instance GHC.Show.Show Unison.TermParser.UnbreakCase
-instance GHC.Classes.Eq Unison.TermParser.UnbreakCase
-instance GHC.Show.Show v => GHC.Show.Show (Unison.TermParser.BlockElement v)
+instance GHC.Show.Show Unison.Syntax.TermParser.UnbreakCase
+instance GHC.Classes.Eq Unison.Syntax.TermParser.UnbreakCase
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Syntax.TermParser.BlockElement v)
 
-module Unison.FileParser
+module Unison.Syntax.FileParser
 resolutionFailures :: Ord v => [ResolutionFailure v Ann] -> P v x
 file :: forall v. Var v => P v (UnisonFile v Ann)
 
@@ -2416,9 +2416,9 @@ modifier :: Var v => P v (Maybe (Token Modifier))
 declaration :: Var v => P v (Either (v, DataDeclaration v Ann, Accessors v) (v, EffectDeclaration v Ann))
 dataDeclaration :: forall v. Var v => Maybe (Token Modifier) -> P v (v, DataDeclaration v Ann, Accessors v)
 effectDeclaration :: Var v => Maybe (Token Modifier) -> P v (v, EffectDeclaration v Ann)
-instance GHC.Base.Functor (Unison.FileParser.Stanza v)
-instance Data.Traversable.Traversable (Unison.FileParser.Stanza v)
-instance Data.Foldable.Foldable (Unison.FileParser.Stanza v)
+instance GHC.Base.Functor (Unison.Syntax.FileParser.Stanza v)
+instance Data.Traversable.Traversable (Unison.Syntax.FileParser.Stanza v)
+instance Data.Foldable.Foldable (Unison.Syntax.FileParser.Stanza v)
 
 module Unison.PrintError
 type Env = PrettyPrintEnv
