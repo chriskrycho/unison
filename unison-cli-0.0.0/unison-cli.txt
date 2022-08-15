@@ -1130,7 +1130,7 @@ GetCausalHashByPathErrorNoReadPermission :: Path -> GetCausalHashByPathError
 --   This flavor of push takes the expected state of the server, and the
 --   desired state we want to set; if our expectation is off, we won't
 --   proceed with the push.
-checkAndSetPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> Maybe Hash32 -> CausalHash -> UploadProgressCallbacks -> IO (Either (SyncError CheckAndSetPushError) ())
+checkAndSetPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> Maybe Hash32 -> CausalHash -> (Int -> IO ()) -> IO (Either (SyncError CheckAndSetPushError) ())
 
 -- | Error used by the client when pushing code to Unison Share.
 data CheckAndSetPushError
@@ -1144,7 +1144,7 @@ CheckAndSetPushErrorServerMissingDependencies :: NESet Hash32 -> CheckAndSetPush
 --   
 --   This flavor of push provides the server with a chain of causal hashes
 --   leading from its current state to our desired state.
-fastForwardPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> CausalHash -> UploadProgressCallbacks -> IO (Either (SyncError FastForwardPushError) ())
+fastForwardPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> CausalHash -> (Int -> IO ()) -> IO (Either (SyncError FastForwardPushError) ())
 
 -- | An error occurred while fast-forward pushing code to Unison Share.
 data FastForwardPushError
@@ -1154,29 +1154,7 @@ FastForwardPushErrorNotFastForward :: Path -> FastForwardPushError
 FastForwardPushErrorNoWritePermission :: Path -> FastForwardPushError
 FastForwardPushErrorServerMissingDependencies :: NESet Hash32 -> FastForwardPushError
 FastForwardPushInvalidParentage :: Hash32 -> Hash32 -> FastForwardPushError
-
--- | Upload progress callbacks.
-data UploadProgressCallbacks
-UploadProgressCallbacks :: (Int -> IO ()) -> (Int -> IO ()) -> UploadProgressCallbacks
-
--- | Callback that's given a number of entities we just uploaded.
-[$sel:uploaded:UploadProgressCallbacks] :: UploadProgressCallbacks -> Int -> IO ()
-
--- | Callback that's given a number of entities we just realized we need to
---   upload later.
-[$sel:toUpload:UploadProgressCallbacks] :: UploadProgressCallbacks -> Int -> IO ()
-pull :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> DownloadProgressCallbacks -> IO (Either (SyncError PullError) CausalHash)
-
--- | Download progress callbacks.
-data DownloadProgressCallbacks
-DownloadProgressCallbacks :: (Int -> IO ()) -> (Int -> IO ()) -> DownloadProgressCallbacks
-
--- | Callback that's given a number of entities we just downloaded.
-[$sel:downloaded:DownloadProgressCallbacks] :: DownloadProgressCallbacks -> Int -> IO ()
-
--- | Callback that's given a number of entities we just realized we need to
---   download later.
-[$sel:toDownload:DownloadProgressCallbacks] :: DownloadProgressCallbacks -> Int -> IO ()
+pull :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> (Int -> IO ()) -> IO (Either (SyncError PullError) CausalHash)
 
 -- | An error occurred while pulling code from Unison Share.
 data PullError
