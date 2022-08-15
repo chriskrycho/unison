@@ -66,10 +66,9 @@ queryOneRowCheck_ :: (FromRow a, SqliteExceptionReason e) => Connection -> Sql -
 queryOneColCheck_ :: forall a e r. (FromField a, SqliteExceptionReason e) => Connection -> Sql -> (a -> Either e r) -> IO r
 rowsModified :: Connection -> IO Int
 
--- | <pre>
---   VACUUM
---   </pre>
-vacuum :: Connection -> IO ()
+-- | <tt>VACUUM</tt>, and return whether or not the vacuum succeeded. A
+--   vacuum fails if the connection has any open transactions.
+vacuum :: Connection -> IO Bool
 
 -- | <pre>
 --   VACUUM INTO
@@ -367,10 +366,9 @@ JournalMode'WAL :: JournalMode
 JournalMode'OFF :: JournalMode
 trySetJournalMode :: MonadIO m => Connection -> JournalMode -> m ()
 
--- | <pre>
---   VACUUM
---   </pre>
-vacuum :: Connection -> IO ()
+-- | <tt>VACUUM</tt>, and return whether or not the vacuum succeeded. A
+--   vacuum fails if the connection has any open transactions.
+vacuum :: Connection -> IO Bool
 
 -- | <pre>
 --   VACUUM INTO
