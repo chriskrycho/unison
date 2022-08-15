@@ -476,11 +476,11 @@ cycle :: Term f v () -> Term f v ()
 cycle' :: a -> Term f v a -> Term f v a
 cycler :: (Functor f, Foldable f, Var v) => [v] -> Term f (V v) () -> Term f (V v) ()
 pattern Abs' :: (Foldable f, Functor f, Var v) => Subst f v a -> Term f v a
-pattern Abs'' :: forall f v a. v -> Term f v a -> Term f v a
+pattern Abs'' :: v -> Term f v a -> Term f v a
 pattern AbsN' :: [v] -> Term f v a -> Term f v a
 pattern Var' :: v -> Term f v a
-pattern Cycle' :: forall f v a. [v] -> f (Term f v a) -> Term f v a
-pattern CycleA' :: forall f v a. a -> [(a, v)] -> Term f v a -> Term f v a
+pattern Cycle' :: [v] -> f (Term f v a) -> Term f v a
+pattern CycleA' :: a -> [(a, v)] -> Term f v a -> Term f v a
 pattern Tm' :: f (Term f v a) -> Term f v a
 components :: Var v => [(v, Term f v a)] -> [[(v, Term f v a)]]
 orderedComponents :: Var v => [(v, Term f v a)] -> [[(v, Term f v a)]]
@@ -1336,8 +1336,8 @@ pattern IntroOuter' :: Var v => Subst F v a -> Term F v a
 pattern IntroOuterNamed' :: v -> Term F v a -> Term F v a
 pattern ForallsNamed' :: [v] -> Type v a -> Type v a
 pattern ForallNamed' :: v -> Term F v a -> Term F v a
-pattern Var' :: forall f v a. v -> Term f v a
-pattern Cycle' :: forall f v a. [v] -> f (Term f v a) -> Term f v a
+pattern Var' :: v -> Term f v a
+pattern Cycle' :: [v] -> f (Term f v a) -> Term f v a
 pattern Abs' :: (Foldable f, Functor f, Var v) => Subst f v a -> Term f v a
 unPure :: Ord v => Type v a -> Maybe (Type v a)
 unArrows :: Type v a -> Maybe [Type v a]
@@ -1630,8 +1630,8 @@ substTypeVars :: (Ord v, Var vt) => [(vt, Type vt b)] -> Term' vt v a -> Term' v
 substTypeVar :: (Ord v, Var vt) => vt -> Type vt b -> Term' vt v a -> Term' vt v a
 renameTypeVar :: (Ord v, Var vt) => vt -> vt -> Term' vt v a -> Term' vt v a
 generalizeTypeSignatures :: (Var vt, Var v) => Term' vt v a -> Term' vt v a
-pattern Var' :: forall f v a. v -> Term f v a
-pattern Cycle' :: forall f v a. [v] -> f (Term f v a) -> Term f v a
+pattern Var' :: v -> Term f v a
+pattern Cycle' :: [v] -> f (Term f v a) -> Term f v a
 pattern Abs' :: (Foldable f, Functor f, Var v) => Subst f v a -> Term f v a
 pattern Int' :: Int64 -> Term (F typeVar typeAnn patternAnn) v a
 pattern Nat' :: Word64 -> Term (F typeVar typeAnn patternAnn) v a
@@ -1639,7 +1639,7 @@ pattern Float' :: Double -> Term (F typeVar typeAnn patternAnn) v a
 pattern Boolean' :: Bool -> Term (F typeVar typeAnn patternAnn) v a
 pattern Text' :: Text -> Term (F typeVar typeAnn patternAnn) v a
 pattern Char' :: Char -> Term (F typeVar typeAnn patternAnn) v a
-pattern Blank' :: forall typeVar typeAnn patternAnn v a. Blank typeAnn -> Term (F typeVar typeAnn patternAnn) v a
+pattern Blank' :: Blank typeAnn -> Term (F typeVar typeAnn patternAnn) v a
 pattern Ref' :: Reference -> Term (F typeVar typeAnn patternAnn) v a
 pattern TermLink' :: Referent -> Term (F typeVar typeAnn patternAnn) v a
 pattern TypeLink' :: Reference -> Term (F typeVar typeAnn patternAnn) v a
@@ -1666,22 +1666,22 @@ pattern List' :: Seq (Term (F typeVar typeAnn patternAnn) v a) -> Term (F typeVa
 pattern Lam' :: Var v => Subst (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a
 pattern Delay' :: Ord v => Term2 vt at ap v a -> Term2 vt at ap v a
 unDelay :: Ord v => Term2 vt at ap v a -> Maybe (Term2 vt at ap v a)
-pattern LamNamed' :: forall typeVar typeAnn patternAnn v a. v -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a
-pattern LamsNamed' :: forall vt at ap v a. [v] -> Term2 vt at ap v a -> Term2 vt at ap v a
-pattern LamsNamedOpt' :: forall vt at ap v a. [v] -> Term2 vt at ap v a -> Term2 vt at ap v a
-pattern LamsNamedPred' :: forall vt at ap v a. [v] -> Term2 vt at ap v a -> (Term2 vt at ap v a, v -> Bool)
+pattern LamNamed' :: v -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a
+pattern LamsNamed' :: [v] -> Term2 vt at ap v a -> Term2 vt at ap v a
+pattern LamsNamedOpt' :: [v] -> Term2 vt at ap v a -> Term2 vt at ap v a
+pattern LamsNamedPred' :: [v] -> Term2 vt at ap v a -> (Term2 vt at ap v a, v -> Bool)
 pattern LamsNamedOrDelay' :: Var v => [v] -> Term2 vt at ap v a -> Term2 vt at ap v a
 pattern Let1' :: Var v => Term' vt v a -> Subst (F vt a a) v a -> Term' vt v a
 pattern Let1Top' :: Var v => IsTop -> Term' vt v a -> Subst (F vt a a) v a -> Term' vt v a
-pattern Let1Named' :: forall typeVar typeAnn patternAnn v a. v -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a
-pattern Let1NamedTop' :: forall typeVar typeAnn patternAnn v a. IsTop -> v -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a
-pattern Lets' :: forall vt at ap v a. [(IsTop, v, Term2 vt at ap v a)] -> Term2 vt at ap v a -> Term2 vt at ap v a
-pattern LetRecNamed' :: forall vt at ap v a. [(v, Term2 vt at ap v a)] -> Term2 vt at ap v a -> Term2 vt at ap v a
-pattern LetRecNamedTop' :: forall vt at ap v a. IsTop -> [(v, Term2 vt at ap v a)] -> Term2 vt at ap v a -> Term2 vt at ap v a
+pattern Let1Named' :: v -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a
+pattern Let1NamedTop' :: IsTop -> v -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a
+pattern Lets' :: [(IsTop, v, Term2 vt at ap v a)] -> Term2 vt at ap v a -> Term2 vt at ap v a
+pattern LetRecNamed' :: [(v, Term2 vt at ap v a)] -> Term2 vt at ap v a -> Term2 vt at ap v a
+pattern LetRecNamedTop' :: IsTop -> [(v, Term2 vt at ap v a)] -> Term2 vt at ap v a -> Term2 vt at ap v a
 pattern LetRec' :: (Monad m, Var v) => ((v -> m v) -> m ([(v, Term2 vt at ap v a)], Term2 vt at ap v a)) -> Term2 vt at ap v a
 pattern LetRecTop' :: (Monad m, Var v) => IsTop -> ((v -> m v) -> m ([(v, Term2 vt at ap v a)], Term2 vt at ap v a)) -> Term2 vt at ap v a
-pattern LetRecNamedAnnotated' :: forall vt v a. a -> [((a, v), Term' vt v a)] -> Term' vt v a -> Term' vt v a
-pattern LetRecNamedAnnotatedTop' :: forall vt v a. IsTop -> a -> [((a, v), Term' vt v a)] -> Term' vt v a -> Term' vt v a
+pattern LetRecNamedAnnotated' :: a -> [((a, v), Term' vt v a)] -> Term' vt v a -> Term' vt v a
+pattern LetRecNamedAnnotatedTop' :: IsTop -> a -> [((a, v), Term' vt v a)] -> Term' vt v a -> Term' vt v a
 fresh :: Var v => Term0 v -> v -> v
 var :: a -> v -> Term2 vt at ap v a
 var' :: Var v => Text -> Term0' vt v

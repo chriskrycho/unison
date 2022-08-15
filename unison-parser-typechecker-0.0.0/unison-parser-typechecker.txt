@@ -2129,9 +2129,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3kun loc_a3kuo. Lens' (Env v_a3kun loc_a3kuo) (TypeLookup v_a3kun loc_a3kuo)
-termsByShortname :: forall v_a3kun loc_a3kuo. Lens' (Env v_a3kun loc_a3kuo) (Map Name [NamedReference v_a3kun loc_a3kuo])
-ambientAbilities :: forall v_a3kun loc_a3kuo. Lens' (Env v_a3kun loc_a3kuo) [Type v_a3kun loc_a3kuo]
+typeLookup :: forall v_a3lHz loc_a3lHA. Lens' (Env v_a3lHz loc_a3lHA) (TypeLookup v_a3lHz loc_a3lHA)
+termsByShortname :: forall v_a3lHz loc_a3lHA. Lens' (Env v_a3lHz loc_a3lHA) (Map Name [NamedReference v_a3lHz loc_a3lHA])
+ambientAbilities :: forall v_a3lHz loc_a3lHA. Lens' (Env v_a3lHz loc_a3lHA) [Type v_a3lHz loc_a3lHA]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -2266,7 +2266,7 @@ isDestructuringBind :: Ord v => Term f v a -> [MatchCase loc (Term f v a)] -> Bo
 isBlock :: Ord v => Term2 vt at ap v a -> Bool
 pattern LetBlock :: Ord v => [(v, Term2 vt at ap v a)] -> Term2 vt at ap v a -> Term2 vt at ap v a
 unLetBlock :: Ord v => Term2 vt at ap v a -> Maybe ([(v, Term2 vt at ap v a)], Term2 vt at ap v a)
-pattern LamsNamedMatch' :: forall v vt at ap a. Var v => [v] -> [([Pattern ap], Maybe (Term2 vt at ap v a), Term2 vt at ap v a)] -> Term2 vt at ap v a
+pattern LamsNamedMatch' :: Var v => [v] -> [([Pattern ap], Maybe (Term2 vt at ap v a), Term2 vt at ap v a)] -> Term2 vt at ap v a
 unLamsMatch' :: Var v => Term2 vt at ap v a -> Maybe ([v], [([Pattern ap], Maybe (Term2 vt at ap v a), Term2 vt at ap v a)])
 pattern Bytes' :: [Word64] -> Term3 v PrintAnnotation
 toBytes :: Term3 v PrintAnnotation -> Maybe [Word64]
@@ -4611,9 +4611,9 @@ A :: Dump
 F :: Int -> Int -> Dump
 S :: Dump
 class MEM (b :: Mem) where {
-    data family Stack b :: *;
-    type family Elem b :: *;
-    type family Seg b :: *;
+    data family Stack b :: Type;
+    type family Elem b :: Type;
+    type family Seg b :: Type;
 }
 alloc :: MEM b => IO (Stack b)
 peek :: MEM b => Stack b -> IO (Elem b)
