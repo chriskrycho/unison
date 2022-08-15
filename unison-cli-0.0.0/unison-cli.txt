@@ -1415,7 +1415,7 @@ instance Control.Monad.IO.Class.MonadIO (Unison.Cli.Monad.Cli r)
 instance GHC.Base.Monad (Unison.Cli.Monad.Cli r)
 instance GHC.Base.Applicative (Unison.Cli.Monad.Cli r)
 instance GHC.Base.Functor (Unison.Cli.Monad.Cli r)
-instance Unison.Cli.Monad.Label t (Unison.Cli.Monad.R t x)
+instance Unison.Cli.Monad.Label (Unison.Cli.Monad.R t x) (Unison.Cli.Monad.R t x)
 instance Unison.Cli.Monad.Label s t => Unison.Cli.Monad.Label s (Unison.Cli.Monad.R t x)
 instance GHC.Base.Functor f => GHC.OverloadedLabels.IsLabel "currentPath" ((Unison.Codebase.Path.Absolute -> f Unison.Codebase.Path.Absolute) -> Unison.Cli.Monad.LoopState -> f Unison.Cli.Monad.LoopState)
 
