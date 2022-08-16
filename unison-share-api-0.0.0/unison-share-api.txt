@@ -421,6 +421,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.FoundEntry
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.NamedType
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.NamedTerm
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.DefinitionDisplayResults
+instance GHC.Base.Semigroup Unison.Server.Types.DefinitionDisplayResults
+instance GHC.Base.Monoid Unison.Server.Types.DefinitionDisplayResults
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.TypeDefinition
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.TypeTag
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.TermDefinition
@@ -572,8 +574,11 @@ formatType' :: Var v => PrettyPrintEnv -> Width -> Type v a -> SyntaxText
 formatType :: Var v => PrettyPrintEnv -> Width -> Type v a -> SyntaxText
 formatSuffixedType :: Var v => PrettyPrintEnvDecl -> Width -> Type v Ann -> SyntaxText
 mungeSyntaxText :: Functor g => g (Element Reference) -> g Element
-prettyDefinitionsBySuffixes :: Path -> Maybe CausalHash -> Maybe Width -> Suffixify -> Runtime Symbol -> Codebase IO Symbol Ann -> [HashQualified Name] -> Backend IO DefinitionDisplayResults
-renderDoc :: PrettyPrintEnvDecl -> Width -> Runtime Symbol -> Codebase IO Symbol Ann -> Reference -> IO (HashQualifiedName, UnisonHash, Doc)
+
+-- | Renders a definition for the given name or hash alongside its
+--   documentation.
+prettyDefinitionsForHQName :: Path -> Maybe CausalHash -> Maybe Width -> Suffixify -> Runtime Symbol -> Codebase IO Symbol Ann -> HashQualified Name -> Backend IO DefinitionDisplayResults
+renderDoc :: PrettyPrintEnvDecl -> Width -> Runtime Symbol -> Codebase IO Symbol Ann -> TermReference -> IO (HashQualifiedName, UnisonHash, Doc)
 docsInBranchToHtmlFiles :: Runtime Symbol -> Codebase IO Symbol Ann -> Branch IO -> Path -> FilePath -> IO ()
 bestNameForTerm :: forall v. Var v => PrettyPrintEnv -> Width -> Referent -> Text
 bestNameForType :: forall v. Var v => PrettyPrintEnv -> Width -> Reference -> Text
@@ -594,7 +599,7 @@ bestNameForType :: forall v. Var v => PrettyPrintEnv -> Width -> Reference -> Te
 --   for the shortest unambiguous suffix within the scope in which the name
 --   is found (local, falling back to global)</li>
 --   </ul>
-scopedNamesForBranchHash :: forall m v a. Monad m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (Names, Names, PrettyPrintEnvDecl)
+scopedNamesForBranchHash :: forall m v a. Monad m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (Names, PrettyPrintEnvDecl)
 resolveCausalHash :: Monad m => Maybe CausalHash -> Codebase m v a -> Backend m (Branch m)
 resolveRootBranchHash :: Monad m => Maybe ShortBranchHash -> Codebase m v a -> Backend m (Branch m)
 

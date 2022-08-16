@@ -453,8 +453,12 @@ patterns :: PrettyPrintEnv -> ConstructorReference -> Maybe (HashQualified Name)
 patternName :: PrettyPrintEnv -> ConstructorReference -> HashQualified Name
 terms :: PrettyPrintEnv -> Referent -> Maybe (HashQualified Name)
 types :: PrettyPrintEnv -> Reference -> Maybe (HashQualified Name)
+allTermNames :: PrettyPrintEnv -> Referent -> [HashQualified Name]
+allTypeNames :: PrettyPrintEnv -> Reference -> [HashQualified Name]
 termName :: PrettyPrintEnv -> Referent -> HashQualified Name
 typeName :: PrettyPrintEnv -> Reference -> HashQualified Name
+termNameOrHashOnly :: PrettyPrintEnv -> Referent -> HashQualified Name
+typeNameOrHashOnly :: PrettyPrintEnv -> Reference -> HashQualified Name
 
 -- | Prefer names which share a common prefix with any provided target.
 --   
@@ -2155,9 +2159,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3m8S loc_a3m8T. Lens' (Env v_a3m8S loc_a3m8T) (TypeLookup v_a3m8S loc_a3m8T)
-termsByShortname :: forall v_a3m8S loc_a3m8T. Lens' (Env v_a3m8S loc_a3m8T) (Map Name [NamedReference v_a3m8S loc_a3m8T])
-ambientAbilities :: forall v_a3m8S loc_a3m8T. Lens' (Env v_a3m8S loc_a3m8T) [Type v_a3m8S loc_a3m8T]
+typeLookup :: forall v_a3mfK loc_a3mfL. Lens' (Env v_a3mfK loc_a3mfL) (TypeLookup v_a3mfK loc_a3mfL)
+termsByShortname :: forall v_a3mfK loc_a3mfL. Lens' (Env v_a3mfK loc_a3mfL) (Map Name [NamedReference v_a3mfK loc_a3mfL])
+ambientAbilities :: forall v_a3mfK loc_a3mfL. Lens' (Env v_a3mfK loc_a3mfL) [Type v_a3mfK loc_a3mfL]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
