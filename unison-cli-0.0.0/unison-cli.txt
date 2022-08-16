@@ -186,6 +186,7 @@ ListDependentsI :: HashQualified Name -> Input
 -- | List all external dependencies of a given namespace, or the current
 --   namespace if no path is provided.
 NamespaceDependenciesI :: Maybe Path' -> Input
+DebugTabCompletionI :: [String] -> Input
 DebugNumberedArgsI :: Input
 DebugTypecheckedUnisonFileI :: Input
 DebugDumpNamespacesI :: Input
@@ -582,14 +583,6 @@ instance GHC.Classes.Eq Unison.CommandLine.Globbing.TargetType
 instance GHC.Show.Show Unison.CommandLine.Globbing.GlobArg
 
 module Unison.CommandLine.InputPattern
-data IsOptional
-Required :: IsOptional
-Optional :: IsOptional
-ZeroPlus :: IsOptional
-OnePlus :: IsOptional
-data Visibility
-Hidden :: Visibility
-Visible :: Visibility
 data InputPattern
 InputPattern :: String -> [String] -> Visibility -> [(IsOptional, ArgumentType)] -> Pretty ColorText -> ([String] -> Either (Pretty ColorText) Input) -> InputPattern
 [$sel:patternName:InputPattern] :: InputPattern -> String
@@ -599,25 +592,67 @@ InputPattern :: String -> [String] -> Visibility -> [(IsOptional, ArgumentType)]
 [$sel:help:InputPattern] :: InputPattern -> Pretty ColorText
 [$sel:parse:InputPattern] :: InputPattern -> [String] -> Either (Pretty ColorText) Input
 data ArgumentType
-ArgumentType :: String -> (forall m v a. Monad m => String -> Codebase m v a -> Branch m -> Absolute -> m [Completion]) -> Set TargetType -> ArgumentType
+ArgumentType :: String -> (forall m v a. Monad m => String -> Codebase m v a -> Absolute -> m [Completion]) -> Set TargetType -> ArgumentType
 [$sel:typeName:ArgumentType] :: ArgumentType -> String
 
 -- | Generate completion suggestions for this argument type
-[$sel:suggestions:ArgumentType] :: ArgumentType -> forall m v a. Monad m => String -> Codebase m v a -> Branch m -> Absolute -> m [Completion]
+[$sel:suggestions:ArgumentType] :: ArgumentType -> forall m v a. Monad m => String -> Codebase m v a -> Absolute -> m [Completion]
 
 -- | Select which targets glob patterns may expand into for this argument.
 --   An empty set disables globbing.
 [$sel:globTargets:ArgumentType] :: ArgumentType -> Set TargetType
 argType :: InputPattern -> Int -> Maybe ArgumentType
+data IsOptional
+Required :: IsOptional
+Optional :: IsOptional
+ZeroPlus :: IsOptional
+OnePlus :: IsOptional
+data Visibility
+Hidden :: Visibility
+Visible :: Visibility
 minArgs :: InputPattern -> Int
 maxArgs :: InputPattern -> Maybe Int
-noSuggestions :: Monad m => String -> Codebase m v a -> Branch m -> Absolute -> m [Completion]
 instance GHC.Classes.Eq Unison.CommandLine.InputPattern.IsOptional
 instance GHC.Show.Show Unison.CommandLine.InputPattern.IsOptional
 instance GHC.Classes.Ord Unison.CommandLine.InputPattern.Visibility
 instance GHC.Classes.Eq Unison.CommandLine.InputPattern.Visibility
 instance GHC.Show.Show Unison.CommandLine.InputPattern.Visibility
 instance GHC.Show.Show Unison.CommandLine.InputPattern.ArgumentType
+
+module Unison.CommandLine.Completion
+
+-- | Constructs a list of <a>Completion</a>s from a query and completion
+--   options by filtering them for prefix matches. A completion will be
+--   selected if it's an exact match for a provided option.
+exactComplete :: String -> [String] -> [Completion]
+
+-- | Completes a term or type argument by prefix-matching against the
+--   query.
+prefixCompleteTermOrType :: forall m v a. Monad m => String -> Codebase m v a -> Absolute -> m [Completion]
+
+-- | Completes a term argument by prefix-matching against the query.
+prefixCompleteTerm :: forall m v a. Monad m => String -> Codebase m v a -> Absolute -> m [Completion]
+
+-- | Completes a term or type argument by prefix-matching against the
+--   query.
+prefixCompleteType :: forall m v a. Monad m => String -> Codebase m v a -> Absolute -> m [Completion]
+
+-- | Completes a patch argument by prefix-matching against the query.
+prefixCompletePatch :: forall m v a. Monad m => String -> Codebase m v a -> Absolute -> m [Completion]
+
+-- | The empty completor.
+noCompletions :: Monad m => String -> Codebase m v a -> Absolute -> m [Completion]
+
+-- | Completes a namespace argument by prefix-matching against the query.
+prefixCompleteNamespace :: forall m v a. Monad m => String -> Codebase m v a -> Absolute -> m [Completion]
+prettyCompletion :: Bool -> (String, Pretty ColorText) -> Completion
+fixupCompletion :: String -> [Completion] -> [Completion]
+
+-- | A completion func for use with Haskeline
+haskelineTabComplete :: Monad m => Map String InputPattern -> Codebase m v a -> Absolute -> CompletionFunc m
+instance GHC.Classes.Ord Unison.CommandLine.Completion.CompletionType
+instance GHC.Classes.Eq Unison.CommandLine.Completion.CompletionType
+instance GHC.Show.Show Unison.CommandLine.Completion.CompletionType
 
 module Unison.CommandLine
 allow :: FilePath -> Bool
@@ -632,26 +667,6 @@ problem :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
 tip :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
 warn :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
 warnNote :: String -> String
-completion :: String -> Completion
-completion' :: String -> Completion
-
--- | Constructs a list of <tt>Completion</tt>s from a query and completion
---   options by filtering them for prefix matches. A completion will be
---   selected if it's an exact match for a provided option.
-exactComplete :: String -> [String] -> [Completion]
-fuzzyComplete :: String -> [String] -> [Completion]
-fuzzyCompleteHashQualified :: Names -> String -> [Completion]
-prefixIncomplete :: String -> [String] -> [Completion]
-prettyCompletion :: Bool -> (String, Pretty ColorText) -> Completion
-fixupCompletion :: String -> [Completion] -> [Completion]
-
--- | Completes a list of options, limiting options to the same namespace as
---   the query, or the namespace's children if the query is itself a
---   namespace.
---   
---   E.g. query: "base" would match: ["base", "base.List", "base2"]
---   wouldn't match: ["base.List.map", "contrib", "base2.List"]
-completeWithinQueryNamespace :: String -> [String] -> [Completion]
 parseInput :: Branch0 m -> Absolute -> [String] -> Map String InputPattern -> [String] -> Either (Pretty ColorText) Input
 prompt :: String
 watchConfig :: FilePath -> IO (Config, IO ())
@@ -726,6 +741,7 @@ pull :: InputPattern
 pullWithoutHistory :: InputPattern
 pullImpl :: String -> Verbosity -> PullMode -> Pretty ColorText -> InputPattern
 pullExhaustive :: InputPattern
+debugTabCompletion :: InputPattern
 push :: InputPattern
 pushCreate :: InputPattern
 pushForce :: InputPattern
@@ -775,29 +791,25 @@ gist :: InputPattern
 authLogin :: InputPattern
 printVersion :: InputPattern
 validInputs :: [InputPattern]
+
+-- | A map of all command patterns by pattern name or alias.
+patternMap :: Map String InputPattern
 visibleInputs :: [InputPattern]
 commandNames :: [String]
 commandNameArg :: ArgumentType
-exactDefinitionOrPathArg :: ArgumentType
+exactDefinitionArg :: ArgumentType
 fuzzyDefinitionQueryArg :: ArgumentType
 definitionQueryArg :: ArgumentType
 exactDefinitionTypeQueryArg :: ArgumentType
 exactDefinitionTermQueryArg :: ArgumentType
-typeCompletor :: Applicative m => (String -> [String] -> [Completion]) -> String -> Codebase m v a -> Branch m -> Absolute -> m [Completion]
-termCompletor :: Applicative m => (String -> [String] -> [Completion]) -> String -> Codebase m v a -> Branch m -> Absolute -> m [Completion]
 patchArg :: ArgumentType
-allCompletors :: Monad m => [String -> Codebase m v a -> Branch m -> Absolute -> m [Completion]] -> String -> Codebase m v a -> Branch m -> Absolute -> m [Completion]
-bothCompletors :: Monad m => (String -> t2 -> t3 -> t4 -> m [Completion]) -> (String -> t2 -> t3 -> t4 -> m [Completion]) -> String -> t2 -> t3 -> t4 -> m [Completion]
-
--- | A completer for namespace paths.
-pathCompletor :: Applicative f => (String -> [String] -> [Completion]) -> (Branch0 m -> Set Text) -> String -> codebase -> Branch m -> Absolute -> f [Completion]
 namespaceArg :: ArgumentType
 
--- | Recursively collects all names of namespaces which are children of the
---   branch.
-allSubNamespaces :: Branch0 m -> [Text]
+-- | Names of child branches of the branch, only gives options for one
+--   <tt>layer</tt> deeper at a time.
+childNamespaceNames :: Branch0 m -> [Text]
 newNameArg :: ArgumentType
-noCompletions :: ArgumentType
+noCompletionsArg :: ArgumentType
 gitUrlArg :: ArgumentType
 
 -- | Refers to a namespace on some remote code host.
@@ -1039,6 +1051,7 @@ UnknownCodeServer :: Text -> Output
 CredentialFailureMsg :: CredentialFailure -> Output
 PrintVersion :: Text -> Output
 IntegrityCheck :: IntegrityResult -> Output
+DisplayDebugCompletions :: [Completion] -> Output
 data NumberedOutput
 ShowDiffNamespace :: AbsBranchId -> AbsBranchId -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
 ShowDiffAfterUndo :: PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
