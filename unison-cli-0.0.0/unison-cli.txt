@@ -174,7 +174,7 @@ DocsI :: [HQSplit'] -> Input
 FindI :: Bool -> FindScope -> [String] -> Input
 FindShallowI :: Path' -> Input
 FindPatchI :: Input
-ShowDefinitionI :: OutputLocation -> [HashQualified Name] -> Input
+ShowDefinitionI :: OutputLocation -> ShowDefinitionScope -> [HashQualified Name] -> Input
 ShowDefinitionByPrefixI :: OutputLocation -> [HashQualified Name] -> Input
 ShowReflogI :: Input
 UpdateBuiltinsI :: Input
@@ -252,9 +252,12 @@ NoPatch :: OptionalPatch
 DefaultPatch :: OptionalPatch
 UsePatch :: PatchPath -> OptionalPatch
 data FindScope
-Local :: FindScope
-LocalAndDeps :: FindScope
-Global :: FindScope
+FindLocal :: FindScope
+FindLocalAndDeps :: FindScope
+FindGlobal :: FindScope
+data ShowDefinitionScope
+ShowDefinitionLocal :: ShowDefinitionScope
+ShowDefinitionGlobal :: ShowDefinitionScope
 type IsGlobal = Bool
 instance GHC.Show.Show Unison.Codebase.Editor.Input.OptionalPatch
 instance GHC.Classes.Ord Unison.Codebase.Editor.Input.OptionalPatch
@@ -273,6 +276,8 @@ instance GHC.Show.Show Unison.Codebase.Editor.Input.OutputLocation
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.OutputLocation
 instance GHC.Show.Show Unison.Codebase.Editor.Input.FindScope
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.FindScope
+instance GHC.Show.Show Unison.Codebase.Editor.Input.ShowDefinitionScope
+instance GHC.Classes.Eq Unison.Codebase.Editor.Input.ShowDefinitionScope
 instance GHC.Show.Show Unison.Codebase.Editor.Input.Input
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.Input
 
@@ -692,6 +697,7 @@ update :: InputPattern
 previewUpdate :: InputPattern
 patch :: InputPattern
 view :: InputPattern
+viewGlobal :: InputPattern
 display :: InputPattern
 displayTo :: InputPattern
 docs :: InputPattern
