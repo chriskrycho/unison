@@ -981,7 +981,7 @@ DeleteBranchConfirmation :: [(Path', (Names, [SearchResult' Symbol Ann]))] -> Ou
 DeleteEverythingConfirmation :: Output
 DeletedEverything :: Output
 ListNames :: IsGlobal -> Int -> [(Reference, Set (HashQualified Name))] -> [(Referent, Set (HashQualified Name))] -> Output
-ListOfDefinitions :: PrettyPrintEnv -> ListDetailed -> [SearchResult' Symbol Ann] -> Output
+ListOfDefinitions :: FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' Symbol Ann] -> Output
 ListOfLinks :: PrettyPrintEnv -> [(HashQualified Name, Reference, Maybe (Type Symbol Ann))] -> Output
 ListShallow :: PrettyPrintEnv -> [ShallowListEntry Symbol Ann] -> Output
 ListOfPatches :: Set Name -> Output
@@ -1223,7 +1223,7 @@ addNumberedArg :: String -> Numbered Int
 formatNum :: Int -> Pretty
 runNumbered :: Numbered a -> (a, NumberedArgs)
 todoOutput :: Var v => PrettyPrintEnvDecl -> TodoOutput v a -> (Pretty, NumberedArgs)
-listOfDefinitions :: Var v => PrettyPrintEnv -> ListDetailed -> [SearchResult' v a] -> IO Pretty
+listOfDefinitions :: Var v => FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' v a] -> IO Pretty
 listOfLinks :: Var v => PrettyPrintEnv -> [(HashQualified Name, Maybe (Type v a))] -> IO Pretty
 data ShowNumbers
 ShowNumbers :: ShowNumbers
@@ -1232,8 +1232,8 @@ HideNumbers :: ShowNumbers
 -- | <tt>ppe</tt> is just for rendering type signatures `oldPath, newPath
 --   :: Path.Absolute` are just for producing fully-qualified numbered args
 showDiffNamespace :: forall v. Var v => ShowNumbers -> PrettyPrintEnv -> AbsBranchId -> AbsBranchId -> BranchDiffOutput v Ann -> (Pretty, NumberedArgs)
-noResults :: Pretty
-listOfDefinitions' :: Var v => PrettyPrintEnv -> ListDetailed -> [SearchResult' v a] -> Pretty
+noResults :: FindScope -> Pretty
+listOfDefinitions' :: Var v => FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' v a] -> Pretty
 watchPrinter :: Var v => Text -> PrettyPrintEnv -> Ann -> WatchKind -> Term v () -> IsCacheHit -> Pretty
 filestatusTip :: Pretty
 prettyDiff :: Diff -> Pretty
