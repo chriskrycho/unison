@@ -1894,6 +1894,7 @@ lookupSolved :: Ord v => Context v loc -> v -> Maybe (Monotype v loc)
 apply :: (Var v, Ord loc) => Context v loc -> Type v loc -> Type v loc
 isEqual :: (Var v, Ord loc) => Type v loc -> Type v loc -> Either (CompilerBug v loc) Bool
 isSubtype :: (Var v, Ord loc) => Type v loc -> Type v loc -> Either (CompilerBug v loc) Bool
+fitsScheme :: (Var v, Ord loc) => Type v loc -> Type v loc -> Either (CompilerBug v loc) Bool
 isRedundant :: (Var v, Ord loc) => Type v loc -> Type v loc -> M v loc Bool
 data Suggestion v loc
 Suggestion :: Text -> Type v loc -> Either v Referent -> SuggestionMatch -> Suggestion v loc
@@ -2174,14 +2175,28 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3mnm loc_a3mnn. Lens' (Env v_a3mnm loc_a3mnn) (TypeLookup v_a3mnm loc_a3mnn)
-termsByShortname :: forall v_a3mnm loc_a3mnn. Lens' (Env v_a3mnm loc_a3mnn) (Map Name [NamedReference v_a3mnm loc_a3mnn])
-ambientAbilities :: forall v_a3mnm loc_a3mnn. Lens' (Env v_a3mnm loc_a3mnn) [Type v_a3mnm loc_a3mnn]
+typeLookup :: forall v_a3mDT loc_a3mDU. Lens' (Env v_a3mDT loc_a3mDU) (TypeLookup v_a3mDT loc_a3mDU)
+termsByShortname :: forall v_a3mDT loc_a3mDU. Lens' (Env v_a3mDT loc_a3mDU) (Map Name [NamedReference v_a3mDT loc_a3mDU])
+ambientAbilities :: forall v_a3mDT loc_a3mDU. Lens' (Env v_a3mDT loc_a3mDU) [Type v_a3mDT loc_a3mDU]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
 synthesize :: (Monad f, Var v, Ord loc) => Env v loc -> Term v loc -> ResultT (Notes v loc) f (Type v loc)
 isSubtype :: Var v => Type v loc -> Type v loc -> Bool
+handleCompilerBug :: Var v => Either (CompilerBug v ()) a -> a
+
+-- | Similar to <a>isSubtype</a> but treats <tt>t2</tt> as a scheme where
+--   the outermost variables are existential rather than universal.
+--   
+--   For example: <tt> let lhs = Unison.Type.ref ()
+--   (Unison.Builtin.Decls.unitRef) rhs = Unison.Type.forall ()
+--   (Unison.Var.named "x") (Unison.Type.var () (Unison.Var.named "x")) in
+--   fitsScheme </tt>Symbol lhs rhs <tt> is </tt>True@ although the lhs is
+--   not a subtype of the rhs.
+--   
+--   <a>fitsScheme</a> is used to check that runnable types are a subtype
+--   of <tt> exists x. '{IO, Exception} x </tt>
+fitsScheme :: Var v => Type v loc -> Type v loc -> Bool
 isEqual :: Var v => Type v loc -> Type v loc -> Bool
 type TDNR f v loc a = StateT (Term v loc) (ResultT (Notes v loc) f) a
 data Resolution v loc
@@ -2216,6 +2231,7 @@ check :: (Monad f, Var v, Ord loc) => Env v loc -> Term v loc -> Type v loc -> R
 --   Type.arrow() t t | Returns <a>True</a> if the expression is
 --   well-typed, <a>False</a> otherwise
 wellTyped :: (Monad f, Var v, Ord loc) => Env v loc -> Term v loc -> f Bool
+instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Notes v loc)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Typechecker.NamedReference v loc)
 instance GHC.Base.Semigroup (Unison.Typechecker.Notes v loc)
 instance GHC.Base.Monoid (Unison.Typechecker.Notes v loc)
@@ -2571,6 +2587,7 @@ BadType :: String -> Maybe (Type v Ann) -> MainTerm v
 Success :: HashQualified Name -> Term v Ann -> Type v Ann -> MainTerm v
 getMainTerm :: (Monad m, Var v) => (Reference -> m (Maybe (Type v Ann))) -> Names -> String -> Type v Ann -> m (MainTerm v)
 builtinMain :: Var v => a -> Type v a
+builtinMainWithResultType :: Var v => a -> Type v a -> Type v a
 resultArr :: Ord v => a -> Type v a
 builtinResultArr :: Ord v => a -> Type v a
 builtinTest :: Ord v => a -> Type v a

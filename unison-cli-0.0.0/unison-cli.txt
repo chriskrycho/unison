@@ -162,6 +162,7 @@ RemoveTypeReplacementI :: HashQualified Name -> Maybe PatchPath -> Input
 UndoI :: Input
 HistoryI :: Maybe Int -> Maybe Int -> BranchId -> Input
 ExecuteI :: String -> [String] -> Input
+SaveExecuteResultI :: Name -> Input
 IOTestI :: HashQualified Name -> Input
 MakeStandaloneI :: String -> HashQualified Name -> Input
 TestI :: TestInput -> Input
@@ -790,6 +791,7 @@ test :: InputPattern
 testAll :: InputPattern
 docsToHtml :: InputPattern
 execute :: InputPattern
+saveExecuteResult :: InputPattern
 ioTest :: InputPattern
 makeStandalone :: InputPattern
 createAuthor :: InputPattern
@@ -976,6 +978,8 @@ TermNotFound :: HQSplit' -> Output
 TypeNotFound' :: ShortHash -> Output
 TermNotFound' :: ShortHash -> Output
 TypeTermMismatch :: HashQualified Name -> HashQualified Name -> Output
+NoLastRunResult :: Output
+SaveTermNameConflict :: Name -> Output
 SearchTermsNotFound :: [HashQualified Name] -> Output
 DeleteBranchConfirmation :: [(Path', (Names, [SearchResult' Symbol Ann]))] -> Output
 DeleteEverythingConfirmation :: Output
@@ -994,6 +998,7 @@ CompilerBugs :: Text -> PrettyPrintEnv -> [CompilerBug Symbol Ann] -> Output
 DisplayConflicts :: Relation Name Referent -> Relation Name Reference -> Output
 EvaluationFailure :: Error -> Output
 Evaluated :: SourceFileContents -> PrettyPrintEnv -> [(Symbol, Term Symbol ())] -> Map Symbol (Ann, WatchKind, Term Symbol (), IsCacheHit) -> Output
+RunResult :: PrettyPrintEnv -> Term Symbol () -> Output
 Typechecked :: SourceName -> PrettyPrintEnv -> SlurpResult Symbol -> TypecheckedUnisonFile Symbol Ann -> Output
 DisplayRendered :: Maybe FilePath -> Pretty ColorText -> Output
 DisplayDefinitions :: Maybe FilePath -> PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl Symbol Ann)) -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann)) -> Output
@@ -1337,7 +1342,7 @@ Env :: AuthenticatedHttpClient -> Codebase IO Symbol Ann -> Config -> Credential
 --   There's an additional pseudo <tt>"currentPath"</tt> field lens, for
 --   convenience.
 data LoopState
-LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, Bool) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Maybe Input -> NumberedArgs -> LoopState
+LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, Bool) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Maybe Input -> NumberedArgs -> Maybe (Term Symbol Ann, Type Symbol Ann, TypecheckedUnisonFile Symbol Ann) -> LoopState
 [$sel:root:LoopState] :: LoopState -> Branch IO
 [$sel:lastSavedRoot:LoopState] :: LoopState -> Branch IO
 [$sel:currentPathStack:LoopState] :: LoopState -> NonEmpty Absolute
@@ -1345,6 +1350,7 @@ LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, Boo
 [$sel:latestTypecheckedFile:LoopState] :: LoopState -> Maybe (TypecheckedUnisonFile Symbol Ann)
 [$sel:lastInput:LoopState] :: LoopState -> Maybe Input
 [$sel:numberedArgs:LoopState] :: LoopState -> NumberedArgs
+[$sel:lastRunResult:LoopState] :: LoopState -> Maybe (Term Symbol Ann, Type Symbol Ann, TypecheckedUnisonFile Symbol Ann)
 
 -- | Create an initial loop state given a root branch and the current path.
 loopState0 :: Branch IO -> Absolute -> LoopState
