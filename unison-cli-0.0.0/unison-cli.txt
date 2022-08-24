@@ -136,7 +136,7 @@ AliasTypeI :: HashOrHQSplit' -> Split' -> Input
 AliasManyI :: [HQSplit] -> Path' -> Input
 MoveTermI :: HQSplit' -> Split' -> Input
 MoveTypeI :: HQSplit' -> Split' -> Input
-MoveBranchI :: Maybe Split' -> Split' -> Input
+MoveBranchI :: Path' -> Path' -> Input
 MovePatchI :: Split' -> Split' -> Input
 CopyPatchI :: Split' -> Split' -> Input
 DeleteI :: HQSplit' -> Input
@@ -979,6 +979,8 @@ TypeTermMismatch :: HashQualified Name -> HashQualified Name -> Output
 SearchTermsNotFound :: [HashQualified Name] -> Output
 DeleteBranchConfirmation :: [(Path', (Names, [SearchResult' Symbol Ann]))] -> Output
 DeleteEverythingConfirmation :: Output
+MoveRootBranchConfirmation :: Output
+MovedOverExistingBranch :: Path' -> Output
 DeletedEverything :: Output
 ListNames :: IsGlobal -> Int -> [(Reference, Set (HashQualified Name))] -> [(Referent, Set (HashQualified Name))] -> Output
 ListOfDefinitions :: FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' Symbol Ann] -> Output
@@ -1187,6 +1189,7 @@ type Pretty = Pretty ColorText
 shortenDirectory :: FilePath -> IO FilePath
 renderFileName :: FilePath -> IO Pretty
 notifyNumbered :: NumberedOutput -> (Pretty, NumberedArgs)
+undoTip :: Pretty ColorText
 showListEdits :: Patch -> PrettyPrintEnv -> (Pretty ColorText, NumberedArgs)
 prettyURI :: URI -> Pretty
 prettyReadRemoteNamespace :: ReadRemoteNamespace -> Pretty
@@ -1503,6 +1506,22 @@ expectBranchAtPath' :: Path' -> Cli r (Branch IO)
 --   actually no branch, or there is a branch whose head is empty (i.e. it
 --   may have a history, but no current terms/types etc).
 assertNoBranchAtPath' :: Path' -> Cli r ()
+
+-- | Check if there's a branch at an absolute or relative path
+--   
+--   "no branch" means either there's actually no branch, or there is a
+--   branch whose head is empty (i.e. it may have a history, but no current
+--   terms/types etc).
+branchExistsAtPath' :: Path' -> Cli r Bool
+updateRoot :: Branch IO -> Text -> Cli r ()
+
+-- | Update a branch at the given path, returning <a>True</a> if an update
+--   occurred and false otherwise
+updateAtM :: Text -> Absolute -> (Branch IO -> Cli r (Branch IO)) -> Cli r Bool
+
+-- | Update a branch at the given path, returning <a>True</a> if an update
+--   occurred and false otherwise
+updateAt :: Text -> Absolute -> (Branch IO -> Branch IO) -> Cli r Bool
 getTermsAt :: (Absolute, HQSegment) -> Cli r (Set Referent)
 getTypesAt :: (Absolute, HQSegment) -> Cli r (Set TypeReference)
 defaultPatchNameSegment :: NameSegment
@@ -1537,6 +1556,12 @@ computeFrontier :: forall m. Monad m => (Reference -> m (Set Reference)) -> Patc
 propagateAndApply :: Patch -> Branch0 IO -> Cli r (Branch0 IO)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Propagate.Edits v)
 instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
+
+module Unison.Codebase.Editor.HandleInput.MoveBranch
+
+-- | Moves a branch and its history from one location to another, and saves
+--   the new root branch.
+doMoveBranch :: forall r. Text -> Bool -> Path' -> Path' -> Cli r ()
 
 module Unison.Codebase.Editor.HandleInput
 loop :: Either Event Input -> Cli r ()

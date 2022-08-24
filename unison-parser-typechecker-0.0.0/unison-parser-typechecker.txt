@@ -134,6 +134,21 @@ type Split = (Path, NameSegment)
 type Split' = (Path', NameSegment)
 type HQSplit' = (Path', HQSegment)
 ancestors :: Absolute -> Seq Absolute
+
+-- | Finds the longest shared path prefix of two paths. Returns (shared
+--   prefix, path to first location from shared prefix, path to second
+--   location from shared prefix)
+--   
+--   <pre>
+--   &gt;&gt;&gt; longestPathPrefix ("a" :&lt; "b" :&lt; "x" :&lt; Empty) ("a" :&lt; "b" :&lt; "c" :&lt; Empty)
+--   (a.b,x,c)
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; longestPathPrefix Empty ("a" :&lt; "b" :&lt; "c" :&lt; Empty)
+--   (,,a.b.c)
+--   </pre>
+longestPathPrefix :: Path -> Path -> (Path, Path, Path)
 isCurrentPath :: Path' -> Bool
 isRoot :: Absolute -> Bool
 isRoot' :: Path' -> Bool
@@ -2159,9 +2174,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3mfK loc_a3mfL. Lens' (Env v_a3mfK loc_a3mfL) (TypeLookup v_a3mfK loc_a3mfL)
-termsByShortname :: forall v_a3mfK loc_a3mfL. Lens' (Env v_a3mfK loc_a3mfL) (Map Name [NamedReference v_a3mfK loc_a3mfL])
-ambientAbilities :: forall v_a3mfK loc_a3mfL. Lens' (Env v_a3mfK loc_a3mfL) [Type v_a3mfK loc_a3mfL]
+typeLookup :: forall v_a3mnm loc_a3mnn. Lens' (Env v_a3mnm loc_a3mnn) (TypeLookup v_a3mnm loc_a3mnn)
+termsByShortname :: forall v_a3mnm loc_a3mnn. Lens' (Env v_a3mnm loc_a3mnn) (Map Name [NamedReference v_a3mnm loc_a3mnn])
+ambientAbilities :: forall v_a3mnm loc_a3mnn. Lens' (Env v_a3mnm loc_a3mnn) [Type v_a3mnm loc_a3mnn]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
