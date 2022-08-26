@@ -1633,6 +1633,10 @@ tlsSignedCertRef :: Reference
 tlsPrivateKeyRef :: Reference
 isPropagatedRef :: Reference
 isTestRef :: Reference
+runtimeFailureRef :: Reference
+arithmeticFailureRef :: Reference
+miscFailureRef :: Reference
+stmFailureRef :: Reference
 fileModeRef :: Reference
 filePathRef :: Reference
 bufferModeRef :: Reference
@@ -2175,9 +2179,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3mDT loc_a3mDU. Lens' (Env v_a3mDT loc_a3mDU) (TypeLookup v_a3mDT loc_a3mDU)
-termsByShortname :: forall v_a3mDT loc_a3mDU. Lens' (Env v_a3mDT loc_a3mDU) (Map Name [NamedReference v_a3mDT loc_a3mDU])
-ambientAbilities :: forall v_a3mDT loc_a3mDU. Lens' (Env v_a3mDT loc_a3mDU) [Type v_a3mDT loc_a3mDU]
+typeLookup :: forall v_a3mWZ loc_a3mX0. Lens' (Env v_a3mWZ loc_a3mX0) (TypeLookup v_a3mWZ loc_a3mX0)
+termsByShortname :: forall v_a3mWZ loc_a3mX0. Lens' (Env v_a3mWZ loc_a3mX0) (Map Name [NamedReference v_a3mWZ loc_a3mX0])
+ambientAbilities :: forall v_a3mWZ loc_a3mX0. Lens' (Env v_a3mWZ loc_a3mX0) [Type v_a3mWZ loc_a3mX0]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -4186,6 +4190,7 @@ PRNT :: POp
 INFO :: POp
 TRCE :: POp
 ATOM :: POp
+TFRC :: POp
 type FOp = Word64
 close :: (Var v, Monoid a) => Set v -> Term v a -> Term v a
 saturate :: (Var v, Monoid a) => Map ConstructorReference Int -> Term v a -> Term v a
@@ -4381,6 +4386,7 @@ Reset :: !EnumSet Word64 -> Instr
 Fork :: !Int -> Instr
 Atomically :: !Int -> Instr
 Seq :: !Args -> Instr
+TryForce :: !Int -> Instr
 data Section
 App :: !Bool -> !Ref -> !Args -> Section
 Call :: !Bool -> !Word64 -> !Args -> Section
@@ -5030,10 +5036,13 @@ topDEnv :: Map Reference Word64 -> Map Reference Word64 -> (DEnv, K -> K)
 apply0 :: Maybe (Stack 'UN -> Stack 'BX -> IO ()) -> CCache -> ActiveThreads -> Word64 -> IO ()
 apply1 :: (Stack 'UN -> Stack 'BX -> IO ()) -> CCache -> ActiveThreads -> Closure -> IO ()
 jump0 :: (Stack 'UN -> Stack 'BX -> IO ()) -> CCache -> ActiveThreads -> Closure -> IO ()
+unitValue :: Closure
 lookupDenv :: Word64 -> DEnv -> Closure
 exec :: CCache -> DEnv -> ActiveThreads -> Stack 'UN -> Stack 'BX -> K -> Instr -> IO (DEnv, Stack 'UN, Stack 'BX, K)
+encodeExn :: Stack 'UN -> Stack 'BX -> Either SomeException () -> IO (Stack 'BX)
 eval :: CCache -> DEnv -> ActiveThreads -> Stack 'UN -> Stack 'BX -> K -> Section -> IO ()
 forkEval :: CCache -> ActiveThreads -> Closure -> IO ThreadId
+nestEval :: CCache -> ActiveThreads -> (Closure -> IO ()) -> Closure -> IO ()
 atomicEval :: CCache -> ActiveThreads -> (Closure -> IO ()) -> Closure -> IO ()
 enter :: CCache -> DEnv -> ActiveThreads -> Stack 'UN -> Stack 'BX -> K -> Bool -> Args -> Comb -> IO ()
 name :: Stack 'UN -> Stack 'BX -> Args -> Closure -> IO (Stack 'BX)
