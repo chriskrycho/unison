@@ -86,11 +86,15 @@ instance Data.Bifoldable.Bifoldable U.Codebase.Reference.Reference'
 instance Data.Bitraversable.Bitraversable U.Codebase.Reference.Reference'
 
 module U.Codebase.Reflog
-data Entry
-Entry :: BranchHash -> BranchHash -> Text -> Entry
-[from] :: Entry -> BranchHash
-[to] :: Entry -> BranchHash
-[reason] :: Entry -> Text
+data Entry causal text
+Entry :: UTCTime -> causal -> causal -> text -> Entry causal text
+[time] :: Entry causal text -> UTCTime
+[fromRootCausalHash] :: Entry causal text -> causal
+[toRootCausalHash] :: Entry causal text -> causal
+[reason] :: Entry causal text -> text
+instance Data.Bifunctor.Bifunctor U.Codebase.Reflog.Entry
+instance Data.Bifoldable.Bifoldable U.Codebase.Reflog.Entry
+instance Data.Bitraversable.Bitraversable U.Codebase.Reflog.Entry
 
 module U.Codebase.ShortHash
 data ShortHash

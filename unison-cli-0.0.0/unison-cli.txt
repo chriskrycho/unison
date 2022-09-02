@@ -1022,7 +1022,7 @@ PatchNeedsToBeConflictFree :: Output
 PatchInvolvesExternalDependents :: PrettyPrintEnv -> Set Reference -> Output
 WarnIncomingRootBranch :: ShortBranchHash -> Set ShortBranchHash -> Output
 StartOfCurrentPathHistory :: Output
-ShowReflog :: [ReflogEntry] -> Output
+ShowReflog :: [(Maybe UTCTime, ShortBranchHash, Text)] -> Output
 PullAlreadyUpToDate :: ReadRemoteNamespace -> Path' -> Output
 PullSuccessful :: ReadRemoteNamespace -> Path' -> Output
 
@@ -1107,10 +1107,6 @@ NewlyComputed :: TestReportStats
 data UndoFailureReason
 CantUndoPastStart :: UndoFailureReason
 CantUndoPastMerge :: UndoFailureReason
-data ReflogEntry
-ReflogEntry :: ShortBranchHash -> Text -> ReflogEntry
-[$sel:hash:ReflogEntry] :: ReflogEntry -> ShortBranchHash
-[$sel:reason:ReflogEntry] :: ReflogEntry -> Text
 data ShareError
 ShareErrorCheckAndSetPush :: CheckAndSetPushError -> ShareError
 ShareErrorFastForwardPush :: FastForwardPushError -> ShareError
@@ -1119,7 +1115,6 @@ ShareErrorGetCausalHashByPath :: GetCausalHashByPathError -> ShareError
 ShareErrorTransport :: CodeserverTransportError -> ShareError
 isFailure :: Output -> Bool
 isNumberedFailure :: NumberedOutput -> Bool
-instance GHC.Show.Show Unison.Codebase.Editor.Output.ReflogEntry
 instance GHC.Show.Show Unison.Codebase.Editor.Output.HistoryTail
 instance GHC.Show.Show Unison.Codebase.Editor.Output.TestReportStats
 instance GHC.Show.Show Unison.Codebase.Editor.Output.UndoFailureReason
@@ -1263,6 +1258,7 @@ endangeredDependentsTable :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet 
 -- | Displays a full, non-truncated Branch.CausalHash to a string, e.g.
 --   #abcdef
 displayBranchHash :: CausalHash -> String
+prettyHumanReadableTime :: UTCTime -> UTCTime -> Pretty
 
 module Unison.CommandLine.DisplayValues
 type Pretty = Pretty ColorText

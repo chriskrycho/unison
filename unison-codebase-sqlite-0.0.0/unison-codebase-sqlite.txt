@@ -385,6 +385,8 @@ instance Database.SQLite.Simple.ToField.ToField (U.Codebase.Sqlite.Orphans.AsSql
 instance Database.SQLite.Simple.FromField.FromField (U.Codebase.Sqlite.Orphans.AsSqlite U.Util.Hash.Hash)
 instance Database.SQLite.Simple.ToField.ToField U.Codebase.WatchKind.WatchKind
 instance Database.SQLite.Simple.FromField.FromField U.Codebase.WatchKind.WatchKind
+instance Database.SQLite.Simple.ToRow.ToRow (U.Codebase.Reflog.Entry U.Codebase.Sqlite.DbId.CausalHashId Data.Text.Internal.Text)
+instance Database.SQLite.Simple.FromRow.FromRow (U.Codebase.Reflog.Entry U.Codebase.Sqlite.DbId.CausalHashId Data.Text.Internal.Text)
 
 module U.Codebase.Sqlite.Patch.TermEdit
 type TermEdit = TermEdit' TextId ObjectId
@@ -1011,6 +1013,8 @@ rootTypeNamesByPath :: Maybe Text -> Transaction ([NamedRef TextReference], [Nam
 -- | Gets the count of all definitions within the given namespace. NOTE:
 --   This requires a working name lookup index.
 getNamespaceDefinitionCount :: Text -> Transaction Int
+appendReflog :: Entry CausalHashId Text -> Transaction ()
+getReflog :: Int -> Transaction [Entry CausalHashId Text]
 
 -- | Delete objects without hashes. An object typically *would* have a
 --   hash, but (for example) during a migration in which an object's hash
@@ -1084,6 +1088,7 @@ deleteTempEntity :: Hash32 -> Transaction ()
 --   subtract the set we already have, {A,B}).
 elaborateHashes :: NonEmpty Hash32 -> Transaction [Text]
 addTempEntityTables :: Transaction ()
+addReflogTable :: Transaction ()
 addTypeMentionsToIndexForTerm :: Id -> Set Reference -> Transaction ()
 addTypeToIndexForTerm :: Id -> Reference -> Transaction ()
 
@@ -1223,6 +1228,8 @@ NamesByPath :: [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef (Refere
 [$sel:termNamesExternalToPath:NamesByPath] :: NamesByPath -> [NamedRef (Referent, Maybe ConstructorType)]
 [$sel:typeNamesInPath:NamesByPath] :: NamesByPath -> [NamedRef Reference]
 [$sel:typeNamesExternalToPath:NamesByPath] :: NamesByPath -> [NamedRef Reference]
+getReflog :: Int -> Transaction [Entry CausalHash Text]
+appendReflog :: Entry CausalHash Text -> Transaction ()
 expectDbBranch :: BranchObjectId -> Transaction DbBranch
 
 -- | Save a <a>DbBranch</a>, given its hash (which the caller is expected

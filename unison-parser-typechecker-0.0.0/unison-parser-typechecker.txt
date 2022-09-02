@@ -271,15 +271,6 @@ RequireNonEmpty :: PushBehavior
 instance GHC.Show.Show Unison.Codebase.PushBehavior.PushBehavior
 instance GHC.Classes.Eq Unison.Codebase.PushBehavior.PushBehavior
 
-module Unison.Codebase.Reflog
-data Entry h
-Entry :: h -> h -> Text -> Entry h
-[$sel:from:Entry] :: Entry h -> h
-[$sel:to:Entry] :: Entry h -> h
-[$sel:reason:Entry] :: Entry h -> Text
-fromText :: Coercible h Hash => Text -> Maybe (Entry h)
-toText :: Coercible h Hash => Entry h -> Text
-
 module Unison.Codebase.Serialization
 type Get a = forall m. MonadGet m => m a
 type Put a = forall m. MonadPut m => a -> m ()
@@ -2201,9 +2192,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3oz4 loc_a3oz5. Lens' (Env v_a3oz4 loc_a3oz5) (TypeLookup v_a3oz4 loc_a3oz5)
-termsByShortname :: forall v_a3oz4 loc_a3oz5. Lens' (Env v_a3oz4 loc_a3oz5) (Map Name [NamedReference v_a3oz4 loc_a3oz5])
-ambientAbilities :: forall v_a3oz4 loc_a3oz5. Lens' (Env v_a3oz4 loc_a3oz5) [Type v_a3oz4 loc_a3oz5]
+typeLookup :: forall v_a3okm loc_a3okn. Lens' (Env v_a3okm loc_a3okn) (TypeLookup v_a3okm loc_a3okn)
+termsByShortname :: forall v_a3okm loc_a3okn. Lens' (Env v_a3okm loc_a3okn) (Map Name [NamedReference v_a3okm loc_a3okn])
+ambientAbilities :: forall v_a3okm loc_a3okn. Lens' (Env v_a3okm loc_a3okn) [Type v_a3okm loc_a3okn]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3073,7 +3064,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> m (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> m [Entry CausalHash] -> (Text -> Branch m -> Branch m -> m ()) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> m (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -3125,7 +3116,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 
 -- | Like <a>$sel:putBranch:Codebase</a>, but also adjusts the root branch
 --   pointer afterwards.
-[$sel:putRootBranch:Codebase] :: Codebase m v a -> Branch m -> m ()
+[$sel:putRootBranch:Codebase] :: Codebase m v a -> Text -> Branch m -> m ()
 [$sel:getShallowBranchForHash:Codebase] :: Codebase m v a -> CausalHash -> m (CausalBranch m)
 [$sel:getBranchForHashImpl:Codebase] :: Codebase m v a -> CausalHash -> m (Maybe (Branch m))
 
@@ -3195,17 +3186,9 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 -- | Delete all watches that were put by <a>$sel:putWatch:Codebase</a>.
 [$sel:clearWatches:Codebase] :: Codebase m v a -> m ()
 
--- | Get the entire reflog.
-[$sel:getReflog:Codebase] :: Codebase m v a -> m [Entry CausalHash]
-
--- | <tt>appendReflog reason before after</tt> appends a reflog entry.
---   
---   FIXME: this could have type
---   
---   <pre>
---   appendReflog :: Reflog.Entry (Branch m) -&gt; m ()
---   </pre>
-[$sel:appendReflog:Codebase] :: Codebase m v a -> Text -> Branch m -> Branch m -> m ()
+-- | Gets the specified number of reflog entries in chronological order,
+--   most recent first.
+[$sel:getReflog:Codebase] :: Codebase m v a -> Int -> m [Entry CausalHash Text]
 
 -- | Get the set of user-defined terms-or-constructors that have the given
 --   type.
@@ -3733,7 +3716,7 @@ getShallowRootBranch :: Monad m => Codebase m v a -> m (CausalBranch m)
 
 -- | Like <a>$sel:putBranch:Codebase</a>, but also adjusts the root branch
 --   pointer afterwards.
-($sel:putRootBranch:Codebase) :: Codebase m v a -> Branch m -> m ()
+($sel:putRootBranch:Codebase) :: Codebase m v a -> Text -> Branch m -> m ()
 ($sel:namesAtPath:Codebase) :: Codebase m v a -> Path -> m ScopedNames
 
 -- | Check whether the given patch exists in the codebase.
@@ -3785,17 +3768,9 @@ lookupWatchCache :: Monad m => Codebase m v a -> Id -> m (Maybe (Term v a))
 -- | Delete all watches that were put by <a>$sel:putWatch:Codebase</a>.
 ($sel:clearWatches:Codebase) :: Codebase m v a -> m ()
 
--- | Get the entire reflog.
-($sel:getReflog:Codebase) :: Codebase m v a -> m [Entry CausalHash]
-
--- | <tt>appendReflog reason before after</tt> appends a reflog entry.
---   
---   FIXME: this could have type
---   
---   <pre>
---   appendReflog :: Reflog.Entry (Branch m) -&gt; m ()
---   </pre>
-($sel:appendReflog:Codebase) :: Codebase m v a -> Text -> Branch m -> Branch m -> m ()
+-- | Gets the specified number of reflog entries in chronological order,
+--   most recent first.
+($sel:getReflog:Codebase) :: Codebase m v a -> Int -> m [Entry CausalHash Text]
 
 -- | The number of base32 characters needed to distinguish any two
 --   references in the codebase.
@@ -3882,13 +3857,18 @@ makeCodebaseDirPath :: CodebasePath -> FilePath
 --   time.
 backupCodebasePath :: NominalDiffTime -> FilePath
 
+module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema5To6
+
+-- | The 5 to 6 migration adds the reflog as a table in the DB
+migrateSchema5To6 :: CodebasePath -> Transaction ()
+
 module Unison.Codebase.SqliteCodebase.Migrations
 
 -- | Mapping from schema version to the migration required to get there.
 --   Each migration may only be run on a schema of its immediate
 --   predecessor, E.g. The migration at index 2 must be run on a codebase
 --   at version 1.
-migrations :: (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Map SchemaVersion (Transaction ())
+migrations :: (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> CodebasePath -> Map SchemaVersion (Transaction ())
 
 -- | Migrates a codebase up to the most recent version known to ucm. This
 --   is a No-op if it's up to date Returns an error if the schema version

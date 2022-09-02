@@ -219,6 +219,7 @@ column3 :: (ListLike s Char, IsString s) => [(Pretty s, Pretty s, Pretty s)] -> 
 column3M :: (ListLike s Char, IsString s, Monad m) => [m (Pretty s, Pretty s, Pretty s)] -> m (Pretty s)
 column3UnzippedM :: forall m s. (ListLike s Char, IsString s, Monad m) => Pretty s -> [m (Pretty s)] -> [m (Pretty s)] -> [m (Pretty s)] -> m (Pretty s)
 column3sep :: (ListLike s Char, IsString s) => Pretty s -> [(Pretty s, Pretty s, Pretty s)] -> Pretty s
+column3Header :: Pretty ColorText -> Pretty ColorText -> Pretty ColorText -> [(Pretty ColorText, Pretty ColorText, Pretty ColorText)] -> Pretty ColorText
 commas :: (Foldable f, IsString s) => f (Pretty s) -> Pretty s
 commented :: (Foldable f, ListLike s Char, IsString s) => f (Pretty s) -> Pretty s
 oxfordCommas :: (Foldable f, IsString s) => f (Pretty s) -> Pretty s
@@ -258,6 +259,7 @@ nonEmpty :: (Foldable f, IsString s) => f (Pretty s) -> [Pretty s]
 numbered :: (Foldable f, ListLike s Char, IsString s) => (Int -> Pretty s) -> f (Pretty s) -> Pretty s
 numberedColumn2 :: (Foldable f, ListLike s Char, IsString s) => (Int -> Pretty s) -> f (Pretty s, Pretty s) -> Pretty s
 numberedColumn2Header :: (Foldable f, ListLike s Char, IsString s) => (Int -> Pretty s) -> f (Pretty s, Pretty s) -> Pretty s
+numberedColumnNHeader :: [Pretty ColorText] -> [[Pretty ColorText]] -> Pretty ColorText
 numberedList :: Foldable f => f (Pretty ColorText) -> Pretty ColorText
 orElse :: Pretty s -> Pretty s -> Pretty s
 orElses :: [Pretty s] -> Pretty s
