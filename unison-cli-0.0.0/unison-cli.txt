@@ -371,45 +371,38 @@ instance GHC.Classes.Ord v => GHC.Base.Semigroup (Unison.Codebase.Editor.SlurpCo
 instance GHC.Classes.Ord v => GHC.Base.Monoid (Unison.Codebase.Editor.SlurpComponent.SlurpComponent v)
 
 module Unison.Codebase.Editor.SlurpResult
-data Aliases
-AddAliases :: Set Name -> Aliases
-UpdateAliases :: Set Name -> Set Name -> Aliases
-[$sel:oldRefNames:AddAliases] :: Aliases -> Set Name
-[$sel:newRefNames:AddAliases] :: Aliases -> Set Name
 data SlurpResult v
-SlurpResult :: TypecheckedUnisonFile v Ann -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> Set v -> Set v -> Map v Aliases -> Map v Aliases -> SlurpComponent v -> SlurpResult v
+SlurpResult :: TypecheckedUnisonFile v Ann -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> Set v -> Set v -> Map v Aliases -> Map v Aliases -> SlurpComponent v -> SlurpResult v
 [$sel:originalFile:SlurpResult] :: SlurpResult v -> TypecheckedUnisonFile v Ann
 [$sel:extraDefinitions:SlurpResult] :: SlurpResult v -> SlurpComponent v
 [$sel:adds:SlurpResult] :: SlurpResult v -> SlurpComponent v
 [$sel:duplicates:SlurpResult] :: SlurpResult v -> SlurpComponent v
 [$sel:collisions:SlurpResult] :: SlurpResult v -> SlurpComponent v
-[$sel:conflicts:SlurpResult] :: SlurpResult v -> SlurpComponent v
 [$sel:updates:SlurpResult] :: SlurpResult v -> SlurpComponent v
 [$sel:termExistingConstructorCollisions:SlurpResult] :: SlurpResult v -> Set v
 [$sel:constructorExistingTermCollisions:SlurpResult] :: SlurpResult v -> Set v
 [$sel:termAlias:SlurpResult] :: SlurpResult v -> Map v Aliases
 [$sel:typeAlias:SlurpResult] :: SlurpResult v -> Map v Aliases
 [$sel:defsWithBlockedDependencies:SlurpResult] :: SlurpResult v -> SlurpComponent v
+data Aliases
+AddAliases :: Set Name -> Aliases
+UpdateAliases :: Set Name -> Set Name -> Aliases
+[$sel:oldRefNames:AddAliases] :: Aliases -> Set Name
+[$sel:newRefNames:AddAliases] :: Aliases -> Set Name
+isOk :: Ord v => SlurpResult v -> Bool
+isAllDuplicates :: Ord v => SlurpResult v -> Bool
 hasAddsOrUpdates :: Ord v => SlurpResult v -> Bool
+pretty :: forall v. Var v => IsPastTense -> PrettyPrintEnv -> SlurpResult v -> Pretty ColorText
 data Status
 Add :: Status
 Update :: Status
 Duplicate :: Status
 Collision :: Status
-Conflicted :: Status
 TermExistingConstructorCollision :: Status
 ConstructorExistingTermCollision :: Status
 ExtraDefinition :: Status
 BlockedDependency :: Status
-isFailure :: Status -> Bool
 prettyStatus :: Status -> Pretty ColorText
-type IsPastTense = Bool
-prettyVar :: Var v => v -> Pretty ColorText
-aliasesToShow :: Int
-pretty :: forall v. Var v => IsPastTense -> PrettyPrintEnv -> SlurpResult v -> Pretty ColorText
-isOk :: Ord v => SlurpResult v -> Bool
-isAllDuplicates :: Ord v => SlurpResult v -> Bool
-ex :: Pretty ColorText
 instance GHC.Classes.Ord Unison.Codebase.Editor.SlurpResult.Aliases
 instance GHC.Classes.Eq Unison.Codebase.Editor.SlurpResult.Aliases
 instance GHC.Show.Show Unison.Codebase.Editor.SlurpResult.Aliases
@@ -435,18 +428,12 @@ instance GHC.Classes.Eq Unison.Codebase.Editor.Slurp.SlurpOp
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Slurp.TaggedVar v)
 instance GHC.Classes.Ord v => GHC.Classes.Ord (Unison.Codebase.Editor.Slurp.TaggedVar v)
 instance GHC.Classes.Eq v => GHC.Classes.Eq (Unison.Codebase.Editor.Slurp.TaggedVar v)
-instance GHC.Show.Show Unison.Codebase.Editor.Slurp.SlurpOk
-instance GHC.Classes.Ord Unison.Codebase.Editor.Slurp.SlurpOk
-instance GHC.Classes.Eq Unison.Codebase.Editor.Slurp.SlurpOk
-instance GHC.Show.Show Unison.Codebase.Editor.Slurp.SlurpErr
-instance GHC.Classes.Ord Unison.Codebase.Editor.Slurp.SlurpErr
-instance GHC.Classes.Eq Unison.Codebase.Editor.Slurp.SlurpErr
 instance GHC.Show.Show Unison.Codebase.Editor.Slurp.DefnStatus
 instance GHC.Classes.Ord Unison.Codebase.Editor.Slurp.DefnStatus
 instance GHC.Classes.Eq Unison.Codebase.Editor.Slurp.DefnStatus
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Slurp.SummarizedStatus v)
-instance GHC.Classes.Ord v => GHC.Classes.Ord (Unison.Codebase.Editor.Slurp.SummarizedStatus v)
-instance GHC.Classes.Eq v => GHC.Classes.Eq (Unison.Codebase.Editor.Slurp.SummarizedStatus v)
+instance GHC.Show.Show Unison.Codebase.Editor.Slurp.DepStatus
+instance GHC.Classes.Ord Unison.Codebase.Editor.Slurp.DepStatus
+instance GHC.Classes.Eq Unison.Codebase.Editor.Slurp.DepStatus
 instance GHC.Classes.Ord v => GHC.Base.Semigroup (Unison.Codebase.Editor.Slurp.SlurpingSummary v)
 instance GHC.Classes.Ord v => GHC.Base.Monoid (Unison.Codebase.Editor.Slurp.SlurpingSummary v)
 
