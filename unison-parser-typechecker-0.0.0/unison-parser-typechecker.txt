@@ -328,6 +328,13 @@ module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema4To5
 --   Unison Share
 migrateSchema4To5 :: Transaction ()
 
+module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema6To7
+
+-- | Adds a table for tracking namespace statistics Adds stats for all
+--   existing namespaces, even though missing stats are computed on-demand
+--   if missing.
+migrateSchema6To7 :: Transaction ()
+
 module Unison.Codebase.SqliteCodebase.SyncEphemeral
 data Dependencies
 Dependencies :: Set Hash -> Set Hash -> Dependencies
@@ -2192,9 +2199,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3okm loc_a3okn. Lens' (Env v_a3okm loc_a3okn) (TypeLookup v_a3okm loc_a3okn)
-termsByShortname :: forall v_a3okm loc_a3okn. Lens' (Env v_a3okm loc_a3okn) (Map Name [NamedReference v_a3okm loc_a3okn])
-ambientAbilities :: forall v_a3okm loc_a3okn. Lens' (Env v_a3okm loc_a3okn) [Type v_a3okm loc_a3okn]
+typeLookup :: forall v_a3ptc loc_a3ptd. Lens' (Env v_a3ptc loc_a3ptd) (TypeLookup v_a3ptc loc_a3ptd)
+termsByShortname :: forall v_a3ptc loc_a3ptd. Lens' (Env v_a3ptc loc_a3ptd) (Map Name [NamedReference v_a3ptc loc_a3ptd])
+ambientAbilities :: forall v_a3ptc loc_a3ptd. Lens' (Env v_a3ptc loc_a3ptd) [Type v_a3ptc loc_a3ptd]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -2967,6 +2974,7 @@ deepEdits' :: Branch0 m -> Map Name (EditHash, m Patch)
 
 -- | what does this do? —AI
 toList0 :: Branch0 m -> [(Path, Branch0 m)]
+namespaceStats :: Branch0 m -> NamespaceStats
 
 -- | Perform an update over the current branch and create a new causal
 --   step.

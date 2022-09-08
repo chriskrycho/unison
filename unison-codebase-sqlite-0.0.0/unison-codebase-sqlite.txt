@@ -385,6 +385,8 @@ instance Database.SQLite.Simple.ToField.ToField (U.Codebase.Sqlite.Orphans.AsSql
 instance Database.SQLite.Simple.FromField.FromField (U.Codebase.Sqlite.Orphans.AsSqlite U.Util.Hash.Hash)
 instance Database.SQLite.Simple.ToField.ToField U.Codebase.WatchKind.WatchKind
 instance Database.SQLite.Simple.FromField.FromField U.Codebase.WatchKind.WatchKind
+instance Database.SQLite.Simple.ToRow.ToRow U.Codebase.Branch.Type.NamespaceStats
+instance Database.SQLite.Simple.FromRow.FromRow U.Codebase.Branch.Type.NamespaceStats
 instance Database.SQLite.Simple.ToRow.ToRow (U.Codebase.Reflog.Entry U.Codebase.Sqlite.DbId.CausalHashId Data.Text.Internal.Text)
 instance Database.SQLite.Simple.FromRow.FromRow (U.Codebase.Reflog.Entry U.Codebase.Sqlite.DbId.CausalHashId Data.Text.Internal.Text)
 
@@ -932,6 +934,13 @@ loadNamespaceRoot :: Transaction (Maybe CausalHashId)
 setNamespaceRoot :: CausalHashId -> Transaction ()
 expectNamespaceRoot :: Transaction CausalHashId
 
+-- | Save statistics about a given branch.
+saveNamespaceStats :: BranchHashId -> NamespaceStats -> Transaction ()
+
+-- | Looks up statistics for a given branch, there's no guarantee that we
+--   have computed and saved stats for any given branch.
+loadNamespaceStatsByHashId :: BranchHashId -> Transaction (Maybe NamespaceStats)
+
 -- | Maybe we would generalize this to something other than NamespaceHash
 --   if we end up wanting to store other kinds of Causals here too.
 saveCausal :: HashHandle -> CausalHashId -> BranchHashId -> [CausalHashId] -> Transaction ()
@@ -1088,6 +1097,7 @@ deleteTempEntity :: Hash32 -> Transaction ()
 --   subtract the set we already have, {A,B}).
 elaborateHashes :: NonEmpty Hash32 -> Transaction [Text]
 addTempEntityTables :: Transaction ()
+addNamespaceStatsTables :: Transaction ()
 addReflogTable :: Transaction ()
 addTypeMentionsToIndexForTerm :: Id -> Set Reference -> Transaction ()
 addTypeToIndexForTerm :: Id -> Reference -> Transaction ()
@@ -1178,6 +1188,14 @@ expectCausalHashAtPath :: [Text] -> Transaction CausalHash
 saveBranch :: HashHandle -> CausalBranch Transaction -> Transaction (BranchObjectId, CausalHashId)
 loadCausalBranchByCausalHash :: CausalHash -> Transaction (Maybe (CausalBranch Transaction))
 expectCausalBranchByCausalHash :: CausalHash -> Transaction (CausalBranch Transaction)
+
+-- | Looks up statistics for a given branch, if none exist, we compute them
+--   and save them then return them.
+expectNamespaceStatsByHash :: BranchHash -> Transaction NamespaceStats
+
+-- | Looks up statistics for a given branch, if none exist, we compute them
+--   and save them then return them.
+expectNamespaceStatsByHashId :: BranchHashId -> Transaction NamespaceStats
 saveTermComponent :: HashHandle -> Maybe ByteString -> Hash -> [(Term Symbol, Type Symbol)] -> Transaction ObjectId
 loadTermComponent :: Hash -> MaybeT Transaction [(Term Symbol, Type Symbol)]
 loadTermByReference :: Id -> MaybeT Transaction (Term Symbol)
@@ -1238,16 +1256,17 @@ expectDbBranch :: BranchObjectId -> Transaction DbBranch
 --   Note: long-standing question: should this package depend on the
 --   hashing package? (If so, we would only need to take the DbBranch, and
 --   hash internally).
-saveDbBranch :: HashHandle -> BranchHash -> DbBranch -> Transaction BranchObjectId
+saveDbBranch :: HashHandle -> BranchHash -> NamespaceStats -> DbBranch -> Transaction BranchObjectId
 
 -- | Variant of <a>saveDbBranch</a> that might be preferred by callers that
 --   already have a hash id, not a hash.
-saveDbBranchUnderHashId :: HashHandle -> BranchHashId -> DbBranch -> Transaction BranchObjectId
+saveDbBranchUnderHashId :: HashHandle -> BranchHashId -> NamespaceStats -> DbBranch -> Transaction BranchObjectId
 expectDbPatch :: PatchObjectId -> Transaction Patch
 saveDbPatch :: HashHandle -> PatchHash -> PatchFormat -> Transaction PatchObjectId
 
 -- | Expect a branch value given its causal hash id.
 expectDbBranchByCausalHashId :: CausalHashId -> Transaction DbBranch
+namespaceStatsForDbBranch :: DbBranch -> Transaction NamespaceStats
 c2sReferenceId :: Id -> Transaction Id
 c2sReferentId :: Id -> Transaction Id
 
@@ -1267,3 +1286,7 @@ branchHashesByPrefix :: ShortBranchHash -> Transaction (Set BranchHash)
 derivedDependencies :: Id -> Transaction (Set Id)
 instance Unison.Sqlite.Exception.SqliteExceptionReason U.Codebase.Sqlite.Operations.NeedTypeForBuiltinMetadata
 instance GHC.Show.Show U.Codebase.Sqlite.Operations.NeedTypeForBuiltinMetadata
+
+module U.Codebase.Branch
+nonEmptyChildren :: Branch m -> Transaction (Map NameSegment (CausalBranch m))
+childStats :: Branch m -> Transaction (Map NameSegment (CausalBranch m, NamespaceStats))

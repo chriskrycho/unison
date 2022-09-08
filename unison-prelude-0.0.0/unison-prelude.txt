@@ -1442,38 +1442,6 @@ byteSwap16 :: Word16 -> Word16
 -- | A strict version of <a>foldl1</a>
 foldl1' :: (a -> a -> a) -> [a] -> a
 
--- | The <a>mapMaybe</a> function is a version of <a>map</a> which can
---   throw out elements. In particular, the functional argument returns
---   something of type <tt><a>Maybe</a> b</tt>. If this is <a>Nothing</a>,
---   no element is added on to the result list. If it is <tt><a>Just</a>
---   b</tt>, then <tt>b</tt> is included in the result list.
---   
---   <h4><b>Examples</b></h4>
---   
---   Using <tt><a>mapMaybe</a> f x</tt> is a shortcut for
---   <tt><a>catMaybes</a> $ <a>map</a> f x</tt> in most cases:
---   
---   <pre>
---   &gt;&gt;&gt; import Text.Read ( readMaybe )
---   
---   &gt;&gt;&gt; let readMaybeInt = readMaybe :: String -&gt; Maybe Int
---   
---   &gt;&gt;&gt; mapMaybe readMaybeInt ["1", "Foo", "3"]
---   [1,3]
---   
---   &gt;&gt;&gt; catMaybes $ map readMaybeInt ["1", "Foo", "3"]
---   [1,3]
---   </pre>
---   
---   If we map the <a>Just</a> constructor, the entire list should be
---   returned:
---   
---   <pre>
---   &gt;&gt;&gt; mapMaybe Just [1,2,3]
---   [1,2,3]
---   </pre>
-mapMaybe :: (a -> Maybe b) -> [a] -> [b]
-
 -- | The <a>catMaybes</a> function takes a list of <a>Maybe</a>s and
 --   returns a list of all the <a>Just</a> values.
 --   
@@ -2223,6 +2191,23 @@ withUnliftIO :: MonadUnliftIO m => (UnliftIO m -> IO a) -> m a
 --   This is parameterized on the exception type. To catch all synchronous
 --   exceptions, use <a>tryAny</a>.
 try :: (MonadUnliftIO m, Exception e) => m a -> m (Either e a)
+
+-- | <pre>
+--   <a>forMaybe</a> = <a>flip</a> <a>wither</a>
+--   </pre>
+forMaybe :: (Witherable t, Applicative f) => t a -> (a -> f (Maybe b)) -> f (t b)
+
+-- | Like <a>mapMaybe</a>.
+mapMaybe :: Filterable f => (a -> Maybe b) -> f a -> f b
+witherMap :: (Witherable t, Applicative m) => (t b -> r) -> (a -> m (Maybe b)) -> t a -> m r
+
+-- | Effectful <a>mapMaybe</a>.
+--   
+--   <pre>
+--   <a>wither</a> (<a>pure</a> . f) ≡ <a>pure</a> . <a>mapMaybe</a> f
+--   </pre>
+wither :: (Witherable t, Applicative f) => (a -> f (Maybe b)) -> t a -> f (t b)
+filterA :: (Witherable t, Applicative f) => (a -> f Bool) -> t a -> f (t a)
 
 -- | Strictly read an entire file decoding UTF8. Converts rn -&gt; n on
 --   windows.

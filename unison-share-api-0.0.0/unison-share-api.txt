@@ -433,7 +433,7 @@ type SyntaxText = SyntaxText' Reference
 data ShallowListEntry v a
 ShallowTermEntry :: TermEntry v a -> ShallowListEntry v a
 ShallowTypeEntry :: TypeEntry -> ShallowListEntry v a
-ShallowBranchEntry :: NameSegment -> CausalHash -> Maybe Int -> ShallowListEntry v a
+ShallowBranchEntry :: NameSegment -> CausalHash -> NamespaceStats -> ShallowListEntry v a
 ShallowPatchEntry :: NameSegment -> ShallowListEntry v a
 listEntryName :: ShallowListEntry v a -> Text
 data BackendError
@@ -510,7 +510,7 @@ lsBranch :: Monad m => Codebase m Symbol Ann -> Branch m -> m [ShallowListEntry 
 --   takes a shallow v2 branch, As a result, it omits definition counts
 --   from child-namespaces in its results, but doesn't require loading the
 --   entire sub-tree to do so.
-lsShallowBranch :: Monad m => Codebase m Symbol Ann -> Branch m -> m [ShallowListEntry Symbol Ann]
+lsShallowBranch :: MonadIO m => Codebase m Symbol Ann -> Branch m -> m [ShallowListEntry Symbol Ann]
 termReferencesByShortHash :: Monad m => Codebase m v a -> ShortHash -> m (Set Reference)
 
 -- | Look up types in the codebase by short hash, and include builtins.
@@ -686,10 +686,10 @@ TermObject :: NamedTerm -> NamespaceObject
 TypeObject :: NamedType -> NamespaceObject
 PatchObject :: NamedPatch -> NamespaceObject
 data NamedNamespace
-NamedNamespace :: UnisonName -> UnisonHash -> Maybe Int -> NamedNamespace
+NamedNamespace :: UnisonName -> UnisonHash -> Int -> NamedNamespace
 [$sel:namespaceName:NamedNamespace] :: NamedNamespace -> UnisonName
 [$sel:namespaceHash:NamedNamespace] :: NamedNamespace -> UnisonHash
-[$sel:namespaceSize:NamedNamespace] :: NamedNamespace -> Maybe Int
+[$sel:namespaceSize:NamedNamespace] :: NamedNamespace -> Int
 newtype NamedPatch
 NamedPatch :: HashQualifiedName -> NamedPatch
 [$sel:patchName:NamedPatch] :: NamedPatch -> HashQualifiedName
