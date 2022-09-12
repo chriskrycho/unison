@@ -6,6 +6,7 @@
 @version 0.0.0
 
 module Compat
+onWindows :: Bool
 
 -- | Constructs a default interrupt handler which builds an interrupt
 --   handler which throws a UserInterrupt exception to the thread in which
@@ -870,6 +871,157 @@ instance GHC.Show.Show Unison.CommandLine.Welcome.CodebaseInitStatus
 instance GHC.Classes.Eq Unison.CommandLine.Welcome.Onboarding
 instance GHC.Show.Show Unison.CommandLine.Welcome.Onboarding
 
+
+-- | Instances for LSP types which are strangely missing.
+module Unison.LSP.Orphans
+instance GHC.Classes.Ord Language.LSP.Types.TextDocument.TextDocumentIdentifier
+instance Language.LSP.Types.Lens.HasTextDocument Language.LSP.Types.TextDocument.TextDocumentIdentifier Language.LSP.Types.TextDocument.TextDocumentIdentifier
+instance Language.LSP.Types.Lens.HasTextDocument Language.LSP.Types.TextDocument.VersionedTextDocumentIdentifier Language.LSP.Types.TextDocument.VersionedTextDocumentIdentifier
+instance Language.LSP.Types.Lens.HasUri Language.LSP.Types.Uri.NormalizedUri Language.LSP.Types.Uri.Uri
+
+module Unison.LSP.Types
+
+-- | A custom LSP monad wrapper so we can provide our own environment.
+newtype Lsp a
+Lsp :: ReaderT Env (LspM Config) a -> Lsp a
+[$sel:runLspM:Lsp] :: Lsp a -> ReaderT Env (LspM Config) a
+
+-- | Log an info message to the client's LSP log.
+logInfo :: Text -> Lsp ()
+
+-- | Log an error message to the client's LSP log, this will be shown to
+--   the user in most LSP implementations.
+logError :: Text -> Lsp ()
+
+-- | Environment for the Lsp monad.
+data Env
+Env :: LanguageContextEnv Config -> Codebase IO Symbol Ann -> IO NamesWithHistory -> IO PrettyPrintEnvDecl -> IO Absolute -> MVar VFS -> Runtime Symbol -> TVar (Map Uri FileAnalysis) -> TVar (Set Uri) -> Scope -> Env
+[$sel:lspContext:Env] :: Env -> LanguageContextEnv Config
+[$sel:codebase:Env] :: Env -> Codebase IO Symbol Ann
+[$sel:parseNamesCache:Env] :: Env -> IO NamesWithHistory
+[$sel:ppeCache:Env] :: Env -> IO PrettyPrintEnvDecl
+[$sel:currentPathCache:Env] :: Env -> IO Absolute
+[$sel:vfsVar:Env] :: Env -> MVar VFS
+[$sel:runtime:Env] :: Env -> Runtime Symbol
+[$sel:checkedFilesVar:Env] :: Env -> TVar (Map Uri FileAnalysis)
+[$sel:dirtyFilesVar:Env] :: Env -> TVar (Set Uri)
+[$sel:scope:Env] :: Env -> Scope
+
+-- | A monotonically increasing file version tracked by the lsp client.
+type FileVersion = Int32
+type LexedSource = (Text, [Token Lexeme])
+data FileAnalysis
+FileAnalysis :: Uri -> FileVersion -> LexedSource -> Maybe (UnisonFile Symbol Ann) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Seq (Note Symbol Ann) -> FileAnalysis
+[$sel:fileUri:FileAnalysis] :: FileAnalysis -> Uri
+[$sel:fileVersion:FileAnalysis] :: FileAnalysis -> FileVersion
+[$sel:lexedSource:FileAnalysis] :: FileAnalysis -> LexedSource
+[$sel:parsedFile:FileAnalysis] :: FileAnalysis -> Maybe (UnisonFile Symbol Ann)
+[$sel:typecheckedFile:FileAnalysis] :: FileAnalysis -> Maybe (TypecheckedUnisonFile Symbol Ann)
+[$sel:notes:FileAnalysis] :: FileAnalysis -> Seq (Note Symbol Ann)
+getCurrentPath :: Lsp Absolute
+globalPPE :: Lsp PrettyPrintEnvDecl
+getParseNames :: Lsp NamesWithHistory
+data Config
+Config :: Config
+
+-- | Lift a backend computation into the Lsp monad.
+lspBackend :: Backend IO a -> Lsp (Either BackendError a)
+sendNotification :: forall (m :: Method 'FromServer 'Notification). Message m ~ NotificationMessage m => NotificationMessage m -> Lsp ()
+instance GHC.Show.Show Unison.LSP.Types.FileAnalysis
+instance Language.LSP.Server.Core.MonadLsp Unison.LSP.Types.Config Unison.LSP.Types.Lsp
+instance Control.Monad.Reader.Class.MonadReader Unison.LSP.Types.Env Unison.LSP.Types.Lsp
+instance Control.Monad.IO.Unlift.MonadUnliftIO Unison.LSP.Types.Lsp
+instance Control.Monad.IO.Class.MonadIO Unison.LSP.Types.Lsp
+instance GHC.Base.Monad Unison.LSP.Types.Lsp
+instance GHC.Base.Applicative Unison.LSP.Types.Lsp
+instance GHC.Base.Functor Unison.LSP.Types.Lsp
+
+module Unison.LSP.NotificationHandlers
+initializedHandler :: NotificationMessage 'Initialized -> Lsp ()
+
+module Unison.LSP.Diagnostics
+annToRange :: Ann -> Maybe Range
+uToLspPos :: Pos -> Position
+uToLspRange :: Range -> Range
+infoDiagnostics :: FileAnalysis -> Lsp [Diagnostic]
+noteDiagnostics :: Foldable f => Uri -> String -> f (Note Symbol Ann) -> Lsp [Diagnostic]
+
+-- | Returns a list of ranges where this note should be marked in the
+--   document, as well as a list of <tt>related</tt> ranges the note might
+--   refer to, and their relevance.
+--   
+--   E.g. a name conflict note might mark each conflicted name, and contain
+--   references to the other conflicted name locations.
+noteRanges :: Note Symbol Ann -> [(Range, [(Text, Range)])]
+reportDiagnostics :: Uri -> Maybe FileVersion -> [Diagnostic] -> Lsp ()
+data UnisonDiagnostic
+UnisonDiagnostic :: Range -> UnisonDiagnosticInfo -> UnisonDiagnostic
+data UnisonDiagnosticInfo
+TypeError :: Text -> UnisonDiagnosticInfo
+NameResolutionFailure :: ResolutionFailure Symbol Range -> UnisonDiagnosticInfo
+mkDiagnostic :: Uri -> Range -> DiagnosticSeverity -> Text -> [(Text, Range)] -> Diagnostic
+getSeverity :: UnisonDiagnosticInfo -> DiagnosticSeverity
+diagnosticMessage :: UnisonDiagnosticInfo -> Text
+toLSPDiagnostic :: UnisonDiagnostic -> Diagnostic
+
+module Unison.LSP.VFS
+
+-- | Some VFS combinators require Monad State, this provides it in a
+--   transactionally safe manner so we're sure we don't edit the same file
+--   in two different actions at the same time.
+usingVFS :: forall a. StateT VFS Lsp a -> Lsp a
+getVirtualFile :: HasUri doc Uri => doc -> Lsp (Maybe VirtualFile)
+getFileContents :: HasUri doc Uri => doc -> Lsp (Maybe (FileVersion, Text))
+vfsLogger :: LogAction (StateT VFS Lsp) (WithSeverity VfsLog)
+
+-- | Mark some files as needing to be checked.
+markFilesDirty :: (Foldable f, HasUri doc Uri) => f doc -> Lsp ()
+
+-- | Mark all files for re-checking.
+--   
+--   We may want to do this when our names or perspective change.
+markAllFilesDirty :: Lsp ()
+
+-- | Returns the name or symbol which the provided position is contained
+--   in.
+identifierAtPosition :: (HasPosition p Position, HasTextDocument p TextDocumentIdentifier) => p -> Lsp (Maybe Text)
+
+-- | Returns the prefix and suffix of the symbol which the provided
+--   position is contained in.
+identifierSplitAtPosition :: (HasPosition p Position, HasTextDocument p docId, HasUri docId Uri) => p -> Lsp (Maybe (Text, Text))
+
+-- | Returns the prefix of the symbol at the provided location, and the
+--   range that prefix spans.
+completionPrefix :: (HasPosition p Position, HasTextDocument p docId, HasUri docId Uri) => p -> Lsp (Maybe (Range, Text))
+lspOpenFile :: NotificationMessage 'TextDocumentDidOpen -> Lsp ()
+lspCloseFile :: NotificationMessage 'TextDocumentDidClose -> Lsp ()
+lspChangeFile :: NotificationMessage 'TextDocumentDidChange -> Lsp ()
+
+module Unison.LSP.UCMWorker
+
+-- | Watches for state changes in UCM and updates cached LSP state
+--   accordingly
+ucmWorker :: TVar PrettyPrintEnvDecl -> TVar NamesWithHistory -> STM (Branch IO, Absolute) -> Lsp ()
+
+module Unison.LSP.Hover
+
+-- | Rudimentary hover handler
+--   
+--   TODO: Add docs, use FileAnalysis to select hover target.
+hoverHandler :: RequestMessage 'TextDocumentHover -> (Either ResponseError (ResponseResult 'TextDocumentHover) -> Lsp ()) -> Lsp ()
+
+module Unison.LSP.Completion
+
+-- | Rudimentary auto-completion handler
+--   
+--   TODO: * Rewrite this to use an index rather than fuzzy searching ALL
+--   names * Respect ucm's current path * Provide namespaces as
+--   auto-complete targets * Auto-complete minimally suffixed names *
+--   Include docs in completion details?
+completionHandler :: RequestMessage 'TextDocumentCompletion -> (Either ResponseError (ResponseResult 'TextDocumentCompletion) -> Lsp ()) -> Lsp ()
+snippetCompletions :: Text -> Range -> [CompletionItem]
+mkCompletionItem :: Text -> CompletionItem
+
 module Unison.Share.Codeserver
 
 -- | This is the URI where the share API is based.
@@ -1555,9 +1707,43 @@ doMoveBranch :: forall r. Text -> Bool -> Path' -> Path' -> Cli r ()
 
 module Unison.Codebase.Editor.HandleInput
 loop :: Either Event Input -> Cli r ()
+typecheckHelper :: MonadIO m => Codebase IO Symbol Ann -> IO UniqueName -> [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> m (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
+
+module Unison.LSP.FileAnalysis
+
+-- | Lex, parse, and typecheck a file.
+analyseFile :: HasUri d Uri => d -> Lsp (Maybe FileAnalysis)
+fileAnalysisWorker :: Lsp ()
+
+module Unison.LSP
+getLspPort :: IO String
+
+-- | Spawn an LSP server on the configured port.
+spawnLsp :: Codebase IO Symbol Ann -> Runtime Symbol -> STM (Branch IO, Absolute) -> IO ()
+serverDefinition :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO, Absolute) -> ServerDefinition Config
+
+-- | Detect user LSP configuration changes.
+lspOnConfigurationChange :: Config -> Value -> Either Text Config
+lspDefaultConfig :: Config
+
+-- | Initialize any context needed by the LSP server
+lspDoInitialize :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO, Absolute) -> LanguageContextEnv Config -> Message 'Initialize -> IO (Either ResponseError Env)
+
+-- | LSP request handlers that don't register/unregister dynamically
+lspStaticHandlers :: Handlers Lsp
+
+-- | LSP request handlers
+lspRequestHandlers :: SMethodMap (ClientMessageHandler Lsp 'Request)
+
+-- | LSP notification handlers
+lspNotificationHandlers :: SMethodMap (ClientMessageHandler Lsp 'Notification)
+
+-- | A natural transformation into IO, required by the LSP lib.
+lspInterpretHandler :: Env -> Lsp <~> IO
+lspOptions :: Options
 
 module Unison.CommandLine.Main
-main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> IO ()
+main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> ((Branch IO, Absolute) -> IO ()) -> IO ()
 
 module Unison.Codebase.TranscriptParser
 data Stanza

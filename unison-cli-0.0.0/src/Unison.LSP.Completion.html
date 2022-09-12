@@ -1,0 +1,559 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DataKinds #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE PolyKinds #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE QuasiQuotes #-}</span><span>
+</span><span id="line-4"></span><span>
+</span><span id="line-5"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Unison.LSP.Completion</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-6"></span><span>
+</span><span id="line-7"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Lens</span></span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">List</span></span><span class="hs-special">)</span><span>
+</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Reader</span></span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.String.Here.Uninterpolated</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">here</span></span><span class="hs-special">)</span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Text</span></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Types</span></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Types.Lens</span></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Text.FuzzyFind</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Fuzzy</span></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html"><span class="hs-identifier">Unison.LSP.Types</span></a></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><a href="Unison.LSP.VFS.html"><span class="hs-identifier">Unison.LSP.VFS</span></a></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">VFS</span></span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Server.Endpoints.FuzzyFind</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">FZF</span></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Server.Syntax</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Server</span></span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Server.Types</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Backend</span></span><span>
+</span><span id="line-20"></span><span>
+</span><span id="line-21"></span><span class="hs-comment">-- | Rudimentary auto-completion handler</span><span>
+</span><span id="line-22"></span><span class="hs-comment">--</span><span>
+</span><span id="line-23"></span><span class="hs-comment">-- TODO:</span><span>
+</span><span id="line-24"></span><span class="hs-comment">-- * Rewrite this to use an index rather than fuzzy searching ALL names</span><span>
+</span><span id="line-25"></span><span class="hs-comment">-- * Respect ucm's current path</span><span>
+</span><span id="line-26"></span><span class="hs-comment">-- * Provide namespaces as auto-complete targets</span><span>
+</span><span id="line-27"></span><span class="hs-comment">-- * Auto-complete minimally suffixed names</span><span>
+</span><span id="line-28"></span><span class="hs-comment">-- * Include docs in completion details?</span><span>
+</span><span id="line-29"></span><span class="annot"><a href="Unison.LSP.Completion.html#completionHandler"><span class="hs-identifier hs-type">completionHandler</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">RequestMessage</span></span><span> </span><span class="hs-special">'</span><span class="annot"><span class="hs-identifier hs-type">TextDocumentCompletion</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">ResponseError</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">ResponseResult</span></span><span> </span><span class="hs-special">'</span><span class="annot"><span class="hs-identifier hs-type">TextDocumentCompletion</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-30"></span><span id="completionHandler"><span class="annot"><span class="annottext">completionHandler :: RequestMessage 'TextDocumentCompletion
+-&gt; (Either ResponseError (ResponseResult 'TextDocumentCompletion)
+    -&gt; Lsp ())
+-&gt; Lsp ()
+</span><a href="Unison.LSP.Completion.html#completionHandler"><span class="hs-identifier hs-var hs-var">completionHandler</span></a></span></span><span> </span><span id="local-6989586621679396249"><span class="annot"><span class="annottext">RequestMessage 'TextDocumentCompletion
+</span><a href="#local-6989586621679396249"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span id="local-6989586621679396248"><span class="annot"><span class="annottext">Either ResponseError (ResponseResult 'TextDocumentCompletion)
+-&gt; Lsp ()
+</span><a href="#local-6989586621679396248"><span class="hs-identifier hs-var">respond</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-31"></span><span>  </span><span class="annot"><span class="annottext">Either ResponseError (ResponseResult 'TextDocumentCompletion)
+-&gt; Lsp ()
+Either ResponseError (List CompletionItem |? CompletionList)
+-&gt; Lsp ()
+</span><a href="#local-6989586621679396248"><span class="hs-identifier hs-var">respond</span></a></span><span> </span><span class="annot"><span class="annottext">(Either ResponseError (List CompletionItem |? CompletionList)
+ -&gt; Lsp ())
+-&gt; Lsp
+     (Either ResponseError (List CompletionItem |? CompletionList))
+-&gt; Lsp ()
+forall (m :: * -&gt; *) a b. Monad m =&gt; (a -&gt; m b) -&gt; m a -&gt; m b
+</span><span class="hs-operator hs-var">=&lt;&lt;</span></span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-32"></span><span>    </span><span id="local-6989586621679396246"><span class="annot"><span class="annottext">Maybe (Range, Text)
+</span><a href="#local-6989586621679396246"><span class="hs-identifier hs-var">mayPrefix</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CompletionParams -&gt; Lsp (Maybe (Range, Text))
+forall p docId.
+(HasPosition p Position, HasTextDocument p docId,
+ HasUri docId Uri) =&gt;
+p -&gt; Lsp (Maybe (Range, Text))
+</span><a href="Unison.LSP.VFS.html#completionPrefix"><span class="hs-identifier hs-var">VFS.completionPrefix</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">RequestMessage 'TextDocumentCompletion
+</span><a href="#local-6989586621679396249"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">RequestMessage 'TextDocumentCompletion
+-&gt; Getting
+     CompletionParams
+     (RequestMessage 'TextDocumentCompletion)
+     CompletionParams
+-&gt; CompletionParams
+forall s a. s -&gt; Getting a s a -&gt; a
+</span><span class="hs-operator hs-var">^.</span></span><span> </span><span class="annot"><span class="annottext">Getting
+  CompletionParams
+  (RequestMessage 'TextDocumentCompletion)
+  CompletionParams
+forall s a. HasParams s a =&gt; Lens' s a
+</span><span class="hs-identifier hs-var">params</span></span><span class="hs-special">)</span><span>
+</span><span id="line-33"></span><span>    </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe (Range, Text)
+</span><a href="#local-6989586621679396246"><span class="hs-identifier hs-var">mayPrefix</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-34"></span><span>      </span><span class="annot"><span class="annottext">Maybe (Range, Text)
+</span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either ResponseError (List CompletionItem |? CompletionList)
+-&gt; Lsp
+     (Either ResponseError (List CompletionItem |? CompletionList))
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">(Either ResponseError (List CompletionItem |? CompletionList)
+ -&gt; Lsp
+      (Either ResponseError (List CompletionItem |? CompletionList)))
+-&gt; ([CompletionItem]
+    -&gt; Either ResponseError (List CompletionItem |? CompletionList))
+-&gt; [CompletionItem]
+-&gt; Lsp
+     (Either ResponseError (List CompletionItem |? CompletionList))
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(List CompletionItem |? CompletionList)
+-&gt; Either ResponseError (List CompletionItem |? CompletionList)
+forall a b. b -&gt; Either a b
+</span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">((List CompletionItem |? CompletionList)
+ -&gt; Either ResponseError (List CompletionItem |? CompletionList))
+-&gt; ([CompletionItem] -&gt; List CompletionItem |? CompletionList)
+-&gt; [CompletionItem]
+-&gt; Either ResponseError (List CompletionItem |? CompletionList)
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">List CompletionItem -&gt; List CompletionItem |? CompletionList
+forall a b. a -&gt; a |? b
+</span><span class="hs-identifier hs-var">InL</span></span><span> </span><span class="annot"><span class="annottext">(List CompletionItem -&gt; List CompletionItem |? CompletionList)
+-&gt; ([CompletionItem] -&gt; List CompletionItem)
+-&gt; [CompletionItem]
+-&gt; List CompletionItem |? CompletionList
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">[CompletionItem] -&gt; List CompletionItem
+forall a. [a] -&gt; List a
+</span><span class="hs-identifier hs-var">List</span></span><span> </span><span class="annot"><span class="annottext">([CompletionItem]
+ -&gt; Lsp
+      (Either ResponseError (List CompletionItem |? CompletionList)))
+-&gt; [CompletionItem]
+-&gt; Lsp
+     (Either ResponseError (List CompletionItem |? CompletionList))
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-35"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396239"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679396239"><span class="hs-identifier hs-var">range</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396238"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396238"><span class="hs-identifier hs-var">prefix</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-36"></span><span>        </span><span id="local-6989586621679396237"><span class="annot"><span class="annottext">[CompletionItem]
+</span><a href="#local-6989586621679396237"><span class="hs-identifier hs-var">matches</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Range -&gt; Text -&gt; Lsp [CompletionItem]
+</span><a href="#local-6989586621679396236"><span class="hs-identifier hs-var">expand</span></a></span><span> </span><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679396239"><span class="hs-identifier hs-var">range</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396238"><span class="hs-identifier hs-var">prefix</span></a></span><span>
+</span><span id="line-37"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679396235"><span class="annot"><span class="annottext">isIncomplete :: Bool
+</span><a href="#local-6989586621679396235"><span class="hs-identifier hs-var hs-var">isIncomplete</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">True</span></span><span> </span><span class="hs-comment">-- TODO: be smarter about this</span><span>
+</span><span id="line-38"></span><span>        </span><span class="annot"><span class="annottext">Either ResponseError (List CompletionItem |? CompletionList)
+-&gt; Lsp
+     (Either ResponseError (List CompletionItem |? CompletionList))
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">(Either ResponseError (List CompletionItem |? CompletionList)
+ -&gt; Lsp
+      (Either ResponseError (List CompletionItem |? CompletionList)))
+-&gt; ([CompletionItem]
+    -&gt; Either ResponseError (List CompletionItem |? CompletionList))
+-&gt; [CompletionItem]
+-&gt; Lsp
+     (Either ResponseError (List CompletionItem |? CompletionList))
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(List CompletionItem |? CompletionList)
+-&gt; Either ResponseError (List CompletionItem |? CompletionList)
+forall a b. b -&gt; Either a b
+</span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">((List CompletionItem |? CompletionList)
+ -&gt; Either ResponseError (List CompletionItem |? CompletionList))
+-&gt; ([CompletionItem] -&gt; List CompletionItem |? CompletionList)
+-&gt; [CompletionItem]
+-&gt; Either ResponseError (List CompletionItem |? CompletionList)
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">CompletionList -&gt; List CompletionItem |? CompletionList
+forall a b. b -&gt; a |? b
+</span><span class="hs-identifier hs-var">InR</span></span><span> </span><span class="annot"><span class="annottext">(CompletionList -&gt; List CompletionItem |? CompletionList)
+-&gt; ([CompletionItem] -&gt; CompletionList)
+-&gt; [CompletionItem]
+-&gt; List CompletionItem |? CompletionList
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; List CompletionItem -&gt; CompletionList
+</span><span class="hs-identifier hs-var">CompletionList</span></span><span> </span><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679396235"><span class="hs-identifier hs-var">isIncomplete</span></a></span><span> </span><span class="annot"><span class="annottext">(List CompletionItem -&gt; CompletionList)
+-&gt; ([CompletionItem] -&gt; List CompletionItem)
+-&gt; [CompletionItem]
+-&gt; CompletionList
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">[CompletionItem] -&gt; List CompletionItem
+forall a. [a] -&gt; List a
+</span><span class="hs-identifier hs-var">List</span></span><span> </span><span class="annot"><span class="annottext">([CompletionItem]
+ -&gt; Lsp
+      (Either ResponseError (List CompletionItem |? CompletionList)))
+-&gt; [CompletionItem]
+-&gt; Lsp
+     (Either ResponseError (List CompletionItem |? CompletionList))
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Range -&gt; [CompletionItem]
+</span><a href="Unison.LSP.Completion.html#snippetCompletions"><span class="hs-identifier hs-var">snippetCompletions</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396238"><span class="hs-identifier hs-var">prefix</span></a></span><span> </span><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679396239"><span class="hs-identifier hs-var">range</span></a></span><span> </span><span class="annot"><span class="annottext">[CompletionItem] -&gt; [CompletionItem] -&gt; [CompletionItem]
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">[CompletionItem]
+</span><a href="#local-6989586621679396237"><span class="hs-identifier hs-var">matches</span></a></span><span>
+</span><span id="line-39"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-40"></span><span>    </span><span class="annot"><a href="#local-6989586621679396231"><span class="hs-identifier hs-type">resultToCompletion</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FZF.FoundResult</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">CompletionItem</span></span><span>
+</span><span id="line-41"></span><span>    </span><span id="local-6989586621679396231"><span class="annot"><span class="annottext">resultToCompletion :: Range -&gt; Text -&gt; FoundResult -&gt; CompletionItem
+</span><a href="#local-6989586621679396231"><span class="hs-identifier hs-var hs-var">resultToCompletion</span></a></span></span><span> </span><span id="local-6989586621679396230"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679396230"><span class="hs-identifier hs-var">range</span></a></span></span><span> </span><span id="local-6989586621679396229"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396229"><span class="hs-identifier hs-var">prefix</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
+</span><span id="line-42"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">FZF.FoundTermResult</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FZF.FoundTerm</span></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:namedTerm:FoundTerm :: FoundTerm -&gt; NamedTerm
+</span><span class="hs-identifier hs-var">namedTerm</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.NamedTerm</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679396224"><span class="annot"><span class="annottext">Text
+$sel:termName:NamedTerm :: NamedTerm -&gt; Text
+termName :: Text
+</span><span class="hs-identifier hs-var hs-var">termName</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396222"><span class="annot"><span class="annottext">Maybe SyntaxText
+$sel:termType:NamedTerm :: NamedTerm -&gt; Maybe SyntaxText
+termType :: Maybe SyntaxText
+</span><span class="hs-identifier hs-var hs-var">termType</span></span></span><span class="hs-special">}</span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-43"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; CompletionItem
+</span><a href="Unison.LSP.Completion.html#mkCompletionItem"><span class="hs-identifier hs-var">mkCompletionItem</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396224"><span class="hs-identifier hs-var">termName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-44"></span><span>          </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">$sel:_detail:CompletionItem :: Maybe Text
+</span><span class="hs-identifier hs-var">_detail</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;: &quot;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Text) -&gt; (SyntaxText -&gt; Text) -&gt; SyntaxText -&gt; Text
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Text
+</span><span class="hs-identifier hs-var">Text.pack</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Text) -&gt; (SyntaxText -&gt; String) -&gt; SyntaxText -&gt; Text
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">SyntaxText -&gt; String
+</span><span class="hs-identifier hs-var">Server.toPlain</span></span><span> </span><span class="annot"><span class="annottext">(SyntaxText -&gt; Text) -&gt; Maybe SyntaxText -&gt; Maybe Text
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Maybe SyntaxText
+</span><a href="#local-6989586621679396222"><span class="hs-identifier hs-var">termType</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-45"></span><span>            </span><span class="annot"><span class="annottext">$sel:_kind:CompletionItem :: Maybe CompletionItemKind
+</span><span class="hs-identifier hs-var">_kind</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">CompletionItemKind -&gt; Maybe CompletionItemKind
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">CompletionItemKind
+</span><span class="hs-identifier hs-var">CiVariable</span></span><span class="hs-special">,</span><span>
+</span><span id="line-46"></span><span>            </span><span class="annot"><span class="annottext">$sel:_insertText:CompletionItem :: Maybe Text
+</span><span class="hs-identifier hs-var">_insertText</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Maybe Text
+</span><span class="hs-identifier hs-var">Text.stripPrefix</span></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396229"><span class="hs-identifier hs-var">prefix</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396224"><span class="hs-identifier hs-var">termName</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-47"></span><span>            </span><span class="annot"><span class="annottext">$sel:_textEdit:CompletionItem :: Maybe CompletionEdit
+</span><span class="hs-identifier hs-var">_textEdit</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">CompletionEdit -&gt; Maybe CompletionEdit
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(CompletionEdit -&gt; Maybe CompletionEdit)
+-&gt; CompletionEdit -&gt; Maybe CompletionEdit
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">TextEdit -&gt; CompletionEdit
+</span><span class="hs-identifier hs-var">CompletionEditText</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Range -&gt; Text -&gt; TextEdit
+</span><span class="hs-identifier hs-var">TextEdit</span></span><span> </span><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679396230"><span class="hs-identifier hs-var">range</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396224"><span class="hs-identifier hs-var">termName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-48"></span><span>          </span><span class="hs-special">}</span><span>
+</span><span id="line-49"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">FZF.FoundTypeResult</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FZF.FoundType</span></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:namedType:FoundType :: FoundType -&gt; NamedType
+</span><span class="hs-identifier hs-var">namedType</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.NamedType</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679396204"><span class="annot"><span class="annottext">Text
+$sel:typeName:NamedType :: NamedType -&gt; Text
+typeName :: Text
+</span><span class="hs-identifier hs-var hs-var">typeName</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396202"><span class="annot"><span class="annottext">TypeTag
+$sel:typeTag:NamedType :: NamedType -&gt; TypeTag
+typeTag :: TypeTag
+</span><span class="hs-identifier hs-var hs-var">typeTag</span></span></span><span class="hs-special">}</span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-50"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396200"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396200"><span class="hs-identifier hs-var">detail</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396199"><span class="annot"><span class="annottext">CompletionItemKind
+</span><a href="#local-6989586621679396199"><span class="hs-identifier hs-var">kind</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">TypeTag
+</span><a href="#local-6989586621679396202"><span class="hs-identifier hs-var">typeTag</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-51"></span><span>              </span><span class="annot"><span class="annottext">TypeTag
+</span><span class="hs-identifier hs-var">Backend.Ability</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;Ability&quot;</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">CompletionItemKind
+</span><span class="hs-identifier hs-var">CiInterface</span></span><span class="hs-special">)</span><span>
+</span><span id="line-52"></span><span>              </span><span class="annot"><span class="annottext">TypeTag
+</span><span class="hs-identifier hs-var">Backend.Data</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;Data&quot;</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">CompletionItemKind
+</span><span class="hs-identifier hs-var">CiClass</span></span><span class="hs-special">)</span><span>
+</span><span id="line-53"></span><span>         </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; CompletionItem
+</span><a href="Unison.LSP.Completion.html#mkCompletionItem"><span class="hs-identifier hs-var">mkCompletionItem</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396204"><span class="hs-identifier hs-var">typeName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-54"></span><span>              </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">$sel:_detail:CompletionItem :: Maybe Text
+</span><span class="hs-identifier hs-var">_detail</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Maybe Text
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396200"><span class="hs-identifier hs-var">detail</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-55"></span><span>                </span><span class="annot"><span class="annottext">$sel:_kind:CompletionItem :: Maybe CompletionItemKind
+</span><span class="hs-identifier hs-var">_kind</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">CompletionItemKind -&gt; Maybe CompletionItemKind
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">CompletionItemKind
+</span><a href="#local-6989586621679396199"><span class="hs-identifier hs-var">kind</span></a></span><span>
+</span><span id="line-56"></span><span>              </span><span class="hs-special">}</span><span>
+</span><span id="line-57"></span><span>    </span><span class="annot"><a href="#local-6989586621679396236"><span class="hs-identifier hs-type">expand</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">CompletionItem</span></span><span class="hs-special">]</span><span>
+</span><span id="line-58"></span><span>    </span><span id="local-6989586621679396236"><span class="annot"><span class="annottext">expand :: Range -&gt; Text -&gt; Lsp [CompletionItem]
+</span><a href="#local-6989586621679396236"><span class="hs-identifier hs-var hs-var">expand</span></a></span></span><span> </span><span id="local-6989586621679396194"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679396194"><span class="hs-identifier hs-var">range</span></a></span></span><span> </span><span id="local-6989586621679396193"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396193"><span class="hs-identifier hs-var">prefix</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-59"></span><span>      </span><span class="hs-comment">-- We should probably write a different fzf specifically for completion, but for now, it</span><span>
+</span><span id="line-60"></span><span>      </span><span class="hs-comment">-- expects the unique pieces of the query to be different &quot;words&quot;.</span><span>
+</span><span id="line-61"></span><span>      </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679396192"><span class="annot"><span class="annottext">query :: Text
+</span><a href="#local-6989586621679396192"><span class="hs-identifier hs-var hs-var">query</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Text] -&gt; Text
+</span><span class="hs-identifier hs-var">Text.unwords</span></span><span> </span><span class="annot"><span class="annottext">([Text] -&gt; Text) -&gt; (Text -&gt; [Text]) -&gt; Text -&gt; Text
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; [Text]
+</span><span class="hs-identifier hs-var">Text.splitOn</span></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;.&quot;</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Text) -&gt; Text -&gt; Text
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396193"><span class="hs-identifier hs-var">prefix</span></a></span><span>
+</span><span id="line-62"></span><span>      </span><span id="local-6989586621679396189"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679396189"><span class="hs-identifier hs-var">cb</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; Codebase IO Symbol Ann) -&gt; Lsp (Codebase IO Symbol Ann)
+forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
+</span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; Codebase IO Symbol Ann
+</span><a href="Unison.LSP.Types.html#%24sel%3Acodebase%3AEnv"><span class="hs-identifier hs-var hs-var">codebase</span></a></span><span>
+</span><span id="line-63"></span><span>      </span><span class="annot"><span class="annottext">Backend IO [(Alignment, FoundResult)]
+-&gt; Lsp (Either BackendError [(Alignment, FoundResult)])
+forall a. Backend IO a -&gt; Lsp (Either BackendError a)
+</span><a href="Unison.LSP.Types.html#lspBackend"><span class="hs-identifier hs-var">lspBackend</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+-&gt; Maybe ShortBranchHash
+-&gt; Maybe Text
+-&gt; Maybe Int
+-&gt; Maybe Width
+-&gt; Maybe String
+-&gt; Backend IO [(Alignment, FoundResult)]
+forall (m :: * -&gt; *).
+MonadIO m =&gt;
+Codebase m Symbol Ann
+-&gt; Maybe ShortBranchHash
+-&gt; Maybe Text
+-&gt; Maybe Int
+-&gt; Maybe Width
+-&gt; Maybe String
+-&gt; Backend m [(Alignment, FoundResult)]
+</span><span class="hs-identifier hs-var">FZF.serveFuzzyFind</span></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679396189"><span class="hs-identifier hs-var">cb</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe ShortBranchHash
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">Maybe Text
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">Maybe Int
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">Maybe Width
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Maybe String
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Maybe String) -&gt; String -&gt; Maybe String
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; String
+</span><span class="hs-identifier hs-var">Text.unpack</span></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396192"><span class="hs-identifier hs-var">query</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Lsp (Either BackendError [(Alignment, FoundResult)])
+-&gt; (Either BackendError [(Alignment, FoundResult)]
+    -&gt; Lsp [CompletionItem])
+-&gt; Lsp [CompletionItem]
+forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
+</span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
+</span><span id="line-64"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679396183"><span class="annot"><span class="annottext">BackendError
+</span><a href="#local-6989586621679396183"><span class="hs-identifier hs-var">_be</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[CompletionItem] -&gt; Lsp [CompletionItem]
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-65"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679396182"><span class="annot"><span class="annottext">[(Alignment, FoundResult)]
+</span><a href="#local-6989586621679396182"><span class="hs-identifier hs-var">results</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-66"></span><span>          </span><span class="annot"><span class="annottext">[CompletionItem] -&gt; Lsp [CompletionItem]
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">([CompletionItem] -&gt; Lsp [CompletionItem])
+-&gt; ([(Alignment, FoundResult)] -&gt; [CompletionItem])
+-&gt; [(Alignment, FoundResult)]
+-&gt; Lsp [CompletionItem]
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">((Alignment, FoundResult) -&gt; CompletionItem)
+-&gt; [(Alignment, FoundResult)] -&gt; [CompletionItem]
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Range -&gt; Text -&gt; FoundResult -&gt; CompletionItem
+</span><a href="#local-6989586621679396231"><span class="hs-identifier hs-var">resultToCompletion</span></a></span><span> </span><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679396194"><span class="hs-identifier hs-var">range</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396193"><span class="hs-identifier hs-var">prefix</span></a></span><span> </span><span class="annot"><span class="annottext">(FoundResult -&gt; CompletionItem)
+-&gt; ((Alignment, FoundResult) -&gt; FoundResult)
+-&gt; (Alignment, FoundResult)
+-&gt; CompletionItem
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(Alignment, FoundResult) -&gt; FoundResult
+forall a b. (a, b) -&gt; b
+</span><span class="hs-identifier hs-var">snd</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">([(Alignment, FoundResult)] -&gt; [CompletionItem])
+-&gt; ([(Alignment, FoundResult)] -&gt; [(Alignment, FoundResult)])
+-&gt; [(Alignment, FoundResult)]
+-&gt; [CompletionItem]
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; [(Alignment, FoundResult)] -&gt; [(Alignment, FoundResult)]
+forall a. Int -&gt; [a] -&gt; [a]
+</span><span class="hs-identifier hs-var">take</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">15</span></span><span> </span><span class="annot"><span class="annottext">([(Alignment, FoundResult)] -&gt; [(Alignment, FoundResult)])
+-&gt; ([(Alignment, FoundResult)] -&gt; [(Alignment, FoundResult)])
+-&gt; [(Alignment, FoundResult)]
+-&gt; [(Alignment, FoundResult)]
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">((Alignment, FoundResult) -&gt; Int)
+-&gt; [(Alignment, FoundResult)] -&gt; [(Alignment, FoundResult)]
+forall b a. Ord b =&gt; (a -&gt; b) -&gt; [a] -&gt; [a]
+</span><span class="hs-identifier hs-var">sortOn</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Alignment -&gt; Int
+</span><span class="hs-identifier hs-var hs-var">Fuzzy.score</span></span><span> </span><span class="annot"><span class="annottext">(Alignment -&gt; Int)
+-&gt; ((Alignment, FoundResult) -&gt; Alignment)
+-&gt; (Alignment, FoundResult)
+-&gt; Int
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(Alignment, FoundResult) -&gt; Alignment
+forall a b. (a, b) -&gt; a
+</span><span class="hs-identifier hs-var">fst</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">([(Alignment, FoundResult)] -&gt; Lsp [CompletionItem])
+-&gt; [(Alignment, FoundResult)] -&gt; Lsp [CompletionItem]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">[(Alignment, FoundResult)]
+</span><a href="#local-6989586621679396182"><span class="hs-identifier hs-var">results</span></a></span><span>
+</span><span id="line-67"></span><span>
+</span><span id="line-68"></span><span class="annot"><a href="Unison.LSP.Completion.html#snippetCompletions"><span class="hs-identifier hs-type">snippetCompletions</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">CompletionItem</span></span><span class="hs-special">]</span><span>
+</span><span id="line-69"></span><span id="snippetCompletions"><span class="annot"><span class="annottext">snippetCompletions :: Text -&gt; Range -&gt; [CompletionItem]
+</span><a href="Unison.LSP.Completion.html#snippetCompletions"><span class="hs-identifier hs-var hs-var">snippetCompletions</span></a></span></span><span> </span><span id="local-6989586621679396178"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396178"><span class="hs-identifier hs-var">prefix</span></a></span></span><span> </span><span id="local-6989586621679396177"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679396177"><span class="hs-identifier hs-var">range</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-70"></span><span>  </span><span class="hs-special">[</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;handler&quot;</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396176"><span class="hs-identifier hs-var">handlerTemplate</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-71"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;cases&quot;</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396175"><span class="hs-identifier hs-var">casesTemplate</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-72"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;match-with&quot;</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396174"><span class="hs-identifier hs-var">matchWithTemplate</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-73"></span><span>  </span><span class="hs-special">]</span><span>
+</span><span id="line-74"></span><span>    </span><span class="annot"><span class="annottext">[(Text, Text)]
+-&gt; ([(Text, Text)] -&gt; [(Text, Text)]) -&gt; [(Text, Text)]
+forall a b. a -&gt; (a -&gt; b) -&gt; b
+</span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">((Text, Text) -&gt; Bool) -&gt; [(Text, Text)] -&gt; [(Text, Text)]
+forall a. (a -&gt; Bool) -&gt; [a] -&gt; [a]
+</span><span class="hs-identifier hs-var">filter</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Bool
+</span><span class="hs-identifier hs-var">Text.isPrefixOf</span></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396178"><span class="hs-identifier hs-var">prefix</span></a></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Bool) -&gt; ((Text, Text) -&gt; Text) -&gt; (Text, Text) -&gt; Bool
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(Text, Text) -&gt; Text
+forall a b. (a, b) -&gt; a
+</span><span class="hs-identifier hs-var">fst</span></span><span class="hs-special">)</span><span>
+</span><span id="line-75"></span><span>    </span><span class="annot"><span class="annottext">[(Text, Text)]
+-&gt; ([(Text, Text)] -&gt; [CompletionItem]) -&gt; [CompletionItem]
+forall a b. a -&gt; (a -&gt; b) -&gt; b
+</span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">((Text, Text) -&gt; CompletionItem)
+-&gt; [(Text, Text)] -&gt; [CompletionItem]
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="annot"><span class="annottext">(Text, Text) -&gt; CompletionItem
+</span><a href="#local-6989586621679396171"><span class="hs-identifier hs-var">toCompletion</span></a></span><span>
+</span><span id="line-76"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-77"></span><span>    </span><span class="annot"><a href="#local-6989586621679396171"><span class="hs-identifier hs-type">toCompletion</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">CompletionItem</span></span><span>
+</span><span id="line-78"></span><span>    </span><span id="local-6989586621679396171"><span class="annot"><span class="annottext">toCompletion :: (Text, Text) -&gt; CompletionItem
+</span><a href="#local-6989586621679396171"><span class="hs-identifier hs-var hs-var">toCompletion</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679396170"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396170"><span class="hs-identifier hs-var">pat</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679396169"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396169"><span class="hs-identifier hs-var">snippet</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-79"></span><span>      </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; CompletionItem
+</span><a href="Unison.LSP.Completion.html#mkCompletionItem"><span class="hs-identifier hs-var">mkCompletionItem</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396170"><span class="hs-identifier hs-var">pat</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-80"></span><span>        </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">$sel:_insertTextFormat:CompletionItem :: Maybe InsertTextFormat
+</span><span class="hs-identifier hs-var">_insertTextFormat</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">InsertTextFormat -&gt; Maybe InsertTextFormat
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">InsertTextFormat
+</span><span class="hs-identifier hs-var">Snippet</span></span><span class="hs-special">,</span><span>
+</span><span id="line-81"></span><span>          </span><span class="annot"><span class="annottext">$sel:_insertTextMode:CompletionItem :: Maybe InsertTextMode
+</span><span class="hs-identifier hs-var">_insertTextMode</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">InsertTextMode -&gt; Maybe InsertTextMode
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">InsertTextMode
+</span><span class="hs-identifier hs-var">AdjustIndentation</span></span><span class="hs-special">,</span><span>
+</span><span id="line-82"></span><span>          </span><span class="annot"><span class="annottext">$sel:_textEdit:CompletionItem :: Maybe CompletionEdit
+</span><span class="hs-identifier hs-var">_textEdit</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">CompletionEdit -&gt; Maybe CompletionEdit
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(CompletionEdit -&gt; Maybe CompletionEdit)
+-&gt; CompletionEdit -&gt; Maybe CompletionEdit
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">TextEdit -&gt; CompletionEdit
+</span><span class="hs-identifier hs-var">CompletionEditText</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Range -&gt; Text -&gt; TextEdit
+</span><span class="hs-identifier hs-var">TextEdit</span></span><span> </span><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679396177"><span class="hs-identifier hs-var">range</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396169"><span class="hs-identifier hs-var">snippet</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-83"></span><span>        </span><span class="hs-special">}</span><span>
+</span><span id="line-84"></span><span>    </span><span id="local-6989586621679396176"><span class="annot"><span class="annottext">handlerTemplate :: Text
+</span><a href="#local-6989586621679396176"><span class="hs-identifier hs-var hs-var">handlerTemplate</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-85"></span><span>      </span><span class="annot"><span class="">[here|
+handle${1:Ability} : Request (${1:Ability} ${2}) a -&gt; a
+handle${1:Ability} = cases
+  {${3} -&gt; continue} -&gt; do
+    ${4}
+    |]</span></span><span>
+</span><span id="line-91"></span><span>    </span><span id="local-6989586621679396175"><span class="annot"><span class="annottext">casesTemplate :: Text
+</span><a href="#local-6989586621679396175"><span class="hs-identifier hs-var hs-var">casesTemplate</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-92"></span><span>      </span><span class="annot"><span class="">[here|
+cases
+  ${1} -&gt; do
+    ${2}
+    |]</span></span><span>
+</span><span id="line-97"></span><span>    </span><span id="local-6989586621679396174"><span class="annot"><span class="annottext">matchWithTemplate :: Text
+</span><a href="#local-6989586621679396174"><span class="hs-identifier hs-var hs-var">matchWithTemplate</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-98"></span><span>      </span><span class="annot"><span class="">[here|
+match ${1} with
+  ${2} -&gt; do
+    ${3}
+    |]</span></span><span>
+</span><span id="line-103"></span><span>
+</span><span id="line-104"></span><span class="annot"><a href="Unison.LSP.Completion.html#mkCompletionItem"><span class="hs-identifier hs-type">mkCompletionItem</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">CompletionItem</span></span><span>
+</span><span id="line-105"></span><span id="mkCompletionItem"><span class="annot"><span class="annottext">mkCompletionItem :: Text -&gt; CompletionItem
+</span><a href="Unison.LSP.Completion.html#mkCompletionItem"><span class="hs-identifier hs-var hs-var">mkCompletionItem</span></a></span></span><span> </span><span id="local-6989586621679396164"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396164"><span class="hs-identifier hs-var">lbl</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-106"></span><span>  </span><span class="annot"><span class="annottext">CompletionItem :: Text
+-&gt; Maybe CompletionItemKind
+-&gt; Maybe (List CompletionItemTag)
+-&gt; Maybe Text
+-&gt; Maybe CompletionDoc
+-&gt; Maybe Bool
+-&gt; Maybe Bool
+-&gt; Maybe Text
+-&gt; Maybe Text
+-&gt; Maybe Text
+-&gt; Maybe InsertTextFormat
+-&gt; Maybe InsertTextMode
+-&gt; Maybe CompletionEdit
+-&gt; Maybe (List TextEdit)
+-&gt; Maybe (List Text)
+-&gt; Maybe Command
+-&gt; Maybe Value
+-&gt; CompletionItem
+</span><span class="hs-identifier hs-type">CompletionItem</span></span><span>
+</span><span id="line-107"></span><span>    </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">$sel:_label:CompletionItem :: Text
+</span><span class="hs-identifier hs-var">_label</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679396164"><span class="hs-identifier hs-var">lbl</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-108"></span><span>      </span><span class="annot"><span class="annottext">$sel:_kind:CompletionItem :: Maybe CompletionItemKind
+</span><span class="hs-identifier hs-var">_kind</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe CompletionItemKind
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-109"></span><span>      </span><span class="annot"><span class="annottext">$sel:_tags:CompletionItem :: Maybe (List CompletionItemTag)
+</span><span class="hs-identifier hs-var">_tags</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (List CompletionItemTag)
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-110"></span><span>      </span><span class="annot"><span class="annottext">$sel:_detail:CompletionItem :: Maybe Text
+</span><span class="hs-identifier hs-var">_detail</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Text
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-111"></span><span>      </span><span class="annot"><span class="annottext">$sel:_documentation:CompletionItem :: Maybe CompletionDoc
+</span><span class="hs-identifier hs-var">_documentation</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe CompletionDoc
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-112"></span><span>      </span><span class="annot"><span class="annottext">$sel:_deprecated:CompletionItem :: Maybe Bool
+</span><span class="hs-identifier hs-var">_deprecated</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Bool
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-113"></span><span>      </span><span class="annot"><span class="annottext">$sel:_preselect:CompletionItem :: Maybe Bool
+</span><span class="hs-identifier hs-var">_preselect</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Bool
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-114"></span><span>      </span><span class="annot"><span class="annottext">$sel:_sortText:CompletionItem :: Maybe Text
+</span><span class="hs-identifier hs-var">_sortText</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Text
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-115"></span><span>      </span><span class="annot"><span class="annottext">$sel:_filterText:CompletionItem :: Maybe Text
+</span><span class="hs-identifier hs-var">_filterText</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Text
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-116"></span><span>      </span><span class="annot"><span class="annottext">$sel:_insertText:CompletionItem :: Maybe Text
+</span><span class="hs-identifier hs-var">_insertText</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Text
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-117"></span><span>      </span><span class="annot"><span class="annottext">$sel:_insertTextFormat:CompletionItem :: Maybe InsertTextFormat
+</span><span class="hs-identifier hs-var">_insertTextFormat</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe InsertTextFormat
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-118"></span><span>      </span><span class="annot"><span class="annottext">$sel:_insertTextMode:CompletionItem :: Maybe InsertTextMode
+</span><span class="hs-identifier hs-var">_insertTextMode</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe InsertTextMode
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-119"></span><span>      </span><span class="annot"><span class="annottext">$sel:_textEdit:CompletionItem :: Maybe CompletionEdit
+</span><span class="hs-identifier hs-var">_textEdit</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe CompletionEdit
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-120"></span><span>      </span><span class="annot"><span class="annottext">$sel:_additionalTextEdits:CompletionItem :: Maybe (List TextEdit)
+</span><span class="hs-identifier hs-var">_additionalTextEdits</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (List TextEdit)
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-121"></span><span>      </span><span class="annot"><span class="annottext">$sel:_commitCharacters:CompletionItem :: Maybe (List Text)
+</span><span class="hs-identifier hs-var">_commitCharacters</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (List Text)
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-122"></span><span>      </span><span class="annot"><span class="annottext">$sel:_command:CompletionItem :: Maybe Command
+</span><span class="hs-identifier hs-var">_command</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Command
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-123"></span><span>      </span><span class="annot"><span class="annottext">$sel:_xdata:CompletionItem :: Maybe Value
+</span><span class="hs-identifier hs-var">_xdata</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Value
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span>
+</span><span id="line-124"></span><span>    </span><span class="hs-special">}</span><span>
+</span><span id="line-125"></span></pre></body></html>
