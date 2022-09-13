@@ -483,7 +483,7 @@ data FoundRef
 FoundTermRef :: Referent -> FoundRef
 FoundTypeRef :: Reference -> FoundRef
 fuzzyFind :: Names -> String -> [(Alignment, UnisonName, [FoundRef])]
-findShallow :: Monad m => Codebase m Symbol Ann -> Absolute -> m [ShallowListEntry Symbol Ann]
+lsAtPath :: MonadIO m => Codebase m Symbol Ann -> Maybe (Branch m) -> Absolute -> m [ShallowListEntry Symbol Ann]
 findShallowReadmeInBranchAndRender :: Width -> Runtime Symbol -> Codebase IO Symbol Ann -> PrettyPrintEnvDecl -> Branch m -> Backend IO (Maybe Doc)
 isDoc :: Monad m => Codebase m Symbol Ann -> Referent -> m Bool
 isDoc' :: (Var v, Monoid loc) => Maybe (Type v loc) -> Bool
@@ -499,18 +499,9 @@ formatTypeName' :: PrettyPrintEnv -> Reference -> SyntaxText
 termEntryToNamedTerm :: Var v => PrettyPrintEnv -> Maybe Width -> TermEntry v a -> NamedTerm
 typeEntryToNamedType :: TypeEntry -> NamedType
 
--- | Find all definitions and children reachable from the given branch.
---   Note: this differs from <a>lsShallowBranch</a> in that it takes a
---   fully loaded <a>Branch</a> object, and thus can include definition
---   counts for child namespaces.
-lsBranch :: Monad m => Codebase m Symbol Ann -> Branch m -> m [ShallowListEntry Symbol Ann]
-
 -- | Find all definitions and children reachable from the given
---   <a>Branch</a>, Note: this differs from <a>lsBranch</a> in that it
---   takes a shallow v2 branch, As a result, it omits definition counts
---   from child-namespaces in its results, but doesn't require loading the
---   entire sub-tree to do so.
-lsShallowBranch :: MonadIO m => Codebase m Symbol Ann -> Branch m -> m [ShallowListEntry Symbol Ann]
+--   <a>Branch</a>,
+lsBranch :: MonadIO m => Codebase m Symbol Ann -> Branch m -> m [ShallowListEntry Symbol Ann]
 termReferencesByShortHash :: Monad m => Codebase m v a -> ShortHash -> m (Set Reference)
 
 -- | Look up types in the codebase by short hash, and include builtins.

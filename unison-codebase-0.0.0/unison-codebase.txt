@@ -364,6 +364,7 @@ hasDefinitions :: NamespaceStats -> Bool
 childAt :: NameSegment -> Branch m -> Maybe (CausalBranch m)
 hoist :: Functor n => (forall x. m x -> n x) -> Branch m -> Branch n
 hoistCausalBranch :: Functor n => (forall x. m x -> n x) -> CausalBranch m -> CausalBranch n
+empty :: Branch m
 instance GHC.Show.Show U.Codebase.Branch.Type.NameSegment
 instance GHC.Classes.Ord U.Codebase.Branch.Type.NameSegment
 instance GHC.Classes.Eq U.Codebase.Branch.Type.NameSegment

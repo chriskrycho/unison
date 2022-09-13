@@ -2200,9 +2200,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3ptm loc_a3ptn. Lens' (Env v_a3ptm loc_a3ptn) (TypeLookup v_a3ptm loc_a3ptn)
-termsByShortname :: forall v_a3ptm loc_a3ptn. Lens' (Env v_a3ptm loc_a3ptn) (Map Name [NamedReference v_a3ptm loc_a3ptn])
-ambientAbilities :: forall v_a3ptm loc_a3ptn. Lens' (Env v_a3ptm loc_a3ptn) [Type v_a3ptm loc_a3ptn]
+typeLookup :: forall v_a3ptn loc_a3pto. Lens' (Env v_a3ptn loc_a3pto) (TypeLookup v_a3ptn loc_a3pto)
+termsByShortname :: forall v_a3ptn loc_a3pto. Lens' (Env v_a3ptn loc_a3pto) (Map Name [NamedReference v_a3ptn loc_a3pto])
+ambientAbilities :: forall v_a3ptn loc_a3pto. Lens' (Env v_a3ptn loc_a3pto) [Type v_a3ptn loc_a3pto]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3115,7 +3115,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 [$sel:getComponentLength:Codebase] :: Codebase m v a -> Hash -> m (Maybe CycleSize)
 
 -- | Get the root branch Hash.
-[$sel:getRootBranchHash:Codebase] :: Codebase m v a -> m CausalHash
+[$sel:getRootCausalHash:Codebase] :: Codebase m v a -> m CausalHash
 
 -- | Get the root branch.
 [$sel:getRootBranch:Codebase] :: Codebase m v a -> m (Branch m)
@@ -3126,7 +3126,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 -- | Like <a>$sel:putBranch:Codebase</a>, but also adjusts the root branch
 --   pointer afterwards.
 [$sel:putRootBranch:Codebase] :: Codebase m v a -> Text -> Branch m -> m ()
-[$sel:getShallowBranchForHash:Codebase] :: Codebase m v a -> CausalHash -> m (CausalBranch m)
+[$sel:getShallowCausalForHash:Codebase] :: Codebase m v a -> CausalHash -> m (CausalBranch m)
 [$sel:getBranchForHashImpl:Codebase] :: Codebase m v a -> CausalHash -> m (Maybe (Branch m))
 
 -- | Put a branch into the codebase, which includes its children, its
@@ -3705,14 +3705,23 @@ getBranchForHash :: Monad m => Codebase m v a -> CausalHash -> m (Maybe (Branch 
 lca :: Monad m => Codebase m v a -> Branch m -> Branch m -> m (Maybe (Branch m))
 ($sel:beforeImpl:Codebase) :: Codebase m v a -> Maybe (CausalHash -> CausalHash -> m Bool)
 
--- | Recursively descend into shallow branches following the given path.
-shallowBranchAtPath :: Monad m => Path -> CausalBranch m -> m (Maybe (CausalBranch m))
-($sel:getShallowBranchForHash:Codebase) :: Codebase m v a -> CausalHash -> m (CausalBranch m)
-getShallowBranchFromRoot :: Monad m => Codebase m v a -> Absolute -> m (Maybe (CausalBranch m))
+-- | Recursively descend into causals following the given path, Use the
+--   root causal if none is provided.
+getShallowBranchAtPath :: Monad m => Codebase m v a -> Path -> Maybe (Branch m) -> m (Branch m)
+
+-- | Recursively descend into causals following the given path, Use the
+--   root causal if none is provided.
+getShallowCausalAtPath :: Monad m => Codebase m v a -> Path -> Maybe (CausalBranch m) -> m (CausalBranch m)
+($sel:getShallowCausalForHash:Codebase) :: Codebase m v a -> CausalHash -> m (CausalBranch m)
+getShallowCausalFromRoot :: Monad m => Codebase m v a -> Maybe CausalHash -> Path -> m (CausalBranch m)
 
 -- | Get the shallow representation of the root branches without loading
 --   the children or history.
-getShallowRootBranch :: Monad m => Codebase m v a -> m (CausalBranch m)
+getShallowRootBranch :: Monad m => Codebase m v a -> m (Branch m)
+
+-- | Get the shallow representation of the root branches without loading
+--   the children or history.
+getShallowRootCausal :: Monad m => Codebase m v a -> m (CausalBranch m)
 
 -- | Get the root branch.
 ($sel:getRootBranch:Codebase) :: Codebase m v a -> m (Branch m)
@@ -3721,7 +3730,7 @@ getShallowRootBranch :: Monad m => Codebase m v a -> m (CausalBranch m)
 ($sel:getRootBranchExists:Codebase) :: Codebase m v a -> m Bool
 
 -- | Get the root branch Hash.
-($sel:getRootBranchHash:Codebase) :: Codebase m v a -> m CausalHash
+($sel:getRootCausalHash:Codebase) :: Codebase m v a -> m CausalHash
 
 -- | Like <a>$sel:putBranch:Codebase</a>, but also adjusts the root branch
 --   pointer afterwards.
