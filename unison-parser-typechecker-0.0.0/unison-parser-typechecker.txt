@@ -81,7 +81,10 @@ OpenCodebaseDoesntExist :: OpenCodebaseError
 
 -- | The codebase exists, but its schema version is unknown to this
 --   application.
-OpenCodebaseUnknownSchemaVersion :: Word64 -> OpenCodebaseError
+OpenCodebaseUnknownSchemaVersion :: SchemaVersion -> OpenCodebaseError
+
+-- | The codebase exists, but requires a migration before it can be used.
+OpenCodebaseRequiresMigration :: SchemaVersion -> SchemaVersion -> OpenCodebaseError
 instance GHC.Exception.Type.Exception Unison.Codebase.Init.OpenCodebaseError.OpenCodebaseError
 instance GHC.Classes.Eq Unison.Codebase.Init.OpenCodebaseError.OpenCodebaseError
 instance GHC.Show.Show Unison.Codebase.Init.OpenCodebaseError.OpenCodebaseError
@@ -749,6 +752,7 @@ data GitSqliteCodebaseError
 GitCouldntParseRootBranchHash :: ReadGitRepo -> String -> GitSqliteCodebaseError
 NoDatabaseFile :: ReadGitRepo -> CodebasePath -> GitSqliteCodebaseError
 UnrecognizedSchemaVersion :: ReadGitRepo -> CodebasePath -> SchemaVersion -> GitSqliteCodebaseError
+CodebaseRequiresMigration :: SchemaVersion -> SchemaVersion -> GitSqliteCodebaseError
 instance GHC.Show.Show Unison.Codebase.SqliteCodebase.GitError.GitSqliteCodebaseError
 
 module Unison.Codebase.GitError
@@ -2200,9 +2204,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3ptn loc_a3pto. Lens' (Env v_a3ptn loc_a3pto) (TypeLookup v_a3ptn loc_a3pto)
-termsByShortname :: forall v_a3ptn loc_a3pto. Lens' (Env v_a3ptn loc_a3pto) (Map Name [NamedReference v_a3ptn loc_a3pto])
-ambientAbilities :: forall v_a3ptn loc_a3pto. Lens' (Env v_a3ptn loc_a3pto) [Type v_a3ptn loc_a3pto]
+typeLookup :: forall v_a3pG1 loc_a3pG2. Lens' (Env v_a3pG1 loc_a3pG2) (TypeLookup v_a3pG1 loc_a3pG2)
+termsByShortname :: forall v_a3pG1 loc_a3pG2. Lens' (Env v_a3pG1 loc_a3pG2) (Map Name [NamedReference v_a3pG1 loc_a3pG2])
+ambientAbilities :: forall v_a3pG1 loc_a3pG2. Lens' (Env v_a3pG1 loc_a3pG2) [Type v_a3pG1 loc_a3pG2]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3887,15 +3891,23 @@ module Unison.Codebase.SqliteCodebase.Migrations
 --   predecessor, E.g. The migration at index 2 must be run on a codebase
 --   at version 1.
 migrations :: (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> CodebasePath -> Map SchemaVersion (Transaction ())
+data CodebaseVersionStatus
+CodebaseUpToDate :: CodebaseVersionStatus
+CodebaseUnknownSchemaVersion :: SchemaVersion -> CodebaseVersionStatus
+CodebaseRequiresMigration :: SchemaVersion -> SchemaVersion -> CodebaseVersionStatus
+checkCodebaseIsUpToDate :: Transaction CodebaseVersionStatus
 
 -- | Migrates a codebase up to the most recent version known to ucm. This
 --   is a No-op if it's up to date Returns an error if the schema version
 --   is newer than this ucm knows about.
-ensureCodebaseIsUpToDate :: MonadUnliftIO m => LocalOrRemote -> CodebasePath -> (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Connection -> m (Either OpenCodebaseError ())
+ensureCodebaseIsUpToDate :: MonadUnliftIO m => LocalOrRemote -> CodebasePath -> (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Bool -> Connection -> m (Either OpenCodebaseError ())
 
 -- | Copy the sqlite database to a new file with a unique name based on
 --   current time.
-backupCodebase :: CodebasePath -> IO ()
+backupCodebase :: CodebasePath -> Bool -> IO ()
+instance GHC.Show.Show Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
+instance GHC.Classes.Ord Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
+instance GHC.Classes.Eq Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
 
 module Unison.Codebase.Init.Type
 data Init m v a
@@ -3917,10 +3929,10 @@ codebaseExists :: MonadIO m => CodebasePath -> m Bool
 
 module Unison.Codebase.Init
 data Init m v a
-Init :: (forall r. DebugName -> CodebasePath -> (Codebase m v a -> m r) -> m (Either OpenCodebaseError r)) -> (forall r. DebugName -> CodebasePath -> (Codebase m v a -> m r) -> m (Either CreateCodebaseError r)) -> (CodebasePath -> CodebasePath) -> Init m v a
+Init :: (forall r. DebugName -> CodebasePath -> MigrationStrategy -> (Codebase m v a -> m r) -> m (Either OpenCodebaseError r)) -> (forall r. DebugName -> CodebasePath -> (Codebase m v a -> m r) -> m (Either CreateCodebaseError r)) -> (CodebasePath -> CodebasePath) -> Init m v a
 
 -- | open an existing codebase
-[$sel:withOpenCodebase:Init] :: Init m v a -> forall r. DebugName -> CodebasePath -> (Codebase m v a -> m r) -> m (Either OpenCodebaseError r)
+[$sel:withOpenCodebase:Init] :: Init m v a -> forall r. DebugName -> CodebasePath -> MigrationStrategy -> (Codebase m v a -> m r) -> m (Either OpenCodebaseError r)
 
 -- | create a new codebase
 [$sel:withCreatedCodebase:Init] :: Init m v a -> forall r. DebugName -> CodebasePath -> (Codebase m v a -> m r) -> m (Either CreateCodebaseError r)
@@ -3945,15 +3957,30 @@ CreatedCodebase :: InitResult
 data SpecifiedCodebase
 CreateWhenMissing :: CodebasePath -> SpecifiedCodebase
 DontCreateWhenMissing :: CodebasePath -> SpecifiedCodebase
+data MigrationStrategy
+
+-- | Perform a migration immediately if one is required.
+MigrateAutomatically :: MigrationStrategy
+
+-- | Prompt the user that a migration is about to occur, continue after
+--   acknownledgment
+MigrateAfterPrompt :: MigrationStrategy
+
+-- | Triggers an <a>OpenCodebaseRequiresMigration</a> error instead of
+--   migrating
+DontMigrate :: MigrationStrategy
 type Pretty = Pretty ColorText
 createCodebase :: MonadIO m => Init m v a -> DebugName -> CodebasePath -> (Codebase m v a -> m r) -> m (Either Pretty r)
 
 -- | try to init a codebase where none exists and then exit regardless
 --   (i.e. `ucm --codebase dir init`)
 initCodebaseAndExit :: MonadIO m => Init m Symbol Ann -> DebugName -> Maybe CodebasePath -> m ()
-withOpenOrCreateCodebase :: MonadIO m => Init m v a -> DebugName -> CodebaseInitOptions -> ((InitResult, CodebasePath, Codebase m v a) -> m r) -> m (Either (CodebasePath, InitError) r)
+withOpenOrCreateCodebase :: MonadIO m => Init m v a -> DebugName -> CodebaseInitOptions -> MigrationStrategy -> ((InitResult, CodebasePath, Codebase m v a) -> m r) -> m (Either (CodebasePath, InitError) r)
 withNewUcmCodebaseOrExit :: MonadIO m => Init m Symbol Ann -> DebugName -> CodebasePath -> (Codebase m Symbol Ann -> m r) -> m r
 withTemporaryUcmCodebase :: MonadUnliftIO m => Init m Symbol Ann -> DebugName -> ((CodebasePath, Codebase m Symbol Ann) -> m r) -> m r
+instance GHC.Classes.Ord Unison.Codebase.Init.MigrationStrategy
+instance GHC.Classes.Eq Unison.Codebase.Init.MigrationStrategy
+instance GHC.Show.Show Unison.Codebase.Init.MigrationStrategy
 instance GHC.Classes.Eq Unison.Codebase.Init.InitError
 instance GHC.Show.Show Unison.Codebase.Init.InitError
 instance GHC.Classes.Eq Unison.Codebase.Init.InitResult
@@ -3961,6 +3988,18 @@ instance GHC.Show.Show Unison.Codebase.Init.InitResult
 
 module Unison.Codebase.SqliteCodebase
 init :: HasCallStack => MonadUnliftIO m => Init m Symbol Ann
+data MigrationStrategy
+
+-- | Perform a migration immediately if one is required.
+MigrateAutomatically :: MigrationStrategy
+
+-- | Prompt the user that a migration is about to occur, continue after
+--   acknownledgment
+MigrateAfterPrompt :: MigrationStrategy
+
+-- | Triggers an <a>OpenCodebaseRequiresMigration</a> error instead of
+--   migrating
+DontMigrate :: MigrationStrategy
 instance GHC.Classes.Eq Unison.Codebase.SqliteCodebase.CodebaseStatus
 instance GHC.Show.Show (Unison.Codebase.SqliteCodebase.Entity m)
 
