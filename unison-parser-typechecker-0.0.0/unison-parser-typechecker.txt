@@ -5060,6 +5060,18 @@ instance GHC.Read.Read Unison.Runtime.Builtin.Sandbox
 instance GHC.Show.Show Unison.Runtime.Builtin.Sandbox
 instance GHC.Classes.Ord Unison.Runtime.Builtin.Sandbox
 instance GHC.Classes.Eq Unison.Runtime.Builtin.Sandbox
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v, v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v, v, v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v, v, v, v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v, v, v, v, v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v, v, v, v, v, v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v, v, v, v, v, v, v, v, v, v)
+instance Unison.Var.Var v => Unison.Runtime.Builtin.Fresh (v, v, v, v, v, v, v, v, v, v, v, v, v, v)
 
 module Unison.Runtime.Machine
 
