@@ -2204,9 +2204,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3pG0 loc_a3pG1. Lens' (Env v_a3pG0 loc_a3pG1) (TypeLookup v_a3pG0 loc_a3pG1)
-termsByShortname :: forall v_a3pG0 loc_a3pG1. Lens' (Env v_a3pG0 loc_a3pG1) (Map Name [NamedReference v_a3pG0 loc_a3pG1])
-ambientAbilities :: forall v_a3pG0 loc_a3pG1. Lens' (Env v_a3pG0 loc_a3pG1) [Type v_a3pG0 loc_a3pG1]
+typeLookup :: forall v_a3pGb loc_a3pGc. Lens' (Env v_a3pGb loc_a3pGc) (TypeLookup v_a3pGb loc_a3pGc)
+termsByShortname :: forall v_a3pGb loc_a3pGc. Lens' (Env v_a3pGb loc_a3pGc) (Map Name [NamedReference v_a3pGb loc_a3pGc])
+ambientAbilities :: forall v_a3pGb loc_a3pGc. Lens' (Env v_a3pGb loc_a3pGc) [Type v_a3pGb loc_a3pGc]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3077,7 +3077,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> m (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> m (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -3156,7 +3156,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 
 -- | Get the set of user-defined terms and type declarations that depend on
 --   the given term, type declaration, or builtin type.
-[$sel:dependentsImpl:Codebase] :: Codebase m v a -> Reference -> m (Set Id)
+[$sel:dependentsImpl:Codebase] :: Codebase m v a -> DependentsSelector -> Reference -> m (Set Id)
 [$sel:dependentsOfComponentImpl:Codebase] :: Codebase m v a -> Hash -> m (Set Id)
 
 -- | Copy a branch and all of its dependencies from the given codebase into
@@ -3539,7 +3539,7 @@ isCausalHash :: CausalHash -> Transaction Bool
 getPatch :: EditHash -> Transaction (Maybe Patch)
 putPatch :: EditHash -> Patch -> Transaction ()
 patchExists :: EditHash -> Transaction Bool
-dependentsImpl :: Reference -> Transaction (Set Id)
+dependentsImpl :: DependentsSelector -> Reference -> Transaction (Set Id)
 dependentsOfComponentImpl :: Hash -> Transaction (Set Id)
 watches :: WatchKind -> Transaction [Id]
 getWatch :: (Reference -> Transaction ConstructorType) -> WatchKind -> Id -> Transaction (Maybe (Term Symbol Ann))
@@ -3804,7 +3804,7 @@ lookupWatchCache :: Monad m => Codebase m v a -> Id -> m (Maybe (Term v a))
 
 -- | Get the set of terms, type declarations, and builtin types that depend
 --   on the given term, type declaration, or builtin type.
-dependents :: Functor m => Codebase m v a -> Reference -> m (Set Reference)
+dependents :: Functor m => Codebase m v a -> DependentsSelector -> Reference -> m (Set Reference)
 dependentsOfComponent :: Functor f => Codebase f v a -> Hash -> f (Set Reference)
 
 -- | Copy a branch and all of its dependencies from the given codebase into

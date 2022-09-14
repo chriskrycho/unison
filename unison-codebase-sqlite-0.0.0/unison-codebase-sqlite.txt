@@ -968,8 +968,25 @@ loadWatchKindsByReference :: IdH -> Transaction [WatchKind]
 clearWatches :: Transaction ()
 addToDependentsIndex :: Reference -> Id -> Transaction ()
 
--- | Get non-self, user-defined dependents of a dependency.
-getDependentsForDependency :: Reference -> Transaction [Id]
+-- | Which dependents should be returned?
+--   
+--   <ul>
+--   <li><i>IncludeAllDependents</i>. Include all dependents, including
+--   references from one's own component-mates, and references from oneself
+--   (e.g. those in recursive functions)</li>
+--   <li><i>ExcludeSelf</i>. Include all dependents, including references
+--   from one's own component-mates, but excluding actual self references
+--   (e.g. those in recursive functions).</li>
+--   <li><i>ExcludeOwnComponent</i>. Include all dependents outside of
+--   one's own component.</li>
+--   </ul>
+data DependentsSelector
+IncludeAllDependents :: DependentsSelector
+ExcludeSelf :: DependentsSelector
+ExcludeOwnComponent :: DependentsSelector
+
+-- | Get dependents of a dependency.
+getDependentsForDependency :: DependentsSelector -> Reference -> Transaction (Set Id)
 getDependentsForDependencyComponent :: ObjectId -> Transaction [Id]
 
 -- | Get non-self dependencies of a user-defined dependent.
@@ -1225,7 +1242,7 @@ declReferentsByPrefix :: Text -> Maybe Pos -> Maybe ConstructorId -> Transaction
 causalHashesByPrefix :: ShortBranchHash -> Transaction (Set CausalHash)
 
 -- | returns a list of known definitions referencing <tt>r</tt>
-dependents :: Reference -> Transaction (Set Id)
+dependents :: DependentsSelector -> Reference -> Transaction (Set Id)
 
 -- | returns a list of known definitions referencing <tt>h</tt>
 dependentsOfComponent :: Hash -> Transaction (Set Id)

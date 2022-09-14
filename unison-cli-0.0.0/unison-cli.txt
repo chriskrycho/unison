@@ -1694,7 +1694,6 @@ getLatestTypecheckedFile :: Cli r (Maybe (TypecheckedUnisonFile Symbol Ann))
 expectLatestTypecheckedFile :: Cli r (TypecheckedUnisonFile Symbol Ann)
 
 module Unison.Codebase.Editor.Propagate
-computeFrontier :: forall m. Monad m => (Reference -> m (Set Reference)) -> Patch -> (Reference -> Bool) -> m (Relation Reference Reference)
 propagateAndApply :: Patch -> Branch0 IO -> Cli r (Branch0 IO)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Propagate.Edits v)
 instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
