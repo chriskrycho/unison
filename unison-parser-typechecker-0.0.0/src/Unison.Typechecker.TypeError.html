@@ -32,7 +32,7 @@ showsPrec :: Int -&gt; BooleanMismatch -&gt; ShowS
 $cshowsPrec :: Int -&gt; BooleanMismatch -&gt; ShowS
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
 </span><span id="line-19"></span><span>
-</span><span id="line-20"></span><span class="hs-keyword">data</span><span> </span><span id="ExistentialMismatch"><span class="annot"><a href="Unison.Typechecker.TypeError.html#ExistentialMismatch"><span class="hs-identifier hs-var">ExistentialMismatch</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="IfBody"><span class="annot"><a href="Unison.Typechecker.TypeError.html#IfBody"><span class="hs-identifier hs-var">IfBody</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="VectorBody"><span class="annot"><a href="Unison.Typechecker.TypeError.html#VectorBody"><span class="hs-identifier hs-var">VectorBody</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="CaseBody"><span class="annot"><a href="Unison.Typechecker.TypeError.html#CaseBody"><span class="hs-identifier hs-var">CaseBody</span></a></span></span><span>
+</span><span id="line-20"></span><span class="hs-keyword">data</span><span> </span><span id="ExistentialMismatch"><span class="annot"><a href="Unison.Typechecker.TypeError.html#ExistentialMismatch"><span class="hs-identifier hs-var">ExistentialMismatch</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="IfBody"><span class="annot"><a href="Unison.Typechecker.TypeError.html#IfBody"><span class="hs-identifier hs-var">IfBody</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="ListBody"><span class="annot"><a href="Unison.Typechecker.TypeError.html#ListBody"><span class="hs-identifier hs-var">ListBody</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="CaseBody"><span class="annot"><a href="Unison.Typechecker.TypeError.html#CaseBody"><span class="hs-identifier hs-var">CaseBody</span></a></span></span><span>
 </span><span id="line-21"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680757145"><span id="local-6989586621680757147"><span id="local-6989586621680757149"><span class="annot"><span class="annottext">Int -&gt; ExistentialMismatch -&gt; ShowS
 [ExistentialMismatch] -&gt; ShowS
 ExistentialMismatch -&gt; String
@@ -307,7 +307,7 @@ ErrorExtractor v loc (TypeError v loc)
 forall v loc.
 (Var v, Ord loc) =&gt;
 ErrorExtractor v loc (TypeError v loc)
-</span><a href="Unison.Typechecker.TypeError.html#vectorBody"><span class="hs-identifier hs-var">vectorBody</span></a></span><span class="hs-special">,</span><span>
+</span><a href="Unison.Typechecker.TypeError.html#listBody"><span class="hs-identifier hs-var">listBody</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-139"></span><span>      </span><span class="annot"><span class="annottext">ErrorExtractor v loc (TypeError v loc)
 forall v loc.
 (Var v, Ord loc) =&gt;
@@ -1058,7 +1058,7 @@ ExistentialMismatch
 </span><a href="#local-6989586621680756929"><span class="hs-identifier hs-var">n</span></a></span><span>
 </span><span id="line-289"></span><span>
 </span><span id="line-290"></span><span id="local-6989586621680756915"><span id="local-6989586621680756916"><span class="annot"><a href="Unison.Typechecker.TypeError.html#ifBody"><span class="hs-identifier hs-type">ifBody</span></a></span><span class="hs-special">,</span><span>
-</span><span id="line-291"></span><span>  </span><span class="annot"><a href="Unison.Typechecker.TypeError.html#vectorBody"><span class="hs-identifier hs-type">vectorBody</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-291"></span><span>  </span><span class="annot"><a href="Unison.Typechecker.TypeError.html#listBody"><span class="hs-identifier hs-type">listBody</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-292"></span><span>  </span><span class="annot"><a href="Unison.Typechecker.TypeError.html#matchBody"><span class="hs-identifier hs-type">matchBody</span></a></span><span> </span><span class="hs-glyph">::</span><span>
 </span><span id="line-293"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680756916"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621680756915"><span class="hs-identifier hs-type">loc</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Typechecker.Extractor.html#ErrorExtractor"><span class="hs-identifier hs-type">Ex.ErrorExtractor</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680756916"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680756915"><span class="hs-identifier hs-type">loc</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Typechecker.TypeError.html#TypeError"><span class="hs-identifier hs-type">TypeError</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680756916"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680756915"><span class="hs-identifier hs-type">loc</span></a></span><span class="hs-special">)</span></span></span><span>
 </span><span id="line-294"></span><span id="ifBody"><span class="annot"><span class="annottext">ifBody :: ErrorExtractor v loc (TypeError v loc)
@@ -1079,8 +1079,8 @@ forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; m b -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">SubseqExtractor v loc loc
 forall v loc. SubseqExtractor v loc loc
 </span><a href="Unison.Typechecker.Extractor.html#inIfBody"><span class="hs-identifier hs-var">Ex.inIfBody</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-295"></span><span id="vectorBody"><span class="annot"><span class="annottext">vectorBody :: ErrorExtractor v loc (TypeError v loc)
-</span><a href="Unison.Typechecker.TypeError.html#vectorBody"><span class="hs-identifier hs-var hs-var">vectorBody</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ExistentialMismatch
+</span><span id="line-295"></span><span id="listBody"><span class="annot"><span class="annottext">listBody :: ErrorExtractor v loc (TypeError v loc)
+</span><a href="Unison.Typechecker.TypeError.html#listBody"><span class="hs-identifier hs-var hs-var">listBody</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ExistentialMismatch
 -&gt; SubseqExtractor v loc loc
 -&gt; ErrorExtractor v loc (TypeError v loc)
 forall v loc.
@@ -1089,7 +1089,7 @@ ExistentialMismatch
 -&gt; SubseqExtractor v loc loc
 -&gt; ErrorExtractor v loc (TypeError v loc)
 </span><a href="Unison.Typechecker.TypeError.html#existentialMismatch0"><span class="hs-identifier hs-var">existentialMismatch0</span></a></span><span> </span><span class="annot"><span class="annottext">ExistentialMismatch
-</span><a href="Unison.Typechecker.TypeError.html#VectorBody"><span class="hs-identifier hs-var">VectorBody</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">SubseqExtractor v loc (Type v loc, Term v loc, Int)
+</span><a href="Unison.Typechecker.TypeError.html#ListBody"><span class="hs-identifier hs-var">ListBody</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">SubseqExtractor v loc (Type v loc, Term v loc, Int)
 forall v loc. SubseqExtractor v loc (Type v loc, Term v loc, Int)
 </span><a href="Unison.Typechecker.Extractor.html#inSynthesizeApp"><span class="hs-identifier hs-var">Ex.inSynthesizeApp</span></a></span><span> </span><span class="annot"><span class="annottext">SubseqExtractor v loc (Type v loc, Term v loc, Int)
 -&gt; SubseqExtractor v loc loc -&gt; SubseqExtractor v loc loc

@@ -2032,7 +2032,7 @@ OrMismatch :: BooleanMismatch
 GuardMismatch :: BooleanMismatch
 data ExistentialMismatch
 IfBody :: ExistentialMismatch
-VectorBody :: ExistentialMismatch
+ListBody :: ExistentialMismatch
 CaseBody :: ExistentialMismatch
 data TypeError v loc
 Mismatch :: Type v loc -> Type v loc -> Type v loc -> Type v loc -> Term v loc -> ErrorNote v loc -> TypeError v loc
@@ -2131,7 +2131,7 @@ unguardedCycle :: ErrorExtractor v loc (TypeError v loc)
 booleanMismatch0 :: (Var v, Ord loc) => BooleanMismatch -> SubseqExtractor v loc () -> ErrorExtractor v loc (TypeError v loc)
 existentialMismatch0 :: (Var v, Ord loc) => ExistentialMismatch -> SubseqExtractor v loc loc -> ErrorExtractor v loc (TypeError v loc)
 ifBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-vectorBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+listBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
 matchBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
 applyingNonFunction :: Var v => ErrorExtractor v loc (TypeError v loc)
 
