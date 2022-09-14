@@ -23,76 +23,76 @@
 </span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">UnliftIO</span></span><span>
 </span><span id="line-24"></span><span>
 </span><span id="line-25"></span><span class="hs-comment">-- | Lex, parse, and typecheck a file.</span><span>
-</span><span id="line-26"></span><span id="local-6989586621679407361"><span class="annot"><a href="Unison.LSP.FileAnalysis.html#analyseFile"><span class="hs-identifier hs-type">analyseFile</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">HasUri</span></span><span> </span><span class="annot"><a href="#local-6989586621679407361"><span class="hs-identifier hs-type">d</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Uri</span></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679407361"><span class="hs-identifier hs-type">d</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-type">FileAnalysis</span></a></span><span class="hs-special">)</span></span><span>
+</span><span id="line-26"></span><span id="local-6989586621679407359"><span class="annot"><a href="Unison.LSP.FileAnalysis.html#analyseFile"><span class="hs-identifier hs-type">analyseFile</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">HasUri</span></span><span> </span><span class="annot"><a href="#local-6989586621679407359"><span class="hs-identifier hs-type">d</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Uri</span></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679407359"><span class="hs-identifier hs-type">d</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-type">FileAnalysis</span></a></span><span class="hs-special">)</span></span><span>
 </span><span id="line-27"></span><span id="analyseFile"><span class="annot"><span class="annottext">analyseFile :: d -&gt; Lsp (Maybe FileAnalysis)
-</span><a href="Unison.LSP.FileAnalysis.html#analyseFile"><span class="hs-identifier hs-var hs-var">analyseFile</span></a></span></span><span> </span><span id="local-6989586621679407346"><span class="annot"><span class="annottext">d
-</span><a href="#local-6989586621679407346"><span class="hs-identifier hs-var">doc</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">MaybeT Lsp FileAnalysis -&gt; Lsp (Maybe FileAnalysis)
+</span><a href="Unison.LSP.FileAnalysis.html#analyseFile"><span class="hs-identifier hs-var hs-var">analyseFile</span></a></span></span><span> </span><span id="local-6989586621679407344"><span class="annot"><span class="annottext">d
+</span><a href="#local-6989586621679407344"><span class="hs-identifier hs-var">doc</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">MaybeT Lsp FileAnalysis -&gt; Lsp (Maybe FileAnalysis)
 forall (m :: * -&gt; *) a. MaybeT m a -&gt; m (Maybe a)
 </span><span class="hs-identifier hs-var hs-var">runMaybeT</span></span><span> </span><span class="annot"><span class="annottext">(MaybeT Lsp FileAnalysis -&gt; Lsp (Maybe FileAnalysis))
 -&gt; MaybeT Lsp FileAnalysis -&gt; Lsp (Maybe FileAnalysis)
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-28"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407344"><span class="annot"><span class="annottext">fileUri :: Uri
-</span><a href="#local-6989586621679407344"><span class="hs-identifier hs-var hs-var">fileUri</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">d
-</span><a href="#local-6989586621679407346"><span class="hs-identifier hs-var">doc</span></a></span><span> </span><span class="annot"><span class="annottext">d -&gt; Getting Uri d Uri -&gt; Uri
+</span><span id="line-28"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407342"><span class="annot"><span class="annottext">fileUri :: Uri
+</span><a href="#local-6989586621679407342"><span class="hs-identifier hs-var hs-var">fileUri</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">d
+</span><a href="#local-6989586621679407344"><span class="hs-identifier hs-var">doc</span></a></span><span> </span><span class="annot"><span class="annottext">d -&gt; Getting Uri d Uri -&gt; Uri
 forall s a. s -&gt; Getting a s a -&gt; a
 </span><span class="hs-operator hs-var">^.</span></span><span> </span><span class="annot"><span class="annottext">Getting Uri d Uri
 forall s a. HasUri s a =&gt; Lens' s a
 </span><span class="hs-identifier hs-var">uri</span></span><span>
-</span><span id="line-29"></span><span>  </span><span class="hs-special">(</span><span id="local-6989586621679407342"><span class="annot"><span class="annottext">FileVersion
-</span><a href="#local-6989586621679407342"><span class="hs-identifier hs-var">fileVersion</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679407341"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679407341"><span class="hs-identifier hs-var">contents</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe (FileVersion, Text)) -&gt; MaybeT Lsp (FileVersion, Text)
+</span><span id="line-29"></span><span>  </span><span class="hs-special">(</span><span id="local-6989586621679407340"><span class="annot"><span class="annottext">FileVersion
+</span><a href="#local-6989586621679407340"><span class="hs-identifier hs-var">fileVersion</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679407339"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679407339"><span class="hs-identifier hs-var">contents</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe (FileVersion, Text)) -&gt; MaybeT Lsp (FileVersion, Text)
 forall (m :: * -&gt; *) a. m (Maybe a) -&gt; MaybeT m a
 </span><span class="hs-identifier hs-var">MaybeT</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">d -&gt; Lsp (Maybe (FileVersion, Text))
 forall doc.
 HasUri doc Uri =&gt;
 doc -&gt; Lsp (Maybe (FileVersion, Text))
 </span><a href="Unison.LSP.VFS.html#getFileContents"><span class="hs-identifier hs-var">VFS.getFileContents</span></a></span><span> </span><span class="annot"><span class="annottext">d
-</span><a href="#local-6989586621679407346"><span class="hs-identifier hs-var">doc</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-30"></span><span>  </span><span id="local-6989586621679407338"><span class="annot"><span class="annottext">NamesWithHistory
-</span><a href="#local-6989586621679407338"><span class="hs-identifier hs-var">parseNames</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp NamesWithHistory -&gt; MaybeT Lsp NamesWithHistory
+</span><a href="#local-6989586621679407344"><span class="hs-identifier hs-var">doc</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-30"></span><span>  </span><span id="local-6989586621679407336"><span class="annot"><span class="annottext">NamesWithHistory
+</span><a href="#local-6989586621679407336"><span class="hs-identifier hs-var">parseNames</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp NamesWithHistory -&gt; MaybeT Lsp NamesWithHistory
 forall (t :: (* -&gt; *) -&gt; * -&gt; *) (m :: * -&gt; *) a.
 (MonadTrans t, Monad m) =&gt;
 m a -&gt; t m a
 </span><span class="hs-identifier hs-var">lift</span></span><span> </span><span class="annot"><span class="annottext">Lsp NamesWithHistory
 </span><a href="Unison.LSP.Types.html#getParseNames"><span class="hs-identifier hs-var">getParseNames</span></a></span><span>
-</span><span id="line-31"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407335"><span class="annot"><span class="annottext">sourceName :: Text
-</span><a href="#local-6989586621679407335"><span class="hs-identifier hs-var hs-var">sourceName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Uri -&gt; Text
+</span><span id="line-31"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407333"><span class="annot"><span class="annottext">sourceName :: Text
+</span><a href="#local-6989586621679407333"><span class="hs-identifier hs-var hs-var">sourceName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Uri -&gt; Text
 </span><span class="hs-identifier hs-var hs-var">getUri</span></span><span> </span><span class="annot"><span class="annottext">(Uri -&gt; Text) -&gt; Uri -&gt; Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">d
-</span><a href="#local-6989586621679407346"><span class="hs-identifier hs-var">doc</span></a></span><span> </span><span class="annot"><span class="annottext">d -&gt; Getting Uri d Uri -&gt; Uri
+</span><a href="#local-6989586621679407344"><span class="hs-identifier hs-var">doc</span></a></span><span> </span><span class="annot"><span class="annottext">d -&gt; Getting Uri d Uri -&gt; Uri
 forall s a. s -&gt; Getting a s a -&gt; a
 </span><span class="hs-operator hs-var">^.</span></span><span> </span><span class="annot"><span class="annottext">Getting Uri d Uri
 forall s a. HasUri s a =&gt; Lens' s a
 </span><span class="hs-identifier hs-var">uri</span></span><span>
-</span><span id="line-32"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407333"><span class="annot"><span class="annottext">lexedSource :: (Text, [Token Lexeme])
-</span><a href="#local-6989586621679407333"><span class="hs-identifier hs-var hs-var">lexedSource</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679407341"><span class="hs-identifier hs-var">contents</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; [Token Lexeme]
+</span><span id="line-32"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407331"><span class="annot"><span class="annottext">lexedSource :: (Text, [Token Lexeme])
+</span><a href="#local-6989586621679407331"><span class="hs-identifier hs-var hs-var">lexedSource</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679407339"><span class="hs-identifier hs-var">contents</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; [Token Lexeme]
 </span><span class="hs-identifier hs-var">L.lexer</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; String
 </span><span class="hs-identifier hs-var">Text.unpack</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679407335"><span class="hs-identifier hs-var">sourceName</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; String
+</span><a href="#local-6989586621679407333"><span class="hs-identifier hs-var">sourceName</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; String
 </span><span class="hs-identifier hs-var">Text.unpack</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679407341"><span class="hs-identifier hs-var">contents</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-33"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407330"><span class="annot"><span class="annottext">ambientAbilities :: [a]
-</span><a href="#local-6989586621679407330"><span class="hs-identifier hs-var hs-var">ambientAbilities</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-34"></span><span>  </span><span id="local-6989586621679407329"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679407329"><span class="hs-identifier hs-var">cb</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; Codebase IO Symbol Ann)
+</span><a href="#local-6989586621679407339"><span class="hs-identifier hs-var">contents</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-33"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407328"><span class="annot"><span class="annottext">ambientAbilities :: [a]
+</span><a href="#local-6989586621679407328"><span class="hs-identifier hs-var hs-var">ambientAbilities</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-34"></span><span>  </span><span id="local-6989586621679407327"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679407327"><span class="hs-identifier hs-var">cb</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; Codebase IO Symbol Ann)
 -&gt; MaybeT Lsp (Codebase IO Symbol Ann)
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; Codebase IO Symbol Ann
 </span><a href="Unison.LSP.Types.html#%24sel%3Acodebase%3AEnv"><span class="hs-identifier hs-var hs-var">codebase</span></a></span><span>
-</span><span id="line-35"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407326"><span class="annot"><span class="annottext">generateUniqueName :: IO UniqueName
-</span><a href="#local-6989586621679407326"><span class="hs-identifier hs-var hs-var">generateUniqueName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">SystemDRG -&gt; UniqueName
+</span><span id="line-35"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407324"><span class="annot"><span class="annottext">generateUniqueName :: IO UniqueName
+</span><a href="#local-6989586621679407324"><span class="hs-identifier hs-var hs-var">generateUniqueName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">SystemDRG -&gt; UniqueName
 forall gen. DRG gen =&gt; gen -&gt; UniqueName
 </span><span class="hs-identifier hs-var">Parser.uniqueBase32Namegen</span></span><span> </span><span class="annot"><span class="annottext">(SystemDRG -&gt; UniqueName) -&gt; IO SystemDRG -&gt; IO UniqueName
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">IO SystemDRG
 </span><span class="hs-identifier hs-var">Random.getSystemDRG</span></span><span>
-</span><span id="line-36"></span><span>  </span><span id="local-6989586621679407322"><span class="annot"><span class="annottext">Result
+</span><span id="line-36"></span><span>  </span><span id="local-6989586621679407320"><span class="annot"><span class="annottext">Result
   (Seq (Note Symbol Ann))
   (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann))
-</span><a href="#local-6989586621679407322"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IO
+</span><a href="#local-6989586621679407320"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IO
   (Result
      (Seq (Note Symbol Ann))
      (Either
@@ -151,23 +151,23 @@ Codebase IO Symbol Ann
         (Either
            (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
 </span><a href="Unison.Codebase.Editor.HandleInput.html#typecheckHelper"><span class="hs-identifier hs-var">typecheckHelper</span></a></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679407329"><span class="hs-identifier hs-var">cb</span></a></span><span> </span><span class="annot"><span class="annottext">IO UniqueName
-</span><a href="#local-6989586621679407326"><span class="hs-identifier hs-var">generateUniqueName</span></a></span><span> </span><span class="annot"><span class="annottext">[Type Symbol Ann]
+</span><a href="#local-6989586621679407327"><span class="hs-identifier hs-var">cb</span></a></span><span> </span><span class="annot"><span class="annottext">IO UniqueName
+</span><a href="#local-6989586621679407324"><span class="hs-identifier hs-var">generateUniqueName</span></a></span><span> </span><span class="annot"><span class="annottext">[Type Symbol Ann]
 forall a. [a]
-</span><a href="#local-6989586621679407330"><span class="hs-identifier hs-var">ambientAbilities</span></a></span><span> </span><span class="annot"><span class="annottext">NamesWithHistory
-</span><a href="#local-6989586621679407338"><span class="hs-identifier hs-var">parseNames</span></a></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679407335"><span class="hs-identifier hs-var">sourceName</span></a></span><span> </span><span class="annot"><span class="annottext">(Text, [Token Lexeme])
-</span><a href="#local-6989586621679407333"><span class="hs-identifier hs-var">lexedSource</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-37"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Result.Result</span></span><span> </span><span id="local-6989586621679407319"><span class="annot"><span class="annottext">Seq (Note Symbol Ann)
-</span><a href="#local-6989586621679407319"><span class="hs-identifier hs-var">notes</span></a></span></span><span> </span><span id="local-6989586621679407318"><span class="annot"><span class="annottext">Maybe
+</span><a href="#local-6989586621679407328"><span class="hs-identifier hs-var">ambientAbilities</span></a></span><span> </span><span class="annot"><span class="annottext">NamesWithHistory
+</span><a href="#local-6989586621679407336"><span class="hs-identifier hs-var">parseNames</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679407333"><span class="hs-identifier hs-var">sourceName</span></a></span><span> </span><span class="annot"><span class="annottext">(Text, [Token Lexeme])
+</span><a href="#local-6989586621679407331"><span class="hs-identifier hs-var">lexedSource</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-37"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Result.Result</span></span><span> </span><span id="local-6989586621679407317"><span class="annot"><span class="annottext">Seq (Note Symbol Ann)
+</span><a href="#local-6989586621679407317"><span class="hs-identifier hs-var">notes</span></a></span></span><span> </span><span id="local-6989586621679407316"><span class="annot"><span class="annottext">Maybe
   (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann))
-</span><a href="#local-6989586621679407318"><span class="hs-identifier hs-var">mayResult</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Result
+</span><a href="#local-6989586621679407316"><span class="hs-identifier hs-var">mayResult</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Result
   (Seq (Note Symbol Ann))
   (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann))
-</span><a href="#local-6989586621679407322"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><a href="#local-6989586621679407320"><span class="hs-identifier hs-var">r</span></a></span><span>
 </span><span id="line-38"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe
   (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann))
-</span><a href="#local-6989586621679407318"><span class="hs-identifier hs-var">mayResult</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679407316"><span class="hs-identifier hs-var">mayResult</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-39"></span><span>    </span><span class="annot"><span class="annottext">Maybe
   (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann))
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FileAnalysis -&gt; MaybeT Lsp FileAnalysis
@@ -201,8 +201,8 @@ lexedSource :: (Text, [Token Lexeme])
 fileVersion :: FileVersion
 fileUri :: Uri
 </span><a href="Unison.LSP.Types.html#%24sel%3Anotes%3AFileAnalysis"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span><span class="hs-special">}</span><span>
-</span><span id="line-40"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679407310"><span class="annot"><span class="annottext">UnisonFile Symbol Ann
-</span><a href="#local-6989586621679407310"><span class="hs-identifier hs-var">uf</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FileAnalysis -&gt; MaybeT Lsp FileAnalysis
+</span><span id="line-40"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679407308"><span class="annot"><span class="annottext">UnisonFile Symbol Ann
+</span><a href="#local-6989586621679407308"><span class="hs-identifier hs-var">uf</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FileAnalysis -&gt; MaybeT Lsp FileAnalysis
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">(FileAnalysis -&gt; MaybeT Lsp FileAnalysis)
 -&gt; FileAnalysis -&gt; MaybeT Lsp FileAnalysis
@@ -218,7 +218,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><a href="Unison.LSP.Types.html#%24sel%3AparsedFile%3AFileAnalysis"><span class="hs-identifier hs-var">parsedFile</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">UnisonFile Symbol Ann -&gt; Maybe (UnisonFile Symbol Ann)
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">UnisonFile Symbol Ann
-</span><a href="#local-6989586621679407310"><span class="hs-identifier hs-var">uf</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:typecheckedFile:FileAnalysis :: Maybe (TypecheckedUnisonFile Symbol Ann)
+</span><a href="#local-6989586621679407308"><span class="hs-identifier hs-var">uf</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:typecheckedFile:FileAnalysis :: Maybe (TypecheckedUnisonFile Symbol Ann)
 </span><a href="Unison.LSP.Types.html#%24sel%3AtypecheckedFile%3AFileAnalysis"><span class="hs-identifier hs-var">typecheckedFile</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (TypecheckedUnisonFile Symbol Ann)
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">FileVersion
@@ -234,8 +234,8 @@ lexedSource :: (Text, [Token Lexeme])
 fileVersion :: FileVersion
 fileUri :: Uri
 </span><a href="Unison.LSP.Types.html#%24sel%3Anotes%3AFileAnalysis"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span><span class="hs-special">}</span><span>
-</span><span id="line-41"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679407309"><span class="annot"><span class="annottext">TypecheckedUnisonFile Symbol Ann
-</span><a href="#local-6989586621679407309"><span class="hs-identifier hs-var">tf</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FileAnalysis -&gt; MaybeT Lsp FileAnalysis
+</span><span id="line-41"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679407307"><span class="annot"><span class="annottext">TypecheckedUnisonFile Symbol Ann
+</span><a href="#local-6989586621679407307"><span class="hs-identifier hs-var">tf</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FileAnalysis -&gt; MaybeT Lsp FileAnalysis
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">(FileAnalysis -&gt; MaybeT Lsp FileAnalysis)
 -&gt; FileAnalysis -&gt; MaybeT Lsp FileAnalysis
@@ -253,12 +253,12 @@ forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypecheckedUnisonFile Symbol Ann -&gt; UnisonFile Symbol Ann
 forall v a. TypecheckedUnisonFile v a -&gt; UnisonFile v a
 </span><span class="hs-identifier hs-var">UF.discardTypes</span></span><span> </span><span class="annot"><span class="annottext">TypecheckedUnisonFile Symbol Ann
-</span><a href="#local-6989586621679407309"><span class="hs-identifier hs-var">tf</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:typecheckedFile:FileAnalysis :: Maybe (TypecheckedUnisonFile Symbol Ann)
+</span><a href="#local-6989586621679407307"><span class="hs-identifier hs-var">tf</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:typecheckedFile:FileAnalysis :: Maybe (TypecheckedUnisonFile Symbol Ann)
 </span><a href="Unison.LSP.Types.html#%24sel%3AtypecheckedFile%3AFileAnalysis"><span class="hs-identifier hs-var">typecheckedFile</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TypecheckedUnisonFile Symbol Ann
 -&gt; Maybe (TypecheckedUnisonFile Symbol Ann)
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">TypecheckedUnisonFile Symbol Ann
-</span><a href="#local-6989586621679407309"><span class="hs-identifier hs-var">tf</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">FileVersion
+</span><a href="#local-6989586621679407307"><span class="hs-identifier hs-var">tf</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">FileVersion
 (Text, [Token Lexeme])
 Seq (Note Symbol Ann)
 Uri
@@ -277,34 +277,34 @@ fileUri :: Uri
 </span><a href="Unison.LSP.FileAnalysis.html#fileAnalysisWorker"><span class="hs-identifier hs-var hs-var">fileAnalysisWorker</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Lsp (Map Uri ()) -&gt; Lsp ()
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b
 </span><span class="hs-identifier hs-var">forever</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-45"></span><span>  </span><span id="local-6989586621679407305"><span class="annot"><span class="annottext">TVar (Set Uri)
-</span><a href="#local-6989586621679407305"><span class="hs-identifier hs-var">dirtyFilesV</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; TVar (Set Uri)) -&gt; Lsp (TVar (Set Uri))
+</span><span id="line-45"></span><span>  </span><span id="local-6989586621679407303"><span class="annot"><span class="annottext">TVar (Set Uri)
+</span><a href="#local-6989586621679407303"><span class="hs-identifier hs-var">dirtyFilesV</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; TVar (Set Uri)) -&gt; Lsp (TVar (Set Uri))
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; TVar (Set Uri)
 </span><a href="Unison.LSP.Types.html#%24sel%3AdirtyFilesVar%3AEnv"><span class="hs-identifier hs-var hs-var">dirtyFilesVar</span></a></span><span>
-</span><span id="line-46"></span><span>  </span><span id="local-6989586621679407303"><span class="annot"><span class="annottext">TVar (Map Uri FileAnalysis)
-</span><a href="#local-6989586621679407303"><span class="hs-identifier hs-var">checkedFilesV</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; TVar (Map Uri FileAnalysis))
+</span><span id="line-46"></span><span>  </span><span id="local-6989586621679407301"><span class="annot"><span class="annottext">TVar (Map Uri FileAnalysis)
+</span><a href="#local-6989586621679407301"><span class="hs-identifier hs-var">checkedFilesV</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; TVar (Map Uri FileAnalysis))
 -&gt; Lsp (TVar (Map Uri FileAnalysis))
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; TVar (Map Uri FileAnalysis)
 </span><a href="Unison.LSP.Types.html#%24sel%3AcheckedFilesVar%3AEnv"><span class="hs-identifier hs-var hs-var">checkedFilesVar</span></a></span><span>
 </span><span id="line-47"></span><span>  </span><span class="hs-comment">-- We may want to debounce this if it typechecks too eagerly,</span><span>
 </span><span id="line-48"></span><span>  </span><span class="hs-comment">-- but typechecking is pretty fast right now when scratch files are small</span><span>
-</span><span id="line-49"></span><span>  </span><span id="local-6989586621679407301"><span class="annot"><span class="annottext">Set Uri
-</span><a href="#local-6989586621679407301"><span class="hs-identifier hs-var">dirtyFileIDs</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">STM (Set Uri) -&gt; Lsp (Set Uri)
+</span><span id="line-49"></span><span>  </span><span id="local-6989586621679407299"><span class="annot"><span class="annottext">Set Uri
+</span><a href="#local-6989586621679407299"><span class="hs-identifier hs-var">dirtyFileIDs</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">STM (Set Uri) -&gt; Lsp (Set Uri)
 forall (m :: * -&gt; *) a. MonadIO m =&gt; STM a -&gt; m a
 </span><span class="hs-identifier hs-var">atomically</span></span><span> </span><span class="annot"><span class="annottext">(STM (Set Uri) -&gt; Lsp (Set Uri)) -&gt; STM (Set Uri) -&gt; Lsp (Set Uri)
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-50"></span><span>    </span><span id="local-6989586621679407299"><span class="annot"><span class="annottext">Set Uri
-</span><a href="#local-6989586621679407299"><span class="hs-identifier hs-var">dirty</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">TVar (Set Uri) -&gt; STM (Set Uri)
+</span><span id="line-50"></span><span>    </span><span id="local-6989586621679407297"><span class="annot"><span class="annottext">Set Uri
+</span><a href="#local-6989586621679407297"><span class="hs-identifier hs-var">dirty</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">TVar (Set Uri) -&gt; STM (Set Uri)
 forall a. TVar a -&gt; STM a
 </span><span class="hs-identifier hs-var">readTVar</span></span><span> </span><span class="annot"><span class="annottext">TVar (Set Uri)
-</span><a href="#local-6989586621679407305"><span class="hs-identifier hs-var">dirtyFilesV</span></a></span><span>
+</span><a href="#local-6989586621679407303"><span class="hs-identifier hs-var">dirtyFilesV</span></a></span><span>
 </span><span id="line-51"></span><span>    </span><span class="annot"><span class="annottext">TVar (Set Uri) -&gt; Set Uri -&gt; STM ()
 forall a. TVar a -&gt; a -&gt; STM ()
 </span><span class="hs-identifier hs-var">writeTVar</span></span><span> </span><span class="annot"><span class="annottext">TVar (Set Uri)
-</span><a href="#local-6989586621679407305"><span class="hs-identifier hs-var">dirtyFilesV</span></a></span><span> </span><span class="annot"><span class="annottext">Set Uri
+</span><a href="#local-6989586621679407303"><span class="hs-identifier hs-var">dirtyFilesV</span></a></span><span> </span><span class="annot"><span class="annottext">Set Uri
 forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span>
 </span><span id="line-52"></span><span>    </span><span class="annot"><span class="annottext">Bool -&gt; STM ()
@@ -317,11 +317,11 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Set Uri -&gt; Bool
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; Bool
 </span><span class="hs-identifier hs-var">null</span></span><span> </span><span class="annot"><span class="annottext">Set Uri
-</span><a href="#local-6989586621679407299"><span class="hs-identifier hs-var">dirty</span></a></span><span>
+</span><a href="#local-6989586621679407297"><span class="hs-identifier hs-var">dirty</span></a></span><span>
 </span><span id="line-53"></span><span>    </span><span class="hs-identifier">pure</span><span> </span><span class="annot"><span class="annottext">Set Uri
-</span><a href="#local-6989586621679407299"><span class="hs-identifier hs-var">dirty</span></a></span><span>
-</span><span id="line-54"></span><span>  </span><span id="local-6989586621679407294"><span class="annot"><span class="annottext">Map Uri FileAnalysis
-</span><a href="#local-6989586621679407294"><span class="hs-identifier hs-var">freshlyCheckedFiles</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><a href="#local-6989586621679407297"><span class="hs-identifier hs-var">dirty</span></a></span><span>
+</span><span id="line-54"></span><span>  </span><span id="local-6989586621679407292"><span class="annot"><span class="annottext">Map Uri FileAnalysis
+</span><a href="#local-6989586621679407292"><span class="hs-identifier hs-var">freshlyCheckedFiles</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
 </span><span id="line-55"></span><span>    </span><span class="annot"><span class="annottext">[(Uri, FileAnalysis)] -&gt; Map Uri FileAnalysis
 forall k a. Ord k =&gt; [(k, a)] -&gt; Map k a
 </span><span class="hs-identifier hs-var">Map.fromList</span></span><span> </span><span class="annot"><span class="annottext">([(Uri, FileAnalysis)] -&gt; Map Uri FileAnalysis)
@@ -336,12 +336,12 @@ t a -&gt; (a -&gt; f (Maybe b)) -&gt; f (t b)
 </span><span class="hs-identifier hs-var">forMaybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Set Uri -&gt; [Uri]
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; [a]
 </span><span class="hs-identifier hs-var">toList</span></span><span> </span><span class="annot"><span class="annottext">Set Uri
-</span><a href="#local-6989586621679407301"><span class="hs-identifier hs-var">dirtyFileIDs</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679407290"><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679407290"><span class="hs-identifier hs-var">docUri</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">MaybeT Lsp (Uri, FileAnalysis) -&gt; Lsp (Maybe (Uri, FileAnalysis))
+</span><a href="#local-6989586621679407299"><span class="hs-identifier hs-var">dirtyFileIDs</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679407288"><span class="annot"><span class="annottext">Uri
+</span><a href="#local-6989586621679407288"><span class="hs-identifier hs-var">docUri</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">MaybeT Lsp (Uri, FileAnalysis) -&gt; Lsp (Maybe (Uri, FileAnalysis))
 forall (m :: * -&gt; *) a. MaybeT m a -&gt; m (Maybe a)
 </span><span class="hs-identifier hs-var hs-var">runMaybeT</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-56"></span><span>      </span><span id="local-6989586621679407289"><span class="annot"><span class="annottext">FileAnalysis
-</span><a href="#local-6989586621679407289"><span class="hs-identifier hs-var">fileInfo</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe FileAnalysis) -&gt; MaybeT Lsp FileAnalysis
+</span><span id="line-56"></span><span>      </span><span id="local-6989586621679407287"><span class="annot"><span class="annottext">FileAnalysis
+</span><a href="#local-6989586621679407287"><span class="hs-identifier hs-var">fileInfo</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe FileAnalysis) -&gt; MaybeT Lsp FileAnalysis
 forall (m :: * -&gt; *) a. m (Maybe a) -&gt; MaybeT m a
 </span><span class="hs-identifier hs-var">MaybeT</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">TextDocumentIdentifier -&gt; Lsp (Maybe FileAnalysis)
 forall d. HasUri d Uri =&gt; d -&gt; Lsp (Maybe FileAnalysis)
@@ -350,10 +350,10 @@ forall d. HasUri d Uri =&gt; d -&gt; Lsp (Maybe FileAnalysis)
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Uri -&gt; TextDocumentIdentifier
 </span><span class="hs-identifier hs-var">TextDocumentIdentifier</span></span><span> </span><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679407290"><span class="hs-identifier hs-var">docUri</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679407288"><span class="hs-identifier hs-var">docUri</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-57"></span><span>      </span><span class="hs-identifier">pure</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679407290"><span class="hs-identifier hs-var">docUri</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">FileAnalysis
-</span><a href="#local-6989586621679407289"><span class="hs-identifier hs-var">fileInfo</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679407288"><span class="hs-identifier hs-var">docUri</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">FileAnalysis
+</span><a href="#local-6989586621679407287"><span class="hs-identifier hs-var">fileInfo</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-58"></span><span>  </span><span class="annot"><span class="annottext">DebugFlag -&gt; String -&gt; Map Uri FileAnalysis -&gt; Lsp ()
 forall a (m :: * -&gt; *).
 (Show a, Monad m) =&gt;
@@ -361,7 +361,7 @@ DebugFlag -&gt; String -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">Debug.debugM</span></span><span> </span><span class="annot"><span class="annottext">DebugFlag
 </span><span class="hs-identifier hs-var">Debug.LSP</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Typechecked &quot;</span></span><span> </span><span class="annot"><span class="annottext">Map Uri FileAnalysis
-</span><a href="#local-6989586621679407294"><span class="hs-identifier hs-var">freshlyCheckedFiles</span></a></span><span>
+</span><a href="#local-6989586621679407292"><span class="hs-identifier hs-var">freshlyCheckedFiles</span></a></span><span>
 </span><span id="line-59"></span><span>  </span><span class="hs-comment">-- Overwrite any files we successfully checked</span><span>
 </span><span id="line-60"></span><span>  </span><span class="annot"><span class="annottext">STM () -&gt; Lsp ()
 forall (m :: * -&gt; *) a. MonadIO m =&gt; STM a -&gt; m a
@@ -371,35 +371,35 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 -&gt; (Map Uri FileAnalysis -&gt; Map Uri FileAnalysis) -&gt; STM ()
 forall a. TVar a -&gt; (a -&gt; a) -&gt; STM ()
 </span><span class="hs-identifier hs-var">modifyTVar'</span></span><span> </span><span class="annot"><span class="annottext">TVar (Map Uri FileAnalysis)
-</span><a href="#local-6989586621679407303"><span class="hs-identifier hs-var">checkedFilesV</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Map Uri FileAnalysis
+</span><a href="#local-6989586621679407301"><span class="hs-identifier hs-var">checkedFilesV</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Map Uri FileAnalysis
 -&gt; Map Uri FileAnalysis -&gt; Map Uri FileAnalysis
 forall k a. Ord k =&gt; Map k a -&gt; Map k a -&gt; Map k a
 </span><span class="hs-operator hs-var">`Map.union`</span></span><span> </span><span class="annot"><span class="annottext">Map Uri FileAnalysis
-</span><a href="#local-6989586621679407294"><span class="hs-identifier hs-var">freshlyCheckedFiles</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679407292"><span class="hs-identifier hs-var">freshlyCheckedFiles</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-61"></span><span>  </span><span class="annot"><span class="annottext">Map Uri FileAnalysis
 -&gt; (FileAnalysis -&gt; Lsp ()) -&gt; Lsp (Map Uri ())
 forall (t :: * -&gt; *) (f :: * -&gt; *) a b.
 (Traversable t, Applicative f) =&gt;
 t a -&gt; (a -&gt; f b) -&gt; f (t b)
 </span><span class="hs-identifier hs-var">for</span></span><span> </span><span class="annot"><span class="annottext">Map Uri FileAnalysis
-</span><a href="#local-6989586621679407294"><span class="hs-identifier hs-var">freshlyCheckedFiles</span></a></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679407282"><span class="annot"><span class="annottext">FileAnalysis
-</span><a href="#local-6989586621679407282"><span class="hs-identifier hs-var">info</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-62"></span><span>    </span><span id="local-6989586621679407281"><span class="annot"><span class="annottext">[Diagnostic]
-</span><a href="#local-6989586621679407281"><span class="hs-identifier hs-var">diagnostics</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FileAnalysis -&gt; Lsp [Diagnostic]
+</span><a href="#local-6989586621679407292"><span class="hs-identifier hs-var">freshlyCheckedFiles</span></a></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679407280"><span class="annot"><span class="annottext">FileAnalysis
+</span><a href="#local-6989586621679407280"><span class="hs-identifier hs-var">info</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-62"></span><span>    </span><span id="local-6989586621679407279"><span class="annot"><span class="annottext">[Diagnostic]
+</span><a href="#local-6989586621679407279"><span class="hs-identifier hs-var">diagnostics</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FileAnalysis -&gt; Lsp [Diagnostic]
 </span><a href="Unison.LSP.Diagnostics.html#infoDiagnostics"><span class="hs-identifier hs-var">infoDiagnostics</span></a></span><span> </span><span class="annot"><span class="annottext">FileAnalysis
-</span><a href="#local-6989586621679407282"><span class="hs-identifier hs-var">info</span></a></span><span>
+</span><a href="#local-6989586621679407280"><span class="hs-identifier hs-var">info</span></a></span><span>
 </span><span id="line-63"></span><span>    </span><span class="annot"><span class="annottext">Uri -&gt; Maybe FileVersion -&gt; [Diagnostic] -&gt; Lsp ()
 </span><a href="Unison.LSP.Diagnostics.html#reportDiagnostics"><span class="hs-identifier hs-var">reportDiagnostics</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FileAnalysis -&gt; Uri
 </span><a href="Unison.LSP.Types.html#%24sel%3AfileUri%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">fileUri</span></a></span><span> </span><span class="annot"><span class="annottext">FileAnalysis
-</span><a href="#local-6989586621679407282"><span class="hs-identifier hs-var">info</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FileVersion -&gt; Maybe FileVersion
+</span><a href="#local-6989586621679407280"><span class="hs-identifier hs-var">info</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FileVersion -&gt; Maybe FileVersion
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(FileVersion -&gt; Maybe FileVersion)
 -&gt; FileVersion -&gt; Maybe FileVersion
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">FileAnalysis -&gt; FileVersion
 </span><a href="Unison.LSP.Types.html#%24sel%3AfileVersion%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">fileVersion</span></a></span><span> </span><span class="annot"><span class="annottext">FileAnalysis
-</span><a href="#local-6989586621679407282"><span class="hs-identifier hs-var">info</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">([Diagnostic] -&gt; Lsp ()) -&gt; [Diagnostic] -&gt; Lsp ()
+</span><a href="#local-6989586621679407280"><span class="hs-identifier hs-var">info</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">([Diagnostic] -&gt; Lsp ()) -&gt; [Diagnostic] -&gt; Lsp ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">[Diagnostic]
-</span><a href="#local-6989586621679407281"><span class="hs-identifier hs-var">diagnostics</span></a></span><span>
+</span><a href="#local-6989586621679407279"><span class="hs-identifier hs-var">diagnostics</span></a></span><span>
 </span><span id="line-64"></span></pre></body></html>

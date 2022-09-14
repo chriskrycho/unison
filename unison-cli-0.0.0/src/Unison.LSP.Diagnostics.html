@@ -33,23 +33,23 @@ forall a. Maybe a
 </span><span class="hs-identifier hs-var">Ann.External</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Range
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-29"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Ann.Ann</span></span><span> </span><span id="local-6989586621679395601"><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395601"><span class="hs-identifier hs-var">start</span></a></span></span><span> </span><span id="local-6989586621679395600"><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395600"><span class="hs-identifier hs-var">end</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Range -&gt; Maybe Range
+</span><span id="line-29"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Ann.Ann</span></span><span> </span><span id="local-6989586621679395599"><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679395599"><span class="hs-identifier hs-var">start</span></a></span></span><span> </span><span id="local-6989586621679395598"><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679395598"><span class="hs-identifier hs-var">end</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Range -&gt; Maybe Range
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(Range -&gt; Maybe Range) -&gt; Range -&gt; Maybe Range
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Position -&gt; Position -&gt; Range
 </span><span class="hs-identifier hs-var">Range</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Pos -&gt; Position
 </span><a href="Unison.LSP.Diagnostics.html#uToLspPos"><span class="hs-identifier hs-var">uToLspPos</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395601"><span class="hs-identifier hs-var">start</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Pos -&gt; Position
+</span><a href="#local-6989586621679395599"><span class="hs-identifier hs-var">start</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Pos -&gt; Position
 </span><a href="Unison.LSP.Diagnostics.html#uToLspPos"><span class="hs-identifier hs-var">uToLspPos</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395600"><span class="hs-identifier hs-var">end</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679395598"><span class="hs-identifier hs-var">end</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-30"></span><span>
 </span><span id="line-31"></span><span class="annot"><a href="Unison.LSP.Diagnostics.html#uToLspPos"><span class="hs-identifier hs-type">uToLspPos</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Lex.Pos</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Position</span></span><span>
 </span><span id="line-32"></span><span id="uToLspPos"><span class="annot"><span class="annottext">uToLspPos :: Pos -&gt; Position
-</span><a href="Unison.LSP.Diagnostics.html#uToLspPos"><span class="hs-identifier hs-var hs-var">uToLspPos</span></a></span></span><span> </span><span id="local-6989586621679395597"><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395597"><span class="hs-identifier hs-var">uPos</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.LSP.Diagnostics.html#uToLspPos"><span class="hs-identifier hs-var hs-var">uToLspPos</span></a></span></span><span> </span><span id="local-6989586621679395595"><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679395595"><span class="hs-identifier hs-var">uPos</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-33"></span><span>  </span><span class="annot"><span class="annottext">Position :: UInt -&gt; UInt -&gt; Position
 </span><span class="hs-identifier hs-type">Position</span></span><span>
 </span><span id="line-34"></span><span>    </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">_line :: UInt
@@ -59,7 +59,7 @@ forall a b. (Integral a, Num b) =&gt; a -&gt; b
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Line
 </span><span class="hs-identifier hs-var">Lex.line</span></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395597"><span class="hs-identifier hs-var">uPos</span></a></span><span> </span><span class="annot"><span class="annottext">Line -&gt; Line -&gt; Line
+</span><a href="#local-6989586621679395595"><span class="hs-identifier hs-var">uPos</span></a></span><span> </span><span class="annot"><span class="annottext">Line -&gt; Line -&gt; Line
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">Line
 </span><span class="hs-number">1</span></span><span class="hs-special">,</span><span> </span><span class="hs-comment">-- 1 indexed vs 0 indexed</span><span>
@@ -70,7 +70,7 @@ forall a b. (Integral a, Num b) =&gt; a -&gt; b
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Line
 </span><span class="hs-identifier hs-var">Lex.column</span></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395597"><span class="hs-identifier hs-var">uPos</span></a></span><span> </span><span class="annot"><span class="annottext">Line -&gt; Line -&gt; Line
+</span><a href="#local-6989586621679395595"><span class="hs-identifier hs-var">uPos</span></a></span><span> </span><span class="annot"><span class="annottext">Line -&gt; Line -&gt; Line
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">Line
 </span><span class="hs-number">1</span></span><span> </span><span class="hs-comment">-- 1 indexed vs 0 indexed</span><span>
@@ -78,24 +78,24 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span id="line-37"></span><span>
 </span><span id="line-38"></span><span class="annot"><a href="Unison.LSP.Diagnostics.html#uToLspRange"><span class="hs-identifier hs-type">uToLspRange</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Range.Range</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span>
 </span><span id="line-39"></span><span id="uToLspRange"><span class="annot"><span class="annottext">uToLspRange :: Range -&gt; Range
-</span><a href="Unison.LSP.Diagnostics.html#uToLspRange"><span class="hs-identifier hs-var hs-var">uToLspRange</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Range.Range</span></span><span> </span><span id="local-6989586621679395589"><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395589"><span class="hs-identifier hs-var">start</span></a></span></span><span> </span><span id="local-6989586621679395588"><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395588"><span class="hs-identifier hs-var">end</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Position -&gt; Position -&gt; Range
+</span><a href="Unison.LSP.Diagnostics.html#uToLspRange"><span class="hs-identifier hs-var hs-var">uToLspRange</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Range.Range</span></span><span> </span><span id="local-6989586621679395587"><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679395587"><span class="hs-identifier hs-var">start</span></a></span></span><span> </span><span id="local-6989586621679395586"><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679395586"><span class="hs-identifier hs-var">end</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Position -&gt; Position -&gt; Range
 </span><span class="hs-identifier hs-var">Range</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Pos -&gt; Position
 </span><a href="Unison.LSP.Diagnostics.html#uToLspPos"><span class="hs-identifier hs-var">uToLspPos</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395589"><span class="hs-identifier hs-var">start</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Pos -&gt; Position
+</span><a href="#local-6989586621679395587"><span class="hs-identifier hs-var">start</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Pos -&gt; Position
 </span><a href="Unison.LSP.Diagnostics.html#uToLspPos"><span class="hs-identifier hs-var">uToLspPos</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679395588"><span class="hs-identifier hs-var">end</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679395586"><span class="hs-identifier hs-var">end</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-40"></span><span>
 </span><span id="line-41"></span><span class="annot"><a href="Unison.LSP.Diagnostics.html#infoDiagnostics"><span class="hs-identifier hs-type">infoDiagnostics</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-type">FileAnalysis</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Diagnostic</span></span><span class="hs-special">]</span><span>
 </span><span id="line-42"></span><span id="infoDiagnostics"><span class="annot"><span class="annottext">infoDiagnostics :: FileAnalysis -&gt; Lsp [Diagnostic]
-</span><a href="Unison.LSP.Diagnostics.html#infoDiagnostics"><span class="hs-identifier hs-var hs-var">infoDiagnostics</span></a></span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-type">FileAnalysis</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395585"><span class="annot"><span class="annottext">Uri
+</span><a href="Unison.LSP.Diagnostics.html#infoDiagnostics"><span class="hs-identifier hs-var hs-var">infoDiagnostics</span></a></span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-type">FileAnalysis</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395583"><span class="annot"><span class="annottext">Uri
 $sel:fileUri:FileAnalysis :: FileAnalysis -&gt; Uri
 fileUri :: Uri
 </span><a href="Unison.LSP.Types.html#%24sel%3AfileUri%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">fileUri</span></a></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:lexedSource:FileAnalysis :: FileAnalysis -&gt; LexedSource
-</span><a href="Unison.LSP.Types.html#%24sel%3AlexedSource%3AFileAnalysis"><span class="hs-identifier hs-var">lexedSource</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395582"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395582"><span class="hs-identifier hs-var">srcText</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395581"><span class="annot"><span class="annottext">[Token Lexeme]
-</span><a href="#local-6989586621679395581"><span class="hs-identifier hs-var">_lexed</span></a></span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395580"><span class="annot"><span class="annottext">Seq (Note Symbol Ann)
+</span><a href="Unison.LSP.Types.html#%24sel%3AlexedSource%3AFileAnalysis"><span class="hs-identifier hs-var">lexedSource</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395580"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679395580"><span class="hs-identifier hs-var">srcText</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395579"><span class="annot"><span class="annottext">[Token Lexeme]
+</span><a href="#local-6989586621679395579"><span class="hs-identifier hs-var">_lexed</span></a></span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395578"><span class="annot"><span class="annottext">Seq (Note Symbol Ann)
 $sel:notes:FileAnalysis :: FileAnalysis -&gt; Seq (Note Symbol Ann)
 notes :: Seq (Note Symbol Ann)
 </span><a href="Unison.LSP.Types.html#%24sel%3Anotes%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">notes</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
@@ -104,22 +104,22 @@ forall (f :: * -&gt; *).
 Foldable f =&gt;
 Uri -&gt; String -&gt; f (Note Symbol Ann) -&gt; Lsp [Diagnostic]
 </span><a href="Unison.LSP.Diagnostics.html#noteDiagnostics"><span class="hs-identifier hs-var">noteDiagnostics</span></a></span><span> </span><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679395585"><span class="hs-identifier hs-var">fileUri</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; String
+</span><a href="#local-6989586621679395583"><span class="hs-identifier hs-var">fileUri</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; String
 </span><span class="hs-identifier hs-var">Text.unpack</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395582"><span class="hs-identifier hs-var">srcText</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Seq (Note Symbol Ann)
-</span><a href="#local-6989586621679395580"><span class="hs-identifier hs-var">notes</span></a></span><span>
+</span><a href="#local-6989586621679395580"><span class="hs-identifier hs-var">srcText</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Seq (Note Symbol Ann)
+</span><a href="#local-6989586621679395578"><span class="hs-identifier hs-var">notes</span></a></span><span>
 </span><span id="line-44"></span><span>
-</span><span id="line-45"></span><span id="local-6989586621679395706"><span class="annot"><a href="Unison.LSP.Diagnostics.html#noteDiagnostics"><span class="hs-identifier hs-type">noteDiagnostics</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Foldable</span></span><span> </span><span class="annot"><a href="#local-6989586621679395706"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Uri</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679395706"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Note</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Diagnostic</span></span><span class="hs-special">]</span></span><span>
+</span><span id="line-45"></span><span id="local-6989586621679395704"><span class="annot"><a href="Unison.LSP.Diagnostics.html#noteDiagnostics"><span class="hs-identifier hs-type">noteDiagnostics</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Foldable</span></span><span> </span><span class="annot"><a href="#local-6989586621679395704"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Uri</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679395704"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Note</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Diagnostic</span></span><span class="hs-special">]</span></span><span>
 </span><span id="line-46"></span><span id="noteDiagnostics"><span class="annot"><span class="annottext">noteDiagnostics :: Uri -&gt; String -&gt; f (Note Symbol Ann) -&gt; Lsp [Diagnostic]
-</span><a href="Unison.LSP.Diagnostics.html#noteDiagnostics"><span class="hs-identifier hs-var hs-var">noteDiagnostics</span></a></span></span><span> </span><span id="local-6989586621679395576"><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679395576"><span class="hs-identifier hs-var">fileUri</span></a></span></span><span> </span><span id="local-6989586621679395575"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679395575"><span class="hs-identifier hs-var">src</span></a></span></span><span> </span><span id="local-6989586621679395574"><span class="annot"><span class="annottext">f (Note Symbol Ann)
-</span><a href="#local-6989586621679395574"><span class="hs-identifier hs-var">notes</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-47"></span><span>  </span><span id="local-6989586621679395573"><span class="annot"><span class="annottext">Absolute
-</span><a href="#local-6989586621679395573"><span class="hs-identifier hs-var">currentPath</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp Absolute
+</span><a href="Unison.LSP.Diagnostics.html#noteDiagnostics"><span class="hs-identifier hs-var hs-var">noteDiagnostics</span></a></span></span><span> </span><span id="local-6989586621679395574"><span class="annot"><span class="annottext">Uri
+</span><a href="#local-6989586621679395574"><span class="hs-identifier hs-var">fileUri</span></a></span></span><span> </span><span id="local-6989586621679395573"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679395573"><span class="hs-identifier hs-var">src</span></a></span></span><span> </span><span id="local-6989586621679395572"><span class="annot"><span class="annottext">f (Note Symbol Ann)
+</span><a href="#local-6989586621679395572"><span class="hs-identifier hs-var">notes</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-47"></span><span>  </span><span id="local-6989586621679395571"><span class="annot"><span class="annottext">Absolute
+</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">currentPath</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp Absolute
 </span><a href="Unison.LSP.Types.html#getCurrentPath"><span class="hs-identifier hs-var">LSP.getCurrentPath</span></a></span><span>
-</span><span id="line-48"></span><span>  </span><span id="local-6989586621679395571"><span class="annot"><span class="annottext">PrettyPrintEnv
-</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">ppe</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnvDecl -&gt; PrettyPrintEnv
+</span><span id="line-48"></span><span>  </span><span id="local-6989586621679395569"><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="#local-6989586621679395569"><span class="hs-identifier hs-var">ppe</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnvDecl -&gt; PrettyPrintEnv
 </span><span class="hs-identifier hs-var hs-var">PPE.suffixifiedPPE</span></span><span> </span><span class="annot"><span class="annottext">(PrettyPrintEnvDecl -&gt; PrettyPrintEnv)
 -&gt; Lsp PrettyPrintEnvDecl -&gt; Lsp PrettyPrintEnv
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
@@ -137,39 +137,39 @@ forall (t :: * -&gt; *) m a.
 (Foldable t, Monoid m) =&gt;
 (a -&gt; m) -&gt; t a -&gt; m
 </span><span class="hs-identifier hs-var">foldMap</span></span><span> </span><span class="annot"><span class="annottext">f (Note Symbol Ann)
-</span><a href="#local-6989586621679395574"><span class="hs-identifier hs-var">notes</span></a></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679395565"><span class="annot"><span class="annottext">Note Symbol Ann
-</span><a href="#local-6989586621679395565"><span class="hs-identifier hs-var">note</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
-</span><a href="#local-6989586621679395565"><span class="hs-identifier hs-var">note</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679395572"><span class="hs-identifier hs-var">notes</span></a></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679395563"><span class="annot"><span class="annottext">Note Symbol Ann
+</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">note</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
+</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">note</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-50"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Result.TypeError</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Absolute -&gt; Note Symbol Ann -&gt; [Diagnostic]
-</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">noteDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
-</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
-</span><a href="#local-6989586621679395573"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
-</span><a href="#local-6989586621679395565"><span class="hs-identifier hs-var">note</span></a></span><span>
+</span><a href="#local-6989586621679395561"><span class="hs-identifier hs-var">noteDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="#local-6989586621679395569"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
+</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
+</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">note</span></a></span><span>
 </span><span id="line-51"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Result.NameResolutionFailures</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Absolute -&gt; Note Symbol Ann -&gt; [Diagnostic]
-</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">noteDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
-</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
-</span><a href="#local-6989586621679395573"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
-</span><a href="#local-6989586621679395565"><span class="hs-identifier hs-var">note</span></a></span><span>
-</span><span id="line-52"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Result.Parsing</span></span><span> </span><span id="local-6989586621679395560"><span class="annot"><span class="annottext">Err Symbol
-</span><a href="#local-6989586621679395560"><span class="hs-identifier hs-var">err</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-53"></span><span>      </span><span class="hs-special">(</span><span id="local-6989586621679395559"><span class="annot"><span class="annottext">Pretty ColorText
-</span><a href="#local-6989586621679395559"><span class="hs-identifier hs-var">errMsg</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395558"><span class="annot"><span class="annottext">[Range]
-</span><a href="#local-6989586621679395558"><span class="hs-identifier hs-var">ranges</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">String -&gt; Err Symbol -&gt; [(Pretty ColorText, [Range])]
+</span><a href="#local-6989586621679395561"><span class="hs-identifier hs-var">noteDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="#local-6989586621679395569"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
+</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
+</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">note</span></a></span><span>
+</span><span id="line-52"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Result.Parsing</span></span><span> </span><span id="local-6989586621679395558"><span class="annot"><span class="annottext">Err Symbol
+</span><a href="#local-6989586621679395558"><span class="hs-identifier hs-var">err</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-53"></span><span>      </span><span class="hs-special">(</span><span id="local-6989586621679395557"><span class="annot"><span class="annottext">Pretty ColorText
+</span><a href="#local-6989586621679395557"><span class="hs-identifier hs-var">errMsg</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395556"><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621679395556"><span class="hs-identifier hs-var">ranges</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">String -&gt; Err Symbol -&gt; [(Pretty ColorText, [Range])]
 forall v. Var v =&gt; String -&gt; Err v -&gt; [(Pretty ColorText, [Range])]
 </span><span class="hs-identifier hs-var">PrintError.renderParseErrors</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679395575"><span class="hs-identifier hs-var">src</span></a></span><span> </span><span class="annot"><span class="annottext">Err Symbol
-</span><a href="#local-6989586621679395560"><span class="hs-identifier hs-var">err</span></a></span><span>
-</span><span id="line-54"></span><span>      </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395556"><span class="annot"><span class="annottext">txtMsg :: Text
-</span><a href="#local-6989586621679395556"><span class="hs-identifier hs-var hs-var">txtMsg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Text
+</span><a href="#local-6989586621679395573"><span class="hs-identifier hs-var">src</span></a></span><span> </span><span class="annot"><span class="annottext">Err Symbol
+</span><a href="#local-6989586621679395558"><span class="hs-identifier hs-var">err</span></a></span><span>
+</span><span id="line-54"></span><span>      </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395554"><span class="annot"><span class="annottext">txtMsg :: Text
+</span><a href="#local-6989586621679395554"><span class="hs-identifier hs-var hs-var">txtMsg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Text
 </span><span class="hs-identifier hs-var">Text.pack</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Text) -&gt; String -&gt; Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Width -&gt; Pretty ColorText -&gt; String
 </span><span class="hs-identifier hs-var">Pretty.toPlain</span></span><span> </span><span class="annot"><span class="annottext">Width
 </span><span class="hs-number">80</span></span><span> </span><span class="annot"><span class="annottext">Pretty ColorText
-</span><a href="#local-6989586621679395559"><span class="hs-identifier hs-var">errMsg</span></a></span><span>
-</span><span id="line-55"></span><span>      </span><span id="local-6989586621679395553"><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395553"><span class="hs-identifier hs-var">range</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Range]
-</span><a href="#local-6989586621679395558"><span class="hs-identifier hs-var">ranges</span></a></span><span>
+</span><a href="#local-6989586621679395557"><span class="hs-identifier hs-var">errMsg</span></a></span><span>
+</span><span id="line-55"></span><span>      </span><span id="local-6989586621679395551"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395551"><span class="hs-identifier hs-var">range</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621679395556"><span class="hs-identifier hs-var">ranges</span></a></span><span>
 </span><span id="line-56"></span><span>      </span><span class="hs-identifier">pure</span><span> </span><span class="hs-operator">$</span><span> </span><span class="annot"><span class="annottext">Uri
 -&gt; Range
 -&gt; DiagnosticSeverity
@@ -177,30 +177,30 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 -&gt; [(Text, Range)]
 -&gt; Diagnostic
 </span><a href="Unison.LSP.Diagnostics.html#mkDiagnostic"><span class="hs-identifier hs-var">mkDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679395576"><span class="hs-identifier hs-var">fileUri</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Range -&gt; Range
+</span><a href="#local-6989586621679395574"><span class="hs-identifier hs-var">fileUri</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Range -&gt; Range
 </span><a href="Unison.LSP.Diagnostics.html#uToLspRange"><span class="hs-identifier hs-var">uToLspRange</span></a></span><span> </span><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395553"><span class="hs-identifier hs-var">range</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">DiagnosticSeverity
+</span><a href="#local-6989586621679395551"><span class="hs-identifier hs-var">range</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">DiagnosticSeverity
 </span><span class="hs-identifier hs-var">DsError</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395556"><span class="hs-identifier hs-var">txtMsg</span></a></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><a href="#local-6989586621679395554"><span class="hs-identifier hs-var">txtMsg</span></a></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
 </span><span id="line-57"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Result.UnknownSymbol</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Absolute -&gt; Note Symbol Ann -&gt; [Diagnostic]
-</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">noteDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
-</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
-</span><a href="#local-6989586621679395573"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
-</span><a href="#local-6989586621679395565"><span class="hs-identifier hs-var">note</span></a></span><span>
+</span><a href="#local-6989586621679395561"><span class="hs-identifier hs-var">noteDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="#local-6989586621679395569"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
+</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
+</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">note</span></a></span><span>
 </span><span id="line-58"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Result.TypeInfo</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
 </span><span id="line-59"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Result.CompilerBug</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv -&gt; Absolute -&gt; Note Symbol Ann -&gt; [Diagnostic]
-</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">noteDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
-</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
-</span><a href="#local-6989586621679395573"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
-</span><a href="#local-6989586621679395565"><span class="hs-identifier hs-var">note</span></a></span><span>
+</span><a href="#local-6989586621679395561"><span class="hs-identifier hs-var">noteDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="#local-6989586621679395569"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
+</span><a href="#local-6989586621679395571"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
+</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var">note</span></a></span><span>
 </span><span id="line-60"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-61"></span><span>    </span><span id="local-6989586621679395563"><span class="annot"><span class="annottext">noteDiagnostic :: PrettyPrintEnv -&gt; Absolute -&gt; Note Symbol Ann -&gt; [Diagnostic]
-</span><a href="#local-6989586621679395563"><span class="hs-identifier hs-var hs-var">noteDiagnostic</span></a></span></span><span> </span><span id="local-6989586621679395547"><span class="annot"><span class="annottext">PrettyPrintEnv
-</span><a href="#local-6989586621679395547"><span class="hs-identifier hs-var">ppe</span></a></span></span><span> </span><span id="local-6989586621679395546"><span class="annot"><span class="annottext">Absolute
-</span><a href="#local-6989586621679395546"><span class="hs-identifier hs-var">currentPath</span></a></span></span><span> </span><span id="local-6989586621679395545"><span class="annot"><span class="annottext">Note Symbol Ann
-</span><a href="#local-6989586621679395545"><span class="hs-identifier hs-var">note</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-62"></span><span>      </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395544"><span class="annot"><span class="annottext">msg :: Text
-</span><a href="#local-6989586621679395544"><span class="hs-identifier hs-var hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Text
+</span><span id="line-61"></span><span>    </span><span id="local-6989586621679395561"><span class="annot"><span class="annottext">noteDiagnostic :: PrettyPrintEnv -&gt; Absolute -&gt; Note Symbol Ann -&gt; [Diagnostic]
+</span><a href="#local-6989586621679395561"><span class="hs-identifier hs-var hs-var">noteDiagnostic</span></a></span></span><span> </span><span id="local-6989586621679395545"><span class="annot"><span class="annottext">PrettyPrintEnv
+</span><a href="#local-6989586621679395545"><span class="hs-identifier hs-var">ppe</span></a></span></span><span> </span><span id="local-6989586621679395544"><span class="annot"><span class="annottext">Absolute
+</span><a href="#local-6989586621679395544"><span class="hs-identifier hs-var">currentPath</span></a></span></span><span> </span><span id="local-6989586621679395543"><span class="annot"><span class="annottext">Note Symbol Ann
+</span><a href="#local-6989586621679395543"><span class="hs-identifier hs-var">note</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-62"></span><span>      </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395542"><span class="annot"><span class="annottext">msg :: Text
+</span><a href="#local-6989586621679395542"><span class="hs-identifier hs-var hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Text
 </span><span class="hs-identifier hs-var">Text.pack</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Text) -&gt; String -&gt; Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Width -&gt; Pretty ColorText -&gt; String
@@ -214,19 +214,19 @@ forall v a.
 PrettyPrintEnv
 -&gt; String -&gt; Absolute -&gt; Note v a -&gt; Pretty ColorText
 </span><span class="hs-identifier hs-var">PrintError.printNoteWithSource</span></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnv
-</span><a href="#local-6989586621679395547"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679395575"><span class="hs-identifier hs-var">src</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
-</span><a href="#local-6989586621679395546"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
-</span><a href="#local-6989586621679395545"><span class="hs-identifier hs-var">note</span></a></span><span>
-</span><span id="line-63"></span><span>          </span><span id="local-6989586621679395542"><span class="annot"><span class="annottext">ranges :: [(Range, [(Text, Range)])]
-</span><a href="#local-6989586621679395542"><span class="hs-identifier hs-var hs-var">ranges</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann -&gt; [(Range, [(Text, Range)])]
+</span><a href="#local-6989586621679395545"><span class="hs-identifier hs-var">ppe</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679395573"><span class="hs-identifier hs-var">src</span></a></span><span> </span><span class="annot"><span class="annottext">Absolute
+</span><a href="#local-6989586621679395544"><span class="hs-identifier hs-var">currentPath</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
+</span><a href="#local-6989586621679395543"><span class="hs-identifier hs-var">note</span></a></span><span>
+</span><span id="line-63"></span><span>          </span><span id="local-6989586621679395540"><span class="annot"><span class="annottext">ranges :: [(Range, [(Text, Range)])]
+</span><a href="#local-6989586621679395540"><span class="hs-identifier hs-var hs-var">ranges</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann -&gt; [(Range, [(Text, Range)])]
 </span><a href="Unison.LSP.Diagnostics.html#noteRanges"><span class="hs-identifier hs-var">noteRanges</span></a></span><span> </span><span class="annot"><span class="annottext">Note Symbol Ann
-</span><a href="#local-6989586621679395545"><span class="hs-identifier hs-var">note</span></a></span><span>
+</span><a href="#local-6989586621679395543"><span class="hs-identifier hs-var">note</span></a></span><span>
 </span><span id="line-64"></span><span>       </span><span class="hs-keyword">in</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-65"></span><span>            </span><span class="hs-special">(</span><span id="local-6989586621679395540"><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395540"><span class="hs-identifier hs-var">range</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395539"><span class="annot"><span class="annottext">[(Text, Range)]
-</span><a href="#local-6989586621679395539"><span class="hs-identifier hs-var">references</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(Range, [(Text, Range)])]
-</span><a href="#local-6989586621679395542"><span class="hs-identifier hs-var">ranges</span></a></span><span>
+</span><span id="line-65"></span><span>            </span><span class="hs-special">(</span><span id="local-6989586621679395538"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395538"><span class="hs-identifier hs-var">range</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395537"><span class="annot"><span class="annottext">[(Text, Range)]
+</span><a href="#local-6989586621679395537"><span class="hs-identifier hs-var">references</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(Range, [(Text, Range)])]
+</span><a href="#local-6989586621679395540"><span class="hs-identifier hs-var">ranges</span></a></span><span>
 </span><span id="line-66"></span><span>            </span><span class="annot"><span class="annottext">Diagnostic -&gt; [Diagnostic]
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">(Diagnostic -&gt; [Diagnostic]) -&gt; Diagnostic -&gt; [Diagnostic]
@@ -238,11 +238,11 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 -&gt; [(Text, Range)]
 -&gt; Diagnostic
 </span><a href="Unison.LSP.Diagnostics.html#mkDiagnostic"><span class="hs-identifier hs-var">mkDiagnostic</span></a></span><span> </span><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679395576"><span class="hs-identifier hs-var">fileUri</span></a></span><span> </span><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395540"><span class="hs-identifier hs-var">range</span></a></span><span> </span><span class="annot"><span class="annottext">DiagnosticSeverity
+</span><a href="#local-6989586621679395574"><span class="hs-identifier hs-var">fileUri</span></a></span><span> </span><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395538"><span class="hs-identifier hs-var">range</span></a></span><span> </span><span class="annot"><span class="annottext">DiagnosticSeverity
 </span><span class="hs-identifier hs-var">DsError</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395544"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">[(Text, Range)]
-</span><a href="#local-6989586621679395539"><span class="hs-identifier hs-var">references</span></a></span><span>
+</span><a href="#local-6989586621679395542"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">[(Text, Range)]
+</span><a href="#local-6989586621679395537"><span class="hs-identifier hs-var">references</span></a></span><span>
 </span><span id="line-67"></span><span>
 </span><span id="line-68"></span><span class="hs-comment">-- | Returns a list of ranges where this note should be marked in the document,</span><span>
 </span><span id="line-69"></span><span class="hs-comment">-- as well as a list of 'related' ranges the note might refer to, and their relevance.</span><span>
@@ -252,206 +252,206 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span id="line-73"></span><span class="annot"><a href="Unison.LSP.Diagnostics.html#noteRanges"><span class="hs-identifier hs-type">noteRanges</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Note</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">)</span><span class="hs-special">]</span><span>
 </span><span id="line-74"></span><span id="noteRanges"><span class="annot"><span class="annottext">noteRanges :: Note Symbol Ann -&gt; [(Range, [(Text, Range)])]
 </span><a href="Unison.LSP.Diagnostics.html#noteRanges"><span class="hs-identifier hs-var hs-var">noteRanges</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-75"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Result.UnknownSymbol</span></span><span> </span><span id="local-6989586621679395538"><span class="annot"><span class="annottext">Symbol
-</span><a href="#local-6989586621679395538"><span class="hs-identifier hs-var">_sym</span></a></span></span><span> </span><span id="local-6989586621679395537"><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395537"><span class="hs-identifier hs-var">loc</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
+</span><span id="line-75"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Result.UnknownSymbol</span></span><span> </span><span id="local-6989586621679395536"><span class="annot"><span class="annottext">Symbol
+</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">_sym</span></a></span></span><span> </span><span id="local-6989586621679395535"><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395535"><span class="hs-identifier hs-var">loc</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395537"><span class="hs-identifier hs-var">loc</span></a></span><span>
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395535"><span class="hs-identifier hs-var">loc</span></a></span><span>
 </span><span id="line-76"></span><span>  </span><span class="hs-comment">-- TODO: This should have an error extractor</span><span>
 </span><span id="line-77"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Result.TypeError</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Context.ErrorNote</span></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:cause:ErrorNote :: forall v loc. ErrorNote v loc -&gt; Cause v loc
-</span><span class="hs-identifier hs-var">cause</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Context.PatternArityMismatch</span></span><span> </span><span id="local-6989586621679395532"><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395532"><span class="hs-identifier hs-var">loc</span></a></span></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><span class="hs-identifier hs-var">cause</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Context.PatternArityMismatch</span></span><span> </span><span id="local-6989586621679395530"><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395530"><span class="hs-identifier hs-var">loc</span></a></span></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
 </span><span class="hs-identifier">_</span></span><span> </span><span class="annot"><span class="annottext">Line
 </span><span class="hs-identifier">_</span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395532"><span class="hs-identifier hs-var">loc</span></a></span><span>
-</span><span id="line-78"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Result.TypeError</span></span><span> </span><span id="local-6989586621679395531"><span class="annot"><span class="annottext">ErrorNote Symbol Ann
-</span><a href="#local-6989586621679395531"><span class="hs-identifier hs-var">errNote</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-79"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395530"><span class="annot"><span class="annottext">typeErr :: TypeError Symbol Ann
-</span><a href="#local-6989586621679395530"><span class="hs-identifier hs-var hs-var">typeErr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ErrorNote Symbol Ann -&gt; TypeError Symbol Ann
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395530"><span class="hs-identifier hs-var">loc</span></a></span><span>
+</span><span id="line-78"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Result.TypeError</span></span><span> </span><span id="local-6989586621679395529"><span class="annot"><span class="annottext">ErrorNote Symbol Ann
+</span><a href="#local-6989586621679395529"><span class="hs-identifier hs-var">errNote</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-79"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395528"><span class="annot"><span class="annottext">typeErr :: TypeError Symbol Ann
+</span><a href="#local-6989586621679395528"><span class="hs-identifier hs-var hs-var">typeErr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ErrorNote Symbol Ann -&gt; TypeError Symbol Ann
 forall loc v.
 (Ord loc, Show loc, Var v) =&gt;
 ErrorNote v loc -&gt; TypeError v loc
 </span><span class="hs-identifier hs-var">TypeError.typeErrorFromNote</span></span><span> </span><span class="annot"><span class="annottext">ErrorNote Symbol Ann
-</span><a href="#local-6989586621679395531"><span class="hs-identifier hs-var">errNote</span></a></span><span>
+</span><a href="#local-6989586621679395529"><span class="hs-identifier hs-var">errNote</span></a></span><span>
 </span><span id="line-80"></span><span>    </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">TypeError Symbol Ann
-</span><a href="#local-6989586621679395530"><span class="hs-identifier hs-var">typeErr</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-81"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.Mismatch</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395527"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679395528"><span class="hs-identifier hs-var">typeErr</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-81"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.Mismatch</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395525"><span class="annot"><span class="annottext">Term Symbol Ann
 $sel:mismatchSite:Mismatch :: forall v loc. TypeError v loc -&gt; Term v loc
 mismatchSite :: Term Symbol Ann
 </span><span class="hs-identifier hs-var hs-var">mismatchSite</span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
 -&gt; Ann -&gt; [(Range, [(Text, Range)])]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
 forall (f :: * -&gt; *) v a. Term f v a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679395527"><span class="hs-identifier hs-var">mismatchSite</span></a></span><span>
-</span><span id="line-82"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.BooleanMismatch</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395523"><span class="annot"><span class="annottext">Term Symbol Ann
-mismatchSite :: Term Symbol Ann
-$sel:mismatchSite:Mismatch :: forall v loc. TypeError v loc -&gt; Term v loc
-</span><a href="#local-6989586621679395523"><span class="hs-identifier hs-var hs-var">mismatchSite</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
-forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
--&gt; Ann -&gt; [(Range, [(Text, Range)])]
-forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
-forall (f :: * -&gt; *) v a. Term f v a -&gt; a
-</span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679395523"><span class="hs-identifier hs-var">mismatchSite</span></a></span><span>
-</span><span id="line-83"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.ExistentialMismatch</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395521"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679395525"><span class="hs-identifier hs-var">mismatchSite</span></a></span><span>
+</span><span id="line-82"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.BooleanMismatch</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395521"><span class="annot"><span class="annottext">Term Symbol Ann
 mismatchSite :: Term Symbol Ann
 $sel:mismatchSite:Mismatch :: forall v loc. TypeError v loc -&gt; Term v loc
 </span><a href="#local-6989586621679395521"><span class="hs-identifier hs-var hs-var">mismatchSite</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
 -&gt; Ann -&gt; [(Range, [(Text, Range)])]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
 forall (f :: * -&gt; *) v a. Term f v a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
 </span><a href="#local-6989586621679395521"><span class="hs-identifier hs-var">mismatchSite</span></a></span><span>
-</span><span id="line-84"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.FunctionApplication</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395519"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><span id="line-83"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.ExistentialMismatch</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395519"><span class="annot"><span class="annottext">Term Symbol Ann
+mismatchSite :: Term Symbol Ann
+$sel:mismatchSite:Mismatch :: forall v loc. TypeError v loc -&gt; Term v loc
+</span><a href="#local-6989586621679395519"><span class="hs-identifier hs-var hs-var">mismatchSite</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
+forall a. Ann -&gt; [(Range, [a])]
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
+-&gt; Ann -&gt; [(Range, [(Text, Range)])]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
+forall (f :: * -&gt; *) v a. Term f v a -&gt; a
+</span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679395519"><span class="hs-identifier hs-var">mismatchSite</span></a></span><span>
+</span><span id="line-84"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.FunctionApplication</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395517"><span class="annot"><span class="annottext">Term Symbol Ann
 $sel:f:Mismatch :: forall v loc. TypeError v loc -&gt; Term v loc
 f :: Term Symbol Ann
 </span><span class="hs-identifier hs-var hs-var">f</span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
 -&gt; Ann -&gt; [(Range, [(Text, Range)])]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
 forall (f :: * -&gt; *) v a. Term f v a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679395519"><span class="hs-identifier hs-var">f</span></a></span><span>
-</span><span id="line-85"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.NotFunctionApplication</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395516"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679395517"><span class="hs-identifier hs-var">f</span></a></span><span>
+</span><span id="line-85"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.NotFunctionApplication</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395514"><span class="annot"><span class="annottext">Term Symbol Ann
 f :: Term Symbol Ann
 $sel:f:Mismatch :: forall v loc. TypeError v loc -&gt; Term v loc
-</span><a href="#local-6989586621679395516"><span class="hs-identifier hs-var hs-var">f</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
+</span><a href="#local-6989586621679395514"><span class="hs-identifier hs-var hs-var">f</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">(Ann -&gt; [(Range, [(Text, Range)])])
 -&gt; Ann -&gt; [(Range, [(Text, Range)])]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
 forall (f :: * -&gt; *) v a. Term f v a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679395516"><span class="hs-identifier hs-var">f</span></a></span><span>
-</span><span id="line-86"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.AbilityCheckFailure</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395514"><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395514"><span class="hs-identifier hs-var">f</span></a></span><span>
+</span><span id="line-86"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.AbilityCheckFailure</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395512"><span class="annot"><span class="annottext">Ann
 $sel:abilityCheckFailureSite:Mismatch :: forall v loc. TypeError v loc -&gt; loc
 abilityCheckFailureSite :: Ann
 </span><span class="hs-identifier hs-var hs-var">abilityCheckFailureSite</span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395514"><span class="hs-identifier hs-var">abilityCheckFailureSite</span></a></span><span>
-</span><span id="line-87"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.AbilityEqFailure</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395511"><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395512"><span class="hs-identifier hs-var">abilityCheckFailureSite</span></a></span><span>
+</span><span id="line-87"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.AbilityEqFailure</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395509"><span class="annot"><span class="annottext">Ann
 abilityCheckFailureSite :: Ann
 $sel:abilityCheckFailureSite:Mismatch :: forall v loc. TypeError v loc -&gt; loc
-</span><a href="#local-6989586621679395511"><span class="hs-identifier hs-var hs-var">abilityCheckFailureSite</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
+</span><a href="#local-6989586621679395509"><span class="hs-identifier hs-var hs-var">abilityCheckFailureSite</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395511"><span class="hs-identifier hs-var">abilityCheckFailureSite</span></a></span><span>
-</span><span id="line-88"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.AbilityEqFailureFromAp</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395509"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395509"><span class="hs-identifier hs-var">abilityCheckFailureSite</span></a></span><span>
+</span><span id="line-88"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.AbilityEqFailureFromAp</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395507"><span class="annot"><span class="annottext">Term Symbol Ann
 $sel:expectedSite:Mismatch :: forall v loc. TypeError v loc -&gt; Term v loc
 expectedSite :: Term Symbol Ann
-</span><span class="hs-identifier hs-var hs-var">expectedSite</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395507"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><span class="hs-identifier hs-var hs-var">expectedSite</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395505"><span class="annot"><span class="annottext">Term Symbol Ann
 mismatchSite :: Term Symbol Ann
 $sel:mismatchSite:Mismatch :: forall v loc. TypeError v loc -&gt; Term v loc
-</span><a href="#local-6989586621679395507"><span class="hs-identifier hs-var hs-var">mismatchSite</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-89"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395506"><span class="annot"><span class="annottext">locs :: [Ann]
-</span><a href="#local-6989586621679395506"><span class="hs-identifier hs-var hs-var">locs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
+</span><a href="#local-6989586621679395505"><span class="hs-identifier hs-var hs-var">mismatchSite</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-89"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395504"><span class="annot"><span class="annottext">locs :: [Ann]
+</span><a href="#local-6989586621679395504"><span class="hs-identifier hs-var hs-var">locs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
 forall (f :: * -&gt; *) v a. Term f v a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679395509"><span class="hs-identifier hs-var">expectedSite</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
+</span><a href="#local-6989586621679395507"><span class="hs-identifier hs-var">expectedSite</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
 forall (f :: * -&gt; *) v a. Term f v a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679395507"><span class="hs-identifier hs-var">mismatchSite</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-90"></span><span>        </span><span class="hs-special">(</span><span id="local-6989586621679395505"><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395505"><span class="hs-identifier hs-var">r</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395504"><span class="annot"><span class="annottext">[Range]
-</span><a href="#local-6989586621679395504"><span class="hs-identifier hs-var">rs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Range] -&gt; [(Range, [Range])]
+</span><a href="#local-6989586621679395505"><span class="hs-identifier hs-var">mismatchSite</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-90"></span><span>        </span><span class="hs-special">(</span><span id="local-6989586621679395503"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395503"><span class="hs-identifier hs-var">r</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395502"><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621679395502"><span class="hs-identifier hs-var">rs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Range] -&gt; [(Range, [Range])]
 forall a. [a] -&gt; [(a, [a])]
-</span><a href="#local-6989586621679395503"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Ann]
-</span><a href="#local-6989586621679395506"><span class="hs-identifier hs-var">locs</span></a></span><span> </span><span class="annot"><span class="annottext">[Ann] -&gt; (Ann -&gt; [Range]) -&gt; [Range]
+</span><a href="#local-6989586621679395501"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Ann]
+</span><a href="#local-6989586621679395504"><span class="hs-identifier hs-var">locs</span></a></span><span> </span><span class="annot"><span class="annottext">[Ann] -&gt; (Ann -&gt; [Range]) -&gt; [Range]
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [Range]
-</span><a href="#local-6989586621679395502"><span class="hs-identifier hs-var">aToR</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679395500"><span class="hs-identifier hs-var">aToR</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-91"></span><span>        </span><span class="annot"><span class="annottext">(Range, [(Text, Range)]) -&gt; [(Range, [(Text, Range)])]
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395505"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679395503"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;mismatch&quot;</span></span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Range -&gt; (Text, Range)) -&gt; [Range] -&gt; [(Text, Range)]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Range]
-</span><a href="#local-6989586621679395504"><span class="hs-identifier hs-var">rs</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-92"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.UnguardedLetRecCycle</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395500"><span class="annot"><span class="annottext">[Ann]
+</span><a href="#local-6989586621679395502"><span class="hs-identifier hs-var">rs</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-92"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.UnguardedLetRecCycle</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395498"><span class="annot"><span class="annottext">[Ann]
 $sel:cycleLocs:Mismatch :: forall v loc. TypeError v loc -&gt; [loc]
 cycleLocs :: [Ann]
 </span><span class="hs-identifier hs-var hs-var">cycleLocs</span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-93"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span class="annot"><a href="#local-6989586621679395498"><span class="hs-identifier hs-type">ranges</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">]</span><span>
-</span><span id="line-94"></span><span>            </span><span id="local-6989586621679395498"><span class="annot"><span class="annottext">ranges :: [Range]
-</span><a href="#local-6989586621679395498"><span class="hs-identifier hs-var hs-var">ranges</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Ann]
-</span><a href="#local-6989586621679395500"><span class="hs-identifier hs-var">cycleLocs</span></a></span><span> </span><span class="annot"><span class="annottext">[Ann] -&gt; (Ann -&gt; [Range]) -&gt; [Range]
+</span><span id="line-93"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span class="annot"><a href="#local-6989586621679395496"><span class="hs-identifier hs-type">ranges</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">]</span><span>
+</span><span id="line-94"></span><span>            </span><span id="local-6989586621679395496"><span class="annot"><span class="annottext">ranges :: [Range]
+</span><a href="#local-6989586621679395496"><span class="hs-identifier hs-var hs-var">ranges</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Ann]
+</span><a href="#local-6989586621679395498"><span class="hs-identifier hs-var">cycleLocs</span></a></span><span> </span><span class="annot"><span class="annottext">[Ann] -&gt; (Ann -&gt; [Range]) -&gt; [Range]
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [Range]
-</span><a href="#local-6989586621679395502"><span class="hs-identifier hs-var">aToR</span></a></span><span>
-</span><span id="line-95"></span><span>        </span><span class="hs-special">(</span><span id="local-6989586621679395497"><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395497"><span class="hs-identifier hs-var">range</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395496"><span class="annot"><span class="annottext">[Range]
-</span><a href="#local-6989586621679395496"><span class="hs-identifier hs-var">cycleRanges</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Range] -&gt; [(Range, [Range])]
+</span><a href="#local-6989586621679395500"><span class="hs-identifier hs-var">aToR</span></a></span><span>
+</span><span id="line-95"></span><span>        </span><span class="hs-special">(</span><span id="local-6989586621679395495"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395495"><span class="hs-identifier hs-var">range</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395494"><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621679395494"><span class="hs-identifier hs-var">cycleRanges</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Range] -&gt; [(Range, [Range])]
 forall a. [a] -&gt; [(a, [a])]
-</span><a href="#local-6989586621679395503"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="annot"><span class="annottext">[Range]
-</span><a href="#local-6989586621679395498"><span class="hs-identifier hs-var">ranges</span></a></span><span>
+</span><a href="#local-6989586621679395501"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621679395496"><span class="hs-identifier hs-var">ranges</span></a></span><span>
 </span><span id="line-96"></span><span>        </span><span class="annot"><span class="annottext">(Range, [(Text, Range)]) -&gt; [(Range, [(Text, Range)])]
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395497"><span class="hs-identifier hs-var">range</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679395495"><span class="hs-identifier hs-var">range</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;cycle&quot;</span></span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Range -&gt; (Text, Range)) -&gt; [Range] -&gt; [(Text, Range)]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Range]
-</span><a href="#local-6989586621679395496"><span class="hs-identifier hs-var">cycleRanges</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-97"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.UnknownType</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395494"><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395494"><span class="hs-identifier hs-var">cycleRanges</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-97"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.UnknownType</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395492"><span class="annot"><span class="annottext">Ann
 $sel:typeSite:Mismatch :: forall v loc. TypeError v loc -&gt; loc
 typeSite :: Ann
 </span><span class="hs-identifier hs-var hs-var">typeSite</span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395494"><span class="hs-identifier hs-var">typeSite</span></a></span><span>
-</span><span id="line-98"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.UnknownTerm</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395491"><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395492"><span class="hs-identifier hs-var">typeSite</span></a></span><span>
+</span><span id="line-98"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.UnknownTerm</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395489"><span class="annot"><span class="annottext">Ann
 $sel:termSite:Mismatch :: forall v loc. TypeError v loc -&gt; loc
 termSite :: Ann
 </span><span class="hs-identifier hs-var hs-var">termSite</span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [(Range, [(Text, Range)])]
 forall a. Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395491"><span class="hs-identifier hs-var">termSite</span></a></span><span>
-</span><span id="line-99"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.DuplicateDefinitions</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395488"><span class="annot"><span class="annottext">NonEmpty (Symbol, [Ann])
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var">singleRange</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395489"><span class="hs-identifier hs-var">termSite</span></a></span><span>
+</span><span id="line-99"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.DuplicateDefinitions</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679395486"><span class="annot"><span class="annottext">NonEmpty (Symbol, [Ann])
 $sel:defns:Mismatch :: forall v loc. TypeError v loc -&gt; NonEmpty (v, [loc])
 defns :: NonEmpty (Symbol, [Ann])
 </span><span class="hs-identifier hs-var hs-var">defns</span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-100"></span><span>        </span><span class="hs-special">(</span><span id="local-6989586621679395486"><span class="annot"><span class="annottext">Symbol
-</span><a href="#local-6989586621679395486"><span class="hs-identifier hs-var">_v</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395485"><span class="annot"><span class="annottext">[Ann]
-</span><a href="#local-6989586621679395485"><span class="hs-identifier hs-var">locs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">NonEmpty (Symbol, [Ann]) -&gt; [(Symbol, [Ann])]
+</span><span id="line-100"></span><span>        </span><span class="hs-special">(</span><span id="local-6989586621679395484"><span class="annot"><span class="annottext">Symbol
+</span><a href="#local-6989586621679395484"><span class="hs-identifier hs-var">_v</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395483"><span class="annot"><span class="annottext">[Ann]
+</span><a href="#local-6989586621679395483"><span class="hs-identifier hs-var">locs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">NonEmpty (Symbol, [Ann]) -&gt; [(Symbol, [Ann])]
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; [a]
 </span><span class="hs-identifier hs-var">toList</span></span><span> </span><span class="annot"><span class="annottext">NonEmpty (Symbol, [Ann])
-</span><a href="#local-6989586621679395488"><span class="hs-identifier hs-var">defns</span></a></span><span>
-</span><span id="line-101"></span><span>        </span><span class="hs-special">(</span><span id="local-6989586621679395483"><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395483"><span class="hs-identifier hs-var">r</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395482"><span class="annot"><span class="annottext">[Range]
-</span><a href="#local-6989586621679395482"><span class="hs-identifier hs-var">rs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Range] -&gt; [(Range, [Range])]
+</span><a href="#local-6989586621679395486"><span class="hs-identifier hs-var">defns</span></a></span><span>
+</span><span id="line-101"></span><span>        </span><span class="hs-special">(</span><span id="local-6989586621679395481"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395481"><span class="hs-identifier hs-var">r</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395480"><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621679395480"><span class="hs-identifier hs-var">rs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Range] -&gt; [(Range, [Range])]
 forall a. [a] -&gt; [(a, [a])]
-</span><a href="#local-6989586621679395503"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Ann]
-</span><a href="#local-6989586621679395485"><span class="hs-identifier hs-var">locs</span></a></span><span> </span><span class="annot"><span class="annottext">[Ann] -&gt; (Ann -&gt; [Range]) -&gt; [Range]
+</span><a href="#local-6989586621679395501"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Ann]
+</span><a href="#local-6989586621679395483"><span class="hs-identifier hs-var">locs</span></a></span><span> </span><span class="annot"><span class="annottext">[Ann] -&gt; (Ann -&gt; [Range]) -&gt; [Range]
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [Range]
-</span><a href="#local-6989586621679395502"><span class="hs-identifier hs-var">aToR</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679395500"><span class="hs-identifier hs-var">aToR</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-102"></span><span>        </span><span class="annot"><span class="annottext">(Range, [(Text, Range)]) -&gt; [(Range, [(Text, Range)])]
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395483"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679395481"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;duplicate definition&quot;</span></span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Range -&gt; (Text, Range)) -&gt; [Range] -&gt; [(Text, Range)]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Range]
-</span><a href="#local-6989586621679395482"><span class="hs-identifier hs-var">rs</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-103"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.Other</span></span><span> </span><span id="local-6989586621679395480"><span class="annot"><span class="annottext">ErrorNote Symbol Ann
-</span><a href="#local-6989586621679395480"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="#local-6989586621679395480"><span class="hs-identifier hs-var">rs</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-103"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">TypeError.Other</span></span><span> </span><span id="local-6989586621679395478"><span class="annot"><span class="annottext">ErrorNote Symbol Ann
+</span><a href="#local-6989586621679395478"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-104"></span><span>        </span><span class="annot"><span class="annottext">DebugFlag -&gt; String -&gt; ErrorNote Symbol Ann -&gt; [()]
 forall a (m :: * -&gt; *).
 (Show a, Monad m) =&gt;
@@ -459,13 +459,13 @@ DebugFlag -&gt; String -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">Debug.debugM</span></span><span> </span><span class="annot"><span class="annottext">DebugFlag
 </span><span class="hs-identifier hs-var">Debug.LSP</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;No Diagnostic configured for type error: &quot;</span></span><span> </span><span class="annot"><span class="annottext">ErrorNote Symbol Ann
-</span><a href="#local-6989586621679395480"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><a href="#local-6989586621679395478"><span class="hs-identifier hs-var">e</span></a></span><span>
 </span><span id="line-105"></span><span>        </span><span class="annot"><span class="annottext">[(Range, [(Text, Range)])]
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a
 </span><span class="hs-identifier hs-var">empty</span></span><span>
 </span><span id="line-106"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Result.TypeInfo</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-107"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Result.CompilerBug</span></span><span> </span><span id="local-6989586621679395476"><span class="annot"><span class="annottext">CompilerBug Symbol Ann
-</span><a href="#local-6989586621679395476"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-107"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Result.CompilerBug</span></span><span> </span><span id="local-6989586621679395474"><span class="annot"><span class="annottext">CompilerBug Symbol Ann
+</span><a href="#local-6989586621679395474"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-108"></span><span>    </span><span class="annot"><span class="annottext">DebugFlag -&gt; String -&gt; CompilerBug Symbol Ann -&gt; [()]
 forall a (m :: * -&gt; *).
 (Show a, Monad m) =&gt;
@@ -473,7 +473,7 @@ DebugFlag -&gt; String -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">Debug.debugM</span></span><span> </span><span class="annot"><span class="annottext">DebugFlag
 </span><span class="hs-identifier hs-var">Debug.LSP</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;No Diagnostic configured for compiler error: &quot;</span></span><span> </span><span class="annot"><span class="annottext">CompilerBug Symbol Ann
-</span><a href="#local-6989586621679395476"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><a href="#local-6989586621679395474"><span class="hs-identifier hs-var">e</span></a></span><span>
 </span><span id="line-109"></span><span>    </span><span class="annot"><span class="annottext">[(Range, [(Text, Range)])]
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a
 </span><span class="hs-identifier hs-var">empty</span></span><span>
@@ -481,27 +481,27 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a
 </span><span id="line-111"></span><span>    </span><span class="hs-comment">-- Parse notes are handled manually in noteDiagnostics</span><span>
 </span><span id="line-112"></span><span>    </span><span class="annot"><span class="annottext">[(Range, [(Text, Range)])]
 forall a. [a]
-</span><a href="#local-6989586621679395475"><span class="hs-identifier hs-var">todoAnnotation</span></a></span><span>
+</span><a href="#local-6989586621679395473"><span class="hs-identifier hs-var">todoAnnotation</span></a></span><span>
 </span><span id="line-113"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Result.NameResolutionFailures</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(Range, [(Text, Range)])]
 forall a. [a]
-</span><a href="#local-6989586621679395475"><span class="hs-identifier hs-var">todoAnnotation</span></a></span><span>
+</span><a href="#local-6989586621679395473"><span class="hs-identifier hs-var">todoAnnotation</span></a></span><span>
 </span><span id="line-114"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-115"></span><span>    </span><span id="local-6989586621679395475"><span class="annot"><span class="annottext">todoAnnotation :: [a]
-</span><a href="#local-6989586621679395475"><span class="hs-identifier hs-var hs-var">todoAnnotation</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-116"></span><span>    </span><span id="local-6989586621679395680"><span class="annot"><a href="#local-6989586621679395536"><span class="hs-identifier hs-type">singleRange</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679395680"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span class="hs-special">]</span></span><span>
-</span><span id="line-117"></span><span>    </span><span id="local-6989586621679395536"><span class="annot"><span class="annottext">singleRange :: Ann -&gt; [(Range, [a])]
-</span><a href="#local-6989586621679395536"><span class="hs-identifier hs-var hs-var">singleRange</span></a></span></span><span> </span><span id="local-6989586621679395474"><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395474"><span class="hs-identifier hs-var">ann</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-118"></span><span>      </span><span id="local-6989586621679395473"><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395473"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [Range]
-</span><a href="#local-6989586621679395502"><span class="hs-identifier hs-var">aToR</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679395474"><span class="hs-identifier hs-var">ann</span></a></span><span>
+</span><span id="line-115"></span><span>    </span><span id="local-6989586621679395473"><span class="annot"><span class="annottext">todoAnnotation :: [a]
+</span><a href="#local-6989586621679395473"><span class="hs-identifier hs-var hs-var">todoAnnotation</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-116"></span><span>    </span><span id="local-6989586621679395678"><span class="annot"><a href="#local-6989586621679395534"><span class="hs-identifier hs-type">singleRange</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679395678"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span class="hs-special">]</span></span><span>
+</span><span id="line-117"></span><span>    </span><span id="local-6989586621679395534"><span class="annot"><span class="annottext">singleRange :: Ann -&gt; [(Range, [a])]
+</span><a href="#local-6989586621679395534"><span class="hs-identifier hs-var hs-var">singleRange</span></a></span></span><span> </span><span id="local-6989586621679395472"><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395472"><span class="hs-identifier hs-var">ann</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-118"></span><span>      </span><span id="local-6989586621679395471"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395471"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; [Range]
+</span><a href="#local-6989586621679395500"><span class="hs-identifier hs-var">aToR</span></a></span><span> </span><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679395472"><span class="hs-identifier hs-var">ann</span></a></span><span>
 </span><span id="line-119"></span><span>      </span><span class="hs-identifier">pure</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395473"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679395471"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span>
 </span><span id="line-120"></span><span>
-</span><span id="line-121"></span><span>    </span><span class="annot"><a href="#local-6989586621679395502"><span class="hs-identifier hs-type">aToR</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">]</span><span>
-</span><span id="line-122"></span><span>    </span><span id="local-6989586621679395502"><span class="annot"><span class="annottext">aToR :: Ann -&gt; [Range]
-</span><a href="#local-6989586621679395502"><span class="hs-identifier hs-var hs-var">aToR</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Range -&gt; [Range]
+</span><span id="line-121"></span><span>    </span><span class="annot"><a href="#local-6989586621679395500"><span class="hs-identifier hs-type">aToR</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">]</span><span>
+</span><span id="line-122"></span><span>    </span><span id="local-6989586621679395500"><span class="annot"><span class="annottext">aToR :: Ann -&gt; [Range]
+</span><a href="#local-6989586621679395500"><span class="hs-identifier hs-var hs-var">aToR</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Range -&gt; [Range]
 forall a. Maybe a -&gt; [a]
 </span><span class="hs-identifier hs-var">maybeToList</span></span><span> </span><span class="annot"><span class="annottext">(Maybe Range -&gt; [Range]) -&gt; (Ann -&gt; Maybe Range) -&gt; Ann -&gt; [Range]
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
@@ -509,28 +509,28 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><a href="Unison.LSP.Diagnostics.html#annToRange"><span class="hs-identifier hs-var">annToRange</span></a></span><span>
 </span><span id="line-123"></span><span>    </span><span class="hs-comment">-- &gt;&gt;&gt; withNeighbours [1, 2, 3, 4]</span><span>
 </span><span id="line-124"></span><span>    </span><span class="hs-comment">-- [(1,[2,3,4]),(2,[1,3,4]),(3,[1,2,4]),(4,[1,2,3])]</span><span>
-</span><span id="line-125"></span><span>    </span><span id="local-6989586621679395662"><span class="annot"><a href="#local-6989586621679395503"><span class="hs-identifier hs-type">withNeighbours</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679395662"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679395662"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679395662"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span class="hs-special">]</span></span><span>
-</span><span id="line-126"></span><span>    </span><span id="local-6989586621679395503"><span class="annot"><span class="annottext">withNeighbours :: [a] -&gt; [(a, [a])]
-</span><a href="#local-6989586621679395503"><span class="hs-identifier hs-var hs-var">withNeighbours</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-127"></span><span>    </span><span class="annot"><a href="#local-6989586621679395503"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395470"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679395470"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679395469"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679395469"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679395470"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679395469"><span class="hs-keyword hs-var">as</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(a, [a]) -&gt; [(a, [a])] -&gt; [(a, [a])]
+</span><span id="line-125"></span><span>    </span><span id="local-6989586621679395660"><span class="annot"><a href="#local-6989586621679395501"><span class="hs-identifier hs-type">withNeighbours</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679395660"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679395660"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679395660"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span class="hs-special">]</span></span><span>
+</span><span id="line-126"></span><span>    </span><span id="local-6989586621679395501"><span class="annot"><span class="annottext">withNeighbours :: [a] -&gt; [(a, [a])]
+</span><a href="#local-6989586621679395501"><span class="hs-identifier hs-var hs-var">withNeighbours</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-127"></span><span>    </span><span class="annot"><a href="#local-6989586621679395501"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395468"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679395468"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679395467"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679395467"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679395468"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679395467"><span class="hs-keyword hs-var">as</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(a, [a]) -&gt; [(a, [a])] -&gt; [(a, [a])]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">([a] -&gt; [a]) -&gt; (a, [a]) -&gt; (a, [a])
 forall (p :: * -&gt; * -&gt; *) b c a.
 Bifunctor p =&gt;
 (b -&gt; c) -&gt; p a b -&gt; p a c
 </span><span class="hs-identifier hs-var">second</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679395470"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+</span><a href="#local-6989586621679395468"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">((a, [a]) -&gt; (a, [a])) -&gt; [(a, [a])] -&gt; [(a, [a])]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[a] -&gt; [(a, [a])]
 forall a. [a] -&gt; [(a, [a])]
-</span><a href="#local-6989586621679395503"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679395469"><span class="hs-keyword hs-var">as</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679395501"><span class="hs-identifier hs-var">withNeighbours</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679395467"><span class="hs-keyword hs-var">as</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-128"></span><span>
 </span><span id="line-129"></span><span class="annot"><a href="Unison.LSP.Diagnostics.html#reportDiagnostics"><span class="hs-identifier hs-type">reportDiagnostics</span></a></span><span> </span><span class="hs-glyph">::</span><span>
 </span><span id="line-130"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Uri</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
@@ -540,28 +540,28 @@ forall a. [a] -&gt; [(a, [a])]
 </span><span id="line-134"></span><span>  </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Diagnostic</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-135"></span><span>  </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-136"></span><span id="reportDiagnostics"><span class="annot"><span class="annottext">reportDiagnostics :: Uri -&gt; Maybe FileVersion -&gt; [Diagnostic] -&gt; Lsp ()
-</span><a href="Unison.LSP.Diagnostics.html#reportDiagnostics"><span class="hs-identifier hs-var hs-var">reportDiagnostics</span></a></span></span><span> </span><span id="local-6989586621679395467"><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679395467"><span class="hs-identifier hs-var">docUri</span></a></span></span><span> </span><span id="local-6989586621679395466"><span class="annot"><span class="annottext">Maybe FileVersion
-</span><a href="#local-6989586621679395466"><span class="hs-identifier hs-var">fileVersion</span></a></span></span><span> </span><span id="local-6989586621679395465"><span class="annot"><span class="annottext">[Diagnostic]
-</span><a href="#local-6989586621679395465"><span class="hs-identifier hs-var">diags</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-137"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395464"><span class="annot"><span class="annottext">jsonRPC :: Text
-</span><a href="#local-6989586621679395464"><span class="hs-identifier hs-var hs-var">jsonRPC</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="Unison.LSP.Diagnostics.html#reportDiagnostics"><span class="hs-identifier hs-var hs-var">reportDiagnostics</span></a></span></span><span> </span><span id="local-6989586621679395465"><span class="annot"><span class="annottext">Uri
+</span><a href="#local-6989586621679395465"><span class="hs-identifier hs-var">docUri</span></a></span></span><span> </span><span id="local-6989586621679395464"><span class="annot"><span class="annottext">Maybe FileVersion
+</span><a href="#local-6989586621679395464"><span class="hs-identifier hs-var">fileVersion</span></a></span></span><span> </span><span id="local-6989586621679395463"><span class="annot"><span class="annottext">[Diagnostic]
+</span><a href="#local-6989586621679395463"><span class="hs-identifier hs-var">diags</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-137"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395462"><span class="annot"><span class="annottext">jsonRPC :: Text
+</span><a href="#local-6989586621679395462"><span class="hs-identifier hs-var hs-var">jsonRPC</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&quot;</span></span><span> </span><span class="hs-comment">-- TODO: what's this for?</span><span>
-</span><span id="line-138"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395463"><span class="annot"><span class="annottext">params :: PublishDiagnosticsParams
-</span><a href="#local-6989586621679395463"><span class="hs-identifier hs-var hs-var">params</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">PublishDiagnosticsParams :: Uri -&gt; Maybe UInt -&gt; List Diagnostic -&gt; PublishDiagnosticsParams
+</span><span id="line-138"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679395461"><span class="annot"><span class="annottext">params :: PublishDiagnosticsParams
+</span><a href="#local-6989586621679395461"><span class="hs-identifier hs-var hs-var">params</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">PublishDiagnosticsParams :: Uri -&gt; Maybe UInt -&gt; List Diagnostic -&gt; PublishDiagnosticsParams
 </span><span class="hs-identifier hs-type">PublishDiagnosticsParams</span></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:_uri:PublishDiagnosticsParams :: Uri
 </span><span class="hs-identifier hs-var">_uri</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679395467"><span class="hs-identifier hs-var">docUri</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:_version:PublishDiagnosticsParams :: Maybe UInt
+</span><a href="#local-6989586621679395465"><span class="hs-identifier hs-var">docUri</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:_version:PublishDiagnosticsParams :: Maybe UInt
 </span><span class="hs-identifier hs-var">_version</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">FileVersion -&gt; UInt
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">(FileVersion -&gt; UInt) -&gt; Maybe FileVersion -&gt; Maybe UInt
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Maybe FileVersion
-</span><a href="#local-6989586621679395466"><span class="hs-identifier hs-var">fileVersion</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:_diagnostics:PublishDiagnosticsParams :: List Diagnostic
+</span><a href="#local-6989586621679395464"><span class="hs-identifier hs-var">fileVersion</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:_diagnostics:PublishDiagnosticsParams :: List Diagnostic
 </span><span class="hs-identifier hs-var">_diagnostics</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Diagnostic] -&gt; List Diagnostic
 forall a. [a] -&gt; List a
 </span><span class="hs-identifier hs-var">List</span></span><span> </span><span class="annot"><span class="annottext">[Diagnostic]
-</span><a href="#local-6989586621679395465"><span class="hs-identifier hs-var">diags</span></a></span><span class="hs-special">}</span><span>
+</span><a href="#local-6989586621679395463"><span class="hs-identifier hs-var">diags</span></a></span><span class="hs-special">}</span><span>
 </span><span id="line-139"></span><span>  </span><span class="annot"><span class="annottext">NotificationMessage 'TextDocumentPublishDiagnostics -&gt; Lsp ()
 forall (m :: Method 'FromServer 'Notification).
 (Message m ~ NotificationMessage m) =&gt;
@@ -573,10 +573,10 @@ NotificationMessage m -&gt; Lsp ()
 forall (f :: From) (m :: Method f 'Notification).
 Text -&gt; SMethod m -&gt; MessageParams m -&gt; NotificationMessage m
 </span><span class="hs-identifier hs-var">NotificationMessage</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395464"><span class="hs-identifier hs-var">jsonRPC</span></a></span><span> </span><span class="annot"><span class="annottext">SMethod 'TextDocumentPublishDiagnostics
+</span><a href="#local-6989586621679395462"><span class="hs-identifier hs-var">jsonRPC</span></a></span><span> </span><span class="annot"><span class="annottext">SMethod 'TextDocumentPublishDiagnostics
 </span><span class="hs-identifier hs-var">STextDocumentPublishDiagnostics</span></span><span> </span><span class="annot"><span class="annottext">MessageParams 'TextDocumentPublishDiagnostics
 PublishDiagnosticsParams
-</span><a href="#local-6989586621679395463"><span class="hs-identifier hs-var">params</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679395461"><span class="hs-identifier hs-var">params</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-140"></span><span>
 </span><span id="line-141"></span><span class="hs-keyword">data</span><span> </span><span id="UnisonDiagnostic"><span class="annot"><a href="Unison.LSP.Diagnostics.html#UnisonDiagnostic"><span class="hs-identifier hs-var">UnisonDiagnostic</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="UnisonDiagnostic"><span class="annot"><a href="Unison.LSP.Diagnostics.html#UnisonDiagnostic"><span class="hs-identifier hs-var">UnisonDiagnostic</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span> </span><span class="annot"><a href="Unison.LSP.Diagnostics.html#UnisonDiagnosticInfo"><span class="hs-identifier hs-type">UnisonDiagnosticInfo</span></a></span><span>
 </span><span id="line-142"></span><span>
@@ -591,12 +591,12 @@ PublishDiagnosticsParams
 -&gt; Text
 -&gt; [(Text, Range)]
 -&gt; Diagnostic
-</span><a href="Unison.LSP.Diagnostics.html#mkDiagnostic"><span class="hs-identifier hs-var hs-var">mkDiagnostic</span></a></span></span><span> </span><span id="local-6989586621679395451"><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679395451"><span class="hs-identifier hs-var">uri</span></a></span></span><span> </span><span id="local-6989586621679395450"><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395450"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span id="local-6989586621679395449"><span class="annot"><span class="annottext">DiagnosticSeverity
-</span><a href="#local-6989586621679395449"><span class="hs-identifier hs-var">severity</span></a></span></span><span> </span><span id="local-6989586621679395448"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395448"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span id="local-6989586621679395447"><span class="annot"><span class="annottext">[(Text, Range)]
-</span><a href="#local-6989586621679395447"><span class="hs-identifier hs-var">references</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.LSP.Diagnostics.html#mkDiagnostic"><span class="hs-identifier hs-var hs-var">mkDiagnostic</span></a></span></span><span> </span><span id="local-6989586621679395449"><span class="annot"><span class="annottext">Uri
+</span><a href="#local-6989586621679395449"><span class="hs-identifier hs-var">uri</span></a></span></span><span> </span><span id="local-6989586621679395448"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395448"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span id="local-6989586621679395447"><span class="annot"><span class="annottext">DiagnosticSeverity
+</span><a href="#local-6989586621679395447"><span class="hs-identifier hs-var">severity</span></a></span></span><span> </span><span id="local-6989586621679395446"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679395446"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span id="local-6989586621679395445"><span class="annot"><span class="annottext">[(Text, Range)]
+</span><a href="#local-6989586621679395445"><span class="hs-identifier hs-var">references</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-149"></span><span>  </span><span class="annot"><span class="annottext">Diagnostic :: Range
 -&gt; Maybe DiagnosticSeverity
 -&gt; Maybe (FileVersion |? Text)
@@ -608,12 +608,12 @@ PublishDiagnosticsParams
 </span><span class="hs-identifier hs-type">Diagnostic</span></span><span>
 </span><span id="line-150"></span><span>    </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">$sel:_range:Diagnostic :: Range
 </span><span class="hs-identifier hs-var">_range</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395450"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span>
+</span><a href="#local-6989586621679395448"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-151"></span><span>      </span><span class="annot"><span class="annottext">$sel:_severity:Diagnostic :: Maybe DiagnosticSeverity
 </span><span class="hs-identifier hs-var">_severity</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">DiagnosticSeverity -&gt; Maybe DiagnosticSeverity
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">DiagnosticSeverity
-</span><a href="#local-6989586621679395449"><span class="hs-identifier hs-var">severity</span></a></span><span class="hs-special">,</span><span>
+</span><a href="#local-6989586621679395447"><span class="hs-identifier hs-var">severity</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-152"></span><span>      </span><span class="annot"><span class="annottext">$sel:_code:Diagnostic :: Maybe (FileVersion |? Text)
 </span><span class="hs-identifier hs-var">_code</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (FileVersion |? Text)
 forall a. Maybe a
@@ -625,7 +625,7 @@ forall a. a -&gt; Maybe a
 </span><span class="hs-string">&quot;unison&quot;</span></span><span class="hs-special">,</span><span>
 </span><span id="line-154"></span><span>      </span><span class="annot"><span class="annottext">$sel:_message:Diagnostic :: Text
 </span><span class="hs-identifier hs-var">_message</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395448"><span class="hs-identifier hs-var">msg</span></a></span><span class="hs-special">,</span><span>
+</span><a href="#local-6989586621679395446"><span class="hs-identifier hs-var">msg</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-155"></span><span>      </span><span class="annot"><span class="annottext">$sel:_tags:Diagnostic :: Maybe (List DiagnosticTag)
 </span><span class="hs-identifier hs-var">_tags</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (List DiagnosticTag)
 forall a. Maybe a
@@ -633,12 +633,12 @@ forall a. Maybe a
 </span><span id="line-156"></span><span>      </span><span class="annot"><span class="annottext">$sel:_relatedInformation:Diagnostic :: Maybe (List DiagnosticRelatedInformation)
 </span><span class="hs-identifier hs-var">_relatedInformation</span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-157"></span><span>        </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">[(Text, Range)]
-</span><a href="#local-6989586621679395447"><span class="hs-identifier hs-var">references</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679395445"><span class="hs-identifier hs-var">references</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-158"></span><span>          </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe (List DiagnosticRelatedInformation)
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-159"></span><span>          </span><span id="local-6989586621679395438"><span class="annot"><span class="annottext">[(Text, Range)]
-</span><a href="#local-6989586621679395438"><span class="hs-identifier hs-var">refs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-159"></span><span>          </span><span id="local-6989586621679395436"><span class="annot"><span class="annottext">[(Text, Range)]
+</span><a href="#local-6989586621679395436"><span class="hs-identifier hs-var">refs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-160"></span><span>            </span><span class="annot"><span class="annottext">List DiagnosticRelatedInformation
 -&gt; Maybe (List DiagnosticRelatedInformation)
 forall a. a -&gt; Maybe a
@@ -658,19 +658,19 @@ forall a. [a] -&gt; List a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span>
 </span><span id="line-161"></span><span>              </span><span class="annot"><span class="annottext">[(Text, Range)]
-</span><a href="#local-6989586621679395438"><span class="hs-identifier hs-var">refs</span></a></span><span> </span><span class="annot"><span class="annottext">[(Text, Range)]
+</span><a href="#local-6989586621679395436"><span class="hs-identifier hs-var">refs</span></a></span><span> </span><span class="annot"><span class="annottext">[(Text, Range)]
 -&gt; ((Text, Range) -&gt; DiagnosticRelatedInformation)
 -&gt; [DiagnosticRelatedInformation]
 forall (f :: * -&gt; *) a b. Functor f =&gt; f a -&gt; (a -&gt; b) -&gt; f b
-</span><span class="hs-operator hs-var">&lt;&amp;&gt;</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679395436"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395436"><span class="hs-identifier hs-var">msg</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395435"><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395435"><span class="hs-identifier hs-var">range</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-operator hs-var">&lt;&amp;&gt;</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679395434"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679395434"><span class="hs-identifier hs-var">msg</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395433"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395433"><span class="hs-identifier hs-var">range</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-162"></span><span>                </span><span class="annot"><span class="annottext">Location -&gt; Text -&gt; DiagnosticRelatedInformation
 </span><span class="hs-identifier hs-var">DiagnosticRelatedInformation</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Uri -&gt; Range -&gt; Location
 </span><span class="hs-identifier hs-var">Location</span></span><span> </span><span class="annot"><span class="annottext">Uri
-</span><a href="#local-6989586621679395451"><span class="hs-identifier hs-var">uri</span></a></span><span> </span><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395435"><span class="hs-identifier hs-var">range</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395436"><span class="hs-identifier hs-var">msg</span></a></span><span>
+</span><a href="#local-6989586621679395449"><span class="hs-identifier hs-var">uri</span></a></span><span> </span><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395433"><span class="hs-identifier hs-var">range</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679395434"><span class="hs-identifier hs-var">msg</span></a></span><span>
 </span><span id="line-163"></span><span>    </span><span class="hs-special">}</span><span>
 </span><span id="line-164"></span><span>
 </span><span id="line-165"></span><span class="annot"><a href="Unison.LSP.Diagnostics.html#getSeverity"><span class="hs-identifier hs-type">getSeverity</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Diagnostics.html#UnisonDiagnosticInfo"><span class="hs-identifier hs-type">UnisonDiagnosticInfo</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DiagnosticSeverity</span></span><span>
@@ -686,17 +686,17 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; f a -&gt; (a -&gt; b) -&gt; f b
 </span><a href="Unison.LSP.Diagnostics.html#diagnosticMessage"><span class="hs-identifier hs-var hs-var">diagnosticMessage</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
 </span><span id="line-172"></span><span>  </span><span class="annot"><a href="Unison.LSP.Diagnostics.html#TypeError"><span class="hs-identifier hs-type">TypeError</span></a></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;Type Error!!&quot;</span></span><span>
-</span><span id="line-173"></span><span>  </span><span class="annot"><a href="Unison.LSP.Diagnostics.html#NameResolutionFailure"><span class="hs-identifier hs-type">NameResolutionFailure</span></a></span><span> </span><span id="local-6989586621679395430"><span class="annot"><span class="annottext">ResolutionFailure Symbol Range
-</span><a href="#local-6989586621679395430"><span class="hs-identifier hs-var">rf</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">ResolutionFailure Symbol Range -&gt; Text
+</span><span id="line-173"></span><span>  </span><span class="annot"><a href="Unison.LSP.Diagnostics.html#NameResolutionFailure"><span class="hs-identifier hs-type">NameResolutionFailure</span></a></span><span> </span><span id="local-6989586621679395428"><span class="annot"><span class="annottext">ResolutionFailure Symbol Range
+</span><a href="#local-6989586621679395428"><span class="hs-identifier hs-var">rf</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">ResolutionFailure Symbol Range -&gt; Text
 forall a. Show a =&gt; a -&gt; Text
 </span><span class="hs-identifier hs-var">tShow</span></span><span> </span><span class="annot"><span class="annottext">ResolutionFailure Symbol Range
-</span><a href="#local-6989586621679395430"><span class="hs-identifier hs-var">rf</span></a></span><span>
+</span><a href="#local-6989586621679395428"><span class="hs-identifier hs-var">rf</span></a></span><span>
 </span><span id="line-174"></span><span>
 </span><span id="line-175"></span><span class="annot"><a href="Unison.LSP.Diagnostics.html#toLSPDiagnostic"><span class="hs-identifier hs-type">toLSPDiagnostic</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Diagnostics.html#UnisonDiagnostic"><span class="hs-identifier hs-type">UnisonDiagnostic</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Diagnostic</span></span><span>
 </span><span id="line-176"></span><span id="toLSPDiagnostic"><span class="annot"><span class="annottext">toLSPDiagnostic :: UnisonDiagnostic -&gt; Diagnostic
-</span><a href="Unison.LSP.Diagnostics.html#toLSPDiagnostic"><span class="hs-identifier hs-var hs-var">toLSPDiagnostic</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.LSP.Diagnostics.html#UnisonDiagnostic"><span class="hs-identifier hs-type">UnisonDiagnostic</span></a></span><span> </span><span id="local-6989586621679395427"><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395427"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span id="local-6989586621679395426"><span class="annot"><span class="annottext">UnisonDiagnosticInfo
-</span><a href="#local-6989586621679395426"><span class="hs-identifier hs-var">i</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.LSP.Diagnostics.html#toLSPDiagnostic"><span class="hs-identifier hs-var hs-var">toLSPDiagnostic</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.LSP.Diagnostics.html#UnisonDiagnostic"><span class="hs-identifier hs-type">UnisonDiagnostic</span></a></span><span> </span><span id="local-6989586621679395425"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621679395425"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span id="local-6989586621679395424"><span class="annot"><span class="annottext">UnisonDiagnosticInfo
+</span><a href="#local-6989586621679395424"><span class="hs-identifier hs-var">i</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-177"></span><span>  </span><span class="annot"><span class="annottext">Diagnostic :: Range
 -&gt; Maybe DiagnosticSeverity
 -&gt; Maybe (FileVersion |? Text)
@@ -708,7 +708,7 @@ forall a. Show a =&gt; a -&gt; Text
 </span><span class="hs-identifier hs-type">Diagnostic</span></span><span>
 </span><span id="line-178"></span><span>    </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">$sel:_range:Diagnostic :: Range
 </span><span class="hs-identifier hs-var">_range</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Range
-</span><a href="#local-6989586621679395427"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span>
+</span><a href="#local-6989586621679395425"><span class="hs-identifier hs-var">r</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-179"></span><span>      </span><span class="annot"><span class="annottext">$sel:_severity:Diagnostic :: Maybe DiagnosticSeverity
 </span><span class="hs-identifier hs-var">_severity</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">DiagnosticSeverity -&gt; Maybe DiagnosticSeverity
 forall a. a -&gt; Maybe a
@@ -722,7 +722,7 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 -&gt; UnisonDiagnosticInfo -&gt; Maybe DiagnosticSeverity
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">UnisonDiagnosticInfo
-</span><a href="#local-6989586621679395426"><span class="hs-identifier hs-var">i</span></a></span><span class="hs-special">,</span><span>
+</span><a href="#local-6989586621679395424"><span class="hs-identifier hs-var">i</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-180"></span><span>      </span><span class="annot"><span class="annottext">$sel:_code:Diagnostic :: Maybe (FileVersion |? Text)
 </span><span class="hs-identifier hs-var">_code</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (FileVersion |? Text)
 forall a. Maybe a
@@ -737,7 +737,7 @@ forall a. a -&gt; Maybe a
 </span><a href="Unison.LSP.Diagnostics.html#diagnosticMessage"><span class="hs-identifier hs-var">diagnosticMessage</span></a></span><span> </span><span class="annot"><span class="annottext">(UnisonDiagnosticInfo -&gt; Text) -&gt; UnisonDiagnosticInfo -&gt; Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">UnisonDiagnosticInfo
-</span><a href="#local-6989586621679395426"><span class="hs-identifier hs-var">i</span></a></span><span class="hs-special">,</span><span>
+</span><a href="#local-6989586621679395424"><span class="hs-identifier hs-var">i</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-183"></span><span>      </span><span class="annot"><span class="annottext">$sel:_tags:Diagnostic :: Maybe (List DiagnosticTag)
 </span><span class="hs-identifier hs-var">_tags</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (List DiagnosticTag)
 forall a. Maybe a
