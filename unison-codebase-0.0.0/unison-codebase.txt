@@ -56,35 +56,6 @@ instance GHC.Read.Read U.Codebase.Kind.Kind
 instance GHC.Classes.Ord U.Codebase.Kind.Kind
 instance GHC.Classes.Eq U.Codebase.Kind.Kind
 
-module U.Codebase.Reference
-
--- | This is the canonical representation of Reference
-type Reference = Reference' Text Hash
-type Id = Id' Hash
-data Reference' t h
-ReferenceBuiltin :: t -> Reference' t h
-ReferenceDerived :: Id' h -> Reference' t h
-_ReferenceDerived :: Prism (Reference' t h) (Reference' t h') (Id' h) (Id' h')
-pattern Derived :: h -> Pos -> Reference' t h
-type Pos = Word64
-data Id' h
-Id :: h -> Pos -> Id' h
-t_ :: Traversal (Reference' t h) (Reference' t' h) t t'
-h_ :: Traversal (Reference' t h) (Reference' t h') h h'
-idH :: Lens (Id' h) (Id' h') h h'
-instance Data.Traversable.Traversable U.Codebase.Reference.Id'
-instance Data.Foldable.Foldable U.Codebase.Reference.Id'
-instance GHC.Base.Functor U.Codebase.Reference.Id'
-instance GHC.Show.Show h => GHC.Show.Show (U.Codebase.Reference.Id' h)
-instance GHC.Classes.Ord h => GHC.Classes.Ord (U.Codebase.Reference.Id' h)
-instance GHC.Classes.Eq h => GHC.Classes.Eq (U.Codebase.Reference.Id' h)
-instance (GHC.Show.Show t, GHC.Show.Show h) => GHC.Show.Show (U.Codebase.Reference.Reference' t h)
-instance (GHC.Classes.Ord t, GHC.Classes.Ord h) => GHC.Classes.Ord (U.Codebase.Reference.Reference' t h)
-instance (GHC.Classes.Eq t, GHC.Classes.Eq h) => GHC.Classes.Eq (U.Codebase.Reference.Reference' t h)
-instance Data.Bifunctor.Bifunctor U.Codebase.Reference.Reference'
-instance Data.Bifoldable.Bifoldable U.Codebase.Reference.Reference'
-instance Data.Bitraversable.Bitraversable U.Codebase.Reference.Reference'
-
 module U.Codebase.Reflog
 data Entry causal text
 Entry :: UTCTime -> causal -> causal -> text -> Entry causal text
@@ -106,12 +77,44 @@ ShortHash :: Text -> Maybe Word64 -> Maybe Word64 -> ShortHash
 data ShortBranchHash
 ShortBranchHash :: Text -> ShortBranchHash
 [toText] :: ShortBranchHash -> Text
+shortenTo :: Int -> ShortHash -> ShortHash
 instance GHC.Show.Show U.Codebase.ShortHash.ShortHash
 instance GHC.Classes.Ord U.Codebase.ShortHash.ShortHash
 instance GHC.Classes.Eq U.Codebase.ShortHash.ShortHash
 instance GHC.Show.Show U.Codebase.ShortHash.ShortBranchHash
 instance GHC.Classes.Ord U.Codebase.ShortHash.ShortBranchHash
 instance GHC.Classes.Eq U.Codebase.ShortHash.ShortBranchHash
+
+module U.Codebase.Reference
+
+-- | This is the canonical representation of Reference
+type Reference = Reference' Text Hash
+type Id = Id' Hash
+data Reference' t h
+ReferenceBuiltin :: t -> Reference' t h
+ReferenceDerived :: Id' h -> Reference' t h
+_ReferenceDerived :: Prism (Reference' t h) (Reference' t h') (Id' h) (Id' h')
+pattern Derived :: h -> Pos -> Reference' t h
+type Pos = Word64
+data Id' h
+Id :: h -> Pos -> Id' h
+t_ :: Traversal (Reference' t h) (Reference' t' h) t t'
+h_ :: Traversal (Reference' t h) (Reference' t h') h h'
+idH :: Lens (Id' h) (Id' h') h h'
+isBuiltin :: Reference -> Bool
+toShortHash :: Reference -> ShortHash
+instance Data.Traversable.Traversable U.Codebase.Reference.Id'
+instance Data.Foldable.Foldable U.Codebase.Reference.Id'
+instance GHC.Base.Functor U.Codebase.Reference.Id'
+instance GHC.Show.Show h => GHC.Show.Show (U.Codebase.Reference.Id' h)
+instance GHC.Classes.Ord h => GHC.Classes.Ord (U.Codebase.Reference.Id' h)
+instance GHC.Classes.Eq h => GHC.Classes.Eq (U.Codebase.Reference.Id' h)
+instance (GHC.Show.Show t, GHC.Show.Show h) => GHC.Show.Show (U.Codebase.Reference.Reference' t h)
+instance (GHC.Classes.Ord t, GHC.Classes.Ord h) => GHC.Classes.Ord (U.Codebase.Reference.Reference' t h)
+instance (GHC.Classes.Eq t, GHC.Classes.Eq h) => GHC.Classes.Eq (U.Codebase.Reference.Reference' t h)
+instance Data.Bifunctor.Bifunctor U.Codebase.Reference.Reference'
+instance Data.Bifoldable.Bifoldable U.Codebase.Reference.Reference'
+instance Data.Bitraversable.Bitraversable U.Codebase.Reference.Reference'
 
 module U.Codebase.Type
 
@@ -198,10 +201,12 @@ typeRef_ :: Traversal (Referent' typeRef termRef) (Referent' typeRef' termRef) t
 termRef_ :: Traversal (Referent' typeRef termRef) (Referent' typeRef termRef') termRef termRef'
 _Ref :: Prism (Referent' tmr tyr) (Referent' tmr' tyr) tmr tmr'
 _Con :: Prism (Referent' tmr tyr) (Referent' tmr tyr') (tyr, ConstructorId) (tyr', ConstructorId)
+toReference :: Referent -> Reference
 type Id = Id' Hash Hash
 data Id' hTm hTp
 RefId :: Id' hTm -> Id' hTm hTp
 ConId :: Id' hTp -> ConstructorId -> Id' hTm hTp
+toShortHash :: Referent -> ShortHash
 instance GHC.Classes.Ord U.Codebase.Referent.ConstructorType
 instance GHC.Classes.Eq U.Codebase.Referent.ConstructorType
 instance GHC.Show.Show U.Codebase.Referent.ConstructorType
@@ -342,8 +347,9 @@ Patch :: Map Referent (Set TermEdit) -> Map Reference (Set TypeEdit) -> Patch
 [typeEdits] :: Patch -> Map Reference (Set TypeEdit)
 type MetadataType = Reference
 type MetadataValue = Reference
-data MdValues
+newtype MdValues
 MdValues :: Map MetadataValue MetadataType -> MdValues
+[unMdValues] :: MdValues -> Map MetadataValue MetadataType
 newtype NameSegment
 NameSegment :: Text -> NameSegment
 [unNameSegment] :: NameSegment -> Text
@@ -364,6 +370,20 @@ hasDefinitions :: NamespaceStats -> Bool
 childAt :: NameSegment -> Branch m -> Maybe (CausalBranch m)
 hoist :: Functor n => (forall x. m x -> n x) -> Branch m -> Branch n
 hoistCausalBranch :: Functor n => (forall x. m x -> n x) -> CausalBranch m -> CausalBranch n
+
+-- | Returns all the metadata value references that are attached to a term
+--   with the provided name in the provided branch.
+--   
+--   If only name is specified, metadata will be returned for all terms at
+--   that name.
+termMetadata :: Monad m => Branch m -> NameSegment -> Maybe Referent -> m [Map MetadataValue MetadataType]
+
+-- | Returns all the metadata value references that are attached to a type
+--   with the provided name in the provided branch.
+--   
+--   If only name is specified, metadata will be returned for all types at
+--   that name.
+typeMetadata :: Monad m => Branch m -> NameSegment -> Maybe Reference -> m [Map MetadataValue MetadataType]
 empty :: Branch m
 instance GHC.Show.Show U.Codebase.Branch.Type.NameSegment
 instance GHC.Classes.Ord U.Codebase.Branch.Type.NameSegment

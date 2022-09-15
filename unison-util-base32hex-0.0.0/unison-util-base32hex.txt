@@ -35,6 +35,7 @@ Hash :: ShortByteString -> Hash
 --   this converts Text -&gt; ByteString -&gt; ShortByteString and so is
 --   slower than we'd prefer.
 unsafeFromBase32HexText :: Text -> Hash
+fromBase32HexText :: Text -> Maybe Hash
 fromBase32Hex :: Base32Hex -> Hash
 fromByteString :: ByteString -> Hash
 toBase32Hex :: Hash -> Base32Hex

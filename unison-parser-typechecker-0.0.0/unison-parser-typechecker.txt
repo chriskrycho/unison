@@ -203,7 +203,17 @@ unsplit' :: Split' -> Path'
 unsplitAbsolute :: (Absolute, NameSegment) -> Absolute
 unsplitHQ :: HQSplit -> HashQualified Path
 unsplitHQ' :: HQSplit' -> HashQualified Path'
-splitFromName :: Name -> Maybe Split
+
+-- | <pre>
+--   &gt;&gt;&gt; splitFromName "a.b.c"
+--   (a.b,c)
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; splitFromName "foo"
+--   (,foo)
+--   </pre>
+splitFromName :: Name -> Split
 hqSplitFromName' :: Name -> Maybe HQSplit'
 cons :: NameSegment -> Path -> Path
 snoc :: Path -> NameSegment -> Path
@@ -233,7 +243,7 @@ instance Unison.Name.Convert Unison.Codebase.Path.HQSplit' (Unison.HashQualified
 instance Unison.Name.Parse Unison.Name.Name Unison.Codebase.Path.HQSplit'
 instance Control.Lens.Cons.Snoc Unison.Codebase.Path.Split' Unison.Codebase.Path.Split' Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
 instance Unison.Name.Convert Unison.Codebase.Path.HQSplit (Unison.HashQualified'.HashQualified Unison.Codebase.Path.Path)
-instance Unison.Name.Parse Unison.Name.Name Unison.Codebase.Path.Split
+instance Unison.Name.Convert Unison.Name.Name Unison.Codebase.Path.Split
 instance GHC.Show.Show Unison.Codebase.Path.Path'
 instance Control.Lens.Cons.Cons Unison.Codebase.Path.Path' Unison.Codebase.Path.Path' Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
 instance Control.Lens.Cons.Snoc Unison.Codebase.Path.Path' Unison.Codebase.Path.Path' Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
@@ -2204,9 +2214,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3pGb loc_a3pGc. Lens' (Env v_a3pGb loc_a3pGc) (TypeLookup v_a3pGb loc_a3pGc)
-termsByShortname :: forall v_a3pGb loc_a3pGc. Lens' (Env v_a3pGb loc_a3pGc) (Map Name [NamedReference v_a3pGb loc_a3pGc])
-ambientAbilities :: forall v_a3pGb loc_a3pGc. Lens' (Env v_a3pGb loc_a3pGc) [Type v_a3pGb loc_a3pGc]
+typeLookup :: forall v_a3pIb loc_a3pIc. Lens' (Env v_a3pIb loc_a3pIc) (TypeLookup v_a3pIb loc_a3pIc)
+termsByShortname :: forall v_a3pIb loc_a3pIc. Lens' (Env v_a3pIb loc_a3pIc) (Map Name [NamedReference v_a3pIb loc_a3pIc])
+ambientAbilities :: forall v_a3pIb loc_a3pIc. Lens' (Env v_a3pIb loc_a3pIc) [Type v_a3pIb loc_a3pIc]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3118,7 +3128,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 [$sel:getDeclComponent:Codebase] :: Codebase m v a -> Hash -> m (Maybe [Decl v a])
 [$sel:getComponentLength:Codebase] :: Codebase m v a -> Hash -> m (Maybe CycleSize)
 
--- | Get the root branch Hash.
+-- | Get the root causal Hash.
 [$sel:getRootCausalHash:Codebase] :: Codebase m v a -> m CausalHash
 
 -- | Get the root branch.
@@ -3346,6 +3356,16 @@ edithash1to2 :: EditHash -> PatchHash
 namesegment2to1 :: NameSegment -> NameSegment
 namesegment1to2 :: NameSegment -> NameSegment
 branch2to1 :: Monad m => BranchCache m -> (Reference -> m ConstructorType) -> Branch m -> m (Branch0 m)
+
+-- | Generates a v1 short hash from a v2 referent. Also shortens the hash
+--   to the provided length. If <a>Nothing</a>, it will include the full
+--   length hash.
+referent2toshorthash1 :: Maybe Int -> Referent -> ShortHash
+
+-- | Generates a v1 short hash from a v2 reference. Also shortens the hash
+--   to the provided length. If <a>Nothing</a>, it will include the full
+--   length hash.
+reference2toshorthash1 :: Maybe Int -> Reference -> ShortHash
 
 module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema1To2.DbHelpers
 dbBranchHash :: DbBranch -> Transaction BranchHash
@@ -3649,6 +3669,10 @@ isTerm :: (Applicative m, BuiltinAnnotation a) => Codebase m Symbol a -> Referen
 --   are stored as well.
 ($sel:putTerm:Codebase) :: Codebase m v a -> Id -> Term v a -> Type v a -> m ()
 
+-- | Get the metadata attached to the term at a given path and name
+--   relative to the given branch.
+termMetadata :: Monad m => Codebase m v a -> Maybe (Branch m) -> Split -> Maybe Referent -> m [Map MetadataValue MetadataType]
+
 -- | Get the type of a referent.
 getTypeOfReferent :: (BuiltinAnnotation a, Monad m) => Codebase m Symbol a -> Referent -> m (Maybe (Type Symbol a))
 
@@ -3733,7 +3757,7 @@ getShallowRootCausal :: Monad m => Codebase m v a -> m (CausalBranch m)
 -- | Get whether the root branch exists.
 ($sel:getRootBranchExists:Codebase) :: Codebase m v a -> m Bool
 
--- | Get the root branch Hash.
+-- | Get the root causal Hash.
 ($sel:getRootCausalHash:Codebase) :: Codebase m v a -> m CausalHash
 
 -- | Like <a>$sel:putBranch:Codebase</a>, but also adjusts the root branch

@@ -184,6 +184,7 @@ unsafeId :: Reference -> Id
 toShortHash :: Reference -> ShortHash
 idToHash :: Id -> Hash
 idToShortHash :: Id -> ShortHash
+isBuiltin :: Reference -> Bool
 instance GHC.Classes.Ord Unison.Reference.Id
 instance GHC.Classes.Eq Unison.Reference.Id
 instance GHC.Generics.Generic Unison.Reference.Reference
@@ -325,6 +326,7 @@ isEmpty :: NameSegment -> Bool
 isPrefixOf :: NameSegment -> NameSegment -> Bool
 toString :: NameSegment -> String
 toTextBuilder :: NameSegment -> Builder
+instance GHC.Generics.Generic Unison.NameSegment.NameSegment
 instance GHC.Classes.Ord Unison.NameSegment.NameSegment
 instance GHC.Classes.Eq Unison.NameSegment.NameSegment
 instance Unison.Util.Alphabetical.Alphabetical Unison.NameSegment.NameSegment
@@ -687,6 +689,13 @@ unsafeFromString :: String -> Name
 --   rejecting bogus names like "foo...bar...baz".
 unsafeFromText :: HasCallStack => Text -> Name
 
+-- | Unsafely parse a name from a string literal.
+--   
+--   Performs very minor validation (a name can't be empty, nor contain a
+--   <tt>#</tt> character [at least currently?]) but makes no attempt at
+--   rejecting bogus names like "foo...bar...baz".
+fromText :: Text -> Maybe Name
+
 -- | Unsafely parse a name from a var, by first rendering the var as a
 --   string.
 --   
@@ -961,6 +970,7 @@ compareAlphabetical :: Alphabetical n => n -> n -> Ordering
 --   
 --   <i>O(n)</i>, where <i>n</i> is the number of name segments.
 compareSuffix :: Name -> Name -> Ordering
+instance GHC.Generics.Generic Unison.Name.Name
 instance GHC.Classes.Eq Unison.Name.Name
 instance Unison.Name.Parse Data.Text.Internal.Text Unison.NameSegment.NameSegment
 instance (Unison.Name.Parse a a2, Unison.Name.Parse b b2) => Unison.Name.Parse (a, b) (a2, b2)
