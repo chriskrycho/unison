@@ -544,10 +544,10 @@ typeEntryToNamedType :: TypeEntry -> NamedType
 -- | Find all definitions and children reachable from the given
 --   <a>Branch</a>,
 lsBranch :: MonadIO m => Codebase m Symbol Ann -> Branch m -> m [ShallowListEntry Symbol Ann]
+termReferencesByShortHash :: Monad m => Codebase m v a -> ShortHash -> m (Set Reference)
 
 -- | Look up types in the codebase by short hash, and include builtins.
 typeReferencesByShortHash :: Monad m => Codebase m v a -> ShortHash -> m (Set Reference)
-termReferencesByShortHash :: Monad m => Codebase m v a -> ShortHash -> m (Set Reference)
 
 -- | Look up terms in the codebase by short hash, and include builtins.
 termReferentsByShortHash :: Monad m => Codebase m v a -> ShortHash -> m (Set Referent)
@@ -644,21 +644,8 @@ data IncludeCycles
 IncludeCycles :: IncludeCycles
 DontIncludeCycles :: IncludeCycles
 definitionsBySuffixes :: forall m. MonadIO m => Codebase m Symbol Ann -> NameSearch -> IncludeCycles -> [HashQualified Name] -> m (DefinitionResults Symbol)
-displayTerm :: Monad m => Codebase m Symbol Ann -> Reference -> m (DisplayObject (Type Symbol Ann) (Term Symbol Ann))
-displayType :: Monad m => Codebase m Symbol Ann -> Reference -> m (DisplayObject () (Decl Symbol Ann))
 termsToSyntax :: Var v => Ord a => Suffixify -> Width -> PrettyPrintEnvDecl -> Map Reference (DisplayObject (Type v a) (Term v a)) -> Map Reference (DisplayObject SyntaxText SyntaxText)
 typesToSyntax :: Var v => Ord a => Suffixify -> Width -> PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl v a)) -> Map Reference (DisplayObject SyntaxText SyntaxText)
-
--- | Renders a type to its decl header, e.g.
---   
---   Effect:
---   
---   unique ability Stream s
---   
---   Data:
---   
---   structural type Maybe a
-typeToSyntaxHeader :: Width -> HashQualified Name -> DisplayObject () (Decl Symbol Ann) -> DisplayObject SyntaxText SyntaxText
 loadSearchResults :: Applicative m => Codebase m Symbol Ann -> [SearchResult] -> m [SearchResult' Symbol Ann]
 loadTypeDisplayObject :: Applicative m => Codebase m v Ann -> Reference -> m (DisplayObject () (Decl v Ann))
 instance GHC.Base.Monad m => Control.Monad.Error.Class.MonadError Unison.Server.Backend.BackendError (Unison.Server.Backend.Backend m)
@@ -836,16 +823,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON Text.FuzzyFind.ResultSegment
 module Unison.Server.Endpoints.DefinitionSummary
 type TermSummaryAPI = "definitions" :> "terms" :> "qualified" :> Capture "fqn" (ExactName Name ShortHash) :> "summary" :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" Path :> QueryParam "renderWidth" Width :> APIGet TermSummary
 serveTermSummary :: Codebase IO Symbol Ann -> ExactName Name ShortHash -> Maybe ShortBranchHash -> Maybe Path -> Maybe Width -> Backend IO TermSummary
-type TypeSummaryAPI = "definitions" :> "types" :> "qualified" :> Capture "fqn" (ExactName Name ShortHash) :> "summary" :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" Path :> QueryParam "renderWidth" Width :> APIGet TypeSummary
-serveTypeSummary :: Codebase IO Symbol Ann -> ExactName Name ShortHash -> Maybe ShortBranchHash -> Maybe Path -> Maybe Width -> Backend IO TypeSummary
 instance GHC.Show.Show Unison.Server.Endpoints.DefinitionSummary.TermSummary
 instance GHC.Generics.Generic Unison.Server.Endpoints.DefinitionSummary.TermSummary
-instance GHC.Show.Show Unison.Server.Endpoints.DefinitionSummary.TypeSummary
-instance GHC.Generics.Generic Unison.Server.Endpoints.DefinitionSummary.TypeSummary
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Endpoints.DefinitionSummary.TermSummary
-instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Endpoints.DefinitionSummary.TypeSummary
-instance Servant.Docs.Internal.ToSample Unison.Server.Endpoints.DefinitionSummary.TypeSummary
-instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.DefinitionSummary.TypeSummary
 instance Servant.Docs.Internal.ToSample Unison.Server.Endpoints.DefinitionSummary.TermSummary
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.DefinitionSummary.TermSummary
 
@@ -857,7 +837,7 @@ RawHtml :: ByteString -> RawHtml
 [$sel:unRaw:RawHtml] :: RawHtml -> ByteString
 type OpenApiJSON = "openapi.json" :> Get '[JSON] OpenApi
 type UnisonAndDocsAPI = UnisonAPI :<|> OpenApiJSON :<|> Raw
-type UnisonAPI = NamespaceListingAPI :<|> NamespaceDetailsAPI :<|> ProjectsAPI :<|> DefinitionsAPI :<|> FuzzyFindAPI :<|> TermSummaryAPI :<|> TypeSummaryAPI
+type UnisonAPI = NamespaceListingAPI :<|> NamespaceDetailsAPI :<|> ProjectsAPI :<|> DefinitionsAPI :<|> FuzzyFindAPI :<|> TermSummaryAPI
 type WebUI = CaptureAll "route" Text :> Get '[HTML] RawHtml
 type ServerAPI = ("ui" :> WebUI) :<|> ("api" :> UnisonAndDocsAPI)
 type StaticAPI = "static" :> Raw
