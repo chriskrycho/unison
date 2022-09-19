@@ -54,22 +54,22 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span id="line-46"></span><span class="annot"><a href="Unison.LSP.html#spawnLsp"><span class="hs-identifier hs-type">spawnLsp</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Codebase</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Runtime</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">STM</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Branch</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Path.Absolute</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-47"></span><span id="spawnLsp"><span class="annot"><span class="annottext">spawnLsp :: Codebase IO Symbol Ann
 -&gt; Runtime Symbol -&gt; STM (Branch IO, Absolute) -&gt; IO ()
-</span><a href="Unison.LSP.html#spawnLsp"><span class="hs-identifier hs-var hs-var">spawnLsp</span></a></span></span><span> </span><span id="local-6989586621679407615"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679407615"><span class="hs-identifier hs-var">codebase</span></a></span></span><span> </span><span id="local-6989586621679407614"><span class="annot"><span class="annottext">Runtime Symbol
-</span><a href="#local-6989586621679407614"><span class="hs-identifier hs-var">runtime</span></a></span></span><span> </span><span id="local-6989586621679407613"><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
-</span><a href="#local-6989586621679407613"><span class="hs-identifier hs-var">ucmState</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO () -&gt; IO ()
+</span><a href="Unison.LSP.html#spawnLsp"><span class="hs-identifier hs-var hs-var">spawnLsp</span></a></span></span><span> </span><span id="local-6989586621679407631"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679407631"><span class="hs-identifier hs-var">codebase</span></a></span></span><span> </span><span id="local-6989586621679407630"><span class="annot"><span class="annottext">Runtime Symbol
+</span><a href="#local-6989586621679407630"><span class="hs-identifier hs-var">runtime</span></a></span></span><span> </span><span id="local-6989586621679407629"><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
+</span><a href="#local-6989586621679407629"><span class="hs-identifier hs-var">ucmState</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO () -&gt; IO ()
 forall a. IO a -&gt; IO a
 </span><span class="hs-identifier hs-var">withSocketsDo</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-48"></span><span>  </span><span id="local-6989586621679407611"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679407611"><span class="hs-identifier hs-var">lspPort</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO String
+</span><span id="line-48"></span><span>  </span><span id="local-6989586621679407627"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679407627"><span class="hs-identifier hs-var">lspPort</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO String
 </span><a href="Unison.LSP.html#getLspPort"><span class="hs-identifier hs-var">getLspPort</span></a></span><span>
 </span><span id="line-49"></span><span>  </span><span class="annot"><span class="annottext">(IOException -&gt; IO ()) -&gt; IO () -&gt; IO ()
 forall (m :: * -&gt; *) a.
 MonadUnliftIO m =&gt;
 (IOException -&gt; m a) -&gt; m a -&gt; m a
 </span><span class="hs-identifier hs-var">UnliftIO.handleIO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; IOException -&gt; IO ()
-</span><a href="#local-6989586621679407609"><span class="hs-identifier hs-var">handleFailure</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679407611"><span class="hs-identifier hs-var">lspPort</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(IO () -&gt; IO ()) -&gt; IO () -&gt; IO ()
+</span><a href="#local-6989586621679407625"><span class="hs-identifier hs-var">handleFailure</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679407627"><span class="hs-identifier hs-var">lspPort</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(IO () -&gt; IO ()) -&gt; IO () -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-50"></span><span>    </span><span class="annot"><span class="annottext">HostPreference -&gt; String -&gt; ((Socket, SockAddr) -&gt; IO ()) -&gt; IO ()
@@ -79,34 +79,34 @@ HostPreference -&gt; String -&gt; ((Socket, SockAddr) -&gt; IO ()) -&gt; m a
 </span><span class="hs-identifier hs-var">TCP.serve</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; HostPreference
 </span><span class="hs-identifier hs-var">TCP.Host</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;127.0.0.1&quot;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679407611"><span class="hs-identifier hs-var">lspPort</span></a></span><span> </span><span class="annot"><span class="annottext">(((Socket, SockAddr) -&gt; IO ()) -&gt; IO ())
+</span><a href="#local-6989586621679407627"><span class="hs-identifier hs-var">lspPort</span></a></span><span> </span><span class="annot"><span class="annottext">(((Socket, SockAddr) -&gt; IO ()) -&gt; IO ())
 -&gt; ((Socket, SockAddr) -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679407606"><span class="annot"><span class="annottext">Socket
-</span><a href="#local-6989586621679407606"><span class="hs-identifier hs-var">sock</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679407605"><span class="annot"><span class="annottext">SockAddr
-</span><a href="#local-6989586621679407605"><span class="hs-identifier hs-var">_sockaddr</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-51"></span><span>      </span><span id="local-6989586621679407604"><span class="annot"><span class="annottext">Handle
-</span><a href="#local-6989586621679407604"><span class="hs-identifier hs-var">sockHandle</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Socket -&gt; IOMode -&gt; IO Handle
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679407622"><span class="annot"><span class="annottext">Socket
+</span><a href="#local-6989586621679407622"><span class="hs-identifier hs-var">sock</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679407621"><span class="annot"><span class="annottext">SockAddr
+</span><a href="#local-6989586621679407621"><span class="hs-identifier hs-var">_sockaddr</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-51"></span><span>      </span><span id="local-6989586621679407620"><span class="annot"><span class="annottext">Handle
+</span><a href="#local-6989586621679407620"><span class="hs-identifier hs-var">sockHandle</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Socket -&gt; IOMode -&gt; IO Handle
 </span><span class="hs-identifier hs-var">socketToHandle</span></span><span> </span><span class="annot"><span class="annottext">Socket
-</span><a href="#local-6989586621679407606"><span class="hs-identifier hs-var">sock</span></a></span><span> </span><span class="annot"><span class="annottext">IOMode
+</span><a href="#local-6989586621679407622"><span class="hs-identifier hs-var">sock</span></a></span><span> </span><span class="annot"><span class="annottext">IOMode
 </span><span class="hs-identifier hs-var">ReadWriteMode</span></span><span>
 </span><span id="line-52"></span><span>      </span><span class="annot"><span class="annottext">(Scope -&gt; IO ()) -&gt; IO ()
 forall a. (Scope -&gt; IO a) -&gt; IO a
-</span><span class="hs-identifier hs-var">Ki.scoped</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679407600"><span class="annot"><span class="annottext">Scope
-</span><a href="#local-6989586621679407600"><span class="hs-identifier hs-var">scope</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span class="hs-identifier hs-var">Ki.scoped</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679407616"><span class="annot"><span class="annottext">Scope
+</span><a href="#local-6989586621679407616"><span class="hs-identifier hs-var">scope</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-53"></span><span>        </span><span class="hs-comment">-- currently we have an independent VFS for each LSP client since each client might have</span><span>
 </span><span id="line-54"></span><span>        </span><span class="hs-comment">-- different un-saved state for the same file.</span><span>
 </span><span id="line-55"></span><span>        </span><span class="annot"><span class="annottext">(VFS -&gt; IO ()) -&gt; IO ()
 forall r. (VFS -&gt; IO r) -&gt; IO r
 </span><span class="hs-identifier hs-var">initVFS</span></span><span> </span><span class="annot"><span class="annottext">((VFS -&gt; IO ()) -&gt; IO ()) -&gt; (VFS -&gt; IO ()) -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679407598"><span class="annot"><span class="annottext">VFS
-</span><a href="#local-6989586621679407598"><span class="hs-identifier hs-var">vfs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-56"></span><span>          </span><span id="local-6989586621679407597"><span class="annot"><span class="annottext">MVar VFS
-</span><a href="#local-6989586621679407597"><span class="hs-identifier hs-var">vfsVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">VFS -&gt; IO (MVar VFS)
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679407614"><span class="annot"><span class="annottext">VFS
+</span><a href="#local-6989586621679407614"><span class="hs-identifier hs-var">vfs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-56"></span><span>          </span><span id="local-6989586621679407613"><span class="annot"><span class="annottext">MVar VFS
+</span><a href="#local-6989586621679407613"><span class="hs-identifier hs-var">vfsVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">VFS -&gt; IO (MVar VFS)
 forall (m :: * -&gt; *) a. MonadIO m =&gt; a -&gt; m (MVar a)
 </span><span class="hs-identifier hs-var">newMVar</span></span><span> </span><span class="annot"><span class="annottext">VFS
-</span><a href="#local-6989586621679407598"><span class="hs-identifier hs-var">vfs</span></a></span><span>
+</span><a href="#local-6989586621679407614"><span class="hs-identifier hs-var">vfs</span></a></span><span>
 </span><span id="line-57"></span><span>          </span><span class="annot"><span class="annottext">IO Int -&gt; IO ()
 forall (f :: * -&gt; *) a. Functor f =&gt; f a -&gt; f ()
 </span><span class="hs-identifier hs-var">void</span></span><span> </span><span class="annot"><span class="annottext">(IO Int -&gt; IO ()) -&gt; IO Int -&gt; IO ()
@@ -125,37 +125,37 @@ LogAction IO (WithSeverity LspServerLog)
 -&gt; ServerDefinition config
 -&gt; IO Int
 </span><span class="hs-identifier hs-var">runServerWithHandles</span></span><span> </span><span class="annot"><span class="annottext">LogAction IO (WithSeverity LspServerLog)
-</span><a href="#local-6989586621679407593"><span class="hs-identifier hs-var">lspServerLogger</span></a></span><span> </span><span class="annot"><span class="annottext">LogAction (LspM Config) (WithSeverity LspServerLog)
-</span><a href="#local-6989586621679407592"><span class="hs-identifier hs-var">lspClientLogger</span></a></span><span> </span><span class="annot"><span class="annottext">Handle
-</span><a href="#local-6989586621679407604"><span class="hs-identifier hs-var">sockHandle</span></a></span><span> </span><span class="annot"><span class="annottext">Handle
-</span><a href="#local-6989586621679407604"><span class="hs-identifier hs-var">sockHandle</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">MVar VFS
+</span><a href="#local-6989586621679407609"><span class="hs-identifier hs-var">lspServerLogger</span></a></span><span> </span><span class="annot"><span class="annottext">LogAction (LspM Config) (WithSeverity LspServerLog)
+</span><a href="#local-6989586621679407608"><span class="hs-identifier hs-var">lspClientLogger</span></a></span><span> </span><span class="annot"><span class="annottext">Handle
+</span><a href="#local-6989586621679407620"><span class="hs-identifier hs-var">sockHandle</span></a></span><span> </span><span class="annot"><span class="annottext">Handle
+</span><a href="#local-6989586621679407620"><span class="hs-identifier hs-var">sockHandle</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">MVar VFS
 -&gt; Codebase IO Symbol Ann
 -&gt; Runtime Symbol
 -&gt; Scope
 -&gt; STM (Branch IO, Absolute)
 -&gt; ServerDefinition Config
 </span><a href="Unison.LSP.html#serverDefinition"><span class="hs-identifier hs-var">serverDefinition</span></a></span><span> </span><span class="annot"><span class="annottext">MVar VFS
-</span><a href="#local-6989586621679407597"><span class="hs-identifier hs-var">vfsVar</span></a></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679407615"><span class="hs-identifier hs-var">codebase</span></a></span><span> </span><span class="annot"><span class="annottext">Runtime Symbol
-</span><a href="#local-6989586621679407614"><span class="hs-identifier hs-var">runtime</span></a></span><span> </span><span class="annot"><span class="annottext">Scope
-</span><a href="#local-6989586621679407600"><span class="hs-identifier hs-var">scope</span></a></span><span> </span><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
-</span><a href="#local-6989586621679407613"><span class="hs-identifier hs-var">ucmState</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679407613"><span class="hs-identifier hs-var">vfsVar</span></a></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679407631"><span class="hs-identifier hs-var">codebase</span></a></span><span> </span><span class="annot"><span class="annottext">Runtime Symbol
+</span><a href="#local-6989586621679407630"><span class="hs-identifier hs-var">runtime</span></a></span><span> </span><span class="annot"><span class="annottext">Scope
+</span><a href="#local-6989586621679407616"><span class="hs-identifier hs-var">scope</span></a></span><span> </span><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
+</span><a href="#local-6989586621679407629"><span class="hs-identifier hs-var">ucmState</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-58"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-59"></span><span>    </span><span class="annot"><a href="#local-6989586621679407609"><span class="hs-identifier hs-type">handleFailure</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IOException</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
-</span><span id="line-60"></span><span>    </span><span id="local-6989586621679407609"><span class="annot"><span class="annottext">handleFailure :: String -&gt; IOException -&gt; IO ()
-</span><a href="#local-6989586621679407609"><span class="hs-identifier hs-var hs-var">handleFailure</span></a></span></span><span> </span><span id="local-6989586621679407590"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679407590"><span class="hs-identifier hs-var">lspPort</span></a></span></span><span> </span><span id="local-6989586621679407589"><span class="annot"><span class="annottext">IOException
-</span><a href="#local-6989586621679407589"><span class="hs-identifier hs-var">ioerr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-59"></span><span>    </span><span class="annot"><a href="#local-6989586621679407625"><span class="hs-identifier hs-type">handleFailure</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IOException</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-60"></span><span>    </span><span id="local-6989586621679407625"><span class="annot"><span class="annottext">handleFailure :: String -&gt; IOException -&gt; IO ()
+</span><a href="#local-6989586621679407625"><span class="hs-identifier hs-var hs-var">handleFailure</span></a></span></span><span> </span><span id="local-6989586621679407606"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679407606"><span class="hs-identifier hs-var">lspPort</span></a></span></span><span> </span><span id="local-6989586621679407605"><span class="annot"><span class="annottext">IOException
+</span><a href="#local-6989586621679407605"><span class="hs-identifier hs-var">ioerr</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-61"></span><span>      </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">CInt -&gt; Errno
 </span><span class="hs-identifier hs-var">Errno</span></span><span> </span><span class="annot"><span class="annottext">(CInt -&gt; Errno) -&gt; Maybe CInt -&gt; Maybe Errno
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">IOException -&gt; Maybe CInt
 </span><span class="hs-identifier hs-var hs-var">ioe_errno</span></span><span> </span><span class="annot"><span class="annottext">IOException
-</span><a href="#local-6989586621679407589"><span class="hs-identifier hs-var">ioerr</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-62"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679407587"><span class="annot"><span class="annottext">Errno
-</span><a href="#local-6989586621679407587"><span class="hs-identifier hs-var">errNo</span></a></span></span><span>
+</span><a href="#local-6989586621679407605"><span class="hs-identifier hs-var">ioerr</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-62"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679407603"><span class="annot"><span class="annottext">Errno
+</span><a href="#local-6989586621679407603"><span class="hs-identifier hs-var">errNo</span></a></span></span><span>
 </span><span id="line-63"></span><span>          </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Errno
-</span><a href="#local-6989586621679407587"><span class="hs-identifier hs-var">errNo</span></a></span><span> </span><span class="annot"><span class="annottext">Errno -&gt; Errno -&gt; Bool
+</span><a href="#local-6989586621679407603"><span class="hs-identifier hs-var">errNo</span></a></span><span> </span><span class="annot"><span class="annottext">Errno -&gt; Errno -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Errno
 </span><span class="hs-identifier hs-var">eADDRINUSE</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
@@ -166,7 +166,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-string">&quot;Note: Port &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679407590"><span class="hs-identifier hs-var">lspPort</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+</span><a href="#local-6989586621679407606"><span class="hs-identifier hs-var">lspPort</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot; is already bound by another process or another UCM. The LSP server will not be started.&quot;</span></span><span>
@@ -179,7 +179,7 @@ DebugFlag -&gt; String -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">Debug.debugM</span></span><span> </span><span class="annot"><span class="annottext">DebugFlag
 </span><span class="hs-identifier hs-var">Debug.LSP</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;LSP Exception&quot;</span></span><span> </span><span class="annot"><span class="annottext">IOException
-</span><a href="#local-6989586621679407589"><span class="hs-identifier hs-var">ioerr</span></a></span><span>
+</span><a href="#local-6989586621679407605"><span class="hs-identifier hs-var">ioerr</span></a></span><span>
 </span><span id="line-67"></span><span>          </span><span class="annot"><span class="annottext">DebugFlag -&gt; String -&gt; Maybe CInt -&gt; IO ()
 forall a (m :: * -&gt; *).
 (Show a, Monad m) =&gt;
@@ -188,13 +188,13 @@ DebugFlag -&gt; String -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">Debug.LSP</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;LSP Errno&quot;</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IOException -&gt; Maybe CInt
 </span><span class="hs-identifier hs-var hs-var">ioe_errno</span></span><span> </span><span class="annot"><span class="annottext">IOException
-</span><a href="#local-6989586621679407589"><span class="hs-identifier hs-var">ioerr</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679407605"><span class="hs-identifier hs-var">ioerr</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-68"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; IO ()
 </span><span class="hs-identifier hs-var">putStrLn</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;LSP server failed to start.&quot;</span></span><span>
 </span><span id="line-69"></span><span>    </span><span class="hs-comment">-- Where to send logs that occur before a client connects</span><span>
-</span><span id="line-70"></span><span>    </span><span id="local-6989586621679407593"><span class="annot"><span class="annottext">lspServerLogger :: LogAction IO (WithSeverity LspServerLog)
-</span><a href="#local-6989586621679407593"><span class="hs-identifier hs-var hs-var">lspServerLogger</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Severity
+</span><span id="line-70"></span><span>    </span><span id="local-6989586621679407609"><span class="annot"><span class="annottext">lspServerLogger :: LogAction IO (WithSeverity LspServerLog)
+</span><a href="#local-6989586621679407609"><span class="hs-identifier hs-var hs-var">lspServerLogger</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Severity
 -&gt; (WithSeverity LspServerLog -&gt; Severity)
 -&gt; LogAction IO (WithSeverity LspServerLog)
 -&gt; LogAction IO (WithSeverity LspServerLog)
@@ -225,8 +225,8 @@ forall (m :: * -&gt; *) msg. (msg -&gt; m ()) -&gt; LogAction m msg
 forall a. Show a =&gt; a -&gt; IO ()
 </span><span class="hs-identifier hs-var">print</span></span><span class="hs-special">)</span><span>
 </span><span id="line-71"></span><span>    </span><span class="hs-comment">-- Where to send logs that occur after a client connects</span><span>
-</span><span id="line-72"></span><span>    </span><span id="local-6989586621679407592"><span class="annot"><span class="annottext">lspClientLogger :: LogAction (LspM Config) (WithSeverity LspServerLog)
-</span><a href="#local-6989586621679407592"><span class="hs-identifier hs-var hs-var">lspClientLogger</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(WithSeverity LspServerLog -&gt; WithSeverity Text)
+</span><span id="line-72"></span><span>    </span><span id="local-6989586621679407608"><span class="annot"><span class="annottext">lspClientLogger :: LogAction (LspM Config) (WithSeverity LspServerLog)
+</span><a href="#local-6989586621679407608"><span class="hs-identifier hs-var hs-var">lspClientLogger</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(WithSeverity LspServerLog -&gt; WithSeverity Text)
 -&gt; LogAction (LspM Config) (WithSeverity Text)
 -&gt; LogAction (LspM Config) (WithSeverity LspServerLog)
 forall a b (m :: * -&gt; *).
@@ -255,12 +255,12 @@ LogAction m (WithSeverity Text)
 -&gt; Scope
 -&gt; STM (Branch IO, Absolute)
 -&gt; ServerDefinition Config
-</span><a href="Unison.LSP.html#serverDefinition"><span class="hs-identifier hs-var hs-var">serverDefinition</span></a></span></span><span> </span><span id="local-6989586621679407577"><span class="annot"><span class="annottext">MVar VFS
-</span><a href="#local-6989586621679407577"><span class="hs-identifier hs-var">vfsVar</span></a></span></span><span> </span><span id="local-6989586621679407576"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679407576"><span class="hs-identifier hs-var">codebase</span></a></span></span><span> </span><span id="local-6989586621679407575"><span class="annot"><span class="annottext">Runtime Symbol
-</span><a href="#local-6989586621679407575"><span class="hs-identifier hs-var">runtime</span></a></span></span><span> </span><span id="local-6989586621679407574"><span class="annot"><span class="annottext">Scope
-</span><a href="#local-6989586621679407574"><span class="hs-identifier hs-var">scope</span></a></span></span><span> </span><span id="local-6989586621679407573"><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
-</span><a href="#local-6989586621679407573"><span class="hs-identifier hs-var">ucmState</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.LSP.html#serverDefinition"><span class="hs-identifier hs-var hs-var">serverDefinition</span></a></span></span><span> </span><span id="local-6989586621679407593"><span class="annot"><span class="annottext">MVar VFS
+</span><a href="#local-6989586621679407593"><span class="hs-identifier hs-var">vfsVar</span></a></span></span><span> </span><span id="local-6989586621679407592"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679407592"><span class="hs-identifier hs-var">codebase</span></a></span></span><span> </span><span id="local-6989586621679407591"><span class="annot"><span class="annottext">Runtime Symbol
+</span><a href="#local-6989586621679407591"><span class="hs-identifier hs-var">runtime</span></a></span></span><span> </span><span id="local-6989586621679407590"><span class="annot"><span class="annottext">Scope
+</span><a href="#local-6989586621679407590"><span class="hs-identifier hs-var">scope</span></a></span></span><span> </span><span id="local-6989586621679407589"><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
+</span><a href="#local-6989586621679407589"><span class="hs-identifier hs-var">ucmState</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-82"></span><span>  </span><span class="annot"><span class="annottext">ServerDefinition :: forall config (m :: * -&gt; *) a.
 config
 -&gt; (config -&gt; Value -&gt; Either Text config)
@@ -288,11 +288,11 @@ config
 -&gt; Message 'Initialize
 -&gt; IO (Either ResponseError Env)
 </span><a href="Unison.LSP.html#lspDoInitialize"><span class="hs-identifier hs-var">lspDoInitialize</span></a></span><span> </span><span class="annot"><span class="annottext">MVar VFS
-</span><a href="#local-6989586621679407577"><span class="hs-identifier hs-var">vfsVar</span></a></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679407576"><span class="hs-identifier hs-var">codebase</span></a></span><span> </span><span class="annot"><span class="annottext">Runtime Symbol
-</span><a href="#local-6989586621679407575"><span class="hs-identifier hs-var">runtime</span></a></span><span> </span><span class="annot"><span class="annottext">Scope
-</span><a href="#local-6989586621679407574"><span class="hs-identifier hs-var">scope</span></a></span><span> </span><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
-</span><a href="#local-6989586621679407573"><span class="hs-identifier hs-var">ucmState</span></a></span><span class="hs-special">,</span><span>
+</span><a href="#local-6989586621679407593"><span class="hs-identifier hs-var">vfsVar</span></a></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679407592"><span class="hs-identifier hs-var">codebase</span></a></span><span> </span><span class="annot"><span class="annottext">Runtime Symbol
+</span><a href="#local-6989586621679407591"><span class="hs-identifier hs-var">runtime</span></a></span><span> </span><span class="annot"><span class="annottext">Scope
+</span><a href="#local-6989586621679407590"><span class="hs-identifier hs-var">scope</span></a></span><span> </span><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
+</span><a href="#local-6989586621679407589"><span class="hs-identifier hs-var">ucmState</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-86"></span><span>      </span><span class="annot"><span class="annottext">staticHandlers :: Handlers Lsp
 </span><span class="hs-identifier hs-var">staticHandlers</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Handlers Lsp
 </span><a href="Unison.LSP.html#lspStaticHandlers"><span class="hs-identifier hs-var">lspStaticHandlers</span></a></span><span class="hs-special">,</span><span>
@@ -337,46 +337,46 @@ forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 -&gt; LanguageContextEnv Config
 -&gt; Message 'Initialize
 -&gt; IO (Either ResponseError Env)
-</span><a href="Unison.LSP.html#lspDoInitialize"><span class="hs-identifier hs-var hs-var">lspDoInitialize</span></a></span></span><span> </span><span id="local-6989586621679407558"><span class="annot"><span class="annottext">MVar VFS
-</span><a href="#local-6989586621679407558"><span class="hs-identifier hs-var">vfsVar</span></a></span></span><span> </span><span id="local-6989586621679407557"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679407557"><span class="hs-identifier hs-var">codebase</span></a></span></span><span> </span><span id="local-6989586621679407556"><span class="annot"><span class="annottext">Runtime Symbol
-</span><a href="#local-6989586621679407556"><span class="hs-identifier hs-var">runtime</span></a></span></span><span> </span><span id="local-6989586621679407555"><span class="annot"><span class="annottext">Scope
-</span><a href="#local-6989586621679407555"><span class="hs-identifier hs-var">scope</span></a></span></span><span> </span><span id="local-6989586621679407554"><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
-</span><a href="#local-6989586621679407554"><span class="hs-identifier hs-var">ucmState</span></a></span></span><span> </span><span id="local-6989586621679407553"><span class="annot"><span class="annottext">LanguageContextEnv Config
-</span><a href="#local-6989586621679407553"><span class="hs-identifier hs-var">lspContext</span></a></span></span><span> </span><span id="local-6989586621679407552"><span class="annot"><span class="annottext">Message 'Initialize
-</span><a href="#local-6989586621679407552"><span class="hs-identifier hs-var">_initMsg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="Unison.LSP.html#lspDoInitialize"><span class="hs-identifier hs-var hs-var">lspDoInitialize</span></a></span></span><span> </span><span id="local-6989586621679407574"><span class="annot"><span class="annottext">MVar VFS
+</span><a href="#local-6989586621679407574"><span class="hs-identifier hs-var">vfsVar</span></a></span></span><span> </span><span id="local-6989586621679407573"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679407573"><span class="hs-identifier hs-var">codebase</span></a></span></span><span> </span><span id="local-6989586621679407572"><span class="annot"><span class="annottext">Runtime Symbol
+</span><a href="#local-6989586621679407572"><span class="hs-identifier hs-var">runtime</span></a></span></span><span> </span><span id="local-6989586621679407571"><span class="annot"><span class="annottext">Scope
+</span><a href="#local-6989586621679407571"><span class="hs-identifier hs-var">scope</span></a></span></span><span> </span><span id="local-6989586621679407570"><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
+</span><a href="#local-6989586621679407570"><span class="hs-identifier hs-var">ucmState</span></a></span></span><span> </span><span id="local-6989586621679407569"><span class="annot"><span class="annottext">LanguageContextEnv Config
+</span><a href="#local-6989586621679407569"><span class="hs-identifier hs-var">lspContext</span></a></span></span><span> </span><span id="local-6989586621679407568"><span class="annot"><span class="annottext">Message 'Initialize
+</span><a href="#local-6989586621679407568"><span class="hs-identifier hs-var">_initMsg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-109"></span><span>  </span><span class="hs-comment">-- TODO: some of these should probably be MVars so that we correctly wait for names and</span><span>
 </span><span id="line-110"></span><span>  </span><span class="hs-comment">-- things to be generated before serving requests.</span><span>
-</span><span id="line-111"></span><span>  </span><span id="local-6989586621679407551"><span class="annot"><span class="annottext">TVar (Map Uri FileAnalysis)
-</span><a href="#local-6989586621679407551"><span class="hs-identifier hs-var">checkedFilesVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Map Uri FileAnalysis -&gt; IO (TVar (Map Uri FileAnalysis))
+</span><span id="line-111"></span><span>  </span><span id="local-6989586621679407567"><span class="annot"><span class="annottext">TVar (Map Uri FileAnalysis)
+</span><a href="#local-6989586621679407567"><span class="hs-identifier hs-var">checkedFilesVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Map Uri FileAnalysis -&gt; IO (TVar (Map Uri FileAnalysis))
 forall (m :: * -&gt; *) a. MonadIO m =&gt; a -&gt; m (TVar a)
 </span><span class="hs-identifier hs-var">newTVarIO</span></span><span> </span><span class="annot"><span class="annottext">Map Uri FileAnalysis
 forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span>
-</span><span id="line-112"></span><span>  </span><span id="local-6989586621679407549"><span class="annot"><span class="annottext">TVar (Set Uri)
-</span><a href="#local-6989586621679407549"><span class="hs-identifier hs-var">dirtyFilesVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Set Uri -&gt; IO (TVar (Set Uri))
+</span><span id="line-112"></span><span>  </span><span id="local-6989586621679407565"><span class="annot"><span class="annottext">TVar (Set Uri)
+</span><a href="#local-6989586621679407565"><span class="hs-identifier hs-var">dirtyFilesVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Set Uri -&gt; IO (TVar (Set Uri))
 forall (m :: * -&gt; *) a. MonadIO m =&gt; a -&gt; m (TVar a)
 </span><span class="hs-identifier hs-var">newTVarIO</span></span><span> </span><span class="annot"><span class="annottext">Set Uri
 forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span>
-</span><span id="line-113"></span><span>  </span><span id="local-6989586621679407548"><span class="annot"><span class="annottext">TVar PrettyPrintEnvDecl
-</span><a href="#local-6989586621679407548"><span class="hs-identifier hs-var">ppeCacheVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnvDecl -&gt; IO (TVar PrettyPrintEnvDecl)
+</span><span id="line-113"></span><span>  </span><span id="local-6989586621679407564"><span class="annot"><span class="annottext">TVar PrettyPrintEnvDecl
+</span><a href="#local-6989586621679407564"><span class="hs-identifier hs-var">ppeCacheVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnvDecl -&gt; IO (TVar PrettyPrintEnvDecl)
 forall (m :: * -&gt; *) a. MonadIO m =&gt; a -&gt; m (TVar a)
 </span><span class="hs-identifier hs-var">newTVarIO</span></span><span> </span><span class="annot"><span class="annottext">PrettyPrintEnvDecl
 </span><span class="hs-identifier hs-var">PPED.empty</span></span><span>
-</span><span id="line-114"></span><span>  </span><span id="local-6989586621679407546"><span class="annot"><span class="annottext">TVar NamesWithHistory
-</span><a href="#local-6989586621679407546"><span class="hs-identifier hs-var">parseNamesCacheVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">NamesWithHistory -&gt; IO (TVar NamesWithHistory)
+</span><span id="line-114"></span><span>  </span><span id="local-6989586621679407562"><span class="annot"><span class="annottext">TVar NamesWithHistory
+</span><a href="#local-6989586621679407562"><span class="hs-identifier hs-var">parseNamesCacheVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">NamesWithHistory -&gt; IO (TVar NamesWithHistory)
 forall (m :: * -&gt; *) a. MonadIO m =&gt; a -&gt; m (TVar a)
 </span><span class="hs-identifier hs-var">newTVarIO</span></span><span> </span><span class="annot"><span class="annottext">NamesWithHistory
 forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span>
-</span><span id="line-115"></span><span>  </span><span id="local-6989586621679407545"><span class="annot"><span class="annottext">TVar Absolute
-</span><a href="#local-6989586621679407545"><span class="hs-identifier hs-var">currentPathCacheVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Absolute -&gt; IO (TVar Absolute)
+</span><span id="line-115"></span><span>  </span><span id="local-6989586621679407561"><span class="annot"><span class="annottext">TVar Absolute
+</span><a href="#local-6989586621679407561"><span class="hs-identifier hs-var">currentPathCacheVar</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Absolute -&gt; IO (TVar Absolute)
 forall (m :: * -&gt; *) a. MonadIO m =&gt; a -&gt; m (TVar a)
 </span><span class="hs-identifier hs-var">newTVarIO</span></span><span> </span><span class="annot"><span class="annottext">Absolute
 </span><span class="hs-identifier hs-var">Path.absoluteEmpty</span></span><span>
-</span><span id="line-116"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407543"><span class="annot"><span class="annottext">env :: Env
-</span><a href="#local-6989586621679407543"><span class="hs-identifier hs-var hs-var">env</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Env :: LanguageContextEnv Config
+</span><span id="line-116"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407559"><span class="annot"><span class="annottext">env :: Env
+</span><a href="#local-6989586621679407559"><span class="hs-identifier hs-var hs-var">env</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Env :: LanguageContextEnv Config
 -&gt; Codebase IO Symbol Ann
 -&gt; IO NamesWithHistory
 -&gt; IO PrettyPrintEnvDecl
@@ -391,15 +391,15 @@ forall (m :: * -&gt; *) a. MonadIO m =&gt; a -&gt; m (TVar a)
 </span><a href="Unison.LSP.Types.html#%24sel%3AppeCache%3AEnv"><span class="hs-identifier hs-var">ppeCache</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TVar PrettyPrintEnvDecl -&gt; IO PrettyPrintEnvDecl
 forall (m :: * -&gt; *) a. MonadIO m =&gt; TVar a -&gt; m a
 </span><span class="hs-identifier hs-var">readTVarIO</span></span><span> </span><span class="annot"><span class="annottext">TVar PrettyPrintEnvDecl
-</span><a href="#local-6989586621679407548"><span class="hs-identifier hs-var">ppeCacheVar</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:parseNamesCache:Env :: IO NamesWithHistory
+</span><a href="#local-6989586621679407564"><span class="hs-identifier hs-var">ppeCacheVar</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:parseNamesCache:Env :: IO NamesWithHistory
 </span><a href="Unison.LSP.Types.html#%24sel%3AparseNamesCache%3AEnv"><span class="hs-identifier hs-var">parseNamesCache</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TVar NamesWithHistory -&gt; IO NamesWithHistory
 forall (m :: * -&gt; *) a. MonadIO m =&gt; TVar a -&gt; m a
 </span><span class="hs-identifier hs-var">readTVarIO</span></span><span> </span><span class="annot"><span class="annottext">TVar NamesWithHistory
-</span><a href="#local-6989586621679407546"><span class="hs-identifier hs-var">parseNamesCacheVar</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:currentPathCache:Env :: IO Absolute
+</span><a href="#local-6989586621679407562"><span class="hs-identifier hs-var">parseNamesCacheVar</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:currentPathCache:Env :: IO Absolute
 </span><a href="Unison.LSP.Types.html#%24sel%3AcurrentPathCache%3AEnv"><span class="hs-identifier hs-var">currentPathCache</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TVar Absolute -&gt; IO Absolute
 forall (m :: * -&gt; *) a. MonadIO m =&gt; TVar a -&gt; m a
 </span><span class="hs-identifier hs-var">readTVarIO</span></span><span> </span><span class="annot"><span class="annottext">TVar Absolute
-</span><a href="#local-6989586621679407545"><span class="hs-identifier hs-var">currentPathCacheVar</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">TVar (Map Uri FileAnalysis)
+</span><a href="#local-6989586621679407561"><span class="hs-identifier hs-var">currentPathCacheVar</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">TVar (Map Uri FileAnalysis)
 TVar (Set Uri)
 MVar VFS
 Scope
@@ -421,8 +421,8 @@ runtime :: Runtime Symbol
 codebase :: Codebase IO Symbol Ann
 vfsVar :: MVar VFS
 </span><a href="Unison.LSP.Types.html#%24sel%3Ascope%3AEnv"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span><span class="hs-special">}</span><span>
-</span><span id="line-117"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407530"><span class="annot"><span class="annottext">lspToIO :: Lsp () -&gt; IO ()
-</span><a href="#local-6989586621679407530"><span class="hs-identifier hs-var hs-var">lspToIO</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(ReaderT (LanguageContextEnv Config) IO ()
+</span><span id="line-117"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679407546"><span class="annot"><span class="annottext">lspToIO :: Lsp () -&gt; IO ()
+</span><a href="#local-6989586621679407546"><span class="hs-identifier hs-var hs-var">lspToIO</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(ReaderT (LanguageContextEnv Config) IO ()
  -&gt; LanguageContextEnv Config -&gt; IO ())
 -&gt; LanguageContextEnv Config
 -&gt; ReaderT (LanguageContextEnv Config) IO ()
@@ -432,7 +432,7 @@ forall a b c. (a -&gt; b -&gt; c) -&gt; b -&gt; a -&gt; c
 -&gt; LanguageContextEnv Config -&gt; IO ()
 forall r (m :: * -&gt; *) a. ReaderT r m a -&gt; r -&gt; m a
 </span><span class="hs-identifier hs-var hs-var">runReaderT</span></span><span> </span><span class="annot"><span class="annottext">LanguageContextEnv Config
-</span><a href="#local-6989586621679407553"><span class="hs-identifier hs-var">lspContext</span></a></span><span> </span><span class="annot"><span class="annottext">(ReaderT (LanguageContextEnv Config) IO () -&gt; IO ())
+</span><a href="#local-6989586621679407569"><span class="hs-identifier hs-var">lspContext</span></a></span><span> </span><span class="annot"><span class="annottext">(ReaderT (LanguageContextEnv Config) IO () -&gt; IO ())
 -&gt; (Lsp () -&gt; ReaderT (LanguageContextEnv Config) IO ())
 -&gt; Lsp ()
 -&gt; IO ()
@@ -451,7 +451,7 @@ forall a b c. (a -&gt; b -&gt; c) -&gt; b -&gt; a -&gt; c
 </span><span class="hs-identifier hs-var">flip</span></span><span> </span><span class="annot"><span class="annottext">ReaderT Env (LspM Config) () -&gt; Env -&gt; LspT Config IO ()
 forall r (m :: * -&gt; *) a. ReaderT r m a -&gt; r -&gt; m a
 </span><span class="hs-identifier hs-var hs-var">runReaderT</span></span><span> </span><span class="annot"><span class="annottext">Env
-</span><a href="#local-6989586621679407543"><span class="hs-identifier hs-var">env</span></a></span><span> </span><span class="annot"><span class="annottext">(ReaderT Env (LspM Config) () -&gt; LspT Config IO ())
+</span><a href="#local-6989586621679407559"><span class="hs-identifier hs-var">env</span></a></span><span> </span><span class="annot"><span class="annottext">(ReaderT Env (LspM Config) () -&gt; LspT Config IO ())
 -&gt; (Lsp () -&gt; ReaderT Env (LspM Config) ())
 -&gt; Lsp ()
 -&gt; LspT Config IO ()
@@ -462,28 +462,28 @@ forall a. Lsp a -&gt; ReaderT Env (LspM Config) a
 </span><span id="line-118"></span><span>  </span><span class="annot"><span class="annottext">Scope -&gt; IO () -&gt; IO (Thread ())
 forall a. Scope -&gt; IO a -&gt; IO (Thread a)
 </span><span class="hs-identifier hs-var">Ki.fork</span></span><span> </span><span class="annot"><span class="annottext">Scope
-</span><a href="#local-6989586621679407555"><span class="hs-identifier hs-var">scope</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Lsp () -&gt; IO ()
-</span><a href="#local-6989586621679407530"><span class="hs-identifier hs-var">lspToIO</span></a></span><span> </span><span class="annot"><span class="annottext">Lsp ()
+</span><a href="#local-6989586621679407571"><span class="hs-identifier hs-var">scope</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Lsp () -&gt; IO ()
+</span><a href="#local-6989586621679407546"><span class="hs-identifier hs-var">lspToIO</span></a></span><span> </span><span class="annot"><span class="annottext">Lsp ()
 </span><a href="Unison.LSP.FileAnalysis.html#fileAnalysisWorker"><span class="hs-identifier hs-var">Analysis.fileAnalysisWorker</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-119"></span><span>  </span><span class="annot"><span class="annottext">Scope -&gt; IO () -&gt; IO (Thread ())
 forall a. Scope -&gt; IO a -&gt; IO (Thread a)
 </span><span class="hs-identifier hs-var">Ki.fork</span></span><span> </span><span class="annot"><span class="annottext">Scope
-</span><a href="#local-6989586621679407555"><span class="hs-identifier hs-var">scope</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Lsp () -&gt; IO ()
-</span><a href="#local-6989586621679407530"><span class="hs-identifier hs-var">lspToIO</span></a></span><span> </span><span class="annot"><span class="annottext">(Lsp () -&gt; IO ()) -&gt; Lsp () -&gt; IO ()
+</span><a href="#local-6989586621679407571"><span class="hs-identifier hs-var">scope</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Lsp () -&gt; IO ()
+</span><a href="#local-6989586621679407546"><span class="hs-identifier hs-var">lspToIO</span></a></span><span> </span><span class="annot"><span class="annottext">(Lsp () -&gt; IO ()) -&gt; Lsp () -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">TVar PrettyPrintEnvDecl
 -&gt; TVar NamesWithHistory -&gt; STM (Branch IO, Absolute) -&gt; Lsp ()
 </span><a href="Unison.LSP.UCMWorker.html#ucmWorker"><span class="hs-identifier hs-var">ucmWorker</span></a></span><span> </span><span class="annot"><span class="annottext">TVar PrettyPrintEnvDecl
-</span><a href="#local-6989586621679407548"><span class="hs-identifier hs-var">ppeCacheVar</span></a></span><span> </span><span class="annot"><span class="annottext">TVar NamesWithHistory
-</span><a href="#local-6989586621679407546"><span class="hs-identifier hs-var">parseNamesCacheVar</span></a></span><span> </span><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
-</span><a href="#local-6989586621679407554"><span class="hs-identifier hs-var">ucmState</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679407564"><span class="hs-identifier hs-var">ppeCacheVar</span></a></span><span> </span><span class="annot"><span class="annottext">TVar NamesWithHistory
+</span><a href="#local-6989586621679407562"><span class="hs-identifier hs-var">parseNamesCacheVar</span></a></span><span> </span><span class="annot"><span class="annottext">STM (Branch IO, Absolute)
+</span><a href="#local-6989586621679407570"><span class="hs-identifier hs-var">ucmState</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-120"></span><span>  </span><span class="hs-identifier">pure</span><span> </span><span class="hs-operator">$</span><span> </span><span class="annot"><span class="annottext">Env -&gt; Either ResponseError Env
 forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">(Env -&gt; Either ResponseError Env)
 -&gt; Env -&gt; Either ResponseError Env
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Env
-</span><a href="#local-6989586621679407543"><span class="hs-identifier hs-var">env</span></a></span><span>
+</span><a href="#local-6989586621679407559"><span class="hs-identifier hs-var">env</span></a></span><span>
 </span><span id="line-121"></span><span>
 </span><span id="line-122"></span><span class="hs-comment">-- | LSP request handlers that don't register/unregister dynamically</span><span>
 </span><span id="line-123"></span><span class="annot"><a href="Unison.LSP.html#lspStaticHandlers"><span class="hs-identifier hs-type">lspStaticHandlers</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Handlers</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span>
@@ -625,25 +625,25 @@ NotificationMessage 'Initialized -&gt; Lsp ()
 </span><span id="line-147"></span><span class="hs-comment">-- | A natural transformation into IO, required by the LSP lib.</span><span>
 </span><span id="line-148"></span><span class="annot"><a href="Unison.LSP.html#lspInterpretHandler"><span class="hs-identifier hs-type">lspInterpretHandler</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-type">Env</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="annot"><span class="hs-operator hs-type">&lt;~&gt;</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span>
 </span><span id="line-149"></span><span id="lspInterpretHandler"><span class="annot"><span class="annottext">lspInterpretHandler :: Env -&gt; Lsp &lt;~&gt; IO
-</span><a href="Unison.LSP.html#lspInterpretHandler"><span class="hs-identifier hs-var hs-var">lspInterpretHandler</span></a></span></span><span> </span><span id="local-6989586621679407505"><span class="annot"><span class="annottext">env :: Env
-</span><a href="#local-6989586621679407505"><span class="hs-identifier hs-var">env</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-type">Env</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679407504"><span class="annot"><span class="annottext">LanguageContextEnv Config
+</span><a href="Unison.LSP.html#lspInterpretHandler"><span class="hs-identifier hs-var hs-var">lspInterpretHandler</span></a></span></span><span> </span><span id="local-6989586621679407521"><span class="annot"><span class="annottext">env :: Env
+</span><a href="#local-6989586621679407521"><span class="hs-identifier hs-var">env</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-type">Env</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679407520"><span class="annot"><span class="annottext">LanguageContextEnv Config
 lspContext :: LanguageContextEnv Config
 $sel:lspContext:Env :: Env -&gt; LanguageContextEnv Config
-</span><a href="#local-6989586621679407504"><span class="hs-identifier hs-var hs-var">lspContext</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679407520"><span class="hs-identifier hs-var hs-var">lspContext</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-150"></span><span>  </span><span class="annot"><span class="annottext">(forall a. Lsp a -&gt; IO a)
 -&gt; (forall a. IO a -&gt; Lsp a) -&gt; Lsp &lt;~&gt; IO
 forall k (m :: k -&gt; *) (n :: k -&gt; *).
 (forall (a :: k). m a -&gt; n a)
 -&gt; (forall (a :: k). n a -&gt; m a) -&gt; m &lt;~&gt; n
 </span><span class="hs-identifier hs-var">Iso</span></span><span> </span><span class="annot"><span class="annottext">forall a. Lsp a -&gt; IO a
-</span><a href="#local-6989586621679407502"><span class="hs-identifier hs-var">toIO</span></a></span><span> </span><span class="annot"><span class="annottext">forall a. IO a -&gt; Lsp a
+</span><a href="#local-6989586621679407518"><span class="hs-identifier hs-var">toIO</span></a></span><span> </span><span class="annot"><span class="annottext">forall a. IO a -&gt; Lsp a
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
-</span><a href="#local-6989586621679407501"><span class="hs-identifier hs-var">fromIO</span></a></span><span>
+</span><a href="#local-6989586621679407517"><span class="hs-identifier hs-var">fromIO</span></a></span><span>
 </span><span id="line-151"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-152"></span><span>    </span><span class="annot"><a href="#local-6989586621679407502"><span class="hs-identifier hs-type">toIO</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679407500"><span class="annot"><a href="#local-6989586621679407500"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679407500"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679407500"><span class="hs-identifier hs-type">a</span></a></span><span>
-</span><span id="line-153"></span><span>    </span><span id="local-6989586621679407502"><span class="annot"><span class="annottext">toIO :: Lsp a -&gt; IO a
-</span><a href="#local-6989586621679407502"><span class="hs-identifier hs-var hs-var">toIO</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span id="local-6989586621679407498"><span class="annot"><span class="annottext">ReaderT Env (LspM Config) a
-</span><a href="#local-6989586621679407498"><span class="hs-identifier hs-var">m</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(ReaderT (LanguageContextEnv Config) IO a
+</span><span id="line-152"></span><span>    </span><span class="annot"><a href="#local-6989586621679407518"><span class="hs-identifier hs-type">toIO</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679407516"><span class="annot"><a href="#local-6989586621679407516"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679407516"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679407516"><span class="hs-identifier hs-type">a</span></a></span><span>
+</span><span id="line-153"></span><span>    </span><span id="local-6989586621679407518"><span class="annot"><span class="annottext">toIO :: Lsp a -&gt; IO a
+</span><a href="#local-6989586621679407518"><span class="hs-identifier hs-var hs-var">toIO</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span id="local-6989586621679407514"><span class="annot"><span class="annottext">ReaderT Env (LspM Config) a
+</span><a href="#local-6989586621679407514"><span class="hs-identifier hs-var">m</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(ReaderT (LanguageContextEnv Config) IO a
  -&gt; LanguageContextEnv Config -&gt; IO a)
 -&gt; LanguageContextEnv Config
 -&gt; ReaderT (LanguageContextEnv Config) IO a
@@ -653,7 +653,7 @@ forall a b c. (a -&gt; b -&gt; c) -&gt; b -&gt; a -&gt; c
 -&gt; LanguageContextEnv Config -&gt; IO a
 forall r (m :: * -&gt; *) a. ReaderT r m a -&gt; r -&gt; m a
 </span><span class="hs-identifier hs-var hs-var">runReaderT</span></span><span> </span><span class="annot"><span class="annottext">LanguageContextEnv Config
-</span><a href="#local-6989586621679407504"><span class="hs-identifier hs-var">lspContext</span></a></span><span> </span><span class="annot"><span class="annottext">(ReaderT (LanguageContextEnv Config) IO a -&gt; IO a)
+</span><a href="#local-6989586621679407520"><span class="hs-identifier hs-var">lspContext</span></a></span><span> </span><span class="annot"><span class="annottext">(ReaderT (LanguageContextEnv Config) IO a -&gt; IO a)
 -&gt; (ReaderT Env (LspM Config) a
     -&gt; ReaderT (LanguageContextEnv Config) IO a)
 -&gt; ReaderT Env (LspM Config) a
@@ -673,17 +673,17 @@ forall a b c. (a -&gt; b -&gt; c) -&gt; b -&gt; a -&gt; c
 </span><span class="hs-identifier hs-var">flip</span></span><span> </span><span class="annot"><span class="annottext">ReaderT Env (LspM Config) a -&gt; Env -&gt; LspT Config IO a
 forall r (m :: * -&gt; *) a. ReaderT r m a -&gt; r -&gt; m a
 </span><span class="hs-identifier hs-var hs-var">runReaderT</span></span><span> </span><span class="annot"><span class="annottext">Env
-</span><a href="#local-6989586621679407505"><span class="hs-identifier hs-var">env</span></a></span><span> </span><span class="annot"><span class="annottext">(ReaderT Env (LspM Config) a -&gt; IO a)
+</span><a href="#local-6989586621679407521"><span class="hs-identifier hs-var">env</span></a></span><span> </span><span class="annot"><span class="annottext">(ReaderT Env (LspM Config) a -&gt; IO a)
 -&gt; ReaderT Env (LspM Config) a -&gt; IO a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ReaderT Env (LspM Config) a
-</span><a href="#local-6989586621679407498"><span class="hs-identifier hs-var">m</span></a></span><span>
-</span><span id="line-154"></span><span>    </span><span id="local-6989586621679407501"><span class="annot"><span class="annottext">fromIO :: IO a -&gt; m a
-</span><a href="#local-6989586621679407501"><span class="hs-identifier hs-var hs-var">fromIO</span></a></span></span><span> </span><span id="local-6989586621679407497"><span class="annot"><span class="annottext">IO a
-</span><a href="#local-6989586621679407497"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO a -&gt; m a
+</span><a href="#local-6989586621679407514"><span class="hs-identifier hs-var">m</span></a></span><span>
+</span><span id="line-154"></span><span>    </span><span id="local-6989586621679407517"><span class="annot"><span class="annottext">fromIO :: IO a -&gt; m a
+</span><a href="#local-6989586621679407517"><span class="hs-identifier hs-var hs-var">fromIO</span></a></span></span><span> </span><span id="local-6989586621679407513"><span class="annot"><span class="annottext">IO a
+</span><a href="#local-6989586621679407513"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO a -&gt; m a
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="annot"><span class="annottext">IO a
-</span><a href="#local-6989586621679407497"><span class="hs-identifier hs-var">m</span></a></span><span>
+</span><a href="#local-6989586621679407513"><span class="hs-identifier hs-var">m</span></a></span><span>
 </span><span id="line-155"></span><span>
 </span><span id="line-156"></span><span class="annot"><a href="Unison.LSP.html#lspOptions"><span class="hs-identifier hs-type">lspOptions</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Options</span></span><span>
 </span><span id="line-157"></span><span id="lspOptions"><span class="annot"><span class="annottext">lspOptions :: Options
@@ -695,10 +695,10 @@ forall a. a -&gt; Maybe a
 -&gt; TextDocumentSyncOptions -&gt; Maybe TextDocumentSyncOptions
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">TextDocumentSyncOptions
-</span><a href="#local-6989586621679407493"><span class="hs-identifier hs-var">textDocSyncOptions</span></a></span><span class="hs-special">}</span><span>
+</span><a href="#local-6989586621679407509"><span class="hs-identifier hs-var">textDocSyncOptions</span></a></span><span class="hs-special">}</span><span>
 </span><span id="line-158"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-159"></span><span>    </span><span id="local-6989586621679407493"><span class="annot"><span class="annottext">textDocSyncOptions :: TextDocumentSyncOptions
-</span><a href="#local-6989586621679407493"><span class="hs-identifier hs-var hs-var">textDocSyncOptions</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-159"></span><span>    </span><span id="local-6989586621679407509"><span class="annot"><span class="annottext">textDocSyncOptions :: TextDocumentSyncOptions
+</span><a href="#local-6989586621679407509"><span class="hs-identifier hs-var hs-var">textDocSyncOptions</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-160"></span><span>      </span><span class="annot"><span class="annottext">TextDocumentSyncOptions :: Maybe Bool
 -&gt; Maybe TextDocumentSyncKind
 -&gt; Maybe Bool

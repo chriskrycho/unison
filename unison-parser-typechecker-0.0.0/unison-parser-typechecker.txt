@@ -4324,6 +4324,8 @@ List :: Seq Value -> BLit
 TmLink :: Referent -> BLit
 TyLink :: Reference -> BLit
 Bytes :: Bytes -> BLit
+Quote :: Value -> BLit
+Code :: SuperGroup Symbol -> BLit
 packTags :: RTag -> CTag -> Word64
 unpackTags :: Word64 -> (RTag, CTag)
 maskTags :: Word64 -> Word64
@@ -4612,8 +4614,8 @@ TestW :: !Section -> !EnumMap Word64 Section -> Branch
 TestT :: !Section -> !Map Text Section -> Branch
 bcount :: Args -> Int
 ucount :: Args -> Int
-emitCombs :: Var v => RefNums -> Word64 -> SuperGroup v -> EnumMap Word64 Comb
-emitComb :: Var v => RefNums -> Word64 -> RCtx v -> (Word64, SuperNormal v) -> EnumMap Word64 Comb
+emitCombs :: Var v => RefNums -> Reference -> Word64 -> SuperGroup v -> EnumMap Word64 Comb
+emitComb :: Var v => RefNums -> Reference -> Word64 -> RCtx v -> (Word64, SuperNormal v) -> EnumMap Word64 Comb
 emptyRNs :: RefNums
 argsToLists :: Args -> ([Int], [Int])
 combDeps :: Comb -> [Word64]
@@ -4944,6 +4946,8 @@ ListT :: BLTag
 TmLinkT :: BLTag
 TyLinkT :: BLTag
 BytesT :: BLTag
+QuoteT :: BLTag
+CodeT :: BLTag
 data VaTag
 PartialT :: VaTag
 DataT :: VaTag
@@ -5002,6 +5006,8 @@ serializeGroup :: Var v => EnumMap FOp Text -> SuperGroup v -> ByteString
 deserializeValue :: ByteString -> Either String Value
 serializeValue :: Value -> ByteString
 serializeValueLazy :: Value -> ByteString
+valueVersion :: Word32
+codeVersion :: Word32
 instance Unison.Runtime.Serialize.Tag Unison.Runtime.ANF.Serialize.CoTag
 instance Unison.Runtime.Serialize.Tag Unison.Runtime.ANF.Serialize.VaTag
 instance Unison.Runtime.Serialize.Tag Unison.Runtime.ANF.Serialize.BLTag
