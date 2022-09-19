@@ -1,38 +1,41 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DataKinds #-}</span><span>
 </span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE GADTs #-}</span><span>
 </span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE PolyKinds #-}</span><span>
-</span><span id="line-4"></span><span>
-</span><span id="line-5"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Unison.LSP.Types</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-6"></span><span>
-</span><span id="line-7"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Colog.Core</span></span><span>
-</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Lens</span></span><span>
-</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Except</span></span><span>
-</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Reader</span></span><span>
-</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Ki</span></span><span>
-</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Logging</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">LSP</span></span><span>
-</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Server</span></span><span>
-</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Types</span></span><span>
-</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Types.Lens</span></span><span>
-</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.VFS</span></span><span>
-</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase</span></span><span>
-</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase.Path</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Path</span></span><span>
-</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase.Runtime</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Runtime</span></span><span class="hs-special">)</span><span>
-</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.LSP.Orphans.html"><span class="hs-identifier">Unison.LSP.Orphans</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
-</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.NamesWithHistory</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">NamesWithHistory</span></span><span class="hs-special">)</span><span>
-</span><span id="line-22"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Parser.Ann</span></span><span>
-</span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
-</span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.PrettyPrintEnvDecl</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">PrettyPrintEnvDecl</span></span><span class="hs-special">)</span><span>
-</span><span id="line-25"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Result</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Note</span></span><span class="hs-special">)</span><span>
-</span><span id="line-26"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Server.Backend</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Backend</span></span><span>
-</span><span id="line-27"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Symbol</span></span><span>
-</span><span id="line-28"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Syntax.Lexer</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Lexer</span></span><span>
-</span><span id="line-29"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.UnisonFile</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">UF</span></span><span>
-</span><span id="line-30"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">UnliftIO</span></span><span>
-</span><span id="line-31"></span><span>
-</span><span id="line-32"></span><span class="hs-comment">-- | A custom LSP monad wrapper so we can provide our own environment.</span><span>
-</span><span id="line-33"></span><span class="hs-keyword">newtype</span><span> </span><span id="Lsp"><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-var">Lsp</span></a></span></span><span> </span><span id="local-6989586621679395362"><span class="annot"><a href="#local-6989586621679395362"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Lsp"><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-var">Lsp</span></a></span></span><span> </span><span class="hs-special">{</span><span id="%24sel%3ArunLspM%3ALsp"><span class="annot"><span class="annottext">Lsp a -&gt; ReaderT Env (LspM Config) a
-</span><a href="Unison.LSP.Types.html#%24sel%3ArunLspM%3ALsp"><span class="hs-identifier hs-var hs-var">runLspM</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ReaderT</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-type">Env</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">LspM</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Config"><span class="hs-identifier hs-type">Config</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><a href="#local-6989586621679395362"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">}</span><span>
-</span><span id="line-34"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">newtype</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395356"><span id="local-6989586621679395358"><span class="annot"><span class="annottext">a -&gt; Lsp b -&gt; Lsp a
+</span><span id="line-4"></span><span class="hs-pragma">{-# LANGUAGE UndecidableInstances #-}</span><span>
+</span><span id="line-5"></span><span>
+</span><span id="line-6"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Unison.LSP.Types</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-7"></span><span>
+</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Colog.Core</span></span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Lens'</span></span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Lens</span></span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">List</span></span><span class="hs-special">)</span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Except</span></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Reader</span></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.HashMap.Strict</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">HM</span></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.IntervalMap.Lazy</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">IntervalMap</span></span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Ki</span></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Logging</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">LSP</span></span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Server</span></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Types</span></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.Types.Lens</span></span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Language.LSP.VFS</span></span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase</span></span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase.Path</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Path</span></span><span>
+</span><span id="line-22"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase.Runtime</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Runtime</span></span><span class="hs-special">)</span><span>
+</span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.LSP.Orphans.html"><span class="hs-identifier">Unison.LSP.Orphans</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.NamesWithHistory</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">NamesWithHistory</span></span><span class="hs-special">)</span><span>
+</span><span id="line-25"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Parser.Ann</span></span><span>
+</span><span id="line-26"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
+</span><span id="line-27"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.PrettyPrintEnvDecl</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">PrettyPrintEnvDecl</span></span><span class="hs-special">)</span><span>
+</span><span id="line-28"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Result</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Note</span></span><span class="hs-special">)</span><span>
+</span><span id="line-29"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Server.Backend</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Backend</span></span><span>
+</span><span id="line-30"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Symbol</span></span><span>
+</span><span id="line-31"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Syntax.Lexer</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Lexer</span></span><span>
+</span><span id="line-32"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.UnisonFile</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">UF</span></span><span>
+</span><span id="line-33"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">UnliftIO</span></span><span>
+</span><span id="line-34"></span><span>
+</span><span id="line-35"></span><span class="hs-comment">-- | A custom LSP monad wrapper so we can provide our own environment.</span><span>
+</span><span id="line-36"></span><span class="hs-keyword">newtype</span><span> </span><span id="Lsp"><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-var">Lsp</span></a></span></span><span> </span><span id="local-6989586621680125120"><span class="annot"><a href="#local-6989586621680125120"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Lsp"><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-var">Lsp</span></a></span></span><span> </span><span class="hs-special">{</span><span id="%24sel%3ArunLspM%3ALsp"><span class="annot"><span class="annottext">Lsp a -&gt; ReaderT Env (LspM Config) a
+</span><a href="Unison.LSP.Types.html#%24sel%3ArunLspM%3ALsp"><span class="hs-identifier hs-var hs-var">runLspM</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ReaderT</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-type">Env</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">LspM</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Config"><span class="hs-identifier hs-type">Config</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><a href="#local-6989586621680125120"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-37"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">newtype</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680125114"><span id="local-6989586621680125116"><span class="annot"><span class="annottext">a -&gt; Lsp b -&gt; Lsp a
 (a -&gt; b) -&gt; Lsp a -&gt; Lsp b
 (forall a b. (a -&gt; b) -&gt; Lsp a -&gt; Lsp b)
 -&gt; (forall a b. a -&gt; Lsp b -&gt; Lsp a) -&gt; Functor Lsp
@@ -45,7 +48,7 @@ forall (f :: * -&gt; *).
 $c&lt;$ :: forall a b. a -&gt; Lsp b -&gt; Lsp a
 fmap :: (a -&gt; b) -&gt; Lsp a -&gt; Lsp b
 $cfmap :: forall a b. (a -&gt; b) -&gt; Lsp a -&gt; Lsp b
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Functor</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395344"><span id="local-6989586621679395346"><span id="local-6989586621679395348"><span id="local-6989586621679395350"><span id="local-6989586621679395352"><span class="annot"><span class="annottext">Functor Lsp
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Functor</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680125102"><span id="local-6989586621680125104"><span id="local-6989586621680125106"><span id="local-6989586621680125108"><span id="local-6989586621680125110"><span class="annot"><span class="annottext">Functor Lsp
 a -&gt; Lsp a
 Functor Lsp
 -&gt; (forall a. a -&gt; Lsp a)
@@ -82,7 +85,7 @@ $c&lt;*&gt; :: forall a b. Lsp (a -&gt; b) -&gt; Lsp a -&gt; Lsp b
 pure :: a -&gt; Lsp a
 $cpure :: forall a. a -&gt; Lsp a
 $cp1Applicative :: Functor Lsp
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Applicative</span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395336"><span id="local-6989586621679395338"><span id="local-6989586621679395340"><span class="annot"><span class="annottext">Applicative Lsp
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Applicative</span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680125094"><span id="local-6989586621680125096"><span id="local-6989586621680125098"><span class="annot"><span class="annottext">Applicative Lsp
 a -&gt; Lsp a
 Applicative Lsp
 -&gt; (forall a b. Lsp a -&gt; (a -&gt; Lsp b) -&gt; Lsp b)
@@ -107,7 +110,7 @@ $c&gt;&gt; :: forall a b. Lsp a -&gt; Lsp b -&gt; Lsp b
 &gt;&gt;= :: Lsp a -&gt; (a -&gt; Lsp b) -&gt; Lsp b
 $c&gt;&gt;= :: forall a b. Lsp a -&gt; (a -&gt; Lsp b) -&gt; Lsp b
 $cp1Monad :: Applicative Lsp
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Monad</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395332"><span class="annot"><span class="annottext">Monad Lsp
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Monad</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680125090"><span class="annot"><span class="annottext">Monad Lsp
 Monad Lsp -&gt; (forall a. IO a -&gt; Lsp a) -&gt; MonadIO Lsp
 IO a -&gt; Lsp a
 forall a. IO a -&gt; Lsp a
@@ -116,7 +119,7 @@ Monad m -&gt; (forall a. IO a -&gt; m a) -&gt; MonadIO m
 liftIO :: IO a -&gt; Lsp a
 $cliftIO :: forall a. IO a -&gt; Lsp a
 $cp1MonadIO :: Monad Lsp
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var">MonadIO</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395328"><span class="annot"><span class="annottext">MonadIO Lsp
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var">MonadIO</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680125086"><span class="annot"><span class="annottext">MonadIO Lsp
 MonadIO Lsp
 -&gt; (forall b. ((forall a. Lsp a -&gt; IO a) -&gt; IO b) -&gt; Lsp b)
 -&gt; MonadUnliftIO Lsp
@@ -129,92 +132,99 @@ MonadIO m
 withRunInIO :: ((forall a. Lsp a -&gt; IO a) -&gt; IO b) -&gt; Lsp b
 $cwithRunInIO :: forall b. ((forall a. Lsp a -&gt; IO a) -&gt; IO b) -&gt; Lsp b
 $cp1MonadUnliftIO :: MonadIO Lsp
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var">MonadUnliftIO</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395320"><span id="local-6989586621679395322"><span id="local-6989586621679395324"><span class="annot"><span class="hs-identifier hs-type">MonadReader</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-type">Env</span></a></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679395316"><span class="annot"><span class="hs-identifier hs-type">MonadLsp</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Config"><span class="hs-identifier hs-type">Config</span></a></span></span><span class="hs-special">)</span><span>
-</span><span id="line-35"></span><span>
-</span><span id="line-36"></span><span class="hs-comment">-- | Log an info message to the client's LSP log.</span><span>
-</span><span id="line-37"></span><span class="annot"><a href="Unison.LSP.Types.html#logInfo"><span class="hs-identifier hs-type">logInfo</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
-</span><span id="line-38"></span><span id="logInfo"><span class="annot"><span class="annottext">logInfo :: Text -&gt; Lsp ()
-</span><a href="Unison.LSP.Types.html#logInfo"><span class="hs-identifier hs-var hs-var">logInfo</span></a></span></span><span> </span><span id="local-6989586621679395313"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395313"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-39"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><span class="hs-identifier hs-type">LogAction</span></span><span> </span><span id="local-6989586621679395311"><span class="annot"><span class="annottext">WithSeverity Text -&gt; Lsp ()
-</span><a href="#local-6989586621679395311"><span class="hs-identifier hs-var">log</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">LogAction Lsp (WithSeverity Text)
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var">MonadUnliftIO</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680125078"><span id="local-6989586621680125080"><span id="local-6989586621680125082"><span class="annot"><span class="hs-identifier hs-type">MonadReader</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-type">Env</span></a></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680125074"><span class="annot"><span class="hs-identifier hs-type">MonadLsp</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Config"><span class="hs-identifier hs-type">Config</span></a></span></span><span class="hs-special">)</span><span>
+</span><span id="line-38"></span><span>
+</span><span id="line-39"></span><span class="hs-comment">-- | Log an info message to the client's LSP log.</span><span>
+</span><span id="line-40"></span><span class="annot"><a href="Unison.LSP.Types.html#logInfo"><span class="hs-identifier hs-type">logInfo</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-41"></span><span id="logInfo"><span class="annot"><span class="annottext">logInfo :: Text -&gt; Lsp ()
+</span><a href="Unison.LSP.Types.html#logInfo"><span class="hs-identifier hs-var hs-var">logInfo</span></a></span></span><span> </span><span id="local-6989586621680125071"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621680125071"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-42"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><span class="hs-identifier hs-type">LogAction</span></span><span> </span><span id="local-6989586621680125069"><span class="annot"><span class="annottext">WithSeverity Text -&gt; Lsp ()
+</span><a href="#local-6989586621680125069"><span class="hs-identifier hs-var">log</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">LogAction Lsp (WithSeverity Text)
 forall c (m :: * -&gt; *).
 MonadLsp c m =&gt;
 LogAction m (WithSeverity Text)
 </span><span class="hs-identifier hs-var">LSP.defaultClientLogger</span></span><span>
-</span><span id="line-40"></span><span>  </span><span class="annot"><span class="annottext">WithSeverity Text -&gt; Lsp ()
-</span><a href="#local-6989586621679395311"><span class="hs-identifier hs-var">log</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Severity -&gt; WithSeverity Text
+</span><span id="line-43"></span><span>  </span><span class="annot"><span class="annottext">WithSeverity Text -&gt; Lsp ()
+</span><a href="#local-6989586621680125069"><span class="hs-identifier hs-var">log</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Severity -&gt; WithSeverity Text
 forall msg. msg -&gt; Severity -&gt; WithSeverity msg
 </span><span class="hs-identifier hs-var">WithSeverity</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395313"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">Severity
+</span><a href="#local-6989586621680125071"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">Severity
 </span><span class="hs-identifier hs-var">Info</span></span><span class="hs-special">)</span><span>
-</span><span id="line-41"></span><span>
-</span><span id="line-42"></span><span class="hs-comment">-- | Log an error message to the client's LSP log, this will be shown to the user in most LSP</span><span>
-</span><span id="line-43"></span><span class="hs-comment">-- implementations.</span><span>
-</span><span id="line-44"></span><span class="annot"><a href="Unison.LSP.Types.html#logError"><span class="hs-identifier hs-type">logError</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
-</span><span id="line-45"></span><span id="logError"><span class="annot"><span class="annottext">logError :: Text -&gt; Lsp ()
-</span><a href="Unison.LSP.Types.html#logError"><span class="hs-identifier hs-var hs-var">logError</span></a></span></span><span> </span><span id="local-6989586621679395306"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395306"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-46"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><span class="hs-identifier hs-type">LogAction</span></span><span> </span><span id="local-6989586621679395305"><span class="annot"><span class="annottext">WithSeverity Text -&gt; Lsp ()
-</span><a href="#local-6989586621679395305"><span class="hs-identifier hs-var">log</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">LogAction Lsp (WithSeverity Text)
+</span><span id="line-44"></span><span>
+</span><span id="line-45"></span><span class="hs-comment">-- | Log an error message to the client's LSP log, this will be shown to the user in most LSP</span><span>
+</span><span id="line-46"></span><span class="hs-comment">-- implementations.</span><span>
+</span><span id="line-47"></span><span class="annot"><a href="Unison.LSP.Types.html#logError"><span class="hs-identifier hs-type">logError</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-48"></span><span id="logError"><span class="annot"><span class="annottext">logError :: Text -&gt; Lsp ()
+</span><a href="Unison.LSP.Types.html#logError"><span class="hs-identifier hs-var hs-var">logError</span></a></span></span><span> </span><span id="local-6989586621680125064"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621680125064"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-49"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><span class="hs-identifier hs-type">LogAction</span></span><span> </span><span id="local-6989586621680125063"><span class="annot"><span class="annottext">WithSeverity Text -&gt; Lsp ()
+</span><a href="#local-6989586621680125063"><span class="hs-identifier hs-var">log</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">LogAction Lsp (WithSeverity Text)
 forall c (m :: * -&gt; *).
 MonadLsp c m =&gt;
 LogAction m (WithSeverity Text)
 </span><span class="hs-identifier hs-var">LSP.defaultClientLogger</span></span><span>
-</span><span id="line-47"></span><span>  </span><span class="annot"><span class="annottext">WithSeverity Text -&gt; Lsp ()
-</span><a href="#local-6989586621679395305"><span class="hs-identifier hs-var">log</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Severity -&gt; WithSeverity Text
+</span><span id="line-50"></span><span>  </span><span class="annot"><span class="annottext">WithSeverity Text -&gt; Lsp ()
+</span><a href="#local-6989586621680125063"><span class="hs-identifier hs-var">log</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Severity -&gt; WithSeverity Text
 forall msg. msg -&gt; Severity -&gt; WithSeverity msg
 </span><span class="hs-identifier hs-var">WithSeverity</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679395306"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">Severity
+</span><a href="#local-6989586621680125064"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">Severity
 </span><span class="hs-identifier hs-var">Error</span></span><span class="hs-special">)</span><span>
-</span><span id="line-48"></span><span>
-</span><span id="line-49"></span><span class="hs-comment">-- | Environment for the Lsp monad.</span><span>
-</span><span id="line-50"></span><span class="hs-keyword">data</span><span> </span><span id="Env"><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-var">Env</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Env"><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-var">Env</span></a></span></span><span>
-</span><span id="line-51"></span><span>  </span><span class="hs-special">{</span><span> </span><span class="hs-comment">-- contains handlers for talking to the client.</span><span>
-</span><span id="line-52"></span><span>    </span><span id="%24sel%3AlspContext%3AEnv"><span class="annot"><span class="annottext">Env -&gt; LanguageContextEnv Config
+</span><span id="line-51"></span><span>
+</span><span id="line-52"></span><span class="hs-comment">-- | Environment for the Lsp monad.</span><span>
+</span><span id="line-53"></span><span class="hs-keyword">data</span><span> </span><span id="Env"><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-var">Env</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Env"><span class="annot"><a href="Unison.LSP.Types.html#Env"><span class="hs-identifier hs-var">Env</span></a></span></span><span>
+</span><span id="line-54"></span><span>  </span><span class="hs-special">{</span><span> </span><span class="hs-comment">-- contains handlers for talking to the client.</span><span>
+</span><span id="line-55"></span><span>    </span><span id="%24sel%3AlspContext%3AEnv"><span class="annot"><span class="annottext">Env -&gt; LanguageContextEnv Config
 </span><a href="Unison.LSP.Types.html#%24sel%3AlspContext%3AEnv"><span class="hs-identifier hs-var hs-var">lspContext</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">LanguageContextEnv</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Config"><span class="hs-identifier hs-type">Config</span></a></span><span class="hs-special">,</span><span>
-</span><span id="line-53"></span><span>    </span><span id="%24sel%3Acodebase%3AEnv"><span class="annot"><span class="annottext">Env -&gt; Codebase IO Symbol Ann
+</span><span id="line-56"></span><span>    </span><span id="%24sel%3Acodebase%3AEnv"><span class="annot"><span class="annottext">Env -&gt; Codebase IO Symbol Ann
 </span><a href="Unison.LSP.Types.html#%24sel%3Acodebase%3AEnv"><span class="hs-identifier hs-var hs-var">codebase</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Codebase</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">,</span><span>
-</span><span id="line-54"></span><span>    </span><span id="%24sel%3AparseNamesCache%3AEnv"><span class="annot"><span class="annottext">Env -&gt; IO NamesWithHistory
+</span><span id="line-57"></span><span>    </span><span id="%24sel%3AparseNamesCache%3AEnv"><span class="annot"><span class="annottext">Env -&gt; IO NamesWithHistory
 </span><a href="Unison.LSP.Types.html#%24sel%3AparseNamesCache%3AEnv"><span class="hs-identifier hs-var hs-var">parseNamesCache</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NamesWithHistory</span></span><span class="hs-special">,</span><span>
-</span><span id="line-55"></span><span>    </span><span id="%24sel%3AppeCache%3AEnv"><span class="annot"><span class="annottext">Env -&gt; IO PrettyPrintEnvDecl
+</span><span id="line-58"></span><span>    </span><span id="%24sel%3AppeCache%3AEnv"><span class="annot"><span class="annottext">Env -&gt; IO PrettyPrintEnvDecl
 </span><a href="Unison.LSP.Types.html#%24sel%3AppeCache%3AEnv"><span class="hs-identifier hs-var hs-var">ppeCache</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">PrettyPrintEnvDecl</span></span><span class="hs-special">,</span><span>
-</span><span id="line-56"></span><span>    </span><span id="%24sel%3AcurrentPathCache%3AEnv"><span class="annot"><span class="annottext">Env -&gt; IO Absolute
+</span><span id="line-59"></span><span>    </span><span id="%24sel%3AcurrentPathCache%3AEnv"><span class="annot"><span class="annottext">Env -&gt; IO Absolute
 </span><a href="Unison.LSP.Types.html#%24sel%3AcurrentPathCache%3AEnv"><span class="hs-identifier hs-var hs-var">currentPathCache</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Path.Absolute</span></span><span class="hs-special">,</span><span>
-</span><span id="line-57"></span><span>    </span><span id="%24sel%3AvfsVar%3AEnv"><span class="annot"><span class="annottext">Env -&gt; MVar VFS
+</span><span id="line-60"></span><span>    </span><span id="%24sel%3AvfsVar%3AEnv"><span class="annot"><span class="annottext">Env -&gt; MVar VFS
 </span><a href="Unison.LSP.Types.html#%24sel%3AvfsVar%3AEnv"><span class="hs-identifier hs-var hs-var">vfsVar</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">MVar</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">VFS</span></span><span class="hs-special">,</span><span>
-</span><span id="line-58"></span><span>    </span><span id="%24sel%3Aruntime%3AEnv"><span class="annot"><span class="annottext">Env -&gt; Runtime Symbol
+</span><span id="line-61"></span><span>    </span><span id="%24sel%3Aruntime%3AEnv"><span class="annot"><span class="annottext">Env -&gt; Runtime Symbol
 </span><a href="Unison.LSP.Types.html#%24sel%3Aruntime%3AEnv"><span class="hs-identifier hs-var hs-var">runtime</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Runtime</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span class="hs-special">,</span><span>
-</span><span id="line-59"></span><span>    </span><span class="hs-comment">-- The information we have for each file, which may or may not have a valid parse or</span><span>
-</span><span id="line-60"></span><span>    </span><span class="hs-comment">-- typecheck.</span><span>
-</span><span id="line-61"></span><span>    </span><span id="%24sel%3AcheckedFilesVar%3AEnv"><span class="annot"><span class="annottext">Env -&gt; TVar (Map Uri FileAnalysis)
+</span><span id="line-62"></span><span>    </span><span class="hs-comment">-- The information we have for each file, which may or may not have a valid parse or</span><span>
+</span><span id="line-63"></span><span>    </span><span class="hs-comment">-- typecheck.</span><span>
+</span><span id="line-64"></span><span>    </span><span id="%24sel%3AcheckedFilesVar%3AEnv"><span class="annot"><span class="annottext">Env -&gt; TVar (Map Uri FileAnalysis)
 </span><a href="Unison.LSP.Types.html#%24sel%3AcheckedFilesVar%3AEnv"><span class="hs-identifier hs-var hs-var">checkedFilesVar</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">TVar</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Uri</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-type">FileAnalysis</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
-</span><span id="line-62"></span><span>    </span><span id="%24sel%3AdirtyFilesVar%3AEnv"><span class="annot"><span class="annottext">Env -&gt; TVar (Set Uri)
+</span><span id="line-65"></span><span>    </span><span id="%24sel%3AdirtyFilesVar%3AEnv"><span class="annot"><span class="annottext">Env -&gt; TVar (Set Uri)
 </span><a href="Unison.LSP.Types.html#%24sel%3AdirtyFilesVar%3AEnv"><span class="hs-identifier hs-var hs-var">dirtyFilesVar</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">TVar</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Uri</span></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
-</span><span id="line-63"></span><span>    </span><span id="%24sel%3Ascope%3AEnv"><span class="annot"><span class="annottext">Env -&gt; Scope
+</span><span id="line-66"></span><span>    </span><span class="hs-comment">-- A map  of request IDs to an action which kills that request.</span><span>
+</span><span id="line-67"></span><span>    </span><span id="%24sel%3AcancellationMapVar%3AEnv"><span class="annot"><span class="annottext">Env -&gt; TVar (Map SomeLspId (IO ()))
+</span><a href="Unison.LSP.Types.html#%24sel%3AcancellationMapVar%3AEnv"><span class="hs-identifier hs-var hs-var">cancellationMapVar</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">TVar</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">SomeLspId</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-68"></span><span>    </span><span id="%24sel%3Ascope%3AEnv"><span class="annot"><span class="annottext">Env -&gt; Scope
 </span><a href="Unison.LSP.Types.html#%24sel%3Ascope%3AEnv"><span class="hs-identifier hs-var hs-var">scope</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ki.Scope</span></span><span>
-</span><span id="line-64"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-65"></span><span>
-</span><span id="line-66"></span><span class="hs-comment">-- | A monotonically increasing file version tracked by the lsp client.</span><span>
-</span><span id="line-67"></span><span class="hs-keyword">type</span><span> </span><span id="FileVersion"><span class="annot"><a href="Unison.LSP.Types.html#FileVersion"><span class="hs-identifier hs-var">FileVersion</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int32</span></span><span>
-</span><span id="line-68"></span><span>
-</span><span id="line-69"></span><span class="hs-keyword">type</span><span> </span><span id="LexedSource"><span class="annot"><a href="Unison.LSP.Types.html#LexedSource"><span class="hs-identifier hs-var">LexedSource</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Lexer.Token</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Lexer.Lexeme</span></span><span class="hs-special">]</span><span class="hs-special">)</span><span>
+</span><span id="line-69"></span><span>  </span><span class="hs-special">}</span><span>
 </span><span id="line-70"></span><span>
-</span><span id="line-71"></span><span class="hs-keyword">data</span><span> </span><span id="FileAnalysis"><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-var">FileAnalysis</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="FileAnalysis"><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-var">FileAnalysis</span></a></span></span><span>
-</span><span id="line-72"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AfileUri%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; Uri
+</span><span id="line-71"></span><span class="hs-comment">-- | A monotonically increasing file version tracked by the lsp client.</span><span>
+</span><span id="line-72"></span><span class="hs-keyword">type</span><span> </span><span id="FileVersion"><span class="annot"><a href="Unison.LSP.Types.html#FileVersion"><span class="hs-identifier hs-var">FileVersion</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int32</span></span><span>
+</span><span id="line-73"></span><span>
+</span><span id="line-74"></span><span class="hs-keyword">type</span><span> </span><span id="LexedSource"><span class="annot"><a href="Unison.LSP.Types.html#LexedSource"><span class="hs-identifier hs-var">LexedSource</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Lexer.Token</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Lexer.Lexeme</span></span><span class="hs-special">]</span><span class="hs-special">)</span><span>
+</span><span id="line-75"></span><span>
+</span><span id="line-76"></span><span class="hs-keyword">data</span><span> </span><span id="FileAnalysis"><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-var">FileAnalysis</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="FileAnalysis"><span class="annot"><a href="Unison.LSP.Types.html#FileAnalysis"><span class="hs-identifier hs-var">FileAnalysis</span></a></span></span><span>
+</span><span id="line-77"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AfileUri%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; Uri
 </span><a href="Unison.LSP.Types.html#%24sel%3AfileUri%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">fileUri</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Uri</span></span><span class="hs-special">,</span><span>
-</span><span id="line-73"></span><span>    </span><span id="%24sel%3AfileVersion%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; FileVersion
+</span><span id="line-78"></span><span>    </span><span id="%24sel%3AfileVersion%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; FileVersion
 </span><a href="Unison.LSP.Types.html#%24sel%3AfileVersion%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">fileVersion</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#FileVersion"><span class="hs-identifier hs-type">FileVersion</span></a></span><span class="hs-special">,</span><span>
-</span><span id="line-74"></span><span>    </span><span id="%24sel%3AlexedSource%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; LexedSource
+</span><span id="line-79"></span><span>    </span><span id="%24sel%3AlexedSource%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; LexedSource
 </span><a href="Unison.LSP.Types.html#%24sel%3AlexedSource%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">lexedSource</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#LexedSource"><span class="hs-identifier hs-type">LexedSource</span></a></span><span class="hs-special">,</span><span>
-</span><span id="line-75"></span><span>    </span><span id="%24sel%3AparsedFile%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; Maybe (UnisonFile Symbol Ann)
+</span><span id="line-80"></span><span>    </span><span id="%24sel%3AparsedFile%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; Maybe (UnisonFile Symbol Ann)
 </span><a href="Unison.LSP.Types.html#%24sel%3AparsedFile%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">parsedFile</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">UF.UnisonFile</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
-</span><span id="line-76"></span><span>    </span><span id="%24sel%3AtypecheckedFile%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; Maybe (TypecheckedUnisonFile Symbol Ann)
+</span><span id="line-81"></span><span>    </span><span id="%24sel%3AtypecheckedFile%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; Maybe (TypecheckedUnisonFile Symbol Ann)
 </span><a href="Unison.LSP.Types.html#%24sel%3AtypecheckedFile%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">typecheckedFile</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">UF.TypecheckedUnisonFile</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
-</span><span id="line-77"></span><span>    </span><span id="%24sel%3Anotes%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; Seq (Note Symbol Ann)
-</span><a href="Unison.LSP.Types.html#%24sel%3Anotes%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">notes</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Seq</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Note</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span>
-</span><span id="line-78"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-79"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395278"><span id="local-6989586621679395280"><span id="local-6989586621679395282"><span class="annot"><span class="annottext">Int -&gt; FileAnalysis -&gt; ShowS
+</span><span id="line-82"></span><span>    </span><span id="%24sel%3Anotes%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; Seq (Note Symbol Ann)
+</span><a href="Unison.LSP.Types.html#%24sel%3Anotes%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">notes</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Seq</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Note</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-83"></span><span>    </span><span id="%24sel%3Adiagnostics%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; IntervalMap Position [Diagnostic]
+</span><a href="Unison.LSP.Types.html#%24sel%3Adiagnostics%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">diagnostics</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IntervalMap</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Position</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Diagnostic</span></span><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><span id="line-84"></span><span>    </span><span id="%24sel%3AcodeActions%3AFileAnalysis"><span class="annot"><span class="annottext">FileAnalysis -&gt; IntervalMap Position [CodeAction]
+</span><a href="Unison.LSP.Types.html#%24sel%3AcodeActions%3AFileAnalysis"><span class="hs-identifier hs-var hs-var">codeActions</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IntervalMap</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Position</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">CodeAction</span></span><span class="hs-special">]</span><span>
+</span><span id="line-85"></span><span>  </span><span class="hs-special">}</span><span>
+</span><span id="line-86"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680125033"><span id="local-6989586621680125035"><span id="local-6989586621680125037"><span class="annot"><span class="annottext">Int -&gt; FileAnalysis -&gt; ShowS
 [FileAnalysis] -&gt; ShowS
 FileAnalysis -&gt; String
 (Int -&gt; FileAnalysis -&gt; ShowS)
@@ -230,9 +240,9 @@ $cshow :: FileAnalysis -&gt; String
 showsPrec :: Int -&gt; FileAnalysis -&gt; ShowS
 $cshowsPrec :: Int -&gt; FileAnalysis -&gt; ShowS
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-80"></span><span>
-</span><span id="line-81"></span><span class="annot"><a href="Unison.LSP.Types.html#getCurrentPath"><span class="hs-identifier hs-type">getCurrentPath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Path.Absolute</span></span><span>
-</span><span id="line-82"></span><span id="getCurrentPath"><span class="annot"><span class="annottext">getCurrentPath :: Lsp Absolute
+</span><span id="line-87"></span><span>
+</span><span id="line-88"></span><span class="annot"><a href="Unison.LSP.Types.html#getCurrentPath"><span class="hs-identifier hs-type">getCurrentPath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Path.Absolute</span></span><span>
+</span><span id="line-89"></span><span id="getCurrentPath"><span class="annot"><span class="annottext">getCurrentPath :: Lsp Absolute
 </span><a href="Unison.LSP.Types.html#getCurrentPath"><span class="hs-identifier hs-var hs-var">getCurrentPath</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; IO Absolute) -&gt; Lsp (IO Absolute)
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; IO Absolute
@@ -241,9 +251,9 @@ forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="annot"><span class="annottext">IO Absolute -&gt; Lsp Absolute
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span>
-</span><span id="line-83"></span><span>
-</span><span id="line-84"></span><span class="annot"><a href="Unison.LSP.Types.html#globalPPE"><span class="hs-identifier hs-type">globalPPE</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">PrettyPrintEnvDecl</span></span><span>
-</span><span id="line-85"></span><span id="globalPPE"><span class="annot"><span class="annottext">globalPPE :: Lsp PrettyPrintEnvDecl
+</span><span id="line-90"></span><span>
+</span><span id="line-91"></span><span class="annot"><a href="Unison.LSP.Types.html#globalPPE"><span class="hs-identifier hs-type">globalPPE</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">PrettyPrintEnvDecl</span></span><span>
+</span><span id="line-92"></span><span id="globalPPE"><span class="annot"><span class="annottext">globalPPE :: Lsp PrettyPrintEnvDecl
 </span><a href="Unison.LSP.Types.html#globalPPE"><span class="hs-identifier hs-var hs-var">globalPPE</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; IO PrettyPrintEnvDecl) -&gt; Lsp (IO PrettyPrintEnvDecl)
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; IO PrettyPrintEnvDecl
@@ -254,9 +264,9 @@ forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="annot"><span class="annottext">IO PrettyPrintEnvDecl -&gt; Lsp PrettyPrintEnvDecl
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span>
-</span><span id="line-86"></span><span>
-</span><span id="line-87"></span><span class="annot"><a href="Unison.LSP.Types.html#getParseNames"><span class="hs-identifier hs-type">getParseNames</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NamesWithHistory</span></span><span>
-</span><span id="line-88"></span><span id="getParseNames"><span class="annot"><span class="annottext">getParseNames :: Lsp NamesWithHistory
+</span><span id="line-93"></span><span>
+</span><span id="line-94"></span><span class="annot"><a href="Unison.LSP.Types.html#getParseNames"><span class="hs-identifier hs-type">getParseNames</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NamesWithHistory</span></span><span>
+</span><span id="line-95"></span><span id="getParseNames"><span class="annot"><span class="annottext">getParseNames :: Lsp NamesWithHistory
 </span><a href="Unison.LSP.Types.html#getParseNames"><span class="hs-identifier hs-var hs-var">getParseNames</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; IO NamesWithHistory) -&gt; Lsp (IO NamesWithHistory)
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; IO NamesWithHistory
@@ -267,12 +277,12 @@ forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="annot"><span class="annottext">IO NamesWithHistory -&gt; Lsp NamesWithHistory
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span>
-</span><span id="line-89"></span><span>
-</span><span id="line-90"></span><span class="hs-keyword">data</span><span> </span><span id="Config"><span class="annot"><a href="Unison.LSP.Types.html#Config"><span class="hs-identifier hs-var">Config</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Config"><span class="annot"><a href="Unison.LSP.Types.html#Config"><span class="hs-identifier hs-var">Config</span></a></span></span><span>
-</span><span id="line-91"></span><span>
-</span><span id="line-92"></span><span class="hs-comment">-- | Lift a backend computation into the Lsp monad.</span><span>
-</span><span id="line-93"></span><span id="local-6989586621679395270"><span class="annot"><a href="Unison.LSP.Types.html#lspBackend"><span class="hs-identifier hs-type">lspBackend</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.Backend</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679395270"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.BackendError</span></span><span> </span><span class="annot"><a href="#local-6989586621679395270"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span><span>
-</span><span id="line-94"></span><span id="lspBackend"><span class="annot"><span class="annottext">lspBackend :: Backend IO a -&gt; Lsp (Either BackendError a)
+</span><span id="line-96"></span><span>
+</span><span id="line-97"></span><span class="hs-keyword">data</span><span> </span><span id="Config"><span class="annot"><a href="Unison.LSP.Types.html#Config"><span class="hs-identifier hs-var">Config</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Config"><span class="annot"><a href="Unison.LSP.Types.html#Config"><span class="hs-identifier hs-var">Config</span></a></span></span><span>
+</span><span id="line-98"></span><span>
+</span><span id="line-99"></span><span class="hs-comment">-- | Lift a backend computation into the Lsp monad.</span><span>
+</span><span id="line-100"></span><span id="local-6989586621680125025"><span class="annot"><a href="Unison.LSP.Types.html#lspBackend"><span class="hs-identifier hs-type">lspBackend</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.Backend</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621680125025"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.BackendError</span></span><span> </span><span class="annot"><a href="#local-6989586621680125025"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span><span>
+</span><span id="line-101"></span><span id="lspBackend"><span class="annot"><span class="annottext">lspBackend :: Backend IO a -&gt; Lsp (Either BackendError a)
 </span><a href="Unison.LSP.Types.html#lspBackend"><span class="hs-identifier hs-var hs-var">lspBackend</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO (Either BackendError a) -&gt; Lsp (Either BackendError a)
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="annot"><span class="annottext">(IO (Either BackendError a) -&gt; Lsp (Either BackendError a))
@@ -308,13 +318,13 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 forall (m :: * -&gt; *) a.
 Backend m a -&gt; ReaderT BackendEnv (ExceptT BackendError m) a
 </span><span class="hs-identifier hs-var hs-var">Backend.runBackend</span></span><span>
-</span><span id="line-95"></span><span>
-</span><span id="line-96"></span><span class="annot"><a href="Unison.LSP.Types.html#sendNotification"><span class="hs-identifier hs-type">sendNotification</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679395261"><span class="annot"><a href="#local-6989586621679395261"><span class="hs-identifier hs-type">m</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Method</span></span><span> </span><span class="hs-special">'</span><span class="annot"><span class="hs-identifier hs-type">FromServer</span></span><span> </span><span class="hs-special">'</span><span class="annot"><span class="hs-identifier hs-type">Notification</span></span><span class="hs-special">)</span><span class="hs-operator">.</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Message</span></span><span> </span><span class="annot"><a href="#local-6989586621679395261"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><span class="hs-glyph hs-type">~</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NotificationMessage</span></span><span> </span><span class="annot"><a href="#local-6989586621679395261"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NotificationMessage</span></span><span> </span><span class="annot"><a href="#local-6989586621679395261"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
-</span><span id="line-97"></span><span id="sendNotification"><span class="annot"><span class="annottext">sendNotification :: NotificationMessage m -&gt; Lsp ()
-</span><a href="Unison.LSP.Types.html#sendNotification"><span class="hs-identifier hs-var hs-var">sendNotification</span></a></span></span><span> </span><span id="local-6989586621679395260"><span class="annot"><span class="annottext">NotificationMessage m
-</span><a href="#local-6989586621679395260"><span class="hs-identifier hs-var">notif</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-98"></span><span>  </span><span id="local-6989586621679395259"><span class="annot"><span class="annottext">FromServerMessage -&gt; IO ()
-</span><a href="#local-6989586621679395259"><span class="hs-identifier hs-var">sendServerMessage</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; FromServerMessage -&gt; IO ())
+</span><span id="line-102"></span><span>
+</span><span id="line-103"></span><span class="annot"><a href="Unison.LSP.Types.html#sendNotification"><span class="hs-identifier hs-type">sendNotification</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680125016"><span class="annot"><a href="#local-6989586621680125016"><span class="hs-identifier hs-type">m</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Method</span></span><span> </span><span class="hs-special">'</span><span class="annot"><span class="hs-identifier hs-type">FromServer</span></span><span> </span><span class="hs-special">'</span><span class="annot"><span class="hs-identifier hs-type">Notification</span></span><span class="hs-special">)</span><span class="hs-operator">.</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Message</span></span><span> </span><span class="annot"><a href="#local-6989586621680125016"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><span class="hs-glyph hs-type">~</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NotificationMessage</span></span><span> </span><span class="annot"><a href="#local-6989586621680125016"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NotificationMessage</span></span><span> </span><span class="annot"><a href="#local-6989586621680125016"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#Lsp"><span class="hs-identifier hs-type">Lsp</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-104"></span><span id="sendNotification"><span class="annot"><span class="annottext">sendNotification :: NotificationMessage m -&gt; Lsp ()
+</span><a href="Unison.LSP.Types.html#sendNotification"><span class="hs-identifier hs-var hs-var">sendNotification</span></a></span></span><span> </span><span id="local-6989586621680125015"><span class="annot"><span class="annottext">NotificationMessage m
+</span><a href="#local-6989586621680125015"><span class="hs-identifier hs-var">notif</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-105"></span><span>  </span><span id="local-6989586621680125014"><span class="annot"><span class="annottext">FromServerMessage -&gt; IO ()
+</span><a href="#local-6989586621680125014"><span class="hs-identifier hs-var">sendServerMessage</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; FromServerMessage -&gt; IO ())
 -&gt; Lsp (FromServerMessage -&gt; IO ())
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">LanguageContextEnv Config -&gt; FromServerMessage -&gt; IO ()
@@ -328,19 +338,19 @@ LanguageContextEnv config -&gt; FromServerMessage -&gt; IO ()
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; LanguageContextEnv Config
 </span><a href="Unison.LSP.Types.html#%24sel%3AlspContext%3AEnv"><span class="hs-identifier hs-var hs-var">lspContext</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-99"></span><span>  </span><span class="annot"><span class="annottext">IO () -&gt; Lsp ()
+</span><span id="line-106"></span><span>  </span><span class="annot"><span class="annottext">IO () -&gt; Lsp ()
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="annot"><span class="annottext">(IO () -&gt; Lsp ()) -&gt; IO () -&gt; Lsp ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">FromServerMessage -&gt; IO ()
-</span><a href="#local-6989586621679395259"><span class="hs-identifier hs-var">sendServerMessage</span></a></span><span> </span><span class="annot"><span class="annottext">(FromServerMessage -&gt; IO ()) -&gt; FromServerMessage -&gt; IO ()
+</span><a href="#local-6989586621680125014"><span class="hs-identifier hs-var">sendServerMessage</span></a></span><span> </span><span class="annot"><span class="annottext">(FromServerMessage -&gt; IO ()) -&gt; FromServerMessage -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">SMethod m -&gt; Message m -&gt; FromServerMessage
 forall (t :: MethodType) (m :: Method 'FromServer t)
        (a :: Method 'FromClient 'Request -&gt; *).
 SMethod m -&gt; Message m -&gt; FromServerMessage' a
 </span><span class="hs-identifier hs-var">FromServerMess</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NotificationMessage m
-</span><a href="#local-6989586621679395260"><span class="hs-identifier hs-var">notif</span></a></span><span> </span><span class="annot"><span class="annottext">NotificationMessage m
+</span><a href="#local-6989586621680125015"><span class="hs-identifier hs-var">notif</span></a></span><span> </span><span class="annot"><span class="annottext">NotificationMessage m
 -&gt; Getting (SMethod m) (NotificationMessage m) (SMethod m)
 -&gt; SMethod m
 forall s a. s -&gt; Getting a s a -&gt; a
@@ -348,5 +358,189 @@ forall s a. s -&gt; Getting a s a -&gt; a
 forall s a. HasMethod s a =&gt; Lens' s a
 </span><span class="hs-identifier hs-var">method</span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Message m
 NotificationMessage m
-</span><a href="#local-6989586621679395260"><span class="hs-identifier hs-var">notif</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-100"></span></pre></body></html>
+</span><a href="#local-6989586621680125015"><span class="hs-identifier hs-var">notif</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-107"></span><span>
+</span><span id="line-108"></span><span class="hs-keyword">data</span><span> </span><span id="RangedCodeAction"><span class="annot"><a href="Unison.LSP.Types.html#RangedCodeAction"><span class="hs-identifier hs-var">RangedCodeAction</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="RangedCodeAction"><span class="annot"><a href="Unison.LSP.Types.html#RangedCodeAction"><span class="hs-identifier hs-var">RangedCodeAction</span></a></span></span><span>
+</span><span id="line-109"></span><span>  </span><span class="hs-special">{</span><span> </span><span class="hs-comment">-- All the ranges the code action applies</span><span>
+</span><span id="line-110"></span><span>    </span><span id="%24sel%3A_codeActionRanges%3ARangedCodeAction"><span class="annot"><span class="annottext">RangedCodeAction -&gt; [Range]
+</span><a href="Unison.LSP.Types.html#%24sel%3A_codeActionRanges%3ARangedCodeAction"><span class="hs-identifier hs-var hs-var">_codeActionRanges</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><span id="line-111"></span><span>    </span><span id="%24sel%3A_codeAction%3ARangedCodeAction"><span class="annot"><span class="annottext">RangedCodeAction -&gt; CodeAction
+</span><a href="Unison.LSP.Types.html#%24sel%3A_codeAction%3ARangedCodeAction"><span class="hs-identifier hs-var hs-var">_codeAction</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">CodeAction</span></span><span>
+</span><span id="line-112"></span><span>  </span><span class="hs-special">}</span><span>
+</span><span id="line-113"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680125003"><span id="local-6989586621680125005"><span class="annot"><span class="annottext">RangedCodeAction -&gt; RangedCodeAction -&gt; Bool
+(RangedCodeAction -&gt; RangedCodeAction -&gt; Bool)
+-&gt; (RangedCodeAction -&gt; RangedCodeAction -&gt; Bool)
+-&gt; Eq RangedCodeAction
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: RangedCodeAction -&gt; RangedCodeAction -&gt; Bool
+$c/= :: RangedCodeAction -&gt; RangedCodeAction -&gt; Bool
+== :: RangedCodeAction -&gt; RangedCodeAction -&gt; Bool
+$c== :: RangedCodeAction -&gt; RangedCodeAction -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680124996"><span id="local-6989586621680124998"><span id="local-6989586621680125000"><span class="annot"><span class="annottext">Int -&gt; RangedCodeAction -&gt; ShowS
+[RangedCodeAction] -&gt; ShowS
+RangedCodeAction -&gt; String
+(Int -&gt; RangedCodeAction -&gt; ShowS)
+-&gt; (RangedCodeAction -&gt; String)
+-&gt; ([RangedCodeAction] -&gt; ShowS)
+-&gt; Show RangedCodeAction
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [RangedCodeAction] -&gt; ShowS
+$cshowList :: [RangedCodeAction] -&gt; ShowS
+show :: RangedCodeAction -&gt; String
+$cshow :: RangedCodeAction -&gt; String
+showsPrec :: Int -&gt; RangedCodeAction -&gt; ShowS
+$cshowsPrec :: Int -&gt; RangedCodeAction -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-114"></span><span>
+</span><span id="line-115"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">HasCodeAction</span></span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#RangedCodeAction"><span class="hs-identifier hs-type">RangedCodeAction</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">CodeAction</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-116"></span><span>  </span><span id="local-6989586621680124993"><span class="annot"><span class="annottext">codeAction :: (CodeAction -&gt; f CodeAction)
+-&gt; RangedCodeAction -&gt; f RangedCodeAction
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">codeAction</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(RangedCodeAction -&gt; CodeAction)
+-&gt; (RangedCodeAction -&gt; CodeAction -&gt; RangedCodeAction)
+-&gt; Lens' RangedCodeAction CodeAction
+forall s a b t. (s -&gt; a) -&gt; (s -&gt; b -&gt; t) -&gt; Lens s t a b
+</span><span class="hs-identifier hs-var">lens</span></span><span> </span><span class="annot"><span class="annottext">RangedCodeAction -&gt; CodeAction
+</span><a href="Unison.LSP.Types.html#%24sel%3A_codeAction%3ARangedCodeAction"><span class="hs-identifier hs-var hs-var">_codeAction</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621680124990"><span class="annot"><span class="annottext">RangedCodeAction
+</span><a href="#local-6989586621680124990"><span class="hs-identifier hs-var">rca</span></a></span></span><span> </span><span id="local-6989586621680124989"><span class="annot"><span class="annottext">CodeAction
+</span><a href="#local-6989586621680124989"><span class="hs-identifier hs-var">ca</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">RangedCodeAction
+</span><a href="#local-6989586621680124990"><span class="hs-identifier hs-var">rca</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:_codeAction:RangedCodeAction :: CodeAction
+</span><a href="Unison.LSP.Types.html#%24sel%3A_codeAction%3ARangedCodeAction"><span class="hs-identifier hs-var">_codeAction</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">CodeAction
+</span><a href="#local-6989586621680124989"><span class="hs-identifier hs-var">ca</span></a></span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><span id="line-117"></span><span>
+</span><span id="line-118"></span><span class="annot"><a href="Unison.LSP.Types.html#rangedCodeAction"><span class="hs-identifier hs-type">rangedCodeAction</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Diagnostic</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#RangedCodeAction"><span class="hs-identifier hs-type">RangedCodeAction</span></a></span><span>
+</span><span id="line-119"></span><span id="rangedCodeAction"><span class="annot"><span class="annottext">rangedCodeAction :: Text -&gt; [Diagnostic] -&gt; [Range] -&gt; RangedCodeAction
+</span><a href="Unison.LSP.Types.html#rangedCodeAction"><span class="hs-identifier hs-var hs-var">rangedCodeAction</span></a></span></span><span> </span><span id="local-6989586621680124987"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621680124987"><span class="hs-identifier hs-var">title</span></a></span></span><span> </span><span id="local-6989586621680124986"><span class="annot"><span class="annottext">[Diagnostic]
+</span><a href="#local-6989586621680124986"><span class="hs-identifier hs-var">diags</span></a></span></span><span> </span><span id="local-6989586621680124985"><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621680124985"><span class="hs-identifier hs-var">ranges</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-120"></span><span>  </span><span class="annot"><span class="annottext">[Range] -&gt; CodeAction -&gt; RangedCodeAction
+</span><a href="Unison.LSP.Types.html#RangedCodeAction"><span class="hs-identifier hs-var">RangedCodeAction</span></a></span><span> </span><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621680124985"><span class="hs-identifier hs-var">ranges</span></a></span><span> </span><span class="annot"><span class="annottext">(CodeAction -&gt; RangedCodeAction) -&gt; CodeAction -&gt; RangedCodeAction
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span>
+</span><span id="line-121"></span><span>    </span><span class="annot"><span class="annottext">CodeAction :: Text
+-&gt; Maybe CodeActionKind
+-&gt; Maybe (List Diagnostic)
+-&gt; Maybe Bool
+-&gt; Maybe Reason
+-&gt; Maybe WorkspaceEdit
+-&gt; Maybe Command
+-&gt; Maybe Value
+-&gt; CodeAction
+</span><span class="hs-identifier hs-type">CodeAction</span></span><span>
+</span><span id="line-122"></span><span>      </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">$sel:_title:CodeAction :: Text
+</span><span class="hs-identifier hs-var">_title</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621680124987"><span class="hs-identifier hs-var">title</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-123"></span><span>        </span><span class="annot"><span class="annottext">$sel:_kind:CodeAction :: Maybe CodeActionKind
+</span><span class="hs-identifier hs-var">_kind</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe CodeActionKind
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-124"></span><span>        </span><span class="annot"><span class="annottext">$sel:_diagnostics:CodeAction :: Maybe (List Diagnostic)
+</span><span class="hs-identifier hs-var">_diagnostics</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">List Diagnostic -&gt; Maybe (List Diagnostic)
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(List Diagnostic -&gt; Maybe (List Diagnostic))
+-&gt; ([Diagnostic] -&gt; List Diagnostic)
+-&gt; [Diagnostic]
+-&gt; Maybe (List Diagnostic)
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">[Diagnostic] -&gt; List Diagnostic
+forall a. [a] -&gt; List a
+</span><span class="hs-identifier hs-var">List</span></span><span> </span><span class="annot"><span class="annottext">([Diagnostic] -&gt; Maybe (List Diagnostic))
+-&gt; [Diagnostic] -&gt; Maybe (List Diagnostic)
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">[Diagnostic]
+</span><a href="#local-6989586621680124986"><span class="hs-identifier hs-var">diags</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-125"></span><span>        </span><span class="annot"><span class="annottext">$sel:_isPreferred:CodeAction :: Maybe Bool
+</span><span class="hs-identifier hs-var">_isPreferred</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Bool
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-126"></span><span>        </span><span class="annot"><span class="annottext">$sel:_disabled:CodeAction :: Maybe Reason
+</span><span class="hs-identifier hs-var">_disabled</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Reason
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-127"></span><span>        </span><span class="annot"><span class="annottext">$sel:_edit:CodeAction :: Maybe WorkspaceEdit
+</span><span class="hs-identifier hs-var">_edit</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe WorkspaceEdit
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-128"></span><span>        </span><span class="annot"><span class="annottext">$sel:_command:CodeAction :: Maybe Command
+</span><span class="hs-identifier hs-var">_command</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Command
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-129"></span><span>        </span><span class="annot"><span class="annottext">$sel:_xdata:CodeAction :: Maybe Value
+</span><span class="hs-identifier hs-var">_xdata</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Value
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span>
+</span><span id="line-130"></span><span>      </span><span class="hs-special">}</span><span>
+</span><span id="line-131"></span><span>
+</span><span id="line-132"></span><span class="hs-comment">-- | Provided ranges must not intersect.</span><span>
+</span><span id="line-133"></span><span class="annot"><a href="Unison.LSP.Types.html#includeEdits"><span class="hs-identifier hs-type">includeEdits</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Uri</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Range</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#RangedCodeAction"><span class="hs-identifier hs-type">RangedCodeAction</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.LSP.Types.html#RangedCodeAction"><span class="hs-identifier hs-type">RangedCodeAction</span></a></span><span>
+</span><span id="line-134"></span><span id="includeEdits"><span class="annot"><span class="annottext">includeEdits :: Uri -&gt; Text -&gt; [Range] -&gt; RangedCodeAction -&gt; RangedCodeAction
+</span><a href="Unison.LSP.Types.html#includeEdits"><span class="hs-identifier hs-var hs-var">includeEdits</span></a></span></span><span> </span><span id="local-6989586621680124973"><span class="annot"><span class="annottext">Uri
+</span><a href="#local-6989586621680124973"><span class="hs-identifier hs-var">uri</span></a></span></span><span> </span><span id="local-6989586621680124972"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621680124972"><span class="hs-identifier hs-var">replacement</span></a></span></span><span> </span><span id="local-6989586621680124971"><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621680124971"><span class="hs-identifier hs-var">ranges</span></a></span></span><span> </span><span id="local-6989586621680124970"><span class="annot"><span class="annottext">RangedCodeAction
+</span><a href="#local-6989586621680124970"><span class="hs-identifier hs-var">rca</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-135"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680124969"><span class="annot"><span class="annottext">edits :: [TextEdit]
+</span><a href="#local-6989586621680124969"><span class="hs-identifier hs-var hs-var">edits</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-136"></span><span>        </span><span id="local-6989586621680124968"><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621680124968"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[Range]
+</span><a href="#local-6989586621680124971"><span class="hs-identifier hs-var">ranges</span></a></span><span>
+</span><span id="line-137"></span><span>        </span><span class="hs-identifier">pure</span><span> </span><span class="hs-operator">$</span><span> </span><span class="annot"><span class="annottext">Range -&gt; Text -&gt; TextEdit
+</span><span class="hs-identifier hs-var">TextEdit</span></span><span> </span><span class="annot"><span class="annottext">Range
+</span><a href="#local-6989586621680124968"><span class="hs-identifier hs-var">r</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621680124972"><span class="hs-identifier hs-var">replacement</span></a></span><span>
+</span><span id="line-138"></span><span>      </span><span id="local-6989586621680124966"><span class="annot"><span class="annottext">workspaceEdit :: WorkspaceEdit
+</span><a href="#local-6989586621680124966"><span class="hs-identifier hs-var hs-var">workspaceEdit</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-139"></span><span>        </span><span class="annot"><span class="annottext">WorkspaceEdit :: Maybe WorkspaceEditMap
+-&gt; Maybe (List DocumentChange)
+-&gt; Maybe ChangeAnnotationMap
+-&gt; WorkspaceEdit
+</span><span class="hs-identifier hs-type">WorkspaceEdit</span></span><span>
+</span><span id="line-140"></span><span>          </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">$sel:_changes:WorkspaceEdit :: Maybe WorkspaceEditMap
+</span><span class="hs-identifier hs-var">_changes</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">WorkspaceEditMap -&gt; Maybe WorkspaceEditMap
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(WorkspaceEditMap -&gt; Maybe WorkspaceEditMap)
+-&gt; WorkspaceEditMap -&gt; Maybe WorkspaceEditMap
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Uri -&gt; List TextEdit -&gt; WorkspaceEditMap
+forall k v. Hashable k =&gt; k -&gt; v -&gt; HashMap k v
+</span><span class="hs-identifier hs-var">HM.singleton</span></span><span> </span><span class="annot"><span class="annottext">Uri
+</span><a href="#local-6989586621680124973"><span class="hs-identifier hs-var">uri</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[TextEdit] -&gt; List TextEdit
+forall a. [a] -&gt; List a
+</span><span class="hs-identifier hs-var">List</span></span><span> </span><span class="annot"><span class="annottext">[TextEdit]
+</span><a href="#local-6989586621680124969"><span class="hs-identifier hs-var">edits</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-141"></span><span>            </span><span class="annot"><span class="annottext">$sel:_documentChanges:WorkspaceEdit :: Maybe (List DocumentChange)
+</span><span class="hs-identifier hs-var">_documentChanges</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (List DocumentChange)
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span>
+</span><span id="line-142"></span><span>            </span><span class="annot"><span class="annottext">$sel:_changeAnnotations:WorkspaceEdit :: Maybe ChangeAnnotationMap
+</span><span class="hs-identifier hs-var">_changeAnnotations</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe ChangeAnnotationMap
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span>
+</span><span id="line-143"></span><span>          </span><span class="hs-special">}</span><span>
+</span><span id="line-144"></span><span>   </span><span class="hs-keyword">in</span><span> </span><span class="annot"><span class="annottext">RangedCodeAction
+</span><a href="#local-6989586621680124970"><span class="hs-identifier hs-var">rca</span></a></span><span> </span><span class="annot"><span class="annottext">RangedCodeAction
+-&gt; (RangedCodeAction -&gt; RangedCodeAction) -&gt; RangedCodeAction
+forall a b. a -&gt; (a -&gt; b) -&gt; b
+</span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">(CodeAction -&gt; Identity CodeAction)
+-&gt; RangedCodeAction -&gt; Identity RangedCodeAction
+forall s a. HasCodeAction s a =&gt; Lens' s a
+</span><span class="hs-identifier hs-var">codeAction</span></span><span> </span><span class="annot"><span class="annottext">((CodeAction -&gt; Identity CodeAction)
+ -&gt; RangedCodeAction -&gt; Identity RangedCodeAction)
+-&gt; ((Maybe WorkspaceEdit -&gt; Identity (Maybe WorkspaceEdit))
+    -&gt; CodeAction -&gt; Identity CodeAction)
+-&gt; (Maybe WorkspaceEdit -&gt; Identity (Maybe WorkspaceEdit))
+-&gt; RangedCodeAction
+-&gt; Identity RangedCodeAction
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(Maybe WorkspaceEdit -&gt; Identity (Maybe WorkspaceEdit))
+-&gt; CodeAction -&gt; Identity CodeAction
+forall s a. HasEdit s a =&gt; Lens' s a
+</span><span class="hs-identifier hs-var">edit</span></span><span> </span><span class="annot"><span class="annottext">((Maybe WorkspaceEdit -&gt; Identity (Maybe WorkspaceEdit))
+ -&gt; RangedCodeAction -&gt; Identity RangedCodeAction)
+-&gt; WorkspaceEdit -&gt; RangedCodeAction -&gt; RangedCodeAction
+forall s t a b. ASetter s t a (Maybe b) -&gt; b -&gt; s -&gt; t
+</span><span class="hs-operator hs-var">?~</span></span><span> </span><span class="annot"><span class="annottext">WorkspaceEdit
+</span><a href="#local-6989586621680124966"><span class="hs-identifier hs-var">workspaceEdit</span></a></span><span>
+</span><span id="line-145"></span></pre></body></html>

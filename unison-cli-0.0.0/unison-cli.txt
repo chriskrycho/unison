@@ -879,6 +879,12 @@ instance Language.LSP.Types.Lens.HasTextDocument Language.LSP.Types.TextDocument
 instance Language.LSP.Types.Lens.HasTextDocument Language.LSP.Types.TextDocument.VersionedTextDocumentIdentifier Language.LSP.Types.TextDocument.VersionedTextDocumentIdentifier
 instance Language.LSP.Types.Lens.HasUri Language.LSP.Types.Uri.NormalizedUri Language.LSP.Types.Uri.Uri
 
+module Unison.LSP.Conversions
+rangeToInterval :: Range -> Interval Position
+uToLspPos :: Pos -> Position
+uToLspRange :: Range -> Range
+annToRange :: Ann -> Maybe Range
+
 module Unison.LSP.Types
 
 -- | A custom LSP monad wrapper so we can provide our own environment.
@@ -895,7 +901,7 @@ logError :: Text -> Lsp ()
 
 -- | Environment for the Lsp monad.
 data Env
-Env :: LanguageContextEnv Config -> Codebase IO Symbol Ann -> IO NamesWithHistory -> IO PrettyPrintEnvDecl -> IO Absolute -> MVar VFS -> Runtime Symbol -> TVar (Map Uri FileAnalysis) -> TVar (Set Uri) -> Scope -> Env
+Env :: LanguageContextEnv Config -> Codebase IO Symbol Ann -> IO NamesWithHistory -> IO PrettyPrintEnvDecl -> IO Absolute -> MVar VFS -> Runtime Symbol -> TVar (Map Uri FileAnalysis) -> TVar (Set Uri) -> TVar (Map SomeLspId (IO ())) -> Scope -> Env
 [$sel:lspContext:Env] :: Env -> LanguageContextEnv Config
 [$sel:codebase:Env] :: Env -> Codebase IO Symbol Ann
 [$sel:parseNamesCache:Env] :: Env -> IO NamesWithHistory
@@ -905,19 +911,22 @@ Env :: LanguageContextEnv Config -> Codebase IO Symbol Ann -> IO NamesWithHistor
 [$sel:runtime:Env] :: Env -> Runtime Symbol
 [$sel:checkedFilesVar:Env] :: Env -> TVar (Map Uri FileAnalysis)
 [$sel:dirtyFilesVar:Env] :: Env -> TVar (Set Uri)
+[$sel:cancellationMapVar:Env] :: Env -> TVar (Map SomeLspId (IO ()))
 [$sel:scope:Env] :: Env -> Scope
 
 -- | A monotonically increasing file version tracked by the lsp client.
 type FileVersion = Int32
 type LexedSource = (Text, [Token Lexeme])
 data FileAnalysis
-FileAnalysis :: Uri -> FileVersion -> LexedSource -> Maybe (UnisonFile Symbol Ann) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Seq (Note Symbol Ann) -> FileAnalysis
+FileAnalysis :: Uri -> FileVersion -> LexedSource -> Maybe (UnisonFile Symbol Ann) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Seq (Note Symbol Ann) -> IntervalMap Position [Diagnostic] -> IntervalMap Position [CodeAction] -> FileAnalysis
 [$sel:fileUri:FileAnalysis] :: FileAnalysis -> Uri
 [$sel:fileVersion:FileAnalysis] :: FileAnalysis -> FileVersion
 [$sel:lexedSource:FileAnalysis] :: FileAnalysis -> LexedSource
 [$sel:parsedFile:FileAnalysis] :: FileAnalysis -> Maybe (UnisonFile Symbol Ann)
 [$sel:typecheckedFile:FileAnalysis] :: FileAnalysis -> Maybe (TypecheckedUnisonFile Symbol Ann)
 [$sel:notes:FileAnalysis] :: FileAnalysis -> Seq (Note Symbol Ann)
+[$sel:diagnostics:FileAnalysis] :: FileAnalysis -> IntervalMap Position [Diagnostic]
+[$sel:codeActions:FileAnalysis] :: FileAnalysis -> IntervalMap Position [CodeAction]
 getCurrentPath :: Lsp Absolute
 globalPPE :: Lsp PrettyPrintEnvDecl
 getParseNames :: Lsp NamesWithHistory
@@ -927,6 +936,14 @@ Config :: Config
 -- | Lift a backend computation into the Lsp monad.
 lspBackend :: Backend IO a -> Lsp (Either BackendError a)
 sendNotification :: forall (m :: Method 'FromServer 'Notification). Message m ~ NotificationMessage m => NotificationMessage m -> Lsp ()
+data RangedCodeAction
+RangedCodeAction :: [Range] -> CodeAction -> RangedCodeAction
+[$sel:_codeActionRanges:RangedCodeAction] :: RangedCodeAction -> [Range]
+[$sel:_codeAction:RangedCodeAction] :: RangedCodeAction -> CodeAction
+rangedCodeAction :: Text -> [Diagnostic] -> [Range] -> RangedCodeAction
+
+-- | Provided ranges must not intersect.
+includeEdits :: Uri -> Text -> [Range] -> RangedCodeAction -> RangedCodeAction
 instance GHC.Show.Show Unison.LSP.Types.FileAnalysis
 instance Language.LSP.Server.Core.MonadLsp Unison.LSP.Types.Config Unison.LSP.Types.Lsp
 instance Control.Monad.Reader.Class.MonadReader Unison.LSP.Types.Env Unison.LSP.Types.Lsp
@@ -935,34 +952,35 @@ instance Control.Monad.IO.Class.MonadIO Unison.LSP.Types.Lsp
 instance GHC.Base.Monad Unison.LSP.Types.Lsp
 instance GHC.Base.Applicative Unison.LSP.Types.Lsp
 instance GHC.Base.Functor Unison.LSP.Types.Lsp
+instance GHC.Show.Show Unison.LSP.Types.RangedCodeAction
+instance GHC.Classes.Eq Unison.LSP.Types.RangedCodeAction
+instance Language.LSP.Types.Lens.HasCodeAction Unison.LSP.Types.RangedCodeAction Language.LSP.Types.CodeAction.CodeAction
 
 module Unison.LSP.NotificationHandlers
 initializedHandler :: NotificationMessage 'Initialized -> Lsp ()
+withDebugging :: Show m => (m -> Lsp ()) -> m -> Lsp ()
+
+module Unison.LSP.HandlerUtils
+
+-- | Cancels an in-flight request
+cancelRequest :: SomeLspId -> Lsp ()
+withDebugging :: (Show (RequestMessage message), Show (ResponseResult message)) => (RequestMessage message -> (Either ResponseError (ResponseResult message) -> Lsp ()) -> Lsp ()) -> RequestMessage message -> (Either ResponseError (ResponseResult message) -> Lsp ()) -> Lsp ()
+
+-- | Handler middleware to add the ability for the client to cancel
+--   long-running in-flight requests.
+withCancellation :: forall message. Maybe Int -> (RequestMessage message -> (Either ResponseError (ResponseResult message) -> Lsp ()) -> Lsp ()) -> RequestMessage message -> (Either ResponseError (ResponseResult message) -> Lsp ()) -> Lsp ()
 
 module Unison.LSP.Diagnostics
 annToRange :: Ann -> Maybe Range
 uToLspPos :: Pos -> Position
 uToLspRange :: Range -> Range
-infoDiagnostics :: FileAnalysis -> Lsp [Diagnostic]
-noteDiagnostics :: Foldable f => Uri -> String -> f (Note Symbol Ann) -> Lsp [Diagnostic]
-
--- | Returns a list of ranges where this note should be marked in the
---   document, as well as a list of <tt>related</tt> ranges the note might
---   refer to, and their relevance.
---   
---   E.g. a name conflict note might mark each conflicted name, and contain
---   references to the other conflicted name locations.
-noteRanges :: Note Symbol Ann -> [(Range, [(Text, Range)])]
-reportDiagnostics :: Uri -> Maybe FileVersion -> [Diagnostic] -> Lsp ()
-data UnisonDiagnostic
-UnisonDiagnostic :: Range -> UnisonDiagnosticInfo -> UnisonDiagnostic
-data UnisonDiagnosticInfo
-TypeError :: Text -> UnisonDiagnosticInfo
-NameResolutionFailure :: ResolutionFailure Symbol Range -> UnisonDiagnosticInfo
+reportDiagnostics :: Foldable f => Uri -> Maybe FileVersion -> f Diagnostic -> Lsp ()
 mkDiagnostic :: Uri -> Range -> DiagnosticSeverity -> Text -> [(Text, Range)] -> Diagnostic
-getSeverity :: UnisonDiagnosticInfo -> DiagnosticSeverity
-diagnosticMessage :: UnisonDiagnosticInfo -> Text
-toLSPDiagnostic :: UnisonDiagnostic -> Diagnostic
+
+module Unison.LSP.CancelRequest
+
+-- | Allows a client to cancel work from a previous request.
+cancelRequestHandler :: NotificationMessage 'CancelRequest -> Lsp ()
 
 module Unison.LSP.VFS
 
@@ -1711,8 +1729,24 @@ typecheckHelper :: MonadIO m => Codebase IO Symbol Ann -> IO UniqueName -> [Type
 module Unison.LSP.FileAnalysis
 
 -- | Lex, parse, and typecheck a file.
-analyseFile :: HasUri d Uri => d -> Lsp (Maybe FileAnalysis)
+checkFile :: HasUri d Uri => d -> Lsp (Maybe FileAnalysis)
 fileAnalysisWorker :: Lsp ()
+analyseFile :: Foldable f => Uri -> Text -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
+analyseNotes :: Foldable f => Uri -> PrettyPrintEnv -> String -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
+toRangeMap :: Foldable f => f (Range, a) -> IntervalMap Position [a]
+getFileAnalysis :: Uri -> Lsp (Maybe FileAnalysis)
+ppeForFile :: Uri -> Lsp PrettyPrintEnv
+
+module Unison.LSP.FoldingRange
+foldingRangeRequest :: RequestMessage 'TextDocumentFoldingRange -> (Either ResponseError (ResponseResult 'TextDocumentFoldingRange) -> Lsp ()) -> Lsp ()
+
+-- | Return a folding range for each top-level definition
+foldingRangesForFile :: Uri -> Lsp [FoldingRange]
+
+module Unison.LSP.CodeAction
+
+-- | Computes code actions for a document.
+codeActionHandler :: RequestMessage 'TextDocumentCodeAction -> (Either ResponseError (ResponseResult 'TextDocumentCodeAction) -> Lsp ()) -> Lsp ()
 
 module Unison.LSP
 getLspPort :: IO String

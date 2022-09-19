@@ -1934,6 +1934,7 @@ data Unknown
 Data :: Unknown
 Effect :: Unknown
 relax :: Var v => Ord loc => Type v loc -> Type v loc
+generalizeAndUnTypeVar :: Var v => Type v a -> Type v a
 instance GHC.Show.Show Unison.Typechecker.Context.Unknown
 instance (GHC.Show.Show v, GHC.Show.Show loc) => GHC.Show.Show (Unison.Typechecker.Context.PathElement v loc)
 instance GHC.Show.Show Unison.Typechecker.Context.SuggestionMatch
@@ -2214,9 +2215,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3pIb loc_a3pIc. Lens' (Env v_a3pIb loc_a3pIc) (TypeLookup v_a3pIb loc_a3pIc)
-termsByShortname :: forall v_a3pIb loc_a3pIc. Lens' (Env v_a3pIb loc_a3pIc) (Map Name [NamedReference v_a3pIb loc_a3pIc])
-ambientAbilities :: forall v_a3pIb loc_a3pIc. Lens' (Env v_a3pIb loc_a3pIc) [Type v_a3pIb loc_a3pIc]
+typeLookup :: forall v_a3pIc loc_a3pId. Lens' (Env v_a3pIc loc_a3pId) (TypeLookup v_a3pIc loc_a3pId)
+termsByShortname :: forall v_a3pIc loc_a3pId. Lens' (Env v_a3pIc loc_a3pId) (Map Name [NamedReference v_a3pIc loc_a3pId])
+ambientAbilities :: forall v_a3pIc loc_a3pId. Lens' (Env v_a3pIc loc_a3pId) [Type v_a3pIc loc_a3pId]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.

@@ -677,6 +677,20 @@ fromSegments :: NonEmpty NameSegment -> Name
 --   <i>O(1)</i>
 fromReverseSegments :: NonEmpty NameSegment -> Name
 
+-- | Parse a name from a string literal.
+--   
+--   Performs very minor validation (a name can't be empty, nor contain a
+--   <tt>#</tt> character [at least currently?]) but makes no attempt at
+--   rejecting bogus names like "foo...bar...baz".
+fromText :: Text -> Maybe Name
+
+-- | Unsafely parse a name from a string literal.
+--   
+--   Performs very minor validation (a name can't be empty, nor contain a
+--   <tt>#</tt> character [at least currently?]) but makes no attempt at
+--   rejecting bogus names like "foo...bar...baz".
+fromTextEither :: Text -> Either Text Name
+
 -- | Unsafely parse a name from a string literal.
 --   
 --   See <a>unsafeFromText</a>.
@@ -688,13 +702,6 @@ unsafeFromString :: String -> Name
 --   <tt>#</tt> character [at least currently?]) but makes no attempt at
 --   rejecting bogus names like "foo...bar...baz".
 unsafeFromText :: HasCallStack => Text -> Name
-
--- | Unsafely parse a name from a string literal.
---   
---   Performs very minor validation (a name can't be empty, nor contain a
---   <tt>#</tt> character [at least currently?]) but makes no attempt at
---   rejecting bogus names like "foo...bar...baz".
-fromText :: Text -> Maybe Name
 
 -- | Unsafely parse a name from a var, by first rendering the var as a
 --   string.

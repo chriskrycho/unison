@@ -9,9 +9,9 @@
 </span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Util.Alphabetical.html"><span class="hs-identifier">Unison.Util.Alphabetical</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Util.Alphabetical.html#Alphabetical"><span class="hs-identifier">Alphabetical</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.Util.Alphabetical.html#compareAlphabetical"><span class="hs-identifier">compareAlphabetical</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-10"></span><span>
 </span><span id="line-11"></span><span class="hs-comment">-- Represents the parts of a name between the `.`s</span><span>
-</span><span id="line-12"></span><span id="local-6989586621679197612"><span id="local-6989586621679197613"></span></span><span class="hs-keyword">newtype</span><span> </span><span id="NameSegment"><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-var">NameSegment</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="NameSegment"><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-var">NameSegment</span></a></span></span><span> </span><span class="hs-special">{</span><span id="toText"><span class="annot"><span class="annottext">NameSegment -&gt; Text
+</span><span id="line-12"></span><span id="local-6989586621679197685"><span id="local-6989586621679197686"></span></span><span class="hs-keyword">newtype</span><span> </span><span id="NameSegment"><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-var">NameSegment</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="NameSegment"><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-var">NameSegment</span></a></span></span><span> </span><span class="hs-special">{</span><span id="toText"><span class="annot"><span class="annottext">NameSegment -&gt; Text
 </span><a href="Unison.NameSegment.html#toText"><span class="hs-identifier hs-var hs-var">toText</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">}</span><span>
-</span><span id="line-13"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679197606"><span id="local-6989586621679197608"><span class="annot"><span class="annottext">NameSegment -&gt; NameSegment -&gt; Bool
+</span><span id="line-13"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679197679"><span id="local-6989586621679197681"><span class="annot"><span class="annottext">NameSegment -&gt; NameSegment -&gt; Bool
 (NameSegment -&gt; NameSegment -&gt; Bool)
 -&gt; (NameSegment -&gt; NameSegment -&gt; Bool) -&gt; Eq NameSegment
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -19,7 +19,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: NameSegment -&gt; NameSegment -&gt; Bool
 == :: NameSegment -&gt; NameSegment -&gt; Bool
 $c== :: NameSegment -&gt; NameSegment -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679197590"><span id="local-6989586621679197592"><span id="local-6989586621679197594"><span id="local-6989586621679197596"><span id="local-6989586621679197598"><span id="local-6989586621679197600"><span id="local-6989586621679197602"><span class="annot"><span class="annottext">Eq NameSegment
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679197663"><span id="local-6989586621679197665"><span id="local-6989586621679197667"><span id="local-6989586621679197669"><span id="local-6989586621679197671"><span id="local-6989586621679197673"><span id="local-6989586621679197675"><span class="annot"><span class="annottext">Eq NameSegment
 Eq NameSegment
 -&gt; (NameSegment -&gt; NameSegment -&gt; Ordering)
 -&gt; (NameSegment -&gt; NameSegment -&gt; Bool)
@@ -69,56 +69,56 @@ $cfrom :: forall x. NameSegment -&gt; Rep NameSegment x
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">)</span><span>
 </span><span id="line-14"></span><span>
 </span><span id="line-15"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Unison.Util.Alphabetical.html#Alphabetical"><span class="hs-identifier hs-type">Alphabetical</span></a></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-16"></span><span>  </span><span id="local-6989586621679197582"><span class="annot"><span class="annottext">compareAlphabetical :: NameSegment -&gt; NameSegment -&gt; Ordering
-</span><a href="#local-6989586621679197582"><span class="hs-identifier hs-var hs-var hs-var hs-var">compareAlphabetical</span></a></span></span><span> </span><span id="local-6989586621679197581"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197581"><span class="hs-identifier hs-var">n1</span></a></span></span><span> </span><span id="local-6989586621679197580"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197580"><span class="hs-identifier hs-var">n2</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Ordering
+</span><span id="line-16"></span><span>  </span><span id="local-6989586621679197655"><span class="annot"><span class="annottext">compareAlphabetical :: NameSegment -&gt; NameSegment -&gt; Ordering
+</span><a href="#local-6989586621679197655"><span class="hs-identifier hs-var hs-var hs-var hs-var">compareAlphabetical</span></a></span></span><span> </span><span id="local-6989586621679197654"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679197654"><span class="hs-identifier hs-var">n1</span></a></span></span><span> </span><span id="local-6989586621679197653"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679197653"><span class="hs-identifier hs-var">n2</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Ordering
 forall n. Alphabetical n =&gt; n -&gt; n -&gt; Ordering
 </span><a href="Unison.Util.Alphabetical.html#compareAlphabetical"><span class="hs-identifier hs-var">compareAlphabetical</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment -&gt; Text
 </span><a href="Unison.NameSegment.html#toText"><span class="hs-identifier hs-var hs-var">toText</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197581"><span class="hs-identifier hs-var">n1</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment -&gt; Text
+</span><a href="#local-6989586621679197654"><span class="hs-identifier hs-var">n1</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment -&gt; Text
 </span><a href="Unison.NameSegment.html#toText"><span class="hs-identifier hs-var hs-var">toText</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197580"><span class="hs-identifier hs-var">n2</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679197653"><span class="hs-identifier hs-var">n2</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-17"></span><span>
 </span><span id="line-18"></span><span class="hs-comment">-- Split text into segments. A smarter version of `Text.splitOn` that handles</span><span>
 </span><span id="line-19"></span><span class="hs-comment">-- the name `.` properly.</span><span>
 </span><span id="line-20"></span><span class="annot"><a href="Unison.NameSegment.html#segments%27"><span class="hs-identifier hs-type">segments'</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">]</span><span>
 </span><span id="line-21"></span><span id="segments%27"><span class="annot"><span class="annottext">segments' :: Text -&gt; [Text]
-</span><a href="Unison.NameSegment.html#segments%27"><span class="hs-identifier hs-var hs-var">segments'</span></a></span></span><span> </span><span id="local-6989586621679197578"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197578"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Text] -&gt; [Text]
+</span><a href="Unison.NameSegment.html#segments%27"><span class="hs-identifier hs-var hs-var">segments'</span></a></span></span><span> </span><span id="local-6989586621679197651"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679197651"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Text] -&gt; [Text]
 forall a. (Eq a, IsString a) =&gt; [a] -&gt; [a]
-</span><a href="#local-6989586621679197577"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[Text]
-</span><a href="#local-6989586621679197576"><span class="hs-identifier hs-var">split</span></a></span><span>
+</span><a href="#local-6989586621679197650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[Text]
+</span><a href="#local-6989586621679197649"><span class="hs-identifier hs-var">split</span></a></span><span>
 </span><span id="line-22"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-23"></span><span>    </span><span id="local-6989586621679197576"><span class="annot"><span class="annottext">split :: [Text]
-</span><a href="#local-6989586621679197576"><span class="hs-identifier hs-var hs-var">split</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; [Text]
+</span><span id="line-23"></span><span>    </span><span id="local-6989586621679197649"><span class="annot"><span class="annottext">split :: [Text]
+</span><a href="#local-6989586621679197649"><span class="hs-identifier hs-var hs-var">split</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; [Text]
 </span><span class="hs-identifier hs-var">Text.splitOn</span></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;.&quot;</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197578"><span class="hs-identifier hs-var">n</span></a></span><span>
-</span><span id="line-24"></span><span>    </span><span id="local-6989586621679197577"><span class="annot"><span class="annottext">go :: [a] -&gt; [a]
-</span><a href="#local-6989586621679197577"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-25"></span><span>    </span><span class="annot"><a href="#local-6989586621679197577"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679197651"><span class="hs-identifier hs-var">n</span></a></span><span>
+</span><span id="line-24"></span><span>    </span><span id="local-6989586621679197650"><span class="annot"><span class="annottext">go :: [a] -&gt; [a]
+</span><a href="#local-6989586621679197650"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-25"></span><span>    </span><span class="annot"><a href="#local-6989586621679197650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
 </span><span class="hs-string">&quot;&quot;</span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span class="annot"><span class="annottext">a
-</span><span class="hs-string">&quot;&quot;</span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679197574"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679197574"><span class="hs-identifier hs-var">z</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
+</span><span class="hs-string">&quot;&quot;</span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679197647"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679197647"><span class="hs-identifier hs-var">z</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
 </span><span class="hs-string">&quot;.&quot;</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[a] -&gt; [a]
-</span><a href="#local-6989586621679197577"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679197574"><span class="hs-identifier hs-var">z</span></a></span><span>
-</span><span id="line-26"></span><span>    </span><span class="annot"><a href="#local-6989586621679197577"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
-</span><span class="hs-string">&quot;&quot;</span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679197573"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679197573"><span class="hs-identifier hs-var">z</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[a] -&gt; [a]
-</span><a href="#local-6989586621679197577"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679197573"><span class="hs-identifier hs-var">z</span></a></span><span>
-</span><span id="line-27"></span><span>    </span><span class="annot"><a href="#local-6989586621679197577"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679197572"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679197572"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679197571"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679197571"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679197572"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
+</span><a href="#local-6989586621679197650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679197647"><span class="hs-identifier hs-var">z</span></a></span><span>
+</span><span id="line-26"></span><span>    </span><span class="annot"><a href="#local-6989586621679197650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><span class="hs-string">&quot;&quot;</span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679197646"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679197646"><span class="hs-identifier hs-var">z</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[a] -&gt; [a]
+</span><a href="#local-6989586621679197650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679197646"><span class="hs-identifier hs-var">z</span></a></span><span>
+</span><span id="line-27"></span><span>    </span><span class="annot"><a href="#local-6989586621679197650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679197645"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679197645"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679197644"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679197644"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679197645"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; [a] -&gt; [a]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[a] -&gt; [a]
-</span><a href="#local-6989586621679197577"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679197571"><span class="hs-identifier hs-var">y</span></a></span><span>
+</span><a href="#local-6989586621679197650"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679197644"><span class="hs-identifier hs-var">y</span></a></span><span>
 </span><span id="line-28"></span><span>
 </span><span id="line-29"></span><span class="hs-comment">-- Same as reverse . segments', but produces the output as a</span><span>
 </span><span id="line-30"></span><span class="hs-comment">-- lazy list, suitable for suffix-based ordering purposes or</span><span>
@@ -132,50 +132,50 @@ forall a. a -&gt; [a] -&gt; [a]
 </span><span id="line-38"></span><span class="annot"><a href="Unison.NameSegment.html#reverseSegments%27"><span class="hs-identifier hs-type">reverseSegments'</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">]</span><span>
 </span><span id="line-39"></span><span id="reverseSegments%27"><span class="annot"><span class="annottext">reverseSegments' :: Text -&gt; [Text]
 </span><a href="Unison.NameSegment.html#reverseSegments%27"><span class="hs-identifier hs-var hs-var">reverseSegments'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; [Text]
-</span><a href="#local-6989586621679197569"><span class="hs-identifier hs-var">go</span></a></span><span>
+</span><a href="#local-6989586621679197642"><span class="hs-identifier hs-var">go</span></a></span><span>
 </span><span id="line-40"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-41"></span><span>    </span><span id="local-6989586621679197569"><span class="annot"><span class="annottext">go :: Text -&gt; [Text]
-</span><a href="#local-6989586621679197569"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span id="line-41"></span><span>    </span><span id="local-6989586621679197642"><span class="annot"><span class="annottext">go :: Text -&gt; [Text]
+</span><a href="#local-6989586621679197642"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&quot;</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-42"></span><span>    </span><span class="annot"><a href="#local-6989586621679197569"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span id="local-6989586621679197568"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197568"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-43"></span><span>      </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679197567"><span class="annot"><span class="annottext">seg0 :: Text
-</span><a href="#local-6989586621679197567"><span class="hs-identifier hs-var hs-var">seg0</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Bool) -&gt; Text -&gt; Text
+</span><span id="line-42"></span><span>    </span><span class="annot"><a href="#local-6989586621679197642"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span id="local-6989586621679197641"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679197641"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-43"></span><span>      </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679197640"><span class="annot"><span class="annottext">seg0 :: Text
+</span><a href="#local-6989586621679197640"><span class="hs-identifier hs-var hs-var">seg0</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Bool) -&gt; Text -&gt; Text
 </span><span class="hs-identifier hs-var">Text.takeWhileEnd</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Char -&gt; Char -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">/=</span></span><span> </span><span class="annot"><span class="annottext">Char
 </span><span class="hs-char">'.'</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197568"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-44"></span><span>          </span><span id="local-6989586621679197564"><span class="annot"><span class="annottext">seg :: Text
-</span><a href="#local-6989586621679197564"><span class="hs-identifier hs-var hs-var">seg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Bool
+</span><a href="#local-6989586621679197641"><span class="hs-identifier hs-var">t</span></a></span><span>
+</span><span id="line-44"></span><span>          </span><span id="local-6989586621679197637"><span class="annot"><span class="annottext">seg :: Text
+</span><a href="#local-6989586621679197637"><span class="hs-identifier hs-var hs-var">seg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Bool
 </span><span class="hs-identifier hs-var">Text.null</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197567"><span class="hs-identifier hs-var">seg0</span></a></span><span> </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Text -&gt; Text
+</span><a href="#local-6989586621679197640"><span class="hs-identifier hs-var">seg0</span></a></span><span> </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Text -&gt; Text
 </span><span class="hs-identifier hs-var">Text.takeEnd</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">1</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197568"><span class="hs-identifier hs-var">t</span></a></span><span> </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197567"><span class="hs-identifier hs-var">seg0</span></a></span><span>
-</span><span id="line-45"></span><span>          </span><span id="local-6989586621679197561"><span class="annot"><span class="annottext">rem :: Text
-</span><a href="#local-6989586621679197561"><span class="hs-identifier hs-var hs-var">rem</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Text -&gt; Text
+</span><a href="#local-6989586621679197641"><span class="hs-identifier hs-var">t</span></a></span><span> </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679197640"><span class="hs-identifier hs-var">seg0</span></a></span><span>
+</span><span id="line-45"></span><span>          </span><span id="local-6989586621679197634"><span class="annot"><span class="annottext">rem :: Text
+</span><a href="#local-6989586621679197634"><span class="hs-identifier hs-var hs-var">rem</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Text -&gt; Text
 </span><span class="hs-identifier hs-var">Text.dropEnd</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Int
 </span><span class="hs-identifier hs-var">Text.length</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197564"><span class="hs-identifier hs-var">seg</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+</span><a href="#local-6989586621679197637"><span class="hs-identifier hs-var">seg</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">1</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197568"><span class="hs-identifier hs-var">t</span></a></span><span>
+</span><a href="#local-6989586621679197641"><span class="hs-identifier hs-var">t</span></a></span><span>
 </span><span id="line-46"></span><span>       </span><span class="hs-keyword">in</span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197564"><span class="hs-identifier hs-var">seg</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; [Text] -&gt; [Text]
+</span><a href="#local-6989586621679197637"><span class="hs-identifier hs-var">seg</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; [Text] -&gt; [Text]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; [Text]
-</span><a href="#local-6989586621679197569"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679197561"><span class="hs-identifier hs-var">rem</span></a></span><span>
+</span><a href="#local-6989586621679197642"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679197634"><span class="hs-identifier hs-var">rem</span></a></span><span>
 </span><span id="line-47"></span><span>
 </span><span id="line-48"></span><span class="annot"><a href="Unison.NameSegment.html#isEmpty"><span class="hs-identifier hs-type">isEmpty</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
 </span><span id="line-49"></span><span id="isEmpty"><span class="annot"><span class="annottext">isEmpty :: NameSegment -&gt; Bool
-</span><a href="Unison.NameSegment.html#isEmpty"><span class="hs-identifier hs-var hs-var">isEmpty</span></a></span></span><span> </span><span id="local-6989586621679197556"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197556"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Text
+</span><a href="Unison.NameSegment.html#isEmpty"><span class="hs-identifier hs-var hs-var">isEmpty</span></a></span></span><span> </span><span id="local-6989586621679197629"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679197629"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Text
 </span><a href="Unison.NameSegment.html#toText"><span class="hs-identifier hs-var hs-var">toText</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197556"><span class="hs-identifier hs-var">ns</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Bool
+</span><a href="#local-6989586621679197629"><span class="hs-identifier hs-var">ns</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Text
 forall a. Monoid a =&gt; a
@@ -183,14 +183,14 @@ forall a. Monoid a =&gt; a
 </span><span id="line-50"></span><span>
 </span><span id="line-51"></span><span class="annot"><a href="Unison.NameSegment.html#isPrefixOf"><span class="hs-identifier hs-type">isPrefixOf</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
 </span><span id="line-52"></span><span id="isPrefixOf"><span class="annot"><span class="annottext">isPrefixOf :: NameSegment -&gt; NameSegment -&gt; Bool
-</span><a href="Unison.NameSegment.html#isPrefixOf"><span class="hs-identifier hs-var hs-var">isPrefixOf</span></a></span></span><span> </span><span id="local-6989586621679197554"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197554"><span class="hs-identifier hs-var">n1</span></a></span></span><span> </span><span id="local-6989586621679197553"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197553"><span class="hs-identifier hs-var">n2</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Bool
+</span><a href="Unison.NameSegment.html#isPrefixOf"><span class="hs-identifier hs-var hs-var">isPrefixOf</span></a></span></span><span> </span><span id="local-6989586621679197627"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679197627"><span class="hs-identifier hs-var">n1</span></a></span></span><span> </span><span id="local-6989586621679197626"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679197626"><span class="hs-identifier hs-var">n2</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Bool
 </span><span class="hs-identifier hs-var">Text.isPrefixOf</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment -&gt; Text
 </span><a href="Unison.NameSegment.html#toText"><span class="hs-identifier hs-var hs-var">toText</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197554"><span class="hs-identifier hs-var">n1</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment -&gt; Text
+</span><a href="#local-6989586621679197627"><span class="hs-identifier hs-var">n1</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment -&gt; Text
 </span><a href="Unison.NameSegment.html#toText"><span class="hs-identifier hs-var hs-var">toText</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679197553"><span class="hs-identifier hs-var">n2</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679197626"><span class="hs-identifier hs-var">n2</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-53"></span><span>
 </span><span id="line-54"></span><span class="annot"><a href="Unison.NameSegment.html#toString"><span class="hs-identifier hs-type">toString</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
 </span><span id="line-55"></span><span id="toString"><span class="annot"><span class="annottext">toString :: NameSegment -&gt; String
@@ -207,8 +207,8 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-identifier hs-var">coerce</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Builder
 </span><span class="hs-identifier hs-var">Text.Builder.fromText</span></span><span>
 </span><span id="line-60"></span><span>
-</span><span id="line-61"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679197542"><span id="local-6989586621679197545"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-62"></span><span>  </span><span id="local-6989586621679197540"><span class="annot"><span class="annottext">show :: NameSegment -&gt; String
+</span><span id="line-61"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679197615"><span id="local-6989586621679197618"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-62"></span><span>  </span><span id="local-6989586621679197613"><span class="annot"><span class="annottext">show :: NameSegment -&gt; String
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">show</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; String
 </span><span class="hs-identifier hs-var">Text.unpack</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; String) -&gt; (NameSegment -&gt; Text) -&gt; NameSegment -&gt; String
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
@@ -216,7 +216,7 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><a href="Unison.NameSegment.html#toText"><span class="hs-identifier hs-var hs-var">toText</span></a></span><span>
 </span><span id="line-63"></span><span>
 </span><span id="line-64"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IsString</span></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-65"></span><span>  </span><span id="local-6989586621679197536"><span class="annot"><span class="annottext">fromString :: String -&gt; NameSegment
+</span><span id="line-65"></span><span>  </span><span id="local-6989586621679197609"><span class="annot"><span class="annottext">fromString :: String -&gt; NameSegment
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">fromString</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; NameSegment
 </span><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-var">NameSegment</span></a></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; NameSegment) -&gt; (String -&gt; Text) -&gt; String -&gt; NameSegment
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
