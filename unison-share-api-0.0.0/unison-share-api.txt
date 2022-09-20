@@ -836,8 +836,20 @@ instance Data.Aeson.Types.ToJSON.ToJSON Text.FuzzyFind.ResultSegment
 module Unison.Server.Endpoints.DefinitionSummary
 type TermSummaryAPI = "definitions" :> "terms" :> "qualified" :> Capture "fqn" (ExactName Name ShortHash) :> "summary" :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" Path :> QueryParam "renderWidth" Width :> APIGet TermSummary
 serveTermSummary :: Codebase IO Symbol Ann -> ExactName Name ShortHash -> Maybe ShortBranchHash -> Maybe Path -> Maybe Width -> Backend IO TermSummary
+data TermSummary
+TermSummary :: Name -> ShortHash -> DisplayObject SyntaxText SyntaxText -> TermTag -> TermSummary
+[$sel:fqn:TermSummary] :: TermSummary -> Name
+[$sel:hash:TermSummary] :: TermSummary -> ShortHash
+[$sel:summary:TermSummary] :: TermSummary -> DisplayObject SyntaxText SyntaxText
+[$sel:tag:TermSummary] :: TermSummary -> TermTag
 type TypeSummaryAPI = "definitions" :> "types" :> "qualified" :> Capture "fqn" (ExactName Name ShortHash) :> "summary" :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" Path :> QueryParam "renderWidth" Width :> APIGet TypeSummary
 serveTypeSummary :: Codebase IO Symbol Ann -> ExactName Name ShortHash -> Maybe ShortBranchHash -> Maybe Path -> Maybe Width -> Backend IO TypeSummary
+data TypeSummary
+TypeSummary :: Name -> ShortHash -> DisplayObject SyntaxText SyntaxText -> TypeTag -> TypeSummary
+[$sel:fqn:TypeSummary] :: TypeSummary -> Name
+[$sel:hash:TypeSummary] :: TypeSummary -> ShortHash
+[$sel:summary:TypeSummary] :: TypeSummary -> DisplayObject SyntaxText SyntaxText
+[$sel:tag:TypeSummary] :: TypeSummary -> TypeTag
 instance GHC.Show.Show Unison.Server.Endpoints.DefinitionSummary.TermSummary
 instance GHC.Generics.Generic Unison.Server.Endpoints.DefinitionSummary.TermSummary
 instance GHC.Show.Show Unison.Server.Endpoints.DefinitionSummary.TypeSummary
