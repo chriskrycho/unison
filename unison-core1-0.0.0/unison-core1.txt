@@ -180,6 +180,7 @@ toHash :: Reference -> Maybe Hash
 toId :: Reference -> Maybe Id
 fromId :: Id -> Reference
 toText :: Reference -> Text
+idToText :: Id -> Text
 unsafeId :: Reference -> Id
 toShortHash :: Reference -> ShortHash
 idToHash :: Id -> Hash
@@ -578,12 +579,16 @@ inferPatternBindV :: Var v => v
 inferTypeConstructor :: Var v => v
 inferTypeConstructorArg :: Var v => v
 inferOther :: Var v => v
+unnamedRef :: Var v => Id -> v
 unnamedTest :: Var v => Text -> v
 data Type
 User :: Text -> Type
 Inference :: InferenceType -> Type
 MissingResult :: Type
 Blank :: Type
+
+-- | An unnamed reference, created during unhashing a term/decl component.
+UnnamedReference :: Id -> Type
 UnnamedWatch :: WatchKind -> Text -> Type
 Eta :: Type
 ANFBlank :: Type
@@ -616,10 +621,6 @@ instance GHC.Classes.Eq Unison.Var.InferenceType
 instance GHC.Show.Show Unison.Var.Type
 instance GHC.Classes.Ord Unison.Var.Type
 instance GHC.Classes.Eq Unison.Var.Type
-
-module Unison.Var.RefNamed
-refNamed :: Var v => Reference -> v
-refIdNamed :: Var v => Id -> v
 
 module Unison.Symbol
 data Symbol

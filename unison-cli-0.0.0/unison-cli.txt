@@ -110,6 +110,13 @@ data CredentialManager
 newCredentialManager :: MonadIO m => m CredentialManager
 getCredentials :: MonadIO m => CredentialManager -> CodeserverId -> m (Either CredentialFailure CodeserverCredentials)
 
+
+-- | <tt>.unisonConfig</tt> file utilities
+module Unison.Cli.UnisonConfigUtils
+defaultMetadataKey :: Absolute -> Text
+gitUrlKey :: Absolute -> Text
+remoteMappingKey :: Absolute -> Text
+
 module Unison.Codebase.Editor.AuthorInfo
 data AuthorInfo v a
 AuthorInfo :: (Id, Term v a, Type v a) -> AuthorInfo v a
@@ -393,6 +400,7 @@ UpdateAliases :: Set Name -> Set Name -> Aliases
 isOk :: Ord v => SlurpResult v -> Bool
 isAllDuplicates :: Ord v => SlurpResult v -> Bool
 hasAddsOrUpdates :: Ord v => SlurpResult v -> Bool
+filterUnisonFile :: Ord v => SlurpResult v -> TypecheckedUnisonFile v Ann -> TypecheckedUnisonFile v Ann
 pretty :: forall v. Var v => IsPastTense -> PrettyPrintEnv -> SlurpResult v -> Pretty ColorText
 data Status
 Add :: Status
@@ -1673,6 +1681,17 @@ assertNoBranchAtPath' :: Path' -> Cli r ()
 --   branch whose head is empty (i.e. it may have a history, but no current
 --   terms/types etc).
 branchExistsAtPath' :: Path' -> Cli r Bool
+stepAt' :: Text -> (Path, Branch0 IO -> Cli r (Branch0 IO)) -> Cli r Bool
+stepAt :: Text -> (Path, Branch0 IO -> Branch0 IO) -> Cli r ()
+stepAtM :: Text -> (Path, Branch0 IO -> IO (Branch0 IO)) -> Cli r ()
+stepAtNoSync' :: (Path, Branch0 IO -> Cli r (Branch0 IO)) -> Cli r Bool
+stepAtNoSync :: (Path, Branch0 IO -> Branch0 IO) -> Cli r ()
+stepManyAt :: Foldable f => Text -> f (Path, Branch0 IO -> Branch0 IO) -> Cli r ()
+stepManyAtMNoSync :: Foldable f => f (Path, Branch0 IO -> IO (Branch0 IO)) -> Cli r ()
+stepManyAtNoSync :: Foldable f => f (Path, Branch0 IO -> Branch0 IO) -> Cli r ()
+
+-- | Sync the in-memory root branch.
+syncRoot :: Text -> Cli r ()
 updateRoot :: Branch IO -> Text -> Cli r ()
 
 -- | Update a branch at the given path, returning <a>True</a> if an update
@@ -1721,6 +1740,55 @@ module Unison.Codebase.Editor.HandleInput.MoveBranch
 -- | Moves a branch and its history from one location to another, and saves
 --   the new root branch.
 doMoveBranch :: forall r. Text -> Bool -> Path' -> Path' -> Cli r ()
+
+
+-- | Utilities that have to do with constructing pretty-print environments,
+--   given stateful information in the Cli monad state/environment, such as
+--   the current path.
+module Unison.Cli.PrettyPrintUtils
+prettyPrintEnvDecl :: NamesWithHistory -> Cli r PrettyPrintEnvDecl
+
+-- | Get a pretty print env decl for the current names at the current path.
+currentPrettyPrintEnvDecl :: (Path -> NameScoping) -> Cli r PrettyPrintEnvDecl
+
+
+-- | Helpers/utils that have to do with namespace diffs.
+module Unison.Codebase.Editor.HandleInput.NamespaceDiffUtils
+diffHelper :: Branch0 IO -> Branch0 IO -> Cli r (PrettyPrintEnv, BranchDiffOutput Symbol Ann)
+
+
+-- | Helpers<i>utils that have to do with term</i>type metadata.
+module Unison.Codebase.Editor.HandleInput.MetadataUtils
+addDefaultMetadata :: SlurpComponent Symbol -> Cli r ()
+
+-- | Add/remove links between definitions and metadata. <tt>silent</tt>
+--   controls whether this produces any output to the user. <tt>srcs</tt>
+--   is (names of the) definitions to pass to <a>op</a> <tt>mdValues</tt>
+--   is (names of the) metadata to pass to <a>op</a> <a>op</a> is the
+--   operation to add<i>remove</i>alter metadata mappings. e.g.
+--   <a>insert</a> is passed to add metadata links.
+manageLinks :: Bool -> [HQSplit'] -> [HashQualified Name] -> (forall r. Ord r => (r, Type, Value) -> Star r NameSegment -> Star r NameSegment) -> Cli r ()
+
+
+-- | Utilities that have to do with constructing names objects.
+module Unison.Cli.NamesUtils
+basicParseNames :: Cli r Names
+basicPrettyPrintNamesA :: Cli r Names
+
+-- | Produce a <a>Names</a> needed to display all the hashes used in the
+--   given file.
+displayNames :: Var v => TypecheckedUnisonFile v a -> Cli r NamesWithHistory
+findHistoricalHQs :: Set (HashQualified Name) -> Cli r Names
+getBasicPrettyPrintNames :: Cli r Names
+makeHistoricalParsingNames :: Set (HashQualified Name) -> Cli r NamesWithHistory
+makePrintNamesFromLabeled' :: Set LabeledDependency -> Cli r NamesWithHistory
+makeShadowedPrintNamesFromHQ :: Set (HashQualified Name) -> Names -> Cli r NamesWithHistory
+
+module Unison.Codebase.Editor.HandleInput.Update
+
+-- | Handle an <tt>update</tt> command.
+handleUpdate :: Input -> OptionalPatch -> Set Name -> Cli r ()
+doSlurpAdds :: forall m v. (Monad m, Var v) => SlurpComponent v -> TypecheckedUnisonFile v Ann -> Branch0 m -> Branch0 m
 
 module Unison.Codebase.Editor.HandleInput
 loop :: Either Event Input -> Cli r ()
