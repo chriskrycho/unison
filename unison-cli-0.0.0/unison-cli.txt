@@ -110,6 +110,26 @@ data CredentialManager
 newCredentialManager :: MonadIO m => m CredentialManager
 getCredentials :: MonadIO m => CredentialManager -> CodeserverId -> m (Either CredentialFailure CodeserverCredentials)
 
+module Unison.Auth.Tokens
+
+-- | Checks whether a JWT access token is expired.
+isExpired :: MonadIO m => AccessToken -> m Bool
+
+-- | Given a <a>CodeserverId</a>, provide a valid <a>AccessToken</a> for
+--   the associated host. The TokenProvider may automatically refresh
+--   access tokens if we have a refresh token.
+type TokenProvider = CodeserverId -> IO (Either CredentialFailure AccessToken)
+
+-- | Creates a <a>TokenProvider</a> using the given
+--   <a>CredentialManager</a>
+newTokenProvider :: CredentialManager -> TokenProvider
+
+-- | Don't yet support automatically refreshing tokens.
+--   
+--   Specification:
+--   <a>https://datatracker.ietf.org/doc/html/rfc6749#section-6</a>
+performTokenRefresh :: MonadIO m => URI -> Tokens -> m (Either CredentialFailure Tokens)
+
 
 -- | <tt>.unisonConfig</tt> file utilities
 module Unison.Cli.UnisonConfigUtils
@@ -584,265 +604,6 @@ instance GHC.Classes.Ord Unison.CommandLine.Globbing.TargetType
 instance GHC.Classes.Eq Unison.CommandLine.Globbing.TargetType
 instance GHC.Show.Show Unison.CommandLine.Globbing.GlobArg
 
-module Unison.CommandLine.InputPattern
-data InputPattern
-InputPattern :: String -> [String] -> Visibility -> [(IsOptional, ArgumentType)] -> Pretty ColorText -> ([String] -> Either (Pretty ColorText) Input) -> InputPattern
-[$sel:patternName:InputPattern] :: InputPattern -> String
-[$sel:aliases:InputPattern] :: InputPattern -> [String]
-[$sel:visibility:InputPattern] :: InputPattern -> Visibility
-[$sel:argTypes:InputPattern] :: InputPattern -> [(IsOptional, ArgumentType)]
-[$sel:help:InputPattern] :: InputPattern -> Pretty ColorText
-[$sel:parse:InputPattern] :: InputPattern -> [String] -> Either (Pretty ColorText) Input
-data ArgumentType
-ArgumentType :: String -> (forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]) -> Set TargetType -> ArgumentType
-[$sel:typeName:ArgumentType] :: ArgumentType -> String
-
--- | Generate completion suggestions for this argument type
-[$sel:suggestions:ArgumentType] :: ArgumentType -> forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
-
--- | Select which targets glob patterns may expand into for this argument.
---   An empty set disables globbing.
-[$sel:globTargets:ArgumentType] :: ArgumentType -> Set TargetType
-argType :: InputPattern -> Int -> Maybe ArgumentType
-data IsOptional
-Required :: IsOptional
-Optional :: IsOptional
-ZeroPlus :: IsOptional
-OnePlus :: IsOptional
-data Visibility
-Hidden :: Visibility
-Visible :: Visibility
-minArgs :: InputPattern -> Int
-maxArgs :: InputPattern -> Maybe Int
-instance GHC.Classes.Eq Unison.CommandLine.InputPattern.IsOptional
-instance GHC.Show.Show Unison.CommandLine.InputPattern.IsOptional
-instance GHC.Classes.Ord Unison.CommandLine.InputPattern.Visibility
-instance GHC.Classes.Eq Unison.CommandLine.InputPattern.Visibility
-instance GHC.Show.Show Unison.CommandLine.InputPattern.Visibility
-instance GHC.Show.Show Unison.CommandLine.InputPattern.ArgumentType
-
-module Unison.CommandLine.Completion
-
--- | Constructs a list of <a>Completion</a>s from a query and completion
---   options by filtering them for prefix matches. A completion will be
---   selected if it's an exact match for a provided option.
-exactComplete :: String -> [String] -> [Completion]
-
--- | Completes a term or type argument by prefix-matching against the
---   query.
-prefixCompleteTermOrType :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
-
--- | Completes a term argument by prefix-matching against the query.
-prefixCompleteTerm :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
-
--- | Completes a term or type argument by prefix-matching against the
---   query.
-prefixCompleteType :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
-
--- | Completes a patch argument by prefix-matching against the query.
-prefixCompletePatch :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
-
--- | The empty completor.
-noCompletions :: MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
-
--- | Completes a namespace argument by prefix-matching against the query.
-prefixCompleteNamespace :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
-prettyCompletion :: Bool -> (String, Pretty ColorText) -> Completion
-fixupCompletion :: String -> [Completion] -> [Completion]
-
--- | A completion func for use with Haskeline
-haskelineTabComplete :: MonadIO m => Map String InputPattern -> Codebase m v a -> Absolute -> CompletionFunc m
-instance GHC.Classes.Ord Unison.CommandLine.Completion.CompletionType
-instance GHC.Classes.Eq Unison.CommandLine.Completion.CompletionType
-instance GHC.Show.Show Unison.CommandLine.Completion.CompletionType
-
-module Unison.CommandLine
-allow :: FilePath -> Bool
-backtick :: IsString s => Pretty s -> Pretty s
-aside :: (ListLike s Char, IsString s) => Pretty s -> Pretty s -> Pretty s
-bigproblem :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
-note :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
-nothingTodo :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
-plural :: Foldable f => f a -> b -> b -> b
-plural' :: Integral a => a -> b -> b -> b
-problem :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
-tip :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
-warn :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
-warnNote :: String -> String
-parseInput :: Branch0 m -> Absolute -> [String] -> Map String InputPattern -> [String] -> Either (Pretty ColorText) Input
-prompt :: String
-watchConfig :: FilePath -> IO (Config, IO ())
-watchFileSystem :: TQueue Event -> FilePath -> IO (IO ())
-
-module Unison.CommandLine.InputPatterns
-showPatternHelp :: InputPattern -> Pretty ColorText
-patternName :: InputPattern -> Pretty ColorText
-makeExample :: InputPattern -> [Pretty ColorText] -> Pretty ColorText
-makeExampleNoBackticks :: InputPattern -> [Pretty ColorText] -> Pretty ColorText
-makeExample' :: InputPattern -> Pretty ColorText
-makeExampleEOS :: InputPattern -> [Pretty ColorText] -> Pretty ColorText
-helpFor :: InputPattern -> Either (Pretty ColorText) Input
-mergeBuiltins :: InputPattern
-mergeIOBuiltins :: InputPattern
-updateBuiltins :: InputPattern
-todo :: InputPattern
-load :: InputPattern
-add :: InputPattern
-previewAdd :: InputPattern
-updateNoPatch :: InputPattern
-update :: InputPattern
-previewUpdate :: InputPattern
-patch :: InputPattern
-view :: InputPattern
-viewGlobal :: InputPattern
-display :: InputPattern
-displayTo :: InputPattern
-docs :: InputPattern
-api :: InputPattern
-ui :: InputPattern
-undo :: InputPattern
-viewByPrefix :: InputPattern
-find :: InputPattern
-findAll :: InputPattern
-findGlobal :: InputPattern
-find' :: String -> FindScope -> InputPattern
-findShallow :: InputPattern
-findVerbose :: InputPattern
-findVerboseAll :: InputPattern
-findPatch :: InputPattern
-renameTerm :: InputPattern
-renameType :: InputPattern
-delete :: InputPattern
-deleteTerm :: InputPattern
-deleteType :: InputPattern
-deleteTermReplacementCommand :: String
-deleteTypeReplacementCommand :: String
-deleteReplacement :: Bool -> InputPattern
-deleteTermReplacement :: InputPattern
-deleteTypeReplacement :: InputPattern
-parseHashQualifiedName :: String -> Either (Pretty ColorText) (HashQualified Name)
-aliasTerm :: InputPattern
-aliasType :: InputPattern
-aliasMany :: InputPattern
-up :: InputPattern
-cd :: InputPattern
-back :: InputPattern
-deleteNamespace :: InputPattern
-deleteNamespaceForce :: InputPattern
-deleteNamespaceParser :: Pretty ColorText -> Insistence -> [String] -> Either (Pretty ColorText) Input
-deletePatch :: InputPattern
-movePatch :: String -> String -> Either (Pretty ColorText) Input
-copyPatch' :: String -> String -> Either (Pretty ColorText) Input
-copyPatch :: InputPattern
-renamePatch :: InputPattern
-renameBranch :: InputPattern
-history :: InputPattern
-forkLocal :: InputPattern
-resetRoot :: InputPattern
-pullSilent :: InputPattern
-pull :: InputPattern
-pullWithoutHistory :: InputPattern
-pullImpl :: String -> Verbosity -> PullMode -> Pretty ColorText -> InputPattern
-pullExhaustive :: InputPattern
-debugTabCompletion :: InputPattern
-push :: InputPattern
-pushCreate :: InputPattern
-pushForce :: InputPattern
-pushExhaustive :: InputPattern
-createPullRequest :: InputPattern
-loadPullRequest :: InputPattern
-parseReadRemoteNamespace :: String -> String -> Either (Pretty ColorText) ReadRemoteNamespace
-prettyPrintParseError :: String -> ParseErrorBundle Text Void -> Pretty ColorText
-parseWriteGitRepo :: String -> String -> Either (Pretty ColorText) WriteGitRepo
-parseWriteRemotePath :: String -> String -> Either (Pretty ColorText) WriteRemotePath
-squashMerge :: InputPattern
-mergeLocal :: InputPattern
-diffNamespace :: InputPattern
-previewMergeLocal :: InputPattern
-replaceEdit :: (HashQualified Name -> HashQualified Name -> Maybe PatchPath -> Input) -> InputPattern
-replace :: InputPattern
-viewReflog :: InputPattern
-edit :: InputPattern
-topicNameArg :: ArgumentType
-codebaseServerNameArg :: ArgumentType
-helpTopics :: InputPattern
-helpTopicsMap :: Map String (Pretty ColorText)
-help :: InputPattern
-quit :: InputPattern
-viewPatch :: InputPattern
-link :: InputPattern
-links :: InputPattern
-unlink :: InputPattern
-names :: IsGlobal -> InputPattern
-dependents :: InputPattern
-dependencies :: InputPattern
-namespaceDependencies :: InputPattern
-debugNumberedArgs :: InputPattern
-debugFileHashes :: InputPattern
-debugDumpNamespace :: InputPattern
-debugDumpNamespaceSimple :: InputPattern
-debugClearWatchCache :: InputPattern
-debugDoctor :: InputPattern
-test :: InputPattern
-testAll :: InputPattern
-docsToHtml :: InputPattern
-execute :: InputPattern
-saveExecuteResult :: InputPattern
-ioTest :: InputPattern
-makeStandalone :: InputPattern
-createAuthor :: InputPattern
-gist :: InputPattern
-authLogin :: InputPattern
-printVersion :: InputPattern
-validInputs :: [InputPattern]
-
--- | A map of all command patterns by pattern name or alias.
-patternMap :: Map String InputPattern
-visibleInputs :: [InputPattern]
-commandNames :: [String]
-commandNameArg :: ArgumentType
-exactDefinitionArg :: ArgumentType
-fuzzyDefinitionQueryArg :: ArgumentType
-definitionQueryArg :: ArgumentType
-exactDefinitionTypeQueryArg :: ArgumentType
-exactDefinitionTermQueryArg :: ArgumentType
-patchArg :: ArgumentType
-namespaceArg :: ArgumentType
-
--- | Names of child branches of the branch, only gives options for one
---   <tt>layer</tt> deeper at a time.
-childNamespaceNames :: Branch0 m -> [Text]
-newNameArg :: ArgumentType
-noCompletionsArg :: ArgumentType
-gitUrlArg :: ArgumentType
-
--- | Refers to a namespace on some remote code host.
-remoteNamespaceArg :: ArgumentType
-collectNothings :: (a -> Maybe b) -> [a] -> [a]
-explainRemote :: PushPull -> Pretty ColorText
-showErrorFancy :: ShowErrorComponent e => ErrorFancy e -> String
-showErrorItem :: ErrorItem (Token Text) -> String
-
-module Unison.Auth.Tokens
-
--- | Checks whether a JWT access token is expired.
-isExpired :: MonadIO m => AccessToken -> m Bool
-
--- | Given a <a>CodeserverId</a>, provide a valid <a>AccessToken</a> for
---   the associated host. The TokenProvider may automatically refresh
---   access tokens if we have a refresh token.
-type TokenProvider = CodeserverId -> IO (Either CredentialFailure AccessToken)
-
--- | Creates a <a>TokenProvider</a> using the given
---   <a>CredentialManager</a>
-newTokenProvider :: CredentialManager -> TokenProvider
-
--- | Don't yet support automatically refreshing tokens.
---   
---   Specification:
---   <a>https://datatracker.ietf.org/doc/html/rfc6749#section-6</a>
-performTokenRefresh :: MonadIO m => URI -> Tokens -> m (Either CredentialFailure Tokens)
-
 module Unison.CommandLine.Welcome
 data Welcome
 Welcome :: Onboarding -> DownloadBase -> FilePath -> Text -> Welcome
@@ -1105,6 +866,127 @@ instance GHC.Show.Show Unison.Share.Sync.Types.PullError
 instance GHC.Exception.Type.Exception Unison.Share.Sync.Types.CodeserverTransportError
 instance GHC.Show.Show Unison.Share.Sync.Types.CodeserverTransportError
 
+module Unison.Util.HTTP
+addRequestMiddleware :: (Request -> IO Request) -> ManagerSettings -> ManagerSettings
+setUserAgent :: Text -> ManagerSettings -> ManagerSettings
+ucmUserAgent :: UCMVersion -> Text
+
+module Unison.Auth.HTTPClient
+
+-- | Returns a new http manager which applies the appropriate Authorization
+--   header to any hosts our UCM is authenticated with.
+newAuthenticatedHTTPClient :: MonadIO m => TokenProvider -> UCMVersion -> m AuthenticatedHttpClient
+
+-- | Newtype to delineate HTTP Managers with access-token logic.
+newtype AuthenticatedHttpClient
+AuthenticatedHttpClient :: Manager -> AuthenticatedHttpClient
+
+module Unison.Share.Sync
+
+-- | Get the causal hash of a path hosted on Unison Share.
+getCausalHashByPath :: AuthenticatedHttpClient -> BaseUrl -> Path -> IO (Either GetCausalHashByPathError (Maybe HashJWT))
+
+-- | An error occurred when getting causal hash by path.
+data GetCausalHashByPathError
+
+-- | The user does not have permission to read this path.
+GetCausalHashByPathErrorNoReadPermission :: Path -> GetCausalHashByPathError
+
+-- | Perform a check-and-set push (initially of just a causal hash, but
+--   ultimately all of its dependencies that the server is missing, too) to
+--   Unison Share.
+--   
+--   This flavor of push takes the expected state of the server, and the
+--   desired state we want to set; if our expectation is off, we won't
+--   proceed with the push.
+checkAndSetPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> Maybe Hash32 -> CausalHash -> (Int -> IO ()) -> IO (Either (SyncError CheckAndSetPushError) ())
+
+-- | Error used by the client when pushing code to Unison Share.
+data CheckAndSetPushError
+CheckAndSetPushErrorHashMismatch :: HashMismatch -> CheckAndSetPushError
+CheckAndSetPushErrorNoWritePermission :: Path -> CheckAndSetPushError
+CheckAndSetPushErrorServerMissingDependencies :: NESet Hash32 -> CheckAndSetPushError
+
+-- | Perform a fast-forward push (initially of just a causal hash, but
+--   ultimately all of its dependencies that the server is missing, too) to
+--   Unison Share.
+--   
+--   This flavor of push provides the server with a chain of causal hashes
+--   leading from its current state to our desired state.
+fastForwardPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> CausalHash -> (Int -> IO ()) -> IO (Either (SyncError FastForwardPushError) ())
+
+-- | An error occurred while fast-forward pushing code to Unison Share.
+data FastForwardPushError
+FastForwardPushErrorNoHistory :: Path -> FastForwardPushError
+FastForwardPushErrorNoReadPermission :: Path -> FastForwardPushError
+FastForwardPushErrorNotFastForward :: Path -> FastForwardPushError
+FastForwardPushErrorNoWritePermission :: Path -> FastForwardPushError
+FastForwardPushErrorServerMissingDependencies :: NESet Hash32 -> FastForwardPushError
+FastForwardPushInvalidParentage :: Hash32 -> Hash32 -> FastForwardPushError
+pull :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> (Int -> IO ()) -> IO (Either (SyncError PullError) CausalHash)
+
+-- | An error occurred while pulling code from Unison Share.
+data PullError
+
+-- | An error occurred while resolving a repo+path to a causal hash.
+PullErrorGetCausalHashByPath :: GetCausalHashByPathError -> PullError
+PullErrorNoHistoryAtPath :: Path -> PullError
+
+module Unison.CommandLine.InputPattern
+data InputPattern
+InputPattern :: String -> [String] -> Visibility -> [(IsOptional, ArgumentType)] -> Pretty ColorText -> ([String] -> Either (Pretty ColorText) Input) -> InputPattern
+[$sel:patternName:InputPattern] :: InputPattern -> String
+[$sel:aliases:InputPattern] :: InputPattern -> [String]
+[$sel:visibility:InputPattern] :: InputPattern -> Visibility
+[$sel:argTypes:InputPattern] :: InputPattern -> [(IsOptional, ArgumentType)]
+[$sel:help:InputPattern] :: InputPattern -> Pretty ColorText
+[$sel:parse:InputPattern] :: InputPattern -> [String] -> Either (Pretty ColorText) Input
+data ArgumentType
+ArgumentType :: String -> (forall m v a. MonadIO m => String -> Codebase m v a -> AuthenticatedHttpClient -> Absolute -> m [Completion]) -> Set TargetType -> ArgumentType
+[$sel:typeName:ArgumentType] :: ArgumentType -> String
+
+-- | Generate completion suggestions for this argument type
+[$sel:suggestions:ArgumentType] :: ArgumentType -> forall m v a. MonadIO m => String -> Codebase m v a -> AuthenticatedHttpClient -> Absolute -> m [Completion]
+
+-- | Select which targets glob patterns may expand into for this argument.
+--   An empty set disables globbing.
+[$sel:globTargets:ArgumentType] :: ArgumentType -> Set TargetType
+argType :: InputPattern -> Int -> Maybe ArgumentType
+data IsOptional
+Required :: IsOptional
+Optional :: IsOptional
+ZeroPlus :: IsOptional
+OnePlus :: IsOptional
+data Visibility
+Hidden :: Visibility
+Visible :: Visibility
+minArgs :: InputPattern -> Int
+maxArgs :: InputPattern -> Maybe Int
+instance GHC.Classes.Eq Unison.CommandLine.InputPattern.IsOptional
+instance GHC.Show.Show Unison.CommandLine.InputPattern.IsOptional
+instance GHC.Classes.Ord Unison.CommandLine.InputPattern.Visibility
+instance GHC.Classes.Eq Unison.CommandLine.InputPattern.Visibility
+instance GHC.Show.Show Unison.CommandLine.InputPattern.Visibility
+instance GHC.Show.Show Unison.CommandLine.InputPattern.ArgumentType
+
+module Unison.CommandLine
+allow :: FilePath -> Bool
+backtick :: IsString s => Pretty s -> Pretty s
+aside :: (ListLike s Char, IsString s) => Pretty s -> Pretty s -> Pretty s
+bigproblem :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
+note :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
+nothingTodo :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
+plural :: Foldable f => f a -> b -> b -> b
+plural' :: Integral a => a -> b -> b -> b
+problem :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
+tip :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
+warn :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
+warnNote :: String -> String
+parseInput :: Branch0 m -> Absolute -> [String] -> Map String InputPattern -> [String] -> Either (Pretty ColorText) Input
+prompt :: String
+watchConfig :: FilePath -> IO (Config, IO ())
+watchFileSystem :: TQueue Event -> FilePath -> IO (IO ())
+
 module Unison.Codebase.Editor.Output
 data Output
 Success :: Output
@@ -1284,71 +1166,192 @@ instance GHC.Show.Show Unison.Codebase.Editor.Output.HistoryTail
 instance GHC.Show.Show Unison.Codebase.Editor.Output.TestReportStats
 instance GHC.Show.Show Unison.Codebase.Editor.Output.UndoFailureReason
 
-module Unison.Util.HTTP
-addRequestMiddleware :: (Request -> IO Request) -> ManagerSettings -> ManagerSettings
-setUserAgent :: Text -> ManagerSettings -> ManagerSettings
-ucmUserAgent :: UCMVersion -> Text
+module Unison.CommandLine.Completion
 
-module Unison.Auth.HTTPClient
+-- | Constructs a list of <a>Completion</a>s from a query and completion
+--   options by filtering them for prefix matches. A completion will be
+--   selected if it's an exact match for a provided option.
+exactComplete :: String -> [String] -> [Completion]
 
--- | Returns a new http manager which applies the appropriate Authorization
---   header to any hosts our UCM is authenticated with.
-newAuthenticatedHTTPClient :: MonadIO m => TokenProvider -> UCMVersion -> m AuthenticatedHttpClient
+-- | Completes a term or type argument by prefix-matching against the
+--   query.
+prefixCompleteTermOrType :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
 
--- | Newtype to delineate HTTP Managers with access-token logic.
-newtype AuthenticatedHttpClient
-AuthenticatedHttpClient :: Manager -> AuthenticatedHttpClient
+-- | Completes a term argument by prefix-matching against the query.
+prefixCompleteTerm :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
 
-module Unison.Share.Sync
+-- | Completes a term or type argument by prefix-matching against the
+--   query.
+prefixCompleteType :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
 
--- | Get the causal hash of a path hosted on Unison Share.
-getCausalHashByPath :: AuthenticatedHttpClient -> BaseUrl -> Path -> IO (Either GetCausalHashByPathError (Maybe HashJWT))
+-- | Completes a patch argument by prefix-matching against the query.
+prefixCompletePatch :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
 
--- | An error occurred when getting causal hash by path.
-data GetCausalHashByPathError
+-- | The empty completor.
+noCompletions :: MonadIO m => String -> Codebase m v a -> AuthenticatedHttpClient -> Absolute -> m [Completion]
 
--- | The user does not have permission to read this path.
-GetCausalHashByPathErrorNoReadPermission :: Path -> GetCausalHashByPathError
+-- | Completes a namespace argument by prefix-matching against the query.
+prefixCompleteNamespace :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
+prettyCompletion :: Bool -> (String, Pretty ColorText) -> Completion
+fixupCompletion :: String -> [Completion] -> [Completion]
 
--- | Perform a check-and-set push (initially of just a causal hash, but
---   ultimately all of its dependencies that the server is missing, too) to
---   Unison Share.
---   
---   This flavor of push takes the expected state of the server, and the
---   desired state we want to set; if our expectation is off, we won't
---   proceed with the push.
-checkAndSetPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> Maybe Hash32 -> CausalHash -> (Int -> IO ()) -> IO (Either (SyncError CheckAndSetPushError) ())
+-- | A completion func for use with Haskeline
+haskelineTabComplete :: MonadIO m => Map String InputPattern -> Codebase m v a -> AuthenticatedHttpClient -> Absolute -> CompletionFunc m
+sharePathCompletion :: MonadIO m => AuthenticatedHttpClient -> String -> m [Completion]
+instance GHC.Classes.Ord Unison.CommandLine.Completion.CompletionType
+instance GHC.Classes.Eq Unison.CommandLine.Completion.CompletionType
+instance GHC.Show.Show Unison.CommandLine.Completion.CompletionType
+instance GHC.Show.Show Unison.CommandLine.Completion.SearchResult
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.CommandLine.Completion.SearchResult
 
--- | Error used by the client when pushing code to Unison Share.
-data CheckAndSetPushError
-CheckAndSetPushErrorHashMismatch :: HashMismatch -> CheckAndSetPushError
-CheckAndSetPushErrorNoWritePermission :: Path -> CheckAndSetPushError
-CheckAndSetPushErrorServerMissingDependencies :: NESet Hash32 -> CheckAndSetPushError
+module Unison.CommandLine.InputPatterns
+showPatternHelp :: InputPattern -> Pretty ColorText
+patternName :: InputPattern -> Pretty ColorText
+makeExample :: InputPattern -> [Pretty ColorText] -> Pretty ColorText
+makeExampleNoBackticks :: InputPattern -> [Pretty ColorText] -> Pretty ColorText
+makeExample' :: InputPattern -> Pretty ColorText
+makeExampleEOS :: InputPattern -> [Pretty ColorText] -> Pretty ColorText
+helpFor :: InputPattern -> Either (Pretty ColorText) Input
+mergeBuiltins :: InputPattern
+mergeIOBuiltins :: InputPattern
+updateBuiltins :: InputPattern
+todo :: InputPattern
+load :: InputPattern
+add :: InputPattern
+previewAdd :: InputPattern
+updateNoPatch :: InputPattern
+update :: InputPattern
+previewUpdate :: InputPattern
+patch :: InputPattern
+view :: InputPattern
+viewGlobal :: InputPattern
+display :: InputPattern
+displayTo :: InputPattern
+docs :: InputPattern
+api :: InputPattern
+ui :: InputPattern
+undo :: InputPattern
+viewByPrefix :: InputPattern
+find :: InputPattern
+findAll :: InputPattern
+findGlobal :: InputPattern
+find' :: String -> FindScope -> InputPattern
+findShallow :: InputPattern
+findVerbose :: InputPattern
+findVerboseAll :: InputPattern
+findPatch :: InputPattern
+renameTerm :: InputPattern
+renameType :: InputPattern
+delete :: InputPattern
+deleteTerm :: InputPattern
+deleteType :: InputPattern
+deleteTermReplacementCommand :: String
+deleteTypeReplacementCommand :: String
+deleteReplacement :: Bool -> InputPattern
+deleteTermReplacement :: InputPattern
+deleteTypeReplacement :: InputPattern
+parseHashQualifiedName :: String -> Either (Pretty ColorText) (HashQualified Name)
+aliasTerm :: InputPattern
+aliasType :: InputPattern
+aliasMany :: InputPattern
+up :: InputPattern
+cd :: InputPattern
+back :: InputPattern
+deleteNamespace :: InputPattern
+deleteNamespaceForce :: InputPattern
+deleteNamespaceParser :: Pretty ColorText -> Insistence -> [String] -> Either (Pretty ColorText) Input
+deletePatch :: InputPattern
+movePatch :: String -> String -> Either (Pretty ColorText) Input
+copyPatch' :: String -> String -> Either (Pretty ColorText) Input
+copyPatch :: InputPattern
+renamePatch :: InputPattern
+renameBranch :: InputPattern
+history :: InputPattern
+forkLocal :: InputPattern
+resetRoot :: InputPattern
+pullSilent :: InputPattern
+pull :: InputPattern
+pullWithoutHistory :: InputPattern
+pullImpl :: String -> Verbosity -> PullMode -> Pretty ColorText -> InputPattern
+pullExhaustive :: InputPattern
+debugTabCompletion :: InputPattern
+push :: InputPattern
+pushCreate :: InputPattern
+pushForce :: InputPattern
+pushExhaustive :: InputPattern
+createPullRequest :: InputPattern
+loadPullRequest :: InputPattern
+parseReadRemoteNamespace :: String -> String -> Either (Pretty ColorText) ReadRemoteNamespace
+prettyPrintParseError :: String -> ParseErrorBundle Text Void -> Pretty ColorText
+parseWriteGitRepo :: String -> String -> Either (Pretty ColorText) WriteGitRepo
+parseWriteRemotePath :: String -> String -> Either (Pretty ColorText) WriteRemotePath
+squashMerge :: InputPattern
+mergeLocal :: InputPattern
+diffNamespace :: InputPattern
+previewMergeLocal :: InputPattern
+replaceEdit :: (HashQualified Name -> HashQualified Name -> Maybe PatchPath -> Input) -> InputPattern
+replace :: InputPattern
+viewReflog :: InputPattern
+edit :: InputPattern
+topicNameArg :: ArgumentType
+codebaseServerNameArg :: ArgumentType
+helpTopics :: InputPattern
+helpTopicsMap :: Map String (Pretty ColorText)
+help :: InputPattern
+quit :: InputPattern
+viewPatch :: InputPattern
+link :: InputPattern
+links :: InputPattern
+unlink :: InputPattern
+names :: IsGlobal -> InputPattern
+dependents :: InputPattern
+dependencies :: InputPattern
+namespaceDependencies :: InputPattern
+debugNumberedArgs :: InputPattern
+debugFileHashes :: InputPattern
+debugDumpNamespace :: InputPattern
+debugDumpNamespaceSimple :: InputPattern
+debugClearWatchCache :: InputPattern
+debugDoctor :: InputPattern
+test :: InputPattern
+testAll :: InputPattern
+docsToHtml :: InputPattern
+execute :: InputPattern
+saveExecuteResult :: InputPattern
+ioTest :: InputPattern
+makeStandalone :: InputPattern
+createAuthor :: InputPattern
+gist :: InputPattern
+authLogin :: InputPattern
+printVersion :: InputPattern
+validInputs :: [InputPattern]
 
--- | Perform a fast-forward push (initially of just a causal hash, but
---   ultimately all of its dependencies that the server is missing, too) to
---   Unison Share.
---   
---   This flavor of push provides the server with a chain of causal hashes
---   leading from its current state to our desired state.
-fastForwardPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> CausalHash -> (Int -> IO ()) -> IO (Either (SyncError FastForwardPushError) ())
+-- | A map of all command patterns by pattern name or alias.
+patternMap :: Map String InputPattern
+visibleInputs :: [InputPattern]
+commandNames :: [String]
+commandNameArg :: ArgumentType
+exactDefinitionArg :: ArgumentType
+fuzzyDefinitionQueryArg :: ArgumentType
+definitionQueryArg :: ArgumentType
+exactDefinitionTypeQueryArg :: ArgumentType
+exactDefinitionTermQueryArg :: ArgumentType
+patchArg :: ArgumentType
+namespaceArg :: ArgumentType
 
--- | An error occurred while fast-forward pushing code to Unison Share.
-data FastForwardPushError
-FastForwardPushErrorNoHistory :: Path -> FastForwardPushError
-FastForwardPushErrorNoReadPermission :: Path -> FastForwardPushError
-FastForwardPushErrorNotFastForward :: Path -> FastForwardPushError
-FastForwardPushErrorNoWritePermission :: Path -> FastForwardPushError
-FastForwardPushErrorServerMissingDependencies :: NESet Hash32 -> FastForwardPushError
-FastForwardPushInvalidParentage :: Hash32 -> Hash32 -> FastForwardPushError
-pull :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> (Int -> IO ()) -> IO (Either (SyncError PullError) CausalHash)
+-- | Names of child branches of the branch, only gives options for one
+--   <tt>layer</tt> deeper at a time.
+childNamespaceNames :: Branch0 m -> [Text]
+newNameArg :: ArgumentType
+noCompletionsArg :: ArgumentType
+gitUrlArg :: ArgumentType
 
--- | An error occurred while pulling code from Unison Share.
-data PullError
-
--- | An error occurred while resolving a repo+path to a causal hash.
-PullErrorGetCausalHashByPath :: GetCausalHashByPathError -> PullError
-PullErrorNoHistoryAtPath :: Path -> PullError
+-- | Refers to a namespace on some remote code host.
+remoteNamespaceArg :: ArgumentType
+collectNothings :: (a -> Maybe b) -> [a] -> [a]
+explainRemote :: PushPull -> Pretty ColorText
+showErrorFancy :: ShowErrorComponent e => ErrorFancy e -> String
+showErrorItem :: ErrorItem (Token Text) -> String
 
 module Unison.CommandLine.OutputMessages
 type Pretty = Pretty ColorText

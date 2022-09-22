@@ -24,6 +24,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON U.Util.Hash.Hash
 instance Data.Aeson.Types.FromJSON.FromJSON U.Util.Hash.Hash
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.ShortHash.ShortHash
 instance Data.Aeson.Types.ToJSON.ToJSONKey Unison.ShortHash.ShortHash
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.ShortHash.ShortHash
+instance Data.Aeson.Types.FromJSON.FromJSONKey Unison.ShortHash.ShortHash
 instance Web.Internal.HttpApiData.FromHttpApiData Unison.Codebase.ShortBranchHash.ShortBranchHash
 instance (Data.Aeson.Types.ToJSON.ToJSON b, Data.Aeson.Types.ToJSON.ToJSON a) => Data.Aeson.Types.ToJSON.ToJSON (Unison.Codebase.Editor.DisplayObject.DisplayObject b a)
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Name.Name
@@ -45,6 +47,10 @@ instance Data.Aeson.Types.ToJSON.ToJSON Unison.Codebase.Path.Path
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Codebase.Path.Path
 instance GHC.Show.Show n => Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified.HashQualified n)
 instance GHC.Show.Show n => Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified'.HashQualified n)
+instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified'.HashQualified Unison.Name.Name)
+instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified.HashQualified Unison.Name.Name)
+instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified'.HashQualified Unison.NameSegment.NameSegment)
+instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified.HashQualified Unison.NameSegment.NameSegment)
 
 module Unison.Server.SearchResult
 data SearchResult
@@ -184,9 +190,13 @@ instance Data.OpenApi.Internal.Schema.ToSchema a => Data.OpenApi.Internal.Schema
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Pattern.SeqOp
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Syntax.SyntaxText
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Syntax.SyntaxText
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Syntax.SyntaxText
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Syntax.Element
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Syntax.Element
 instance Data.Aeson.Types.ToJSON.ToJSON a => Data.Aeson.Types.ToJSON.ToJSON (Unison.Util.AnnotatedText.Segment a)
+instance Data.Aeson.Types.FromJSON.FromJSON a => Data.Aeson.Types.FromJSON.FromJSON (Unison.Util.AnnotatedText.Segment a)
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Pattern.SeqOp
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Pattern.SeqOp
 instance Data.OpenApi.Internal.Schema.ToSchema r => Data.OpenApi.Internal.Schema.ToSchema (Data.Sequence.Internal.Seq r)
 
 module Unison.Server.Doc
@@ -442,14 +452,18 @@ instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Types.TermTag
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Types.TypeTag
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.FoundEntry
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.NamedType
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Types.NamedType
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.NamedTerm
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Types.NamedTerm
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.DefinitionDisplayResults
 instance GHC.Base.Semigroup Unison.Server.Types.DefinitionDisplayResults
 instance GHC.Base.Monoid Unison.Server.Types.DefinitionDisplayResults
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.TypeDefinition
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.TermDefinition
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.TermTag
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Types.TermTag
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.TypeTag
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Types.TypeTag
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema (Unison.Server.Types.ExactName Unison.Name.Name Unison.ShortHash.ShortHash)
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "exact-name" (Unison.Server.Types.ExactName Unison.Name.Name Unison.ShortHash.ShortHash))
 instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "fqn" (Unison.Server.Types.ExactName Unison.Name.Name Unison.ShortHash.ShortHash))
@@ -764,9 +778,13 @@ instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Endpoints.Namespace
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.NamespaceListing.KindExpression
 instance Servant.Docs.Internal.ToSample Unison.Server.Endpoints.NamespaceListing.NamespaceListing
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.NamespaceListing.NamespaceListing
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Endpoints.NamespaceListing.NamespaceListing
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.NamespaceListing.NamespaceObject
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Endpoints.NamespaceListing.NamespaceObject
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.NamespaceListing.NamedPatch
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Endpoints.NamespaceListing.NamedPatch
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.NamespaceListing.NamedNamespace
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Endpoints.NamespaceListing.NamedNamespace
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "namespace" Data.Text.Internal.Text)
 
 module Unison.Server.Endpoints.NamespaceDetails

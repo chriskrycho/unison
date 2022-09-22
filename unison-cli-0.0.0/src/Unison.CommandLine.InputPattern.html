@@ -16,22 +16,23 @@
 </span><span id="line-16"></span><span class="hs-keyword">where</span><span>
 </span><span id="line-17"></span><span>
 </span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">System.Console.Haskeline</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Line</span></span><span>
-</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Codebase</span></span><span class="hs-special">)</span><span>
-</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.Input.html"><span class="hs-identifier">Unison.Codebase.Editor.Input</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.Input.html#Input"><span class="hs-identifier">Input</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase.Path</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Path</span></span><span>
-</span><span id="line-22"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><a href="Unison.CommandLine.Globbing.html"><span class="hs-identifier">Unison.CommandLine.Globbing</span></a></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Globbing</span></span><span>
-</span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
-</span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Util.ColorText</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">CT</span></span><span>
-</span><span id="line-25"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Util.Pretty</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">P</span></span><span>
-</span><span id="line-26"></span><span>
-</span><span id="line-27"></span><span class="hs-comment">-- InputPatterns accept some fixed number of Required arguments of various</span><span>
-</span><span id="line-28"></span><span class="hs-comment">-- types, followed by a variable number of a single type of argument.</span><span>
-</span><span id="line-29"></span><span class="hs-keyword">data</span><span> </span><span id="IsOptional"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#IsOptional"><span class="hs-identifier hs-var">IsOptional</span></a></span></span><span>
-</span><span id="line-30"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="Required"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Required"><span class="hs-identifier hs-var">Required</span></a></span></span><span> </span><span class="hs-comment">-- 1, at the start</span><span>
-</span><span id="line-31"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="Optional"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Optional"><span class="hs-identifier hs-var">Optional</span></a></span></span><span> </span><span class="hs-comment">-- 0 or 1, at the end</span><span>
-</span><span id="line-32"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ZeroPlus"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ZeroPlus"><span class="hs-identifier hs-var">ZeroPlus</span></a></span></span><span> </span><span class="hs-comment">-- 0 or more, at the end</span><span>
-</span><span id="line-33"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="OnePlus"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#OnePlus"><span class="hs-identifier hs-var">OnePlus</span></a></span></span><span> </span><span class="hs-comment">-- 1 or more, at the end</span><span>
-</span><span id="line-34"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680124351"><span id="local-6989586621680124353"><span id="local-6989586621680124355"><span class="annot"><span class="annottext">Int -&gt; IsOptional -&gt; ShowS
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Auth.HTTPClient.html"><span class="hs-identifier">Unison.Auth.HTTPClient</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Auth.HTTPClient.html#AuthenticatedHttpClient"><span class="hs-identifier">AuthenticatedHttpClient</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Codebase</span></span><span class="hs-special">)</span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.Input.html"><span class="hs-identifier">Unison.Codebase.Editor.Input</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.Input.html#Input"><span class="hs-identifier">Input</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Codebase.Path</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Path</span></span><span>
+</span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><a href="Unison.CommandLine.Globbing.html"><span class="hs-identifier">Unison.CommandLine.Globbing</span></a></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Globbing</span></span><span>
+</span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
+</span><span id="line-25"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Util.ColorText</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">CT</span></span><span>
+</span><span id="line-26"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Util.Pretty</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">P</span></span><span>
+</span><span id="line-27"></span><span>
+</span><span id="line-28"></span><span class="hs-comment">-- InputPatterns accept some fixed number of Required arguments of various</span><span>
+</span><span id="line-29"></span><span class="hs-comment">-- types, followed by a variable number of a single type of argument.</span><span>
+</span><span id="line-30"></span><span class="hs-keyword">data</span><span> </span><span id="IsOptional"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#IsOptional"><span class="hs-identifier hs-var">IsOptional</span></a></span></span><span>
+</span><span id="line-31"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="Required"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Required"><span class="hs-identifier hs-var">Required</span></a></span></span><span> </span><span class="hs-comment">-- 1, at the start</span><span>
+</span><span id="line-32"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="Optional"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Optional"><span class="hs-identifier hs-var">Optional</span></a></span></span><span> </span><span class="hs-comment">-- 0 or 1, at the end</span><span>
+</span><span id="line-33"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ZeroPlus"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ZeroPlus"><span class="hs-identifier hs-var">ZeroPlus</span></a></span></span><span> </span><span class="hs-comment">-- 0 or more, at the end</span><span>
+</span><span id="line-34"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="OnePlus"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#OnePlus"><span class="hs-identifier hs-var">OnePlus</span></a></span></span><span> </span><span class="hs-comment">-- 1 or more, at the end</span><span>
+</span><span id="line-35"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680134119"><span id="local-6989586621680134121"><span id="local-6989586621680134123"><span class="annot"><span class="annottext">Int -&gt; IsOptional -&gt; ShowS
 [IsOptional] -&gt; ShowS
 IsOptional -&gt; String
 (Int -&gt; IsOptional -&gt; ShowS)
@@ -46,7 +47,7 @@ show :: IsOptional -&gt; String
 $cshow :: IsOptional -&gt; String
 showsPrec :: Int -&gt; IsOptional -&gt; ShowS
 $cshowsPrec :: Int -&gt; IsOptional -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680124346"><span id="local-6989586621680124348"><span class="annot"><span class="annottext">IsOptional -&gt; IsOptional -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680134114"><span id="local-6989586621680134116"><span class="annot"><span class="annottext">IsOptional -&gt; IsOptional -&gt; Bool
 (IsOptional -&gt; IsOptional -&gt; Bool)
 -&gt; (IsOptional -&gt; IsOptional -&gt; Bool) -&gt; Eq IsOptional
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -55,9 +56,9 @@ $c/= :: IsOptional -&gt; IsOptional -&gt; Bool
 == :: IsOptional -&gt; IsOptional -&gt; Bool
 $c== :: IsOptional -&gt; IsOptional -&gt; Bool
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-35"></span><span>
-</span><span id="line-36"></span><span class="hs-keyword">data</span><span> </span><span id="Visibility"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Visibility"><span class="hs-identifier hs-var">Visibility</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Hidden"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Hidden"><span class="hs-identifier hs-var">Hidden</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Visible"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Visible"><span class="hs-identifier hs-var">Visible</span></a></span></span><span>
-</span><span id="line-37"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680124337"><span id="local-6989586621680124339"><span id="local-6989586621680124341"><span class="annot"><span class="annottext">Int -&gt; Visibility -&gt; ShowS
+</span><span id="line-36"></span><span>
+</span><span id="line-37"></span><span class="hs-keyword">data</span><span> </span><span id="Visibility"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Visibility"><span class="hs-identifier hs-var">Visibility</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Hidden"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Hidden"><span class="hs-identifier hs-var">Hidden</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Visible"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Visible"><span class="hs-identifier hs-var">Visible</span></a></span></span><span>
+</span><span id="line-38"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680134105"><span id="local-6989586621680134107"><span id="local-6989586621680134109"><span class="annot"><span class="annottext">Int -&gt; Visibility -&gt; ShowS
 [Visibility] -&gt; ShowS
 Visibility -&gt; String
 (Int -&gt; Visibility -&gt; ShowS)
@@ -72,7 +73,7 @@ show :: Visibility -&gt; String
 $cshow :: Visibility -&gt; String
 showsPrec :: Int -&gt; Visibility -&gt; ShowS
 $cshowsPrec :: Int -&gt; Visibility -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680124333"><span id="local-6989586621680124335"><span class="annot"><span class="annottext">Visibility -&gt; Visibility -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680134101"><span id="local-6989586621680134103"><span class="annot"><span class="annottext">Visibility -&gt; Visibility -&gt; Bool
 (Visibility -&gt; Visibility -&gt; Bool)
 -&gt; (Visibility -&gt; Visibility -&gt; Bool) -&gt; Eq Visibility
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -80,7 +81,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: Visibility -&gt; Visibility -&gt; Bool
 == :: Visibility -&gt; Visibility -&gt; Bool
 $c== :: Visibility -&gt; Visibility -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680124318"><span id="local-6989586621680124320"><span id="local-6989586621680124322"><span id="local-6989586621680124324"><span id="local-6989586621680124326"><span id="local-6989586621680124328"><span id="local-6989586621680124330"><span class="annot"><span class="annottext">Eq Visibility
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680134086"><span id="local-6989586621680134088"><span id="local-6989586621680134090"><span id="local-6989586621680134092"><span id="local-6989586621680134094"><span id="local-6989586621680134096"><span id="local-6989586621680134098"><span class="annot"><span class="annottext">Eq Visibility
 Eq Visibility
 -&gt; (Visibility -&gt; Visibility -&gt; Ordering)
 -&gt; (Visibility -&gt; Visibility -&gt; Bool)
@@ -119,151 +120,156 @@ compare :: Visibility -&gt; Visibility -&gt; Ordering
 $ccompare :: Visibility -&gt; Visibility -&gt; Ordering
 $cp1Ord :: Eq Visibility
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-38"></span><span>
-</span><span id="line-39"></span><span class="hs-keyword">data</span><span> </span><span id="InputPattern"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-var">InputPattern</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="InputPattern"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-var">InputPattern</span></a></span></span><span>
-</span><span id="line-40"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="%24sel%3ApatternName%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; String
+</span><span id="line-39"></span><span>
+</span><span id="line-40"></span><span class="hs-keyword">data</span><span> </span><span id="InputPattern"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-var">InputPattern</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="InputPattern"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-var">InputPattern</span></a></span></span><span>
+</span><span id="line-41"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="%24sel%3ApatternName%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; String
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3ApatternName%3AInputPattern"><span class="hs-identifier hs-var hs-var">patternName</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">,</span><span>
-</span><span id="line-41"></span><span>    </span><span id="%24sel%3Aaliases%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; [String]
+</span><span id="line-42"></span><span>    </span><span id="%24sel%3Aaliases%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; [String]
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3Aaliases%3AInputPattern"><span class="hs-identifier hs-var hs-var">aliases</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">]</span><span class="hs-special">,</span><span>
-</span><span id="line-42"></span><span>    </span><span id="%24sel%3Avisibility%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; Visibility
+</span><span id="line-43"></span><span>    </span><span id="%24sel%3Avisibility%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; Visibility
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3Avisibility%3AInputPattern"><span class="hs-identifier hs-var hs-var">visibility</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#Visibility"><span class="hs-identifier hs-type">Visibility</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-comment">-- Allow hiding certain commands when debugging or work-in-progress</span><span>
-</span><span id="line-43"></span><span>    </span><span id="%24sel%3AargTypes%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; [(IsOptional, ArgumentType)]
+</span><span id="line-44"></span><span>    </span><span id="%24sel%3AargTypes%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; [(IsOptional, ArgumentType)]
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3AargTypes%3AInputPattern"><span class="hs-identifier hs-var hs-var">argTypes</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#IsOptional"><span class="hs-identifier hs-type">IsOptional</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ArgumentType"><span class="hs-identifier hs-type">ArgumentType</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">,</span><span>
-</span><span id="line-44"></span><span>    </span><span id="%24sel%3Ahelp%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; Pretty ColorText
+</span><span id="line-45"></span><span>    </span><span id="%24sel%3Ahelp%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; Pretty ColorText
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3Ahelp%3AInputPattern"><span class="hs-identifier hs-var hs-var">help</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P.Pretty</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">CT.ColorText</span></span><span class="hs-special">,</span><span>
-</span><span id="line-45"></span><span>    </span><span id="%24sel%3Aparse%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; [String] -&gt; Either (Pretty ColorText) Input
+</span><span id="line-46"></span><span>    </span><span id="%24sel%3Aparse%3AInputPattern"><span class="annot"><span class="annottext">InputPattern -&gt; [String] -&gt; Either (Pretty ColorText) Input
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3Aparse%3AInputPattern"><span class="hs-identifier hs-var hs-var">parse</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">P.Pretty</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">CT.ColorText</span></span><span class="hs-special">)</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.Input.html#Input"><span class="hs-identifier hs-type">Input</span></a></span><span>
-</span><span id="line-46"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-47"></span><span>
-</span><span id="line-48"></span><span class="hs-keyword">data</span><span> </span><span id="ArgumentType"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ArgumentType"><span class="hs-identifier hs-var">ArgumentType</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ArgumentType"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ArgumentType"><span class="hs-identifier hs-var">ArgumentType</span></a></span></span><span>
-</span><span id="line-49"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AtypeName%3AArgumentType"><span class="annot"><span class="annottext">ArgumentType -&gt; String
+</span><span id="line-47"></span><span>  </span><span class="hs-special">}</span><span>
+</span><span id="line-48"></span><span>
+</span><span id="line-49"></span><span class="hs-keyword">data</span><span> </span><span id="ArgumentType"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ArgumentType"><span class="hs-identifier hs-var">ArgumentType</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ArgumentType"><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ArgumentType"><span class="hs-identifier hs-var">ArgumentType</span></a></span></span><span>
+</span><span id="line-50"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AtypeName%3AArgumentType"><span class="annot"><span class="annottext">ArgumentType -&gt; String
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3AtypeName%3AArgumentType"><span class="hs-identifier hs-var hs-var">typeName</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">,</span><span>
-</span><span id="line-50"></span><span>    </span><span class="hs-comment">-- | Generate completion suggestions for this argument type</span><span>
-</span><span id="line-51"></span><span>    </span><span id="%24sel%3Asuggestions%3AArgumentType"><span class="annot"><span class="annottext">ArgumentType
+</span><span id="line-51"></span><span>    </span><span class="hs-comment">-- | Generate completion suggestions for this argument type</span><span>
+</span><span id="line-52"></span><span>    </span><span id="%24sel%3Asuggestions%3AArgumentType"><span class="annot"><span class="annottext">ArgumentType
 -&gt; forall (m :: * -&gt; *) v a.
    MonadIO m =&gt;
-   String -&gt; Codebase m v a -&gt; Absolute -&gt; m [Completion]
+   String
+   -&gt; Codebase m v a
+   -&gt; AuthenticatedHttpClient
+   -&gt; Absolute
+   -&gt; m [Completion]
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3Asuggestions%3AArgumentType"><span class="hs-identifier hs-var hs-var">suggestions</span></a></span></span><span> </span><span class="hs-glyph">::</span><span>
-</span><span id="line-52"></span><span>      </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680124393"><span class="annot"><a href="#local-6989586621680124393"><span class="hs-identifier hs-type">m</span></a></span></span><span> </span><span id="local-6989586621680124391"><span class="annot"><a href="#local-6989586621680124391"><span class="hs-identifier hs-type">v</span></a></span></span><span> </span><span id="local-6989586621680124390"><span class="annot"><a href="#local-6989586621680124390"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-operator">.</span><span>
-</span><span id="line-53"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">MonadIO</span></span><span> </span><span class="annot"><a href="#local-6989586621680124393"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span>
-</span><span id="line-54"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-55"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Codebase</span></span><span> </span><span class="annot"><a href="#local-6989586621680124393"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680124391"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680124390"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-56"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Path.Absolute</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-comment">-- Current path</span><span>
-</span><span id="line-57"></span><span>      </span><span class="annot"><a href="#local-6989586621680124393"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Line.Completion</span></span><span class="hs-special">]</span><span class="hs-special">,</span><span>
-</span><span id="line-58"></span><span>    </span><span class="hs-comment">-- | Select which targets glob patterns may expand into for this argument.</span><span>
-</span><span id="line-59"></span><span>    </span><span class="hs-comment">-- An empty set disables globbing.</span><span>
-</span><span id="line-60"></span><span>    </span><span id="%24sel%3AglobTargets%3AArgumentType"><span class="annot"><span class="annottext">ArgumentType -&gt; Set TargetType
+</span><span id="line-53"></span><span>      </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680134162"><span class="annot"><a href="#local-6989586621680134162"><span class="hs-identifier hs-type">m</span></a></span></span><span> </span><span id="local-6989586621680134160"><span class="annot"><a href="#local-6989586621680134160"><span class="hs-identifier hs-type">v</span></a></span></span><span> </span><span id="local-6989586621680134159"><span class="annot"><a href="#local-6989586621680134159"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-operator">.</span><span>
+</span><span id="line-54"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">MonadIO</span></span><span> </span><span class="annot"><a href="#local-6989586621680134162"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span>
+</span><span id="line-55"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-56"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Codebase</span></span><span> </span><span class="annot"><a href="#local-6989586621680134162"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680134160"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680134159"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-57"></span><span>      </span><span class="annot"><a href="Unison.Auth.HTTPClient.html#AuthenticatedHttpClient"><span class="hs-identifier hs-type">AuthenticatedHttpClient</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-58"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Path.Absolute</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-comment">-- Current path</span><span>
+</span><span id="line-59"></span><span>      </span><span class="annot"><a href="#local-6989586621680134162"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Line.Completion</span></span><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><span id="line-60"></span><span>    </span><span class="hs-comment">-- | Select which targets glob patterns may expand into for this argument.</span><span>
+</span><span id="line-61"></span><span>    </span><span class="hs-comment">-- An empty set disables globbing.</span><span>
+</span><span id="line-62"></span><span>    </span><span id="%24sel%3AglobTargets%3AArgumentType"><span class="annot"><span class="annottext">ArgumentType -&gt; Set TargetType
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3AglobTargets%3AArgumentType"><span class="hs-identifier hs-var hs-var">globTargets</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Unison.CommandLine.Globbing.html#TargetType"><span class="hs-identifier hs-type">Globbing.TargetType</span></a></span><span>
-</span><span id="line-61"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-62"></span><span>
-</span><span id="line-63"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680124301"><span id="local-6989586621680124304"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ArgumentType"><span class="hs-identifier hs-type">ArgumentType</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-64"></span><span>  </span><span id="local-6989586621680124300"><span class="annot"><span class="annottext">show :: ArgumentType -&gt; String
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">show</span></span></span><span> </span><span id="local-6989586621680124298"><span class="annot"><span class="annottext">ArgumentType
-</span><a href="#local-6989586621680124298"><span class="hs-identifier hs-var">at</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-63"></span><span>  </span><span class="hs-special">}</span><span>
+</span><span id="line-64"></span><span>
+</span><span id="line-65"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680134069"><span id="local-6989586621680134072"><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ArgumentType"><span class="hs-identifier hs-type">ArgumentType</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-66"></span><span>  </span><span id="local-6989586621680134068"><span class="annot"><span class="annottext">show :: ArgumentType -&gt; String
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">show</span></span></span><span> </span><span id="local-6989586621680134066"><span class="annot"><span class="annottext">ArgumentType
+</span><a href="#local-6989586621680134066"><span class="hs-identifier hs-var">at</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;ArgumentType &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ArgumentType -&gt; String
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3AtypeName%3AArgumentType"><span class="hs-identifier hs-var hs-var">typeName</span></a></span><span> </span><span class="annot"><span class="annottext">ArgumentType
-</span><a href="#local-6989586621680124298"><span class="hs-identifier hs-var">at</span></a></span><span>
-</span><span id="line-65"></span><span>
-</span><span id="line-66"></span><span class="hs-comment">-- `argType` gets called when the user tries to autocomplete an `i`th argument (zero-indexed).</span><span>
-</span><span id="line-67"></span><span class="hs-comment">-- todo: would be nice if we could alert the user if they try to autocomplete</span><span>
-</span><span id="line-68"></span><span class="hs-comment">-- past the end.  It would also be nice if</span><span>
-</span><span id="line-69"></span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#argType"><span class="hs-identifier hs-type">argType</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-type">InputPattern</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ArgumentType"><span class="hs-identifier hs-type">ArgumentType</span></a></span><span>
-</span><span id="line-70"></span><span id="argType"><span class="annot"><span class="annottext">argType :: InputPattern -&gt; Int -&gt; Maybe ArgumentType
-</span><a href="Unison.CommandLine.InputPattern.html#argType"><span class="hs-identifier hs-var hs-var">argType</span></a></span></span><span> </span><span id="local-6989586621680124297"><span class="annot"><span class="annottext">InputPattern
-</span><a href="#local-6989586621680124297"><span class="hs-identifier hs-var">ip</span></a></span></span><span> </span><span id="local-6989586621680124296"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621680124296"><span class="hs-identifier hs-var">i</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Int, [(IsOptional, ArgumentType)]) -&gt; Maybe ArgumentType
-</span><a href="#local-6989586621680124295"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621680124296"><span class="hs-identifier hs-var">i</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">InputPattern -&gt; [(IsOptional, ArgumentType)]
+</span><a href="#local-6989586621680134066"><span class="hs-identifier hs-var">at</span></a></span><span>
+</span><span id="line-67"></span><span>
+</span><span id="line-68"></span><span class="hs-comment">-- `argType` gets called when the user tries to autocomplete an `i`th argument (zero-indexed).</span><span>
+</span><span id="line-69"></span><span class="hs-comment">-- todo: would be nice if we could alert the user if they try to autocomplete</span><span>
+</span><span id="line-70"></span><span class="hs-comment">-- past the end.  It would also be nice if</span><span>
+</span><span id="line-71"></span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#argType"><span class="hs-identifier hs-type">argType</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-type">InputPattern</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#ArgumentType"><span class="hs-identifier hs-type">ArgumentType</span></a></span><span>
+</span><span id="line-72"></span><span id="argType"><span class="annot"><span class="annottext">argType :: InputPattern -&gt; Int -&gt; Maybe ArgumentType
+</span><a href="Unison.CommandLine.InputPattern.html#argType"><span class="hs-identifier hs-var hs-var">argType</span></a></span></span><span> </span><span id="local-6989586621680134065"><span class="annot"><span class="annottext">InputPattern
+</span><a href="#local-6989586621680134065"><span class="hs-identifier hs-var">ip</span></a></span></span><span> </span><span id="local-6989586621680134064"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621680134064"><span class="hs-identifier hs-var">i</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Int, [(IsOptional, ArgumentType)]) -&gt; Maybe ArgumentType
+</span><a href="#local-6989586621680134063"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621680134064"><span class="hs-identifier hs-var">i</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">InputPattern -&gt; [(IsOptional, ArgumentType)]
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3AargTypes%3AInputPattern"><span class="hs-identifier hs-var hs-var">argTypes</span></a></span><span> </span><span class="annot"><span class="annottext">InputPattern
-</span><a href="#local-6989586621680124297"><span class="hs-identifier hs-var">ip</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-71"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-72"></span><span>    </span><span class="hs-comment">-- Strategy: all of these input patterns take some number of arguments.</span><span>
-</span><span id="line-73"></span><span>    </span><span class="hs-comment">-- If it takes no arguments, then don't autocomplete.</span><span>
-</span><span id="line-74"></span><span>    </span><span id="local-6989586621680124295"><span class="annot"><span class="annottext">go :: (Int, [(IsOptional, ArgumentType)]) -&gt; Maybe ArgumentType
-</span><a href="#local-6989586621680124295"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621680134065"><span class="hs-identifier hs-var">ip</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-73"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-74"></span><span>    </span><span class="hs-comment">-- Strategy: all of these input patterns take some number of arguments.</span><span>
+</span><span id="line-75"></span><span>    </span><span class="hs-comment">-- If it takes no arguments, then don't autocomplete.</span><span>
+</span><span id="line-76"></span><span>    </span><span id="local-6989586621680134063"><span class="annot"><span class="annottext">go :: (Int, [(IsOptional, ArgumentType)]) -&gt; Maybe ArgumentType
+</span><a href="#local-6989586621680134063"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe ArgumentType
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-75"></span><span>    </span><span class="hs-comment">-- If requesting the 0th of &gt;=1 arguments, return it.</span><span>
-</span><span id="line-76"></span><span>    </span><span class="annot"><a href="#local-6989586621680124295"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><span id="line-77"></span><span>    </span><span class="hs-comment">-- If requesting the 0th of &gt;=1 arguments, return it.</span><span>
+</span><span id="line-78"></span><span>    </span><span class="annot"><a href="#local-6989586621680134063"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IsOptional
-</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680124294"><span class="annot"><span class="annottext">ArgumentType
-</span><a href="#local-6989586621680124294"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span class="annot"><span class="annottext">[(IsOptional, ArgumentType)]
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680134062"><span class="annot"><span class="annottext">ArgumentType
+</span><a href="#local-6989586621680134062"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span class="annot"><span class="annottext">[(IsOptional, ArgumentType)]
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ArgumentType -&gt; Maybe ArgumentType
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ArgumentType
-</span><a href="#local-6989586621680124294"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-77"></span><span>    </span><span class="hs-comment">-- Vararg parameters should appear at the end of the arg list, and work for</span><span>
-</span><span id="line-78"></span><span>    </span><span class="hs-comment">-- any later argument number.</span><span>
-</span><span id="line-79"></span><span>    </span><span class="annot"><a href="#local-6989586621680124295"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621680134062"><span class="hs-identifier hs-var">t</span></a></span><span>
+</span><span id="line-79"></span><span>    </span><span class="hs-comment">-- Vararg parameters should appear at the end of the arg list, and work for</span><span>
+</span><span id="line-80"></span><span>    </span><span class="hs-comment">-- any later argument number.</span><span>
+</span><span id="line-81"></span><span>    </span><span class="annot"><a href="#local-6989586621680134063"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">IsOptional
-</span><a href="Unison.CommandLine.InputPattern.html#ZeroPlus"><span class="hs-identifier hs-var">ZeroPlus</span></a></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680124293"><span class="annot"><span class="annottext">ArgumentType
-</span><a href="#local-6989586621680124293"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ArgumentType -&gt; Maybe ArgumentType
+</span><a href="Unison.CommandLine.InputPattern.html#ZeroPlus"><span class="hs-identifier hs-var">ZeroPlus</span></a></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680134061"><span class="annot"><span class="annottext">ArgumentType
+</span><a href="#local-6989586621680134061"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ArgumentType -&gt; Maybe ArgumentType
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ArgumentType
-</span><a href="#local-6989586621680124293"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-80"></span><span>    </span><span class="annot"><a href="#local-6989586621680124295"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621680134061"><span class="hs-identifier hs-var">t</span></a></span><span>
+</span><span id="line-82"></span><span>    </span><span class="annot"><a href="#local-6989586621680134063"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">IsOptional
-</span><a href="Unison.CommandLine.InputPattern.html#OnePlus"><span class="hs-identifier hs-var">OnePlus</span></a></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680124292"><span class="annot"><span class="annottext">ArgumentType
-</span><a href="#local-6989586621680124292"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ArgumentType -&gt; Maybe ArgumentType
+</span><a href="Unison.CommandLine.InputPattern.html#OnePlus"><span class="hs-identifier hs-var">OnePlus</span></a></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680134060"><span class="annot"><span class="annottext">ArgumentType
+</span><a href="#local-6989586621680134060"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ArgumentType -&gt; Maybe ArgumentType
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ArgumentType
-</span><a href="#local-6989586621680124292"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-81"></span><span>    </span><span class="hs-comment">-- If requesting a later parameter, decrement and drop one.</span><span>
-</span><span id="line-82"></span><span>    </span><span class="annot"><a href="#local-6989586621680124295"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680124291"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621680124291"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680124290"><span class="annot"><span class="annottext">IsOptional
-</span><a href="#local-6989586621680124290"><span class="hs-identifier hs-var">o</span></a></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ArgumentType
-</span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621680124289"><span class="annot"><span class="annottext">[(IsOptional, ArgumentType)]
-</span><a href="#local-6989586621680124289"><span class="hs-identifier hs-var">argTypes</span></a></span></span><span class="hs-special">)</span><span>
-</span><span id="line-83"></span><span>      </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">IsOptional
-</span><a href="#local-6989586621680124290"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">IsOptional -&gt; IsOptional -&gt; Bool
+</span><a href="#local-6989586621680134060"><span class="hs-identifier hs-var">t</span></a></span><span>
+</span><span id="line-83"></span><span>    </span><span class="hs-comment">-- If requesting a later parameter, decrement and drop one.</span><span>
+</span><span id="line-84"></span><span>    </span><span class="annot"><a href="#local-6989586621680134063"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680134059"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621680134059"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680134058"><span class="annot"><span class="annottext">IsOptional
+</span><a href="#local-6989586621680134058"><span class="hs-identifier hs-var">o</span></a></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">ArgumentType
+</span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621680134057"><span class="annot"><span class="annottext">[(IsOptional, ArgumentType)]
+</span><a href="#local-6989586621680134057"><span class="hs-identifier hs-var">argTypes</span></a></span></span><span class="hs-special">)</span><span>
+</span><span id="line-85"></span><span>      </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">IsOptional
+</span><a href="#local-6989586621680134058"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">IsOptional -&gt; IsOptional -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">IsOptional
 </span><a href="Unison.CommandLine.InputPattern.html#Optional"><span class="hs-identifier hs-var">Optional</span></a></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool -&gt; Bool
 </span><span class="hs-operator hs-var">||</span></span><span> </span><span class="annot"><span class="annottext">IsOptional
-</span><a href="#local-6989586621680124290"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">IsOptional -&gt; IsOptional -&gt; Bool
+</span><a href="#local-6989586621680134058"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">IsOptional -&gt; IsOptional -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">IsOptional
 </span><a href="Unison.CommandLine.InputPattern.html#Required"><span class="hs-identifier hs-var">Required</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Int, [(IsOptional, ArgumentType)]) -&gt; Maybe ArgumentType
-</span><a href="#local-6989586621680124295"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621680124291"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+</span><a href="#local-6989586621680134063"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621680134059"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">1</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(IsOptional, ArgumentType)]
-</span><a href="#local-6989586621680124289"><span class="hs-identifier hs-var">argTypes</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-84"></span><span>    </span><span class="hs-comment">-- The argument list spec is invalid if something follows a vararg</span><span>
-</span><span id="line-85"></span><span>    </span><span class="annot"><a href="#local-6989586621680124295"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span id="local-6989586621680124287"><span class="annot"><span class="annottext">(Int, [(IsOptional, ArgumentType)])
-</span><a href="#local-6989586621680124287"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-86"></span><span>      </span><span class="annot"><span class="annottext">String -&gt; Maybe ArgumentType
+</span><a href="#local-6989586621680134057"><span class="hs-identifier hs-var">argTypes</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-86"></span><span>    </span><span class="hs-comment">-- The argument list spec is invalid if something follows a vararg</span><span>
+</span><span id="line-87"></span><span>    </span><span class="annot"><a href="#local-6989586621680134063"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span id="local-6989586621680134055"><span class="annot"><span class="annottext">(Int, [(IsOptional, ArgumentType)])
+</span><a href="#local-6989586621680134055"><span class="hs-identifier hs-var">args</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-88"></span><span>      </span><span class="annot"><span class="annottext">String -&gt; Maybe ArgumentType
 forall a. HasCallStack =&gt; String -&gt; a
 </span><span class="hs-identifier hs-var">error</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Maybe ArgumentType) -&gt; String -&gt; Maybe ArgumentType
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span>
-</span><span id="line-87"></span><span>        </span><span class="annot"><span class="annottext">String
+</span><span id="line-89"></span><span>        </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Input pattern &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ShowS
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">InputPattern -&gt; String
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3ApatternName%3AInputPattern"><span class="hs-identifier hs-var hs-var">patternName</span></a></span><span> </span><span class="annot"><span class="annottext">InputPattern
-</span><a href="#local-6989586621680124297"><span class="hs-identifier hs-var">ip</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-88"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><a href="#local-6989586621680134065"><span class="hs-identifier hs-var">ip</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-90"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot; has an invalid argument list: &quot;</span></span><span>
-</span><span id="line-89"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><span id="line-91"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">(Int, [(IsOptional, ArgumentType)]) -&gt; String
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">(Int, [(IsOptional, ArgumentType)])
-</span><a href="#local-6989586621680124287"><span class="hs-identifier hs-var">args</span></a></span><span>
-</span><span id="line-90"></span><span>
-</span><span id="line-91"></span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#minArgs"><span class="hs-identifier hs-type">minArgs</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-type">InputPattern</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
-</span><span id="line-92"></span><span id="minArgs"><span class="annot"><span class="annottext">minArgs :: InputPattern -&gt; Int
-</span><a href="Unison.CommandLine.InputPattern.html#minArgs"><span class="hs-identifier hs-var hs-var">minArgs</span></a></span></span><span> </span><span id="local-6989586621680124285"><span class="annot"><span class="annottext">ip :: InputPattern
-</span><a href="#local-6989586621680124285"><span class="hs-identifier hs-var">ip</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><span class="annottext">((IsOptional, ArgumentType) -&gt; IsOptional)
+</span><a href="#local-6989586621680134055"><span class="hs-identifier hs-var">args</span></a></span><span>
+</span><span id="line-92"></span><span>
+</span><span id="line-93"></span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#minArgs"><span class="hs-identifier hs-type">minArgs</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-type">InputPattern</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-94"></span><span id="minArgs"><span class="annot"><span class="annottext">minArgs :: InputPattern -&gt; Int
+</span><a href="Unison.CommandLine.InputPattern.html#minArgs"><span class="hs-identifier hs-var hs-var">minArgs</span></a></span></span><span> </span><span id="local-6989586621680134053"><span class="annot"><span class="annottext">ip :: InputPattern
+</span><a href="#local-6989586621680134053"><span class="hs-identifier hs-var">ip</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><span class="annottext">((IsOptional, ArgumentType) -&gt; IsOptional)
 -&gt; [(IsOptional, ArgumentType)] -&gt; [IsOptional]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="annot"><span class="annottext">(IsOptional, ArgumentType) -&gt; IsOptional
@@ -274,56 +280,56 @@ forall a b. (a, b) -&gt; a
 -&gt; [IsOptional]
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">InputPattern -&gt; [(IsOptional, ArgumentType)]
-</span><a href="Unison.CommandLine.InputPattern.html#%24sel%3AargTypes%3AInputPattern"><span class="hs-identifier hs-var hs-var">argTypes</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621680124283"><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124283"><span class="hs-identifier hs-var">argTypes</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[IsOptional] -&gt; Int
-</span><a href="#local-6989586621680124282"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124283"><span class="hs-identifier hs-var">argTypes</span></a></span><span>
-</span><span id="line-93"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-94"></span><span>    </span><span id="local-6989586621680124282"><span class="annot"><span class="annottext">go :: [IsOptional] -&gt; Int
-</span><a href="#local-6989586621680124282"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
+</span><a href="Unison.CommandLine.InputPattern.html#%24sel%3AargTypes%3AInputPattern"><span class="hs-identifier hs-var hs-var">argTypes</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621680134051"><span class="annot"><span class="annottext">[IsOptional]
+</span><a href="#local-6989586621680134051"><span class="hs-identifier hs-var">argTypes</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[IsOptional] -&gt; Int
+</span><a href="#local-6989586621680134050"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
+</span><a href="#local-6989586621680134051"><span class="hs-identifier hs-var">argTypes</span></a></span><span>
+</span><span id="line-95"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-96"></span><span>    </span><span id="local-6989586621680134050"><span class="annot"><span class="annottext">go :: [IsOptional] -&gt; Int
+</span><a href="#local-6989586621680134050"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span>
-</span><span id="line-95"></span><span>    </span><span class="annot"><a href="#local-6989586621680124282"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IsOptional
-</span><a href="Unison.CommandLine.InputPattern.html#Required"><span class="hs-identifier hs-var">Required</span></a></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621680124281"><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124281"><span class="hs-identifier hs-var">argTypes</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
+</span><span id="line-97"></span><span>    </span><span class="annot"><a href="#local-6989586621680134050"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IsOptional
+</span><a href="Unison.CommandLine.InputPattern.html#Required"><span class="hs-identifier hs-var">Required</span></a></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621680134049"><span class="annot"><span class="annottext">[IsOptional]
+</span><a href="#local-6989586621680134049"><span class="hs-identifier hs-var">argTypes</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">1</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">[IsOptional] -&gt; Int
-</span><a href="#local-6989586621680124282"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124281"><span class="hs-identifier hs-var">argTypes</span></a></span><span>
-</span><span id="line-96"></span><span>    </span><span class="annot"><a href="#local-6989586621680124282"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">IsOptional
+</span><a href="#local-6989586621680134050"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
+</span><a href="#local-6989586621680134049"><span class="hs-identifier hs-var">argTypes</span></a></span><span>
+</span><span id="line-98"></span><span>    </span><span class="annot"><a href="#local-6989586621680134050"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">IsOptional
 </span><span class="hs-identifier">_</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span>
-</span><span id="line-97"></span><span>    </span><span class="annot"><a href="#local-6989586621680124282"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
+</span><span id="line-99"></span><span>    </span><span class="annot"><a href="#local-6989586621680134050"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-98"></span><span>      </span><span class="annot"><span class="annottext">String -&gt; Int
+</span><span id="line-100"></span><span>      </span><span class="annot"><span class="annottext">String -&gt; Int
 forall a. HasCallStack =&gt; String -&gt; a
 </span><span class="hs-identifier hs-var">error</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Int) -&gt; String -&gt; Int
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span>
-</span><span id="line-99"></span><span>        </span><span class="annot"><span class="annottext">String
+</span><span id="line-101"></span><span>        </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Invalid argTypes for InputPattern (&quot;</span></span><span>
-</span><span id="line-100"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><span id="line-102"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ShowS
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">InputPattern -&gt; String
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3ApatternName%3AInputPattern"><span class="hs-identifier hs-var hs-var">patternName</span></a></span><span> </span><span class="annot"><span class="annottext">InputPattern
-</span><a href="#local-6989586621680124285"><span class="hs-identifier hs-var">ip</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-101"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><a href="#local-6989586621680134053"><span class="hs-identifier hs-var">ip</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-103"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;): &quot;</span></span><span>
-</span><span id="line-102"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><span id="line-104"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">[IsOptional] -&gt; String
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124283"><span class="hs-identifier hs-var">argTypes</span></a></span><span>
-</span><span id="line-103"></span><span>
-</span><span id="line-104"></span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#maxArgs"><span class="hs-identifier hs-type">maxArgs</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-type">InputPattern</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
-</span><span id="line-105"></span><span id="maxArgs"><span class="annot"><span class="annottext">maxArgs :: InputPattern -&gt; Maybe Int
-</span><a href="Unison.CommandLine.InputPattern.html#maxArgs"><span class="hs-identifier hs-var hs-var">maxArgs</span></a></span></span><span> </span><span id="local-6989586621680124279"><span class="annot"><span class="annottext">ip :: InputPattern
-</span><a href="#local-6989586621680124279"><span class="hs-identifier hs-var">ip</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><span class="annottext">((IsOptional, ArgumentType) -&gt; IsOptional)
+</span><a href="#local-6989586621680134051"><span class="hs-identifier hs-var">argTypes</span></a></span><span>
+</span><span id="line-105"></span><span>
+</span><span id="line-106"></span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#maxArgs"><span class="hs-identifier hs-type">maxArgs</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.CommandLine.InputPattern.html#InputPattern"><span class="hs-identifier hs-type">InputPattern</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span>
+</span><span id="line-107"></span><span id="maxArgs"><span class="annot"><span class="annottext">maxArgs :: InputPattern -&gt; Maybe Int
+</span><a href="Unison.CommandLine.InputPattern.html#maxArgs"><span class="hs-identifier hs-var hs-var">maxArgs</span></a></span></span><span> </span><span id="local-6989586621680134047"><span class="annot"><span class="annottext">ip :: InputPattern
+</span><a href="#local-6989586621680134047"><span class="hs-identifier hs-var">ip</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><span class="annottext">((IsOptional, ArgumentType) -&gt; IsOptional)
 -&gt; [(IsOptional, ArgumentType)] -&gt; [IsOptional]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="annot"><span class="annottext">(IsOptional, ArgumentType) -&gt; IsOptional
@@ -334,59 +340,59 @@ forall a b. (a, b) -&gt; a
 -&gt; [IsOptional]
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">InputPattern -&gt; [(IsOptional, ArgumentType)]
-</span><a href="Unison.CommandLine.InputPattern.html#%24sel%3AargTypes%3AInputPattern"><span class="hs-identifier hs-var hs-var">argTypes</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621680124278"><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124278"><span class="hs-identifier hs-var">args</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[IsOptional] -&gt; Maybe Int
-</span><a href="#local-6989586621680124277"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124278"><span class="hs-identifier hs-var">args</span></a></span><span>
-</span><span id="line-106"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-107"></span><span>    </span><span id="local-6989586621680124277"><span class="annot"><span class="annottext">go :: [IsOptional] -&gt; Maybe Int
-</span><a href="#local-6989586621680124277"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Maybe Int
+</span><a href="Unison.CommandLine.InputPattern.html#%24sel%3AargTypes%3AInputPattern"><span class="hs-identifier hs-var hs-var">argTypes</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621680134046"><span class="annot"><span class="annottext">[IsOptional]
+</span><a href="#local-6989586621680134046"><span class="hs-identifier hs-var">args</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[IsOptional] -&gt; Maybe Int
+</span><a href="#local-6989586621680134045"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
+</span><a href="#local-6989586621680134046"><span class="hs-identifier hs-var">args</span></a></span><span>
+</span><span id="line-108"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-109"></span><span>    </span><span id="local-6989586621680134045"><span class="annot"><span class="annottext">go :: [IsOptional] -&gt; Maybe Int
+</span><a href="#local-6989586621680134045"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Maybe Int
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span>
-</span><span id="line-108"></span><span>    </span><span class="annot"><a href="#local-6989586621680124277"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IsOptional
-</span><a href="Unison.CommandLine.InputPattern.html#Required"><span class="hs-identifier hs-var">Required</span></a></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621680124276"><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124276"><span class="hs-identifier hs-var">argTypes</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
+</span><span id="line-110"></span><span>    </span><span class="annot"><a href="#local-6989586621680134045"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IsOptional
+</span><a href="Unison.CommandLine.InputPattern.html#Required"><span class="hs-identifier hs-var">Required</span></a></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621680134044"><span class="annot"><span class="annottext">[IsOptional]
+</span><a href="#local-6989586621680134044"><span class="hs-identifier hs-var">argTypes</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">1</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Int -&gt; Int) -&gt; Maybe Int -&gt; Maybe Int
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[IsOptional] -&gt; Maybe Int
-</span><a href="#local-6989586621680124277"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124276"><span class="hs-identifier hs-var">argTypes</span></a></span><span>
-</span><span id="line-109"></span><span>    </span><span class="annot"><a href="#local-6989586621680124277"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">IsOptional
+</span><a href="#local-6989586621680134045"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
+</span><a href="#local-6989586621680134044"><span class="hs-identifier hs-var">argTypes</span></a></span><span>
+</span><span id="line-111"></span><span>    </span><span class="annot"><a href="#local-6989586621680134045"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">IsOptional
 </span><a href="Unison.CommandLine.InputPattern.html#Optional"><span class="hs-identifier hs-var">Optional</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Maybe Int
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span>
-</span><span id="line-110"></span><span>    </span><span class="annot"><a href="#local-6989586621680124277"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">IsOptional
+</span><span id="line-112"></span><span>    </span><span class="annot"><a href="#local-6989586621680134045"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">IsOptional
 </span><span class="hs-identifier">_</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Int
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-111"></span><span>    </span><span class="annot"><a href="#local-6989586621680124277"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
+</span><span id="line-113"></span><span>    </span><span class="annot"><a href="#local-6989586621680134045"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-112"></span><span>      </span><span class="annot"><span class="annottext">String -&gt; Maybe Int
+</span><span id="line-114"></span><span>      </span><span class="annot"><span class="annottext">String -&gt; Maybe Int
 forall a. HasCallStack =&gt; String -&gt; a
 </span><span class="hs-identifier hs-var">error</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Maybe Int) -&gt; String -&gt; Maybe Int
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span>
-</span><span id="line-113"></span><span>        </span><span class="annot"><span class="annottext">String
+</span><span id="line-115"></span><span>        </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Invalid argTypes for InputPattern (&quot;</span></span><span>
-</span><span id="line-114"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><span id="line-116"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ShowS
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">InputPattern -&gt; String
 </span><a href="Unison.CommandLine.InputPattern.html#%24sel%3ApatternName%3AInputPattern"><span class="hs-identifier hs-var hs-var">patternName</span></a></span><span> </span><span class="annot"><span class="annottext">InputPattern
-</span><a href="#local-6989586621680124279"><span class="hs-identifier hs-var">ip</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-115"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><a href="#local-6989586621680134047"><span class="hs-identifier hs-var">ip</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-117"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;): &quot;</span></span><span>
-</span><span id="line-116"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><span id="line-118"></span><span>          </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">[IsOptional] -&gt; String
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">[IsOptional]
-</span><a href="#local-6989586621680124278"><span class="hs-identifier hs-var">args</span></a></span><span>
-</span><span id="line-117"></span></pre></body></html>
+</span><a href="#local-6989586621680134046"><span class="hs-identifier hs-var">args</span></a></span><span>
+</span><span id="line-119"></span></pre></body></html>
