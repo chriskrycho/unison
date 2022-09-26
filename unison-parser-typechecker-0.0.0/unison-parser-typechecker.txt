@@ -4035,7 +4035,7 @@ instance GHC.Show.Show (Unison.Codebase.SqliteCodebase.Entity m)
 --   This allows one to run standalone applications implemented in the
 --   Unison language.
 module Unison.Codebase.Execute
-execute :: Codebase IO Symbol Ann -> Runtime Symbol -> String -> IO ()
+execute :: Codebase IO Symbol Ann -> Runtime Symbol -> String -> IO (Either Error ())
 
 module Unison.Util.TQueue
 data TQueue a
@@ -5202,7 +5202,7 @@ arrayCmp :: (Closure -> Closure -> Ordering) -> Array Closure -> Array Closure -
 module Unison.Runtime.Interface
 startRuntime :: Bool -> RuntimeHost -> Text -> IO (Runtime Symbol)
 standalone :: CCache -> Word64 -> IO StoredCache
-runStandalone :: StoredCache -> Word64 -> IO ()
+runStandalone :: StoredCache -> Word64 -> IO (Either (Pretty ColorText) ())
 data StoredCache
 decodeStandalone :: ByteString -> Either String (Text, Text, Word64, StoredCache)
 
