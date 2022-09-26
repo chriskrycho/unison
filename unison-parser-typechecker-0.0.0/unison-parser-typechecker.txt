@@ -2215,9 +2215,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3pIi loc_a3pIj. Lens' (Env v_a3pIi loc_a3pIj) (TypeLookup v_a3pIi loc_a3pIj)
-termsByShortname :: forall v_a3pIi loc_a3pIj. Lens' (Env v_a3pIi loc_a3pIj) (Map Name [NamedReference v_a3pIi loc_a3pIj])
-ambientAbilities :: forall v_a3pIi loc_a3pIj. Lens' (Env v_a3pIi loc_a3pIj) [Type v_a3pIi loc_a3pIj]
+typeLookup :: forall v_a3pK7 loc_a3pK8. Lens' (Env v_a3pK7 loc_a3pK8) (TypeLookup v_a3pK7 loc_a3pK8)
+termsByShortname :: forall v_a3pK7 loc_a3pK8. Lens' (Env v_a3pK7 loc_a3pK8) (Map Name [NamedReference v_a3pK7 loc_a3pK8])
+ambientAbilities :: forall v_a3pK7 loc_a3pK8. Lens' (Env v_a3pK7 loc_a3pK8) [Type v_a3pK7 loc_a3pK8]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3925,7 +3925,7 @@ checkCodebaseIsUpToDate :: Transaction CodebaseVersionStatus
 -- | Migrates a codebase up to the most recent version known to ucm. This
 --   is a No-op if it's up to date Returns an error if the schema version
 --   is newer than this ucm knows about.
-ensureCodebaseIsUpToDate :: MonadUnliftIO m => LocalOrRemote -> CodebasePath -> (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Bool -> Connection -> m (Either OpenCodebaseError ())
+ensureCodebaseIsUpToDate :: MonadIO m => LocalOrRemote -> CodebasePath -> (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Bool -> Connection -> m (Either OpenCodebaseError ())
 
 -- | Copy the sqlite database to a new file with a unique name based on
 --   current time.
