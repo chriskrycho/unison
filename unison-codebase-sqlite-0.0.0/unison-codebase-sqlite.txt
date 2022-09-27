@@ -1308,3 +1308,4 @@ instance GHC.Show.Show U.Codebase.Sqlite.Operations.NeedTypeForBuiltinMetadata
 module U.Codebase.Branch
 nonEmptyChildren :: Branch m -> Transaction (Map NameSegment (CausalBranch m))
 childStats :: Branch m -> Transaction (Map NameSegment (CausalBranch m, NamespaceStats))
+isEmpty :: Branch m -> Transaction Bool

@@ -593,6 +593,7 @@ module Unison.CommandLine.Globbing
 -- | Expand a single glob pattern into all matching targets of the
 --   specified types.
 expandGlobs :: forall m. Set TargetType -> Branch0 m -> Absolute -> String -> Maybe [String]
+containsGlob :: String -> Bool
 
 -- | Possible targets which a glob may select.
 data TargetType
@@ -788,7 +789,7 @@ module Unison.LSP.UCMWorker
 
 -- | Watches for state changes in UCM and updates cached LSP state
 --   accordingly
-ucmWorker :: TVar PrettyPrintEnvDecl -> TVar NamesWithHistory -> STM (Branch IO, Absolute) -> Lsp ()
+ucmWorker :: TVar PrettyPrintEnvDecl -> TVar NamesWithHistory -> STM (Branch IO) -> STM Absolute -> Lsp ()
 
 module Unison.LSP.Hover
 
@@ -982,7 +983,7 @@ problem :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
 tip :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
 warn :: (ListLike s Char, IsString s) => Pretty s -> Pretty s
 warnNote :: String -> String
-parseInput :: Branch0 m -> Absolute -> [String] -> Map String InputPattern -> [String] -> Either (Pretty ColorText) Input
+parseInput :: IO (Branch0 m) -> Absolute -> [String] -> Map String InputPattern -> [String] -> IO (Either (Pretty ColorText) Input)
 prompt :: String
 watchConfig :: FilePath -> IO (Config, IO ())
 watchFileSystem :: TQueue Event -> FilePath -> IO (IO ())
@@ -1037,7 +1038,7 @@ DeletedEverything :: Output
 ListNames :: IsGlobal -> Int -> [(Reference, Set (HashQualified Name))] -> [(Referent, Set (HashQualified Name))] -> Output
 ListOfDefinitions :: FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' Symbol Ann] -> Output
 ListOfLinks :: PrettyPrintEnv -> [(HashQualified Name, Reference, Maybe (Type Symbol Ann))] -> Output
-ListShallow :: PrettyPrintEnv -> [ShallowListEntry Symbol Ann] -> Output
+ListShallow :: IO PrettyPrintEnv -> [ShallowListEntry Symbol Ann] -> Output
 ListOfPatches :: Set Name -> Output
 SlurpOutput :: Input -> PrettyPrintEnv -> SlurpResult Symbol -> Output
 ParseErrors :: Text -> [Err Symbol] -> Output
@@ -1507,9 +1508,9 @@ Env :: AuthenticatedHttpClient -> Codebase IO Symbol Ann -> Config -> Credential
 --   There's an additional pseudo <tt>"currentPath"</tt> field lens, for
 --   convenience.
 data LoopState
-LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, Bool) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Maybe Input -> NumberedArgs -> Maybe (Term Symbol Ann, Type Symbol Ann, TypecheckedUnisonFile Symbol Ann) -> LoopState
-[$sel:root:LoopState] :: LoopState -> Branch IO
-[$sel:lastSavedRoot:LoopState] :: LoopState -> Branch IO
+LoopState :: TMVar (Branch IO) -> CausalHash -> NonEmpty Absolute -> Maybe (FilePath, Bool) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Maybe Input -> NumberedArgs -> Maybe (Term Symbol Ann, Type Symbol Ann, TypecheckedUnisonFile Symbol Ann) -> LoopState
+[$sel:root:LoopState] :: LoopState -> TMVar (Branch IO)
+[$sel:lastSavedRootHash:LoopState] :: LoopState -> CausalHash
 [$sel:currentPathStack:LoopState] :: LoopState -> NonEmpty Absolute
 [$sel:latestFile:LoopState] :: LoopState -> Maybe (FilePath, Bool)
 [$sel:latestTypecheckedFile:LoopState] :: LoopState -> Maybe (TypecheckedUnisonFile Symbol Ann)
@@ -1518,7 +1519,7 @@ LoopState :: Branch IO -> Branch IO -> NonEmpty Absolute -> Maybe (FilePath, Boo
 [$sel:lastRunResult:LoopState] :: LoopState -> Maybe (Term Symbol Ann, Type Symbol Ann, TypecheckedUnisonFile Symbol Ann)
 
 -- | Create an initial loop state given a root branch and the current path.
-loopState0 :: Branch IO -> Absolute -> LoopState
+loopState0 :: CausalHash -> TMVar (Branch IO) -> Absolute -> LoopState
 
 -- | Lift an action of type <tt>IO (Either e a)</tt>, given a continuation
 --   for <tt>e</tt>.
@@ -1650,6 +1651,13 @@ resolveShortBranchHash :: ShortBranchHash -> Cli r (Branch IO)
 -- | Get the root branch.
 getRootBranch :: Cli r (Branch IO)
 
+-- | Set a new root branch. Note: This does _not_ update the codebase, the
+--   caller is responsible for that.
+setRootBranch :: Branch IO -> Cli r ()
+
+-- | Get the root branch.
+modifyRootBranch :: (Branch IO -> Branch IO) -> Cli r (Branch IO)
+
 -- | Get the root branch0.
 getRootBranch0 :: Cli r (Branch0 IO)
 
@@ -1664,6 +1672,13 @@ getBranchAt :: Absolute -> Cli r (Branch IO)
 
 -- | Get the branch0 at an absolute path.
 getBranch0At :: Absolute -> Cli r (Branch0 IO)
+
+-- | Get the last saved root hash.
+getLastSavedRootHash :: Cli r CausalHash
+
+-- | Set a new root branch. Note: This does _not_ update the codebase, the
+--   caller is responsible for that.
+setLastSavedRootHash :: CausalHash -> Cli r ()
 
 -- | Get the maybe-branch at an absolute path.
 getMaybeBranchAt :: Absolute -> Cli r (Maybe (Branch IO))
@@ -1823,15 +1838,15 @@ module Unison.LSP
 getLspPort :: IO String
 
 -- | Spawn an LSP server on the configured port.
-spawnLsp :: Codebase IO Symbol Ann -> Runtime Symbol -> STM (Branch IO, Absolute) -> IO ()
-serverDefinition :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO, Absolute) -> ServerDefinition Config
+spawnLsp :: Codebase IO Symbol Ann -> Runtime Symbol -> STM (Branch IO) -> STM Absolute -> IO ()
+serverDefinition :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO) -> STM Absolute -> ServerDefinition Config
 
 -- | Detect user LSP configuration changes.
 lspOnConfigurationChange :: Config -> Value -> Either Text Config
 lspDefaultConfig :: Config
 
 -- | Initialize any context needed by the LSP server
-lspDoInitialize :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO, Absolute) -> LanguageContextEnv Config -> Message 'Initialize -> IO (Either ResponseError Env)
+lspDoInitialize :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO) -> STM Absolute -> LanguageContextEnv Config -> Message 'Initialize -> IO (Either ResponseError Env)
 
 -- | LSP request handlers that don't register/unregister dynamically
 lspStaticHandlers :: Handlers Lsp
@@ -1847,7 +1862,7 @@ lspInterpretHandler :: Env -> Lsp <~> IO
 lspOptions :: Options
 
 module Unison.CommandLine.Main
-main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> ((Branch IO, Absolute) -> IO ()) -> IO ()
+main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Branch IO -> STM ()) -> (Absolute -> STM ()) -> IO ()
 
 module Unison.Codebase.TranscriptParser
 data Stanza
