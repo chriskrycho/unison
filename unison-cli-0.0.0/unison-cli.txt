@@ -1620,6 +1620,60 @@ authLogin :: CodeserverURI -> Cli r ()
 --   through an authentication flow if not.
 ensureAuthenticatedWithCodeserver :: CodeserverURI -> Cli r ()
 
+module Unison.Cli.TypeCheck
+typecheck :: [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> Cli r (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
+typecheckHelper :: MonadIO m => Codebase IO Symbol Ann -> IO UniqueName -> [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> m (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
+typecheckFile :: [Type Symbol Ann] -> UnisonFile Symbol Ann -> Cli r (Result (Seq (Note Symbol Ann)) (Either Names (TypecheckedUnisonFile Symbol Ann)))
+
+module Unison.LSP.FileAnalysis
+
+-- | Lex, parse, and typecheck a file.
+checkFile :: HasUri d Uri => d -> Lsp (Maybe FileAnalysis)
+fileAnalysisWorker :: Lsp ()
+analyseFile :: Foldable f => Uri -> Text -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
+analyseNotes :: Foldable f => Uri -> PrettyPrintEnv -> String -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
+toRangeMap :: Foldable f => f (Range, a) -> IntervalMap Position [a]
+getFileAnalysis :: Uri -> Lsp (Maybe FileAnalysis)
+ppeForFile :: Uri -> Lsp PrettyPrintEnv
+
+module Unison.LSP.FoldingRange
+foldingRangeRequest :: RequestMessage 'TextDocumentFoldingRange -> (Either ResponseError (ResponseResult 'TextDocumentFoldingRange) -> Lsp ()) -> Lsp ()
+
+-- | Return a folding range for each top-level definition
+foldingRangesForFile :: Uri -> Lsp [FoldingRange]
+
+module Unison.LSP.CodeAction
+
+-- | Computes code actions for a document.
+codeActionHandler :: RequestMessage 'TextDocumentCodeAction -> (Either ResponseError (ResponseResult 'TextDocumentCodeAction) -> Lsp ()) -> Lsp ()
+
+module Unison.LSP
+getLspPort :: IO String
+
+-- | Spawn an LSP server on the configured port.
+spawnLsp :: Codebase IO Symbol Ann -> Runtime Symbol -> STM (Branch IO) -> STM Absolute -> IO ()
+serverDefinition :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO) -> STM Absolute -> ServerDefinition Config
+
+-- | Detect user LSP configuration changes.
+lspOnConfigurationChange :: Config -> Value -> Either Text Config
+lspDefaultConfig :: Config
+
+-- | Initialize any context needed by the LSP server
+lspDoInitialize :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO) -> STM Absolute -> LanguageContextEnv Config -> Message 'Initialize -> IO (Either ResponseError Env)
+
+-- | LSP request handlers that don't register/unregister dynamically
+lspStaticHandlers :: Handlers Lsp
+
+-- | LSP request handlers
+lspRequestHandlers :: SMethodMap (ClientMessageHandler Lsp 'Request)
+
+-- | LSP notification handlers
+lspNotificationHandlers :: SMethodMap (ClientMessageHandler Lsp 'Notification)
+
+-- | A natural transformation into IO, required by the LSP lib.
+lspInterpretHandler :: Env -> Lsp <~> IO
+lspOptions :: Options
+
 
 -- | This module contains miscellaneous helper utils for rote actions in
 --   the Cli monad, like resolving a relative path to an absolute path, per
@@ -1810,56 +1864,6 @@ doSlurpAdds :: forall m v. (Monad m, Var v) => SlurpComponent v -> TypecheckedUn
 
 module Unison.Codebase.Editor.HandleInput
 loop :: Either Event Input -> Cli r ()
-typecheckHelper :: MonadIO m => Codebase IO Symbol Ann -> IO UniqueName -> [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> m (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
-
-module Unison.LSP.FileAnalysis
-
--- | Lex, parse, and typecheck a file.
-checkFile :: HasUri d Uri => d -> Lsp (Maybe FileAnalysis)
-fileAnalysisWorker :: Lsp ()
-analyseFile :: Foldable f => Uri -> Text -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
-analyseNotes :: Foldable f => Uri -> PrettyPrintEnv -> String -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
-toRangeMap :: Foldable f => f (Range, a) -> IntervalMap Position [a]
-getFileAnalysis :: Uri -> Lsp (Maybe FileAnalysis)
-ppeForFile :: Uri -> Lsp PrettyPrintEnv
-
-module Unison.LSP.FoldingRange
-foldingRangeRequest :: RequestMessage 'TextDocumentFoldingRange -> (Either ResponseError (ResponseResult 'TextDocumentFoldingRange) -> Lsp ()) -> Lsp ()
-
--- | Return a folding range for each top-level definition
-foldingRangesForFile :: Uri -> Lsp [FoldingRange]
-
-module Unison.LSP.CodeAction
-
--- | Computes code actions for a document.
-codeActionHandler :: RequestMessage 'TextDocumentCodeAction -> (Either ResponseError (ResponseResult 'TextDocumentCodeAction) -> Lsp ()) -> Lsp ()
-
-module Unison.LSP
-getLspPort :: IO String
-
--- | Spawn an LSP server on the configured port.
-spawnLsp :: Codebase IO Symbol Ann -> Runtime Symbol -> STM (Branch IO) -> STM Absolute -> IO ()
-serverDefinition :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO) -> STM Absolute -> ServerDefinition Config
-
--- | Detect user LSP configuration changes.
-lspOnConfigurationChange :: Config -> Value -> Either Text Config
-lspDefaultConfig :: Config
-
--- | Initialize any context needed by the LSP server
-lspDoInitialize :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO) -> STM Absolute -> LanguageContextEnv Config -> Message 'Initialize -> IO (Either ResponseError Env)
-
--- | LSP request handlers that don't register/unregister dynamically
-lspStaticHandlers :: Handlers Lsp
-
--- | LSP request handlers
-lspRequestHandlers :: SMethodMap (ClientMessageHandler Lsp 'Request)
-
--- | LSP notification handlers
-lspNotificationHandlers :: SMethodMap (ClientMessageHandler Lsp 'Notification)
-
--- | A natural transformation into IO, required by the LSP lib.
-lspInterpretHandler :: Env -> Lsp <~> IO
-lspOptions :: Options
 
 module Unison.CommandLine.Main
 main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Branch IO -> STM ()) -> (Absolute -> STM ()) -> IO ()

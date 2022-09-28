@@ -2286,6 +2286,14 @@ deleteLookup :: Ord k => k -> Map k v -> (Maybe v, Map k v)
 --   key, the second will overwrite the first.
 foldMapM :: (Ord k, Monad m, Foldable t) => (a -> m (k, v)) -> t a -> m (Map k v)
 unionWithM :: forall m k a. (Monad m, Ord k) => (a -> a -> m a) -> Map k a -> Map k a -> m (Map k a)
+
+-- | Reconstruct a map entirely, given a function from old key<i>value to
+--   new key</i>value.
+--   
+--   <pre>
+--   remap f = Map.fromList . map f . Map.toList
+--   </pre>
+remap :: Ord k1 => ((k0, v0) -> (k1, v1)) -> Map k0 v0 -> Map k1 v1
 traverseKeys :: (Applicative f, Ord k') => (k -> f k') -> Map k v -> f (Map k' v)
 traverseKeysWith :: (Applicative f, Ord k') => (v -> v -> v) -> (k -> f k') -> Map k v -> f (Map k' v)
 

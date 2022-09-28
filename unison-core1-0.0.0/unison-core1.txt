@@ -1081,11 +1081,11 @@ instance Unison.Name.Parse Data.Text.Internal.Text (Unison.HashQualified'.HashQu
 
 module Unison.Names
 data Names
-Names :: Relation Name Referent -> Relation Name Reference -> Names
+Names :: Relation Name Referent -> Relation Name TypeReference -> Names
 [terms] :: Names -> Relation Name Referent
-[types] :: Names -> Relation Name Reference
+[types] :: Names -> Relation Name TypeReference
 addTerm :: Name -> Referent -> Names -> Names
-addType :: Name -> Reference -> Names -> Names
+addType :: Name -> TypeReference -> Names -> Names
 
 -- | Collect all references in the given Names, tagged with their type.
 labeledReferences :: Names -> Set LabeledDependency
@@ -1101,7 +1101,7 @@ filterTypes :: (Name -> Bool) -> Names -> Names
 map :: (Name -> Name) -> Names -> Names
 makeAbsolute :: Names -> Names
 makeRelative :: Names -> Names
-fuzzyFind :: [String] -> Names -> [(Alignment, Name, Set (Either Referent Reference))]
+fuzzyFind :: [String] -> Names -> [(Alignment, Name, Set (Either Referent TypeReference))]
 
 -- | Like hqTermName and hqTypeName, but considers term and type names to
 --   conflict with each other (so will hash-qualify if there is e.g. both a
@@ -1117,15 +1117,15 @@ fuzzyFind :: [String] -> Names -> [(Alignment, Name, Set (Either Referent Refere
 --   
 --   We want to append the hash regardless of whether or not one is a term
 --   and the other is a type.
-hqName :: Names -> Name -> Either Reference Referent -> HashQualified Name
+hqName :: Names -> Name -> Either TypeReference Referent -> HashQualified Name
 hqTermName :: Int -> Names -> Name -> Referent -> HashQualified Name
-hqTypeName :: Int -> Names -> Name -> Reference -> HashQualified Name
+hqTypeName :: Int -> Names -> Name -> TypeReference -> HashQualified Name
 hqTermName' :: Int -> Name -> Referent -> HashQualified Name
-hqTypeName' :: Int -> Name -> Reference -> HashQualified Name
+hqTypeName' :: Int -> Name -> TypeReference -> HashQualified Name
 _hqTermName :: Names -> Name -> Referent -> HashQualified Name
-_hqTypeName :: Names -> Name -> Reference -> HashQualified Name
+_hqTypeName :: Names -> Name -> TypeReference -> HashQualified Name
 _hqTermAliases :: Names -> Name -> Referent -> Set (HashQualified Name)
-_hqTypeAliases :: Names -> Name -> Reference -> Set (HashQualified Name)
+_hqTypeAliases :: Names -> Name -> TypeReference -> Set (HashQualified Name)
 
 -- | Map over each name in a <a>Names</a>.
 mapNames :: (Name -> Name) -> Names -> Names
@@ -1135,12 +1135,12 @@ mapNames :: (Name -> Name) -> Names -> Names
 --   Precondition: every name in <tt>ns</tt> is relative.
 prefix0 :: Name -> Names -> Names
 restrictReferences :: Set Reference -> Names -> Names
-refTermsNamed :: Names -> Name -> Set Reference
-termReferences :: Names -> Set Reference
+refTermsNamed :: Names -> Name -> Set TermReference
+termReferences :: Names -> Set TermReference
 termReferents :: Names -> Set Referent
-typeReferences :: Names -> Set Reference
+typeReferences :: Names -> Set TypeReference
 termsNamed :: Names -> Name -> Set Referent
-typesNamed :: Names -> Name -> Set Reference
+typesNamed :: Names -> Name -> Set TypeReference
 unionLeft :: Names -> Names -> Names
 
 -- | Guide to unionLeft* Is it ok to create new aliases for parsing? Sure.
@@ -1170,7 +1170,7 @@ unionLeft :: Names -> Names -> Names
 --   Not sure if the above is helpful or correct!
 unionLeftName :: Names -> Names -> Names
 unionLeftRef :: Names -> Names -> Names
-namesForReference :: Names -> Reference -> Set Name
+namesForReference :: Names -> TypeReference -> Set Name
 namesForReferent :: Names -> Referent -> Set Name
 shadowTerms :: [Name] -> Names -> Names
 
@@ -1180,7 +1180,7 @@ shadowTerms :: [Name] -> Names -> Names
 --   will map to that same constructor and shadow anything else that is
 --   currently called <tt>Some</tt>.
 importing :: [(Name, Name)] -> Names -> Names
-constructorsForType :: Reference -> Names -> [(Name, Referent)]
+constructorsForType :: TypeReference -> Names -> [(Name, Referent)]
 
 -- | Converts a wildcard import into a list of explicit imports, of the
 --   form [(suffix, full)]. Example: if <tt>io</tt> contains two functions,
@@ -1188,7 +1188,7 @@ constructorsForType :: Reference -> Names -> [(Name, Referent)]
 --   produce `[(foo, io.foo), (bar, io.bar)]`.
 expandWildcardImport :: Name -> Names -> [(Name, Name)]
 isEmpty :: Names -> Bool
-hashQualifyTypesRelation :: Relation Name Reference -> Relation (HashQualified Name) Reference
+hashQualifyTypesRelation :: Relation Name TypeReference -> Relation (HashQualified Name) TypeReference
 hashQualifyTermsRelation :: Relation Name Referent -> Relation (HashQualified Name) Referent
 instance GHC.Classes.Ord Unison.Names.Names
 instance GHC.Classes.Eq Unison.Names.Names
