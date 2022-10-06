@@ -88,209 +88,218 @@ type HostName = String
 --   <a>tupleToHostAddress</a>.
 type HostAddress = Word32
 
--- | Address families.
+-- | Address families. The <tt>AF_xxxxx</tt> constants are widely used as
+--   synonyms for the corresponding <tt>PF_xxxxx</tt> protocol family
+--   values, to which they are numerically equal in mainstream socket API
+--   implementations.
 --   
---   A constructor being present here does not mean it is supported by the
---   operating system: see <a>isSupportedFamily</a>.
+--   Strictly correct usage would be to pass the <tt>PF_xxxxx</tt>
+--   constants as the first argument when creating a <a>Socket</a>, while
+--   the <tt>AF_xxxxx</tt> constants should be used as <tt>addrFamily</tt>
+--   values with <tt>getAddrInfo</tt>. For now only the <tt>AF_xxxxx</tt>
+--   constants are provided.
+--   
+--   Some of the defined patterns may be unsupported on some systems: see
+--   <a>isSupportedFamily</a>.
 data Family
 
 -- | unspecified
-AF_UNSPEC :: Family
+pattern AF_UNSPEC :: Family
 
 -- | UNIX-domain
-AF_UNIX :: Family
+pattern AF_UNIX :: Family
 
 -- | Internet Protocol version 4
-AF_INET :: Family
+pattern AF_INET :: Family
 
 -- | Internet Protocol version 6
-AF_INET6 :: Family
+pattern AF_INET6 :: Family
 
 -- | Arpanet imp addresses
-AF_IMPLINK :: Family
+pattern AF_IMPLINK :: Family
 
 -- | pup protocols: e.g. BSP
-AF_PUP :: Family
+pattern AF_PUP :: Family
 
 -- | mit CHAOS protocols
-AF_CHAOS :: Family
+pattern AF_CHAOS :: Family
 
 -- | XEROX NS protocols
-AF_NS :: Family
+pattern AF_NS :: Family
 
 -- | nbs protocols
-AF_NBS :: Family
+pattern AF_NBS :: Family
 
 -- | european computer manufacturers
-AF_ECMA :: Family
+pattern AF_ECMA :: Family
 
 -- | datakit protocols
-AF_DATAKIT :: Family
+pattern AF_DATAKIT :: Family
 
 -- | CCITT protocols, X.25 etc
-AF_CCITT :: Family
+pattern AF_CCITT :: Family
 
 -- | IBM SNA
-AF_SNA :: Family
+pattern AF_SNA :: Family
 
 -- | DECnet
-AF_DECnet :: Family
+pattern AF_DECnet :: Family
 
 -- | Direct data link interface
-AF_DLI :: Family
+pattern AF_DLI :: Family
 
 -- | LAT
-AF_LAT :: Family
+pattern AF_LAT :: Family
 
 -- | NSC Hyperchannel
-AF_HYLINK :: Family
+pattern AF_HYLINK :: Family
 
 -- | Apple Talk
-AF_APPLETALK :: Family
+pattern AF_APPLETALK :: Family
 
 -- | Internal Routing Protocol (aka AF_NETLINK)
-AF_ROUTE :: Family
+pattern AF_ROUTE :: Family
 
 -- | NetBios-style addresses
-AF_NETBIOS :: Family
+pattern AF_NETBIOS :: Family
 
 -- | Network Interface Tap
-AF_NIT :: Family
+pattern AF_NIT :: Family
 
 -- | IEEE 802.2, also ISO 8802
-AF_802 :: Family
+pattern AF_802 :: Family
 
 -- | ISO protocols
-AF_ISO :: Family
+pattern AF_ISO :: Family
 
 -- | umbrella of all families used by OSI
-AF_OSI :: Family
+pattern AF_OSI :: Family
 
 -- | DNA Network Management
-AF_NETMAN :: Family
+pattern AF_NETMAN :: Family
 
 -- | CCITT X.25
-AF_X25 :: Family
+pattern AF_X25 :: Family
 
 -- | AX25
-AF_AX25 :: Family
+pattern AF_AX25 :: Family
 
 -- | AFI
-AF_OSINET :: Family
+pattern AF_OSINET :: Family
 
 -- | US Government OSI
-AF_GOSSIP :: Family
+pattern AF_GOSSIP :: Family
 
 -- | Novell Internet Protocol
-AF_IPX :: Family
+pattern AF_IPX :: Family
 
 -- | eXpress Transfer Protocol (no AF)
-Pseudo_AF_XTP :: Family
+pattern Pseudo_AF_XTP :: Family
 
 -- | Common Trace Facility
-AF_CTF :: Family
+pattern AF_CTF :: Family
 
 -- | Wide Area Network protocols
-AF_WAN :: Family
+pattern AF_WAN :: Family
 
 -- | SGI Data Link for DLPI
-AF_SDL :: Family
+pattern AF_SDL :: Family
 
 -- | Netware
-AF_NETWARE :: Family
+pattern AF_NETWARE :: Family
 
 -- | NDD
-AF_NDD :: Family
+pattern AF_NDD :: Family
 
 -- | Debugging use only
-AF_INTF :: Family
+pattern AF_INTF :: Family
 
 -- | connection-oriented IP, aka ST II
-AF_COIP :: Family
+pattern AF_COIP :: Family
 
 -- | Computer Network Technology
-AF_CNT :: Family
+pattern AF_CNT :: Family
 
 -- | Help Identify RTIP packets
-Pseudo_AF_RTIP :: Family
+pattern Pseudo_AF_RTIP :: Family
 
 -- | Help Identify PIP packets
-Pseudo_AF_PIP :: Family
+pattern Pseudo_AF_PIP :: Family
 
 -- | Simple Internet Protocol
-AF_SIP :: Family
+pattern AF_SIP :: Family
 
 -- | Integrated Services Digital Network
-AF_ISDN :: Family
+pattern AF_ISDN :: Family
 
 -- | Internal key-management function
-Pseudo_AF_KEY :: Family
+pattern Pseudo_AF_KEY :: Family
 
 -- | native ATM access
-AF_NATM :: Family
+pattern AF_NATM :: Family
 
 -- | ARP (RFC 826)
-AF_ARP :: Family
+pattern AF_ARP :: Family
 
 -- | Used by BPF to not rewrite hdrs in iface output
-Pseudo_AF_HDRCMPLT :: Family
+pattern Pseudo_AF_HDRCMPLT :: Family
 
 -- | ENCAP
-AF_ENCAP :: Family
+pattern AF_ENCAP :: Family
 
 -- | Link layer interface
-AF_LINK :: Family
+pattern AF_LINK :: Family
 
 -- | Link layer interface
-AF_RAW :: Family
+pattern AF_RAW :: Family
 
 -- | raw interface
-AF_RIF :: Family
+pattern AF_RIF :: Family
 
 -- | Amateur radio NetROM
-AF_NETROM :: Family
+pattern AF_NETROM :: Family
 
 -- | multiprotocol bridge
-AF_BRIDGE :: Family
+pattern AF_BRIDGE :: Family
 
 -- | ATM PVCs
-AF_ATMPVC :: Family
+pattern AF_ATMPVC :: Family
 
 -- | Amateur Radio X.25 PLP
-AF_ROSE :: Family
+pattern AF_ROSE :: Family
 
 -- | Netbeui 802.2LLC
-AF_NETBEUI :: Family
+pattern AF_NETBEUI :: Family
 
 -- | Security callback pseudo AF
-AF_SECURITY :: Family
+pattern AF_SECURITY :: Family
 
 -- | Packet family
-AF_PACKET :: Family
+pattern AF_PACKET :: Family
 
 -- | Ash
-AF_ASH :: Family
+pattern AF_ASH :: Family
 
 -- | Acorn Econet
-AF_ECONET :: Family
+pattern AF_ECONET :: Family
 
 -- | ATM SVCs
-AF_ATMSVC :: Family
+pattern AF_ATMSVC :: Family
 
 -- | IRDA sockets
-AF_IRDA :: Family
+pattern AF_IRDA :: Family
 
 -- | PPPoX sockets
-AF_PPPOX :: Family
+pattern AF_PPPOX :: Family
 
 -- | Wanpipe API sockets
-AF_WANPIPE :: Family
+pattern AF_WANPIPE :: Family
 
 -- | bluetooth sockets
-AF_BLUETOOTH :: Family
+pattern AF_BLUETOOTH :: Family
 
 -- | Controller Area Network
-AF_CAN :: Family
+pattern AF_CAN :: Family
 
 -- | Calling <a>getHostName</a> returns the standard host name for the
 --   current processor, as set at boot time.
