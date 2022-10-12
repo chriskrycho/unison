@@ -172,6 +172,18 @@ unsafeFromText :: Text -> Reference
 idFromText :: Text -> Maybe Id
 isPrefixOf :: ShortHash -> Reference -> Bool
 fromShortHash :: ShortHash -> Maybe Reference
+
+-- | todo: take a (Reference -&gt; CycleSize) so that <a>readSuffix</a>
+--   doesn't have to parse the size from the text. examples:
+--   
+--   builtins don’t have cycles &gt;&gt;&gt; fromText "##Text.take" Right
+--   ##Text.take
+--   
+--   derived, no cycle &gt;&gt;&gt; fromText "#2tWjVAuc7"
+--   Reference.derivedBase32Hex Nothing
+--   
+--   derived, part of cycle &gt;&gt;&gt; fromText "#y9ycWkiC1.12345"
+--   Reference.derivedBase32Hex Nothing
 fromText :: Text -> Either String Reference
 readSuffix :: Text -> Either String Pos
 showShort :: Int -> Reference -> Text
