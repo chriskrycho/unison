@@ -12083,7 +12083,7 @@ forall v loc a. (Var v, Ord loc) =&gt; v -&gt; M v loc a -&gt; M v loc ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-2411"></span><span>          </span><span id="local-6989586621680757962"><span class="annot"><span class="annottext">v
-</span><a href="#local-6989586621680757962"><span class="hs-identifier hs-var">v</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">v -&gt; MT v loc (Result v loc) v
+</span><a href="#local-6989586621680757962"><span class="hs-identifier hs-var">v1</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">v -&gt; MT v loc (Result v loc) v
 forall v loc. Var v =&gt; v -&gt; M v loc v
 </span><a href="Unison.Typechecker.Context.html#extendUniversal"><span class="hs-identifier hs-var">extendUniversal</span></a></span><span> </span><span class="annot"><span class="annottext">v
 </span><a href="#local-6989586621680757963"><span class="hs-identifier hs-var">v0</span></a></span><span>
@@ -12094,7 +12094,7 @@ Blank loc -&gt; v -&gt; Type v loc -&gt; M v loc ()
 </span><a href="Unison.Typechecker.Context.html#instantiateL"><span class="hs-identifier hs-var">instantiateL</span></a></span><span> </span><span class="annot"><span class="annottext">Blank loc
 forall loc. Blank loc
 </span><span class="hs-identifier hs-var">B.Blank</span></span><span> </span><span class="annot"><span class="annottext">v
-</span><a href="#local-6989586621680757962"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Subst F (TypeVar v loc) loc
+</span><a href="#local-6989586621680758002"><span class="hs-identifier hs-var">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Subst F (TypeVar v loc) loc
 -&gt; Term F (TypeVar v loc) () -&gt; Type v loc
 forall (f :: * -&gt; *) v a.
 Subst f v a -&gt; forall b. Term f v b -&gt; Term f v a
@@ -12102,7 +12102,7 @@ Subst f v a -&gt; forall b. Term f v b -&gt; Term f v a
 </span><a href="#local-6989586621680757964"><span class="hs-identifier hs-var">body</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">() -&gt; v -&gt; Term F (TypeVar v loc) ()
 forall v a loc. Ord v =&gt; a -&gt; v -&gt; Type (TypeVar v loc) a
 </span><a href="Unison.Typechecker.Context.html#universal%27"><span class="hs-identifier hs-var">universal'</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">v
-</span><a href="#local-6989586621680757962"><span class="hs-identifier hs-var">v</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680757962"><span class="hs-identifier hs-var">v1</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-2413"></span><span>      </span><span class="annot"><span class="annottext">Type v loc
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Cause v loc -&gt; M v loc ()
 forall v loc a. Cause v loc -&gt; M v loc a
