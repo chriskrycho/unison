@@ -313,6 +313,44 @@ instance GHC.Show.Show Unison.Codebase.ShortBranchHash.ShortBranchHash
 module Unison.Codebase.SqliteCodebase.Migrations.Helpers
 abortMigration :: String -> Transaction a
 
+module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema1To2.DbHelpers
+dbBranchHash :: DbBranch -> Transaction BranchHash
+dbPatchHash :: Patch -> Transaction PatchHash
+syncCausalHash :: SyncCausalFormat -> Transaction CausalHash
+
+
+-- | There are many invariants we expect to hold in our sqlite database and
+--   on codebase objects which we can't maintain using database checks.
+--   This module performs checks for some of these invariants, which can be
+--   useful to run after performing potentially dangerous operations like
+--   migrations.
+module Unison.Codebase.IntegrityCheck
+
+-- | Performs all available integrity checks.
+integrityCheckFullCodebase :: Transaction IntegrityResult
+
+-- | Performs a bevy of checks on branch objects and their relation to
+--   causals.
+integrityCheckAllBranches :: Transaction IntegrityResult
+
+-- | Performs a bevy of checks on causals.
+integrityCheckAllCausals :: Transaction IntegrityResult
+prettyPrintIntegrityErrors :: Foldable f => f IntegrityError -> Pretty ColorText
+data IntegrityResult
+IntegrityErrorDetected :: NESet IntegrityError -> IntegrityResult
+NoIntegrityErrors :: IntegrityResult
+instance GHC.Classes.Ord Unison.Codebase.IntegrityCheck.BranchError
+instance GHC.Classes.Eq Unison.Codebase.IntegrityCheck.BranchError
+instance GHC.Show.Show Unison.Codebase.IntegrityCheck.BranchError
+instance GHC.Classes.Ord Unison.Codebase.IntegrityCheck.IntegrityError
+instance GHC.Classes.Eq Unison.Codebase.IntegrityCheck.IntegrityError
+instance GHC.Show.Show Unison.Codebase.IntegrityCheck.IntegrityError
+instance GHC.Classes.Ord Unison.Codebase.IntegrityCheck.IntegrityResult
+instance GHC.Classes.Eq Unison.Codebase.IntegrityCheck.IntegrityResult
+instance GHC.Show.Show Unison.Codebase.IntegrityCheck.IntegrityResult
+instance GHC.Base.Semigroup Unison.Codebase.IntegrityCheck.IntegrityResult
+instance GHC.Base.Monoid Unison.Codebase.IntegrityCheck.IntegrityResult
+
 module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema2To3
 
 -- | The 1 to 2 migration kept around hash objects of hash version 1,
@@ -334,6 +372,45 @@ module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema2To3
 --   This migration drops all the v1 hash objects to avoid this issue,
 --   since these hash objects weren't being used for anything anyways.
 migrateSchema2To3 :: Transaction ()
+
+module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema3To4
+
+-- | There was a bug in previous versions of UCM which incorrectly used
+--   causal hashes as branch hashes. This remained undetected because there
+--   was never a need for this hash to be verifiable, and the hashes were
+--   still unique because the namespace hash was PART of the causal hash.
+--   It did however result in many identical branches being stored multiple
+--   times under different <tt>primary_hash_id</tt>s.
+--   
+--   However, with the advent of Share and Sync, we now need to correctly
+--   verify these namespace hashes.
+--   
+--   This migration fixes the issue by re-hashing namespace objects where
+--   the value_hash_id of a causal matches the self_hash_id. Luckily this
+--   doesn't change any causal hashes.
+--   
+--   However, due to the possibility of multiple identical objects stored
+--   under different <tt>primary_hash_id</tt>s, we may now have multiple
+--   objects with the same <tt>primary_hash_id</tt>, which our DB schema
+--   doesn't allow.
+--   
+--   To address this, we keep exactly one <tt>canonical</tt> object for
+--   each hash, then remap all references to old objects into this
+--   canonical object instead. Unfortunately this requires mapping over
+--   every branch object and traversing the child references.
+--   
+--   It was also discovered that some developers had many branches which
+--   referenced objects which weren't in their codebase. We're not yet sure
+--   how this happened, but it's unlikely to be the case for most end
+--   users, and it turned out that these references were in causals and
+--   branches which were unreachable from the root namespace. As a fix,
+--   this migration also tracks every causal and branch which is reachable
+--   from the root namespace and deletes all causals and namespaces which
+--   are unreachable. Note that this may orphan some definitions, patches,
+--   etc. which were previously referenced in an <tt>unreachable</tt>
+--   branch, but they were already floating around in an unreachable state.
+migrateSchema3To4 :: Transaction ()
+instance GHC.Generics.Generic Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema3To4.MigrationState
 
 module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema4To5
 
@@ -2216,9 +2293,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3pON loc_a3pOO. Lens' (Env v_a3pON loc_a3pOO) (TypeLookup v_a3pON loc_a3pOO)
-termsByShortname :: forall v_a3pON loc_a3pOO. Lens' (Env v_a3pON loc_a3pOO) (Map Name [NamedReference v_a3pON loc_a3pOO])
-ambientAbilities :: forall v_a3pON loc_a3pOO. Lens' (Env v_a3pON loc_a3pOO) [Type v_a3pON loc_a3pOO]
+typeLookup :: forall v_a3Ae7 loc_a3Ae8. Lens' (Env v_a3Ae7 loc_a3Ae8) (TypeLookup v_a3Ae7 loc_a3Ae8)
+termsByShortname :: forall v_a3Ae7 loc_a3Ae8. Lens' (Env v_a3Ae7 loc_a3Ae8) (Map Name [NamedReference v_a3Ae7 loc_a3Ae8])
+ambientAbilities :: forall v_a3Ae7 loc_a3Ae8. Lens' (Env v_a3Ae7 loc_a3Ae8) [Type v_a3Ae7 loc_a3Ae8]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3322,7 +3399,6 @@ rreference2to1 :: Hash -> Reference' Text (Maybe Hash) -> Reference
 rreference1to2 :: Hash -> Reference -> Reference' Text (Maybe Hash)
 rreferenceid2to1 :: Hash -> Id' (Maybe Hash) -> Id
 rreferenceid1to2 :: Hash -> Id -> Id' (Maybe Hash)
-hash1to2 :: Hash -> Hash
 branchHash1to2 :: NamespaceHash m -> BranchHash
 branchHash2to1 :: forall m. BranchHash -> NamespaceHash m
 patchHash1to2 :: EditHash -> PatchHash
@@ -3337,7 +3413,6 @@ referent1to2 :: Referent -> Referent
 referentid2to1 :: Applicative m => (Reference -> m ConstructorType) -> Id -> m Id
 constructorType1to2 :: ConstructorType -> ConstructorType
 constructorType2to1 :: ConstructorType -> ConstructorType
-hash2to1 :: Hash -> Hash
 causalHash2to1 :: CausalHash -> CausalHash
 causalHash1to2 :: CausalHash -> CausalHash
 ttype2to1 :: Type Symbol -> Type Symbol Ann
@@ -3368,83 +3443,6 @@ referent2toshorthash1 :: Maybe Int -> Referent -> ShortHash
 --   to the provided length. If <a>Nothing</a>, it will include the full
 --   length hash.
 reference2toshorthash1 :: Maybe Int -> Reference -> ShortHash
-
-module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema1To2.DbHelpers
-dbBranchHash :: DbBranch -> Transaction BranchHash
-dbPatchHash :: Patch -> Transaction PatchHash
-syncCausalHash :: SyncCausalFormat -> Transaction CausalHash
-
-module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema3To4
-
--- | There was a bug in previous versions of UCM which incorrectly used
---   causal hashes as branch hashes. This remained undetected because there
---   was never a need for this hash to be verifiable, and the hashes were
---   still unique because the namespace hash was PART of the causal hash.
---   It did however result in many identical branches being stored multiple
---   times under different <tt>primary_hash_id</tt>s.
---   
---   However, with the advent of Share and Sync, we now need to correctly
---   verify these namespace hashes.
---   
---   This migration fixes the issue by re-hashing namespace objects where
---   the value_hash_id of a causal matches the self_hash_id. Luckily this
---   doesn't change any causal hashes.
---   
---   However, due to the possibility of multiple identical objects stored
---   under different <tt>primary_hash_id</tt>s, we may now have multiple
---   objects with the same <tt>primary_hash_id</tt>, which our DB schema
---   doesn't allow.
---   
---   To address this, we keep exactly one <tt>canonical</tt> object for
---   each hash, then remap all references to old objects into this
---   canonical object instead. Unfortunately this requires mapping over
---   every branch object and traversing the child references.
---   
---   It was also discovered that some developers had many branches which
---   referenced objects which weren't in their codebase. We're not yet sure
---   how this happened, but it's unlikely to be the case for most end
---   users, and it turned out that these references were in causals and
---   branches which were unreachable from the root namespace. As a fix,
---   this migration also tracks every causal and branch which is reachable
---   from the root namespace and deletes all causals and namespaces which
---   are unreachable. Note that this may orphan some definitions, patches,
---   etc. which were previously referenced in an <tt>unreachable</tt>
---   branch, but they were already floating around in an unreachable state.
-migrateSchema3To4 :: Transaction ()
-instance GHC.Generics.Generic Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema3To4.MigrationState
-
-
--- | There are many invariants we expect to hold in our sqlite database and
---   on codebase objects which we can't maintain using database checks.
---   This module performs checks for some of these invariants, which can be
---   useful to run after performing potentially dangerous operations like
---   migrations.
-module Unison.Codebase.IntegrityCheck
-
--- | Performs all available integrity checks.
-integrityCheckFullCodebase :: Transaction IntegrityResult
-
--- | Performs a bevy of checks on branch objects and their relation to
---   causals.
-integrityCheckAllBranches :: Transaction IntegrityResult
-
--- | Performs a bevy of checks on causals.
-integrityCheckAllCausals :: Transaction IntegrityResult
-prettyPrintIntegrityErrors :: Foldable f => f IntegrityError -> Pretty ColorText
-data IntegrityResult
-IntegrityErrorDetected :: NESet IntegrityError -> IntegrityResult
-NoIntegrityErrors :: IntegrityResult
-instance GHC.Classes.Ord Unison.Codebase.IntegrityCheck.BranchError
-instance GHC.Classes.Eq Unison.Codebase.IntegrityCheck.BranchError
-instance GHC.Show.Show Unison.Codebase.IntegrityCheck.BranchError
-instance GHC.Classes.Ord Unison.Codebase.IntegrityCheck.IntegrityError
-instance GHC.Classes.Eq Unison.Codebase.IntegrityCheck.IntegrityError
-instance GHC.Show.Show Unison.Codebase.IntegrityCheck.IntegrityError
-instance GHC.Classes.Ord Unison.Codebase.IntegrityCheck.IntegrityResult
-instance GHC.Classes.Eq Unison.Codebase.IntegrityCheck.IntegrityResult
-instance GHC.Show.Show Unison.Codebase.IntegrityCheck.IntegrityResult
-instance GHC.Base.Semigroup Unison.Codebase.IntegrityCheck.IntegrityResult
-instance GHC.Base.Monoid Unison.Codebase.IntegrityCheck.IntegrityResult
 
 module Unison.Codebase.BranchUtil
 
@@ -3545,7 +3543,6 @@ getTypeOfTermImpl :: Id -> Transaction (Maybe (Type Symbol Ann))
 getTermComponentWithTypes :: (Reference -> Transaction ConstructorType) -> Hash -> Transaction (Maybe [(Term Symbol Ann, Type Symbol Ann)])
 getTypeDeclaration :: Id -> Transaction (Maybe (Decl Symbol Ann))
 getDeclComponent :: Hash -> Transaction (Maybe [Decl Symbol Ann])
-getCycleLength :: Hash -> Transaction (Maybe CycleSize)
 putTerm :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Id -> Term Symbol Ann -> Type Symbol Ann -> Transaction ()
 tryFlushTermBuffer :: TVar (Map Hash TermBufferEntry) -> Hash -> Transaction ()
 addDeclComponentTypeIndex :: ObjectId -> [[Type Symbol Ann]] -> Transaction ()
