@@ -24,13 +24,13 @@
 </span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Type</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Type</span></span><span class="hs-special">)</span><span>
 </span><span id="line-25"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.UnisonFile</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">UF</span></span><span>
 </span><span id="line-26"></span><span>
-</span><span id="line-27"></span><span id="local-6989586621679577745"><span class="annot"><a href="Unison.Cli.TypeCheck.html#typecheck"><span class="hs-identifier hs-type">typecheck</span></a></span><span> </span><span class="hs-glyph">::</span><span>
+</span><span id="line-27"></span><span id="local-6989586621679577761"><span class="annot"><a href="Unison.Cli.TypeCheck.html#typecheck"><span class="hs-identifier hs-type">typecheck</span></a></span><span> </span><span class="hs-glyph">::</span><span>
 </span><span id="line-28"></span><span>  </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-29"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">NamesWithHistory</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-30"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-31"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">L.Lexeme</span></span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-32"></span><span>  </span><span class="annot"><a href="Unison.Cli.Monad.html#Cli"><span class="hs-identifier hs-type">Cli</span></a></span><span>
-</span><span id="line-33"></span><span>    </span><span class="annot"><a href="#local-6989586621679577745"><span class="hs-identifier hs-type">r</span></a></span><span>
+</span><span id="line-33"></span><span>    </span><span class="annot"><a href="#local-6989586621679577761"><span class="hs-identifier hs-type">r</span></a></span><span>
 </span><span id="line-34"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Result.Result</span></span><span>
 </span><span id="line-35"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Seq</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Result.Note</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-36"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">UF.UnisonFile</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">UF.TypecheckedUnisonFile</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
@@ -45,11 +45,11 @@
         (Seq (Note Symbol Ann))
         (Either
            (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
-</span><a href="Unison.Cli.TypeCheck.html#typecheck"><span class="hs-identifier hs-var hs-var">typecheck</span></a></span></span><span> </span><span id="local-6989586621679577744"><span class="annot"><span class="annottext">[Type Symbol Ann]
-</span><a href="#local-6989586621679577744"><span class="hs-identifier hs-var">ambient</span></a></span></span><span> </span><span id="local-6989586621679577743"><span class="annot"><span class="annottext">NamesWithHistory
-</span><a href="#local-6989586621679577743"><span class="hs-identifier hs-var">names</span></a></span></span><span> </span><span id="local-6989586621679577742"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679577742"><span class="hs-identifier hs-var">sourceName</span></a></span></span><span> </span><span id="local-6989586621679577741"><span class="annot"><span class="annottext">(Text, [Token Lexeme])
-</span><a href="#local-6989586621679577741"><span class="hs-identifier hs-var">source</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.Cli.TypeCheck.html#typecheck"><span class="hs-identifier hs-var hs-var">typecheck</span></a></span></span><span> </span><span id="local-6989586621679577760"><span class="annot"><span class="annottext">[Type Symbol Ann]
+</span><a href="#local-6989586621679577760"><span class="hs-identifier hs-var">ambient</span></a></span></span><span> </span><span id="local-6989586621679577759"><span class="annot"><span class="annottext">NamesWithHistory
+</span><a href="#local-6989586621679577759"><span class="hs-identifier hs-var">names</span></a></span></span><span> </span><span id="local-6989586621679577758"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679577758"><span class="hs-identifier hs-var">sourceName</span></a></span></span><span> </span><span id="local-6989586621679577757"><span class="annot"><span class="annottext">(Text, [Token Lexeme])
+</span><a href="#local-6989586621679577757"><span class="hs-identifier hs-var">source</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-39"></span><span>  </span><span class="annot"><span class="annottext">String
 -&gt; Cli
      r
@@ -66,20 +66,20 @@
 forall r a. String -&gt; Cli r a -&gt; Cli r a
 </span><a href="Unison.Cli.Monad.html#time"><span class="hs-identifier hs-var">Cli.time</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;typecheck&quot;</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-40"></span><span>    </span><span class="annot"><a href="Unison.Cli.Monad.html#Env"><span class="hs-identifier hs-type">Cli.Env</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679577738"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><span id="line-40"></span><span>    </span><span class="annot"><a href="Unison.Cli.Monad.html#Env"><span class="hs-identifier hs-type">Cli.Env</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679577754"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
 $sel:codebase:Env :: Env -&gt; Codebase IO Symbol Ann
 codebase :: Codebase IO Symbol Ann
-</span><a href="Unison.Cli.Monad.html#%24sel%3Acodebase%3AEnv"><span class="hs-identifier hs-var hs-var">codebase</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679577736"><span class="annot"><span class="annottext">IO UniqueName
+</span><a href="Unison.Cli.Monad.html#%24sel%3Acodebase%3AEnv"><span class="hs-identifier hs-var hs-var">codebase</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679577752"><span class="annot"><span class="annottext">IO UniqueName
 $sel:generateUniqueName:Env :: Env -&gt; IO UniqueName
 generateUniqueName :: IO UniqueName
 </span><a href="Unison.Cli.Monad.html#%24sel%3AgenerateUniqueName%3AEnv"><span class="hs-identifier hs-var hs-var">generateUniqueName</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Cli r Env
 forall r (m :: * -&gt; *). MonadReader r m =&gt; m r
 </span><span class="hs-identifier hs-var">ask</span></span><span>
-</span><span id="line-41"></span><span>    </span><span id="local-6989586621679577734"><span class="annot"><span class="annottext">UniqueName
-</span><a href="#local-6989586621679577734"><span class="hs-identifier hs-var">uniqueName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO UniqueName -&gt; Cli r UniqueName
+</span><span id="line-41"></span><span>    </span><span id="local-6989586621679577750"><span class="annot"><span class="annottext">UniqueName
+</span><a href="#local-6989586621679577750"><span class="hs-identifier hs-var">uniqueName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO UniqueName -&gt; Cli r UniqueName
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="annot"><span class="annottext">IO UniqueName
-</span><a href="#local-6989586621679577736"><span class="hs-identifier hs-var">generateUniqueName</span></a></span><span>
+</span><a href="#local-6989586621679577752"><span class="hs-identifier hs-var">generateUniqueName</span></a></span><span>
 </span><span id="line-42"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IO
   (Result
      (Seq (Note Symbol Ann))
@@ -179,7 +179,7 @@ forall v (m :: * -&gt; *).
      (Either (UnisonFile v Ann) (TypecheckedUnisonFile v Ann))
 </span><span class="hs-identifier hs-var">parseAndSynthesizeFile</span></span><span>
 </span><span id="line-44"></span><span>        </span><span class="annot"><span class="annottext">[Type Symbol Ann]
-</span><a href="#local-6989586621679577744"><span class="hs-identifier hs-var">ambient</span></a></span><span>
+</span><a href="#local-6989586621679577760"><span class="hs-identifier hs-var">ambient</span></a></span><span>
 </span><span id="line-45"></span><span>        </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypeLookup Symbol Ann
 -&gt; TypeLookup Symbol Ann -&gt; TypeLookup Symbol Ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
@@ -198,28 +198,28 @@ forall (m :: * -&gt; *) a.
 (Monad m, BuiltinAnnotation a) =&gt;
 Codebase m Symbol a -&gt; Set Reference -&gt; m (TypeLookup Symbol a)
 </span><span class="hs-identifier hs-var">Codebase.typeLookupForDependencies</span></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679577738"><span class="hs-identifier hs-var">codebase</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679577754"><span class="hs-identifier hs-var">codebase</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-46"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">UniqueName -&gt; NamesWithHistory -&gt; ParsingEnv
 </span><span class="hs-identifier hs-var">Parser.ParsingEnv</span></span><span> </span><span class="annot"><span class="annottext">UniqueName
-</span><a href="#local-6989586621679577734"><span class="hs-identifier hs-var">uniqueName</span></a></span><span> </span><span class="annot"><span class="annottext">NamesWithHistory
-</span><a href="#local-6989586621679577743"><span class="hs-identifier hs-var">names</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679577750"><span class="hs-identifier hs-var">uniqueName</span></a></span><span> </span><span class="annot"><span class="annottext">NamesWithHistory
+</span><a href="#local-6989586621679577759"><span class="hs-identifier hs-var">names</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-47"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; String
 </span><span class="hs-identifier hs-var">Text.unpack</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679577742"><span class="hs-identifier hs-var">sourceName</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679577758"><span class="hs-identifier hs-var">sourceName</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-48"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(Text, [Token Lexeme]) -&gt; Text
 forall a b. (a, b) -&gt; a
 </span><span class="hs-identifier hs-var">fst</span></span><span> </span><span class="annot"><span class="annottext">(Text, [Token Lexeme])
-</span><a href="#local-6989586621679577741"><span class="hs-identifier hs-var">source</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679577757"><span class="hs-identifier hs-var">source</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-49"></span><span>
-</span><span id="line-50"></span><span id="local-6989586621679577725"><span class="annot"><a href="Unison.Cli.TypeCheck.html#typecheckHelper"><span class="hs-identifier hs-type">typecheckHelper</span></a></span><span> </span><span class="hs-glyph">::</span><span>
-</span><span id="line-51"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">MonadIO</span></span><span> </span><span class="annot"><a href="#local-6989586621679577725"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span>
+</span><span id="line-50"></span><span id="local-6989586621679577741"><span class="annot"><a href="Unison.Cli.TypeCheck.html#typecheckHelper"><span class="hs-identifier hs-type">typecheckHelper</span></a></span><span> </span><span class="hs-glyph">::</span><span>
+</span><span id="line-51"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">MonadIO</span></span><span> </span><span class="annot"><a href="#local-6989586621679577741"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span>
 </span><span id="line-52"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Codebase</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-53"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Parser.UniqueName</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-54"></span><span>  </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-55"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">NamesWithHistory</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-56"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-57"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">L.Lexeme</span></span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-58"></span><span>  </span><span class="annot"><a href="#local-6989586621679577725"><span class="hs-identifier hs-type">m</span></a></span><span>
+</span><span id="line-58"></span><span>  </span><span class="annot"><a href="#local-6989586621679577741"><span class="hs-identifier hs-type">m</span></a></span><span>
 </span><span id="line-59"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Result.Result</span></span><span>
 </span><span id="line-60"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Seq</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Result.Note</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-61"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">UF.UnisonFile</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">UF.TypecheckedUnisonFile</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
@@ -234,18 +234,18 @@ forall a b. (a, b) -&gt; a
         (Seq (Note Symbol Ann))
         (Either
            (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
-</span><a href="Unison.Cli.TypeCheck.html#typecheckHelper"><span class="hs-identifier hs-var hs-var">typecheckHelper</span></a></span></span><span> </span><span id="local-6989586621679577724"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679577724"><span class="hs-identifier hs-var">codebase</span></a></span></span><span> </span><span id="local-6989586621679577723"><span class="annot"><span class="annottext">IO UniqueName
-</span><a href="#local-6989586621679577723"><span class="hs-identifier hs-var">generateUniqueName</span></a></span></span><span> </span><span id="local-6989586621679577722"><span class="annot"><span class="annottext">[Type Symbol Ann]
-</span><a href="#local-6989586621679577722"><span class="hs-identifier hs-var">ambient</span></a></span></span><span> </span><span id="local-6989586621679577721"><span class="annot"><span class="annottext">NamesWithHistory
-</span><a href="#local-6989586621679577721"><span class="hs-identifier hs-var">names</span></a></span></span><span> </span><span id="local-6989586621679577720"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679577720"><span class="hs-identifier hs-var">sourceName</span></a></span></span><span> </span><span id="local-6989586621679577719"><span class="annot"><span class="annottext">(Text, [Token Lexeme])
-</span><a href="#local-6989586621679577719"><span class="hs-identifier hs-var">source</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-64"></span><span>  </span><span id="local-6989586621679577718"><span class="annot"><span class="annottext">UniqueName
-</span><a href="#local-6989586621679577718"><span class="hs-identifier hs-var">uniqueName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO UniqueName -&gt; m UniqueName
+</span><a href="Unison.Cli.TypeCheck.html#typecheckHelper"><span class="hs-identifier hs-var hs-var">typecheckHelper</span></a></span></span><span> </span><span id="local-6989586621679577740"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679577740"><span class="hs-identifier hs-var">codebase</span></a></span></span><span> </span><span id="local-6989586621679577739"><span class="annot"><span class="annottext">IO UniqueName
+</span><a href="#local-6989586621679577739"><span class="hs-identifier hs-var">generateUniqueName</span></a></span></span><span> </span><span id="local-6989586621679577738"><span class="annot"><span class="annottext">[Type Symbol Ann]
+</span><a href="#local-6989586621679577738"><span class="hs-identifier hs-var">ambient</span></a></span></span><span> </span><span id="local-6989586621679577737"><span class="annot"><span class="annottext">NamesWithHistory
+</span><a href="#local-6989586621679577737"><span class="hs-identifier hs-var">names</span></a></span></span><span> </span><span id="local-6989586621679577736"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679577736"><span class="hs-identifier hs-var">sourceName</span></a></span></span><span> </span><span id="local-6989586621679577735"><span class="annot"><span class="annottext">(Text, [Token Lexeme])
+</span><a href="#local-6989586621679577735"><span class="hs-identifier hs-var">source</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-64"></span><span>  </span><span id="local-6989586621679577734"><span class="annot"><span class="annottext">UniqueName
+</span><a href="#local-6989586621679577734"><span class="hs-identifier hs-var">uniqueName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO UniqueName -&gt; m UniqueName
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="annot"><span class="annottext">IO UniqueName
-</span><a href="#local-6989586621679577723"><span class="hs-identifier hs-var">generateUniqueName</span></a></span><span>
+</span><a href="#local-6989586621679577739"><span class="hs-identifier hs-var">generateUniqueName</span></a></span><span>
 </span><span id="line-65"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IO
   (Result
      (Seq (Note Symbol Ann))
@@ -335,7 +335,7 @@ forall v (m :: * -&gt; *).
      (Either (UnisonFile v Ann) (TypecheckedUnisonFile v Ann))
 </span><span class="hs-identifier hs-var">parseAndSynthesizeFile</span></span><span>
 </span><span id="line-67"></span><span>      </span><span class="annot"><span class="annottext">[Type Symbol Ann]
-</span><a href="#local-6989586621679577722"><span class="hs-identifier hs-var">ambient</span></a></span><span>
+</span><a href="#local-6989586621679577738"><span class="hs-identifier hs-var">ambient</span></a></span><span>
 </span><span id="line-68"></span><span>      </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypeLookup Symbol Ann
 -&gt; TypeLookup Symbol Ann -&gt; TypeLookup Symbol Ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
@@ -354,24 +354,24 @@ forall (m :: * -&gt; *) a.
 (Monad m, BuiltinAnnotation a) =&gt;
 Codebase m Symbol a -&gt; Set Reference -&gt; m (TypeLookup Symbol a)
 </span><span class="hs-identifier hs-var">Codebase.typeLookupForDependencies</span></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679577724"><span class="hs-identifier hs-var">codebase</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679577740"><span class="hs-identifier hs-var">codebase</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-69"></span><span>      </span><span class="hs-special">(</span><span class="annot"><span class="annottext">UniqueName -&gt; NamesWithHistory -&gt; ParsingEnv
 </span><span class="hs-identifier hs-var">Parser.ParsingEnv</span></span><span> </span><span class="annot"><span class="annottext">UniqueName
-</span><a href="#local-6989586621679577718"><span class="hs-identifier hs-var">uniqueName</span></a></span><span> </span><span class="annot"><span class="annottext">NamesWithHistory
-</span><a href="#local-6989586621679577721"><span class="hs-identifier hs-var">names</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679577734"><span class="hs-identifier hs-var">uniqueName</span></a></span><span> </span><span class="annot"><span class="annottext">NamesWithHistory
+</span><a href="#local-6989586621679577737"><span class="hs-identifier hs-var">names</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-70"></span><span>      </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; String
 </span><span class="hs-identifier hs-var">Text.unpack</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679577720"><span class="hs-identifier hs-var">sourceName</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679577736"><span class="hs-identifier hs-var">sourceName</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-71"></span><span>      </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(Text, [Token Lexeme]) -&gt; Text
 forall a b. (a, b) -&gt; a
 </span><span class="hs-identifier hs-var">fst</span></span><span> </span><span class="annot"><span class="annottext">(Text, [Token Lexeme])
-</span><a href="#local-6989586621679577719"><span class="hs-identifier hs-var">source</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679577735"><span class="hs-identifier hs-var">source</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-72"></span><span>
-</span><span id="line-73"></span><span id="local-6989586621679577717"><span class="annot"><a href="Unison.Cli.TypeCheck.html#typecheckFile"><span class="hs-identifier hs-type">typecheckFile</span></a></span><span> </span><span class="hs-glyph">::</span><span>
+</span><span id="line-73"></span><span id="local-6989586621679577733"><span class="annot"><a href="Unison.Cli.TypeCheck.html#typecheckFile"><span class="hs-identifier hs-type">typecheckFile</span></a></span><span> </span><span class="hs-glyph">::</span><span>
 </span><span id="line-74"></span><span>  </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-75"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">UF.UnisonFile</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-76"></span><span>  </span><span class="annot"><a href="Unison.Cli.Monad.html#Cli"><span class="hs-identifier hs-type">Cli</span></a></span><span>
-</span><span id="line-77"></span><span>    </span><span class="annot"><a href="#local-6989586621679577717"><span class="hs-identifier hs-type">r</span></a></span><span>
+</span><span id="line-77"></span><span>    </span><span class="annot"><a href="#local-6989586621679577733"><span class="hs-identifier hs-type">r</span></a></span><span>
 </span><span id="line-78"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Result.Result</span></span><span>
 </span><span id="line-79"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Seq</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Result.Note</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-80"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Names</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">UF.TypecheckedUnisonFile</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
@@ -383,17 +383,17 @@ forall a b. (a, b) -&gt; a
      (Result
         (Seq (Note Symbol Ann))
         (Either Names (TypecheckedUnisonFile Symbol Ann)))
-</span><a href="Unison.Cli.TypeCheck.html#typecheckFile"><span class="hs-identifier hs-var hs-var">typecheckFile</span></a></span></span><span> </span><span id="local-6989586621679577716"><span class="annot"><span class="annottext">[Type Symbol Ann]
-</span><a href="#local-6989586621679577716"><span class="hs-identifier hs-var">ambient</span></a></span></span><span> </span><span id="local-6989586621679577715"><span class="annot"><span class="annottext">UnisonFile Symbol Ann
-</span><a href="#local-6989586621679577715"><span class="hs-identifier hs-var">file</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-83"></span><span>  </span><span class="annot"><a href="Unison.Cli.Monad.html#Env"><span class="hs-identifier hs-type">Cli.Env</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679577714"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="Unison.Cli.TypeCheck.html#typecheckFile"><span class="hs-identifier hs-var hs-var">typecheckFile</span></a></span></span><span> </span><span id="local-6989586621679577732"><span class="annot"><span class="annottext">[Type Symbol Ann]
+</span><a href="#local-6989586621679577732"><span class="hs-identifier hs-var">ambient</span></a></span></span><span> </span><span id="local-6989586621679577731"><span class="annot"><span class="annottext">UnisonFile Symbol Ann
+</span><a href="#local-6989586621679577731"><span class="hs-identifier hs-var">file</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-83"></span><span>  </span><span class="annot"><a href="Unison.Cli.Monad.html#Env"><span class="hs-identifier hs-type">Cli.Env</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679577730"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
 codebase :: Codebase IO Symbol Ann
 $sel:codebase:Env :: Env -&gt; Codebase IO Symbol Ann
-</span><a href="#local-6989586621679577714"><span class="hs-identifier hs-var hs-var">codebase</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Cli r Env
+</span><a href="#local-6989586621679577730"><span class="hs-identifier hs-var hs-var">codebase</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Cli r Env
 forall r (m :: * -&gt; *). MonadReader r m =&gt; m r
 </span><span class="hs-identifier hs-var">ask</span></span><span>
-</span><span id="line-84"></span><span>  </span><span id="local-6989586621679577713"><span class="annot"><span class="annottext">TypeLookup Symbol Ann
-</span><a href="#local-6989586621679577713"><span class="hs-identifier hs-var">typeLookup</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><span id="line-84"></span><span>  </span><span id="local-6989586621679577729"><span class="annot"><span class="annottext">TypeLookup Symbol Ann
+</span><a href="#local-6989586621679577729"><span class="hs-identifier hs-var">typeLookup</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
 </span><span id="line-85"></span><span>    </span><span class="annot"><span class="annottext">IO (TypeLookup Symbol Ann) -&gt; Cli r (TypeLookup Symbol Ann)
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IO a -&gt; m a
 </span><span class="hs-identifier hs-var">liftIO</span></span><span> </span><span class="annot"><span class="annottext">(IO (TypeLookup Symbol Ann) -&gt; Cli r (TypeLookup Symbol Ann))
@@ -414,10 +414,10 @@ forall (m :: * -&gt; *) a.
 (Monad m, BuiltinAnnotation a) =&gt;
 Codebase m Symbol a -&gt; Set Reference -&gt; m (TypeLookup Symbol a)
 </span><span class="hs-identifier hs-var">Codebase.typeLookupForDependencies</span></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679577714"><span class="hs-identifier hs-var">codebase</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">UnisonFile Symbol Ann -&gt; Set Reference
+</span><a href="#local-6989586621679577730"><span class="hs-identifier hs-var">codebase</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">UnisonFile Symbol Ann -&gt; Set Reference
 forall a v. (Monoid a, Var v) =&gt; UnisonFile v a -&gt; Set Reference
 </span><span class="hs-identifier hs-var">UF.dependencies</span></span><span> </span><span class="annot"><span class="annottext">UnisonFile Symbol Ann
-</span><a href="#local-6989586621679577715"><span class="hs-identifier hs-var">file</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679577731"><span class="hs-identifier hs-var">file</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-88"></span><span>  </span><span class="annot"><span class="annottext">Result
   (Seq (Note Symbol Ann))
   (Either Names (TypecheckedUnisonFile Symbol Ann))
@@ -492,7 +492,7 @@ Var v =&gt;
 -&gt; UnisonFile v
 -&gt; Result (Seq (Note v Ann)) (TypecheckedUnisonFile v Ann)
 </span><span class="hs-identifier hs-var">synthesizeFile'</span></span><span> </span><span class="annot"><span class="annottext">[Type Symbol Ann]
-</span><a href="#local-6989586621679577716"><span class="hs-identifier hs-var">ambient</span></a></span><span> </span><span class="annot"><span class="annottext">TypeLookup Symbol Ann
-</span><a href="#local-6989586621679577713"><span class="hs-identifier hs-var">typeLookup</span></a></span><span> </span><span class="annot"><span class="annottext">UnisonFile Symbol Ann
-</span><a href="#local-6989586621679577715"><span class="hs-identifier hs-var">file</span></a></span><span>
+</span><a href="#local-6989586621679577732"><span class="hs-identifier hs-var">ambient</span></a></span><span> </span><span class="annot"><span class="annottext">TypeLookup Symbol Ann
+</span><a href="#local-6989586621679577729"><span class="hs-identifier hs-var">typeLookup</span></a></span><span> </span><span class="annot"><span class="annottext">UnisonFile Symbol Ann
+</span><a href="#local-6989586621679577731"><span class="hs-identifier hs-var">file</span></a></span><span>
 </span><span id="line-89"></span></pre></body></html>
