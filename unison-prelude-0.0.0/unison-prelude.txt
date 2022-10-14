@@ -2299,6 +2299,9 @@ traverseKeysWith :: (Applicative f, Ord k') => (v -> v -> v) -> (k -> f k') -> M
 
 -- | <a>swap</a> throws away data if the input contains duplicate values
 swap :: Ord b => Map a b -> Map b a
+
+-- | Upsert an element into a map.
+upsert :: Ord k => (Maybe v -> v) -> k -> Map k v -> Map k v
 valuesVector :: Map k v -> Vector v
 
 module Unison.Util.Monoid
