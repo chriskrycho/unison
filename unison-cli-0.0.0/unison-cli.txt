@@ -1449,23 +1449,14 @@ module Unison.Cli.Monad
 --   <li>It is a reader monad of <a>Env</a>.</li>
 --   <li>It is a state monad of <a>LoopState</a>.</li>
 --   <li>It is a short-circuiting monad: a <tt>Cli</tt> computation can
---   short-circuit with success or failure.</li>
---   <li>It is a resource monad: resources can be acquired with
---   straight-line syntax, and will be released at the end of
---   do-block.</li>
+--   short-circuit with success or failure in a delimited scope.</li>
+--   <li>It is a resource monad: resources can be acquired in
+--   callback-style.</li>
 --   <li>It is an IO monad: you can do IO things, but throwing synchronous
 --   exceptions is discouraged. Use the built-in short-circuiting mechanism
 --   instead.</li>
 --   </ul>
---   
---   The <tt>r</tt> type variable is boilerplate. It starts out as
---   <tt>r</tt>, and grows an new <a>R</a> layer for each scoped action
---   (e.g. <a>with</a> / <a>label</a>). For this reason, whenever you find
---   yourself writing down an explicit type that has to carefully mention
---   how many <a>R</a> layers are inferred, you may prefer to use an
---   <tt>_</tt> (with <tt>PartialTypeSignatures</tt>) instead, as the
---   precise type is not very meaningful useful to a reader.
-data Cli r a
+data Cli a
 
 -- | What a Cli action returns: a value, an instruction to continue
 --   processing input, or an instruction to stop processing input.
@@ -1475,7 +1466,7 @@ Continue :: ReturnType a
 HaltRepl :: ReturnType a
 
 -- | Run a <tt>Cli</tt> action down to <tt>IO</tt>.
-runCli :: Env -> LoopState -> Cli a a -> IO (ReturnType a, LoopState)
+runCli :: Env -> LoopState -> Cli a -> IO (ReturnType a, LoopState)
 
 -- | The command-line app monad environment.
 --   
@@ -1523,7 +1514,7 @@ loopState0 :: CausalHash -> TMVar (Branch IO) -> Absolute -> LoopState
 
 -- | Lift an action of type <tt>IO (Either e a)</tt>, given a continuation
 --   for <tt>e</tt>.
-ioE :: IO (Either e a) -> (e -> Cli r a) -> Cli r a
+ioE :: IO (Either e a) -> (e -> Cli a) -> Cli a
 
 -- | Wrap a continuation with <a>Cli</a>.
 --   
@@ -1533,15 +1524,15 @@ ioE :: IO (Either e a) -> (e -> Cli r a) -> Cli r a
 --   with (bracket create destroy) \resource -&gt;
 --     ...
 --   </pre>
-with :: (forall x. (a -> IO x) -> IO x) -> (a -> Cli (R r b) b) -> Cli r b
+with :: (forall x. (a -> IO x) -> IO x) -> (a -> Cli b) -> Cli b
 
 -- | A variant of <a>with</a> for actions that don't acquire a resource
 --   (like <a>bracket_</a>).
-with_ :: (forall x. IO x -> IO x) -> Cli (R r a) a -> Cli r a
+with_ :: (forall x. IO x -> IO x) -> Cli a -> Cli a
 
 -- | A variant of <a>with</a> for the variant of bracketing function that
 --   may return a Left rather than call the provided continuation.
-withE :: (forall x. (a -> IO x) -> IO (Either e x)) -> (Either e a -> Cli (R r b) b) -> Cli r b
+withE :: (forall x. (a -> IO x) -> IO (Either e x)) -> (Either e a -> Cli b) -> Cli b
 
 -- | Create a label that can be jumped to.
 --   
@@ -1555,40 +1546,40 @@ withE :: (forall x. (a -> IO x) -> IO (Either e x)) -> (Either e a -> Cli (R r b
 --     ... -- We don't get here
 --   -- x is bound to someValue
 --   </pre>
-label :: forall r a. ((forall t b. Label (R r a) t => a -> Cli t b) -> Cli (R r a) a) -> Cli r a
+label :: forall a. ((forall void. a -> Cli void) -> Cli a) -> Cli a
 
 -- | Short-circuit the processing of the current input.
-returnEarly :: Output -> Cli r a
+returnEarly :: Output -> Cli a
 
 -- | Variant of <a>returnEarly</a> that doesn't take a final output
 --   message.
-returnEarlyWithoutOutput :: Cli r a
+returnEarlyWithoutOutput :: Cli a
 
 -- | Stop processing inputs from the user.
-haltRepl :: Cli r a
-respond :: Output -> Cli r ()
-respondNumbered :: NumberedOutput -> Cli r ()
+haltRepl :: Cli a
+respond :: Output -> Cli ()
+respondNumbered :: NumberedOutput -> Cli ()
 
 -- | Time an action.
-time :: String -> Cli r a -> Cli r a
+time :: String -> Cli a -> Cli a
 
 -- | The result of calling <a>$sel:loadSource:Env</a>.
 data LoadSourceResult
 InvalidSourceNameError :: LoadSourceResult
 LoadError :: LoadSourceResult
 LoadSuccess :: Text -> LoadSourceResult
-class Label s t
-data R a b
+instance GHC.Show.Show a => GHC.Show.Show (Unison.Cli.Monad.ReturnType a)
+instance GHC.Classes.Eq a => GHC.Classes.Eq (Unison.Cli.Monad.ReturnType a)
 instance GHC.Generics.Generic Unison.Cli.Monad.LoopState
 instance GHC.Generics.Generic Unison.Cli.Monad.Env
-instance Control.Monad.State.Class.MonadState Unison.Cli.Monad.LoopState (Unison.Cli.Monad.Cli r)
-instance Control.Monad.Reader.Class.MonadReader Unison.Cli.Monad.Env (Unison.Cli.Monad.Cli r)
-instance Control.Monad.IO.Class.MonadIO (Unison.Cli.Monad.Cli r)
-instance GHC.Base.Monad (Unison.Cli.Monad.Cli r)
-instance GHC.Base.Applicative (Unison.Cli.Monad.Cli r)
-instance GHC.Base.Functor (Unison.Cli.Monad.Cli r)
-instance Unison.Cli.Monad.Label (Unison.Cli.Monad.R t x) (Unison.Cli.Monad.R t x)
-instance Unison.Cli.Monad.Label s t => Unison.Cli.Monad.Label s (Unison.Cli.Monad.R t x)
+instance GHC.Base.Functor Unison.Cli.Monad.Cli
+instance GHC.Exception.Type.Exception Unison.Cli.Monad.X
+instance GHC.Show.Show Unison.Cli.Monad.X
+instance GHC.Base.Applicative Unison.Cli.Monad.Cli
+instance GHC.Base.Monad Unison.Cli.Monad.Cli
+instance Control.Monad.IO.Class.MonadIO Unison.Cli.Monad.Cli
+instance Control.Monad.Reader.Class.MonadReader Unison.Cli.Monad.Env Unison.Cli.Monad.Cli
+instance Control.Monad.State.Class.MonadState Unison.Cli.Monad.LoopState Unison.Cli.Monad.Cli
 instance GHC.Base.Functor f => GHC.OverloadedLabels.IsLabel "currentPath" ((Unison.Codebase.Path.Absolute -> f Unison.Codebase.Path.Absolute) -> Unison.Cli.Monad.LoopState -> f Unison.Cli.Monad.LoopState)
 
 module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
@@ -1608,22 +1599,22 @@ module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
 --   Returns a Set of names rather than using the PPE since we already have
 --   the correct names in scope on this branch, and also want to list ALL
 --   names of dependents, including aliases.
-namespaceDependencies :: forall m r. Branch0 m -> Cli r (Map LabeledDependency (Set Name))
+namespaceDependencies :: Branch0 m -> Cli (Map LabeledDependency (Set Name))
 
 module Unison.Codebase.Editor.HandleInput.AuthLogin
 
 -- | Direct the user through an authentication flow with the given server
 --   and store the credentials in the provided credential manager.
-authLogin :: CodeserverURI -> Cli r ()
+authLogin :: CodeserverURI -> Cli ()
 
 -- | Checks if the user has valid auth for the given codeserver, and runs
 --   through an authentication flow if not.
-ensureAuthenticatedWithCodeserver :: CodeserverURI -> Cli r ()
+ensureAuthenticatedWithCodeserver :: CodeserverURI -> Cli ()
 
 module Unison.Cli.TypeCheck
-typecheck :: [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> Cli r (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
+typecheck :: [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> Cli (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
 typecheckHelper :: MonadIO m => Codebase IO Symbol Ann -> IO UniqueName -> [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> m (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
-typecheckFile :: [Type Symbol Ann] -> UnisonFile Symbol Ann -> Cli r (Result (Seq (Note Symbol Ann)) (Either Names (TypecheckedUnisonFile Symbol Ann)))
+typecheckFile :: [Type Symbol Ann] -> UnisonFile Symbol Ann -> Cli (Result (Seq (Note Symbol Ann)) (Either Names (TypecheckedUnisonFile Symbol Ann)))
 
 module Unison.LSP.FileAnalysis
 
@@ -1681,129 +1672,129 @@ lspOptions :: Options
 module Unison.Cli.MonadUtils
 
 -- | Lookup a config value by key.
-getConfig :: Configured a => Text -> Cli r (Maybe a)
+getConfig :: Configured a => Text -> Cli (Maybe a)
 
 -- | Get the current path.
-getCurrentPath :: Cli r Absolute
+getCurrentPath :: Cli Absolute
 
 -- | Resolve a <tt>Path'</tt> to a <tt>Path.Absolute</tt>, per the current
 --   path.
-resolvePath' :: Path' -> Cli r Absolute
+resolvePath' :: Path' -> Cli Absolute
 
 -- | Resolve a path split, per the current path.
-resolveSplit' :: (Path', a) -> Cli r (Absolute, a)
+resolveSplit' :: (Path', a) -> Cli (Absolute, a)
 
 -- | Resolve an <tt>AbsBranchId</tt> to the corresponding <tt>Branch
 --   IO</tt>, or fail if no such branch hash is found. (Non-existent
 --   branches by path are OK - the empty branch will be returned).
-resolveAbsBranchId :: AbsBranchId -> Cli r (Branch IO)
+resolveAbsBranchId :: AbsBranchId -> Cli (Branch IO)
 
 -- | Resolve a <tt>ShortBranchHash</tt> to the corresponding <tt>Branch
 --   IO</tt>, or fail if no such branch hash is found.
-resolveShortBranchHash :: ShortBranchHash -> Cli r (Branch IO)
+resolveShortBranchHash :: ShortBranchHash -> Cli (Branch IO)
 
 -- | Get the root branch.
-getRootBranch :: Cli r (Branch IO)
+getRootBranch :: Cli (Branch IO)
 
 -- | Set a new root branch. Note: This does _not_ update the codebase, the
 --   caller is responsible for that.
-setRootBranch :: Branch IO -> Cli r ()
+setRootBranch :: Branch IO -> Cli ()
 
 -- | Get the root branch.
-modifyRootBranch :: (Branch IO -> Branch IO) -> Cli r (Branch IO)
+modifyRootBranch :: (Branch IO -> Branch IO) -> Cli (Branch IO)
 
 -- | Get the root branch0.
-getRootBranch0 :: Cli r (Branch0 IO)
+getRootBranch0 :: Cli (Branch0 IO)
 
 -- | Get the current branch.
-getCurrentBranch :: Cli r (Branch IO)
+getCurrentBranch :: Cli (Branch IO)
 
 -- | Get the current branch0.
-getCurrentBranch0 :: Cli r (Branch0 IO)
+getCurrentBranch0 :: Cli (Branch0 IO)
 
 -- | Get the branch at an absolute path.
-getBranchAt :: Absolute -> Cli r (Branch IO)
+getBranchAt :: Absolute -> Cli (Branch IO)
 
 -- | Get the branch0 at an absolute path.
-getBranch0At :: Absolute -> Cli r (Branch0 IO)
+getBranch0At :: Absolute -> Cli (Branch0 IO)
 
 -- | Get the last saved root hash.
-getLastSavedRootHash :: Cli r CausalHash
+getLastSavedRootHash :: Cli CausalHash
 
 -- | Set a new root branch. Note: This does _not_ update the codebase, the
 --   caller is responsible for that.
-setLastSavedRootHash :: CausalHash -> Cli r ()
+setLastSavedRootHash :: CausalHash -> Cli ()
 
 -- | Get the maybe-branch at an absolute path.
-getMaybeBranchAt :: Absolute -> Cli r (Maybe (Branch IO))
+getMaybeBranchAt :: Absolute -> Cli (Maybe (Branch IO))
 
 -- | Get the branch at an absolute or relative path, or return early if
 --   there's no such branch.
-expectBranchAtPath' :: Path' -> Cli r (Branch IO)
+expectBranchAtPath' :: Path' -> Cli (Branch IO)
 
 -- | Assert that there's "no branch" at an absolute or relative path, or
 --   return early if there is one, where "no branch" means either there's
 --   actually no branch, or there is a branch whose head is empty (i.e. it
 --   may have a history, but no current terms/types etc).
-assertNoBranchAtPath' :: Path' -> Cli r ()
+assertNoBranchAtPath' :: Path' -> Cli ()
 
 -- | Check if there's a branch at an absolute or relative path
 --   
 --   "no branch" means either there's actually no branch, or there is a
 --   branch whose head is empty (i.e. it may have a history, but no current
 --   terms/types etc).
-branchExistsAtPath' :: Path' -> Cli r Bool
-stepAt' :: Text -> (Path, Branch0 IO -> Cli r (Branch0 IO)) -> Cli r Bool
-stepAt :: Text -> (Path, Branch0 IO -> Branch0 IO) -> Cli r ()
-stepAtM :: Text -> (Path, Branch0 IO -> IO (Branch0 IO)) -> Cli r ()
-stepAtNoSync' :: (Path, Branch0 IO -> Cli r (Branch0 IO)) -> Cli r Bool
-stepAtNoSync :: (Path, Branch0 IO -> Branch0 IO) -> Cli r ()
-stepManyAt :: Foldable f => Text -> f (Path, Branch0 IO -> Branch0 IO) -> Cli r ()
-stepManyAtMNoSync :: Foldable f => f (Path, Branch0 IO -> IO (Branch0 IO)) -> Cli r ()
-stepManyAtNoSync :: Foldable f => f (Path, Branch0 IO -> Branch0 IO) -> Cli r ()
+branchExistsAtPath' :: Path' -> Cli Bool
+stepAt' :: Text -> (Path, Branch0 IO -> Cli (Branch0 IO)) -> Cli Bool
+stepAt :: Text -> (Path, Branch0 IO -> Branch0 IO) -> Cli ()
+stepAtM :: Text -> (Path, Branch0 IO -> IO (Branch0 IO)) -> Cli ()
+stepAtNoSync' :: (Path, Branch0 IO -> Cli (Branch0 IO)) -> Cli Bool
+stepAtNoSync :: (Path, Branch0 IO -> Branch0 IO) -> Cli ()
+stepManyAt :: Foldable f => Text -> f (Path, Branch0 IO -> Branch0 IO) -> Cli ()
+stepManyAtMNoSync :: Foldable f => f (Path, Branch0 IO -> IO (Branch0 IO)) -> Cli ()
+stepManyAtNoSync :: Foldable f => f (Path, Branch0 IO -> Branch0 IO) -> Cli ()
 
 -- | Sync the in-memory root branch.
-syncRoot :: Text -> Cli r ()
-updateRoot :: Branch IO -> Text -> Cli r ()
+syncRoot :: Text -> Cli ()
+updateRoot :: Branch IO -> Text -> Cli ()
 
 -- | Update a branch at the given path, returning <a>True</a> if an update
 --   occurred and false otherwise
-updateAtM :: Text -> Absolute -> (Branch IO -> Cli r (Branch IO)) -> Cli r Bool
+updateAtM :: Text -> Absolute -> (Branch IO -> Cli (Branch IO)) -> Cli Bool
 
 -- | Update a branch at the given path, returning <a>True</a> if an update
 --   occurred and false otherwise
-updateAt :: Text -> Absolute -> (Branch IO -> Branch IO) -> Cli r Bool
-getTermsAt :: (Absolute, HQSegment) -> Cli r (Set Referent)
-getTypesAt :: (Absolute, HQSegment) -> Cli r (Set TypeReference)
+updateAt :: Text -> Absolute -> (Branch IO -> Branch IO) -> Cli Bool
+getTermsAt :: (Absolute, HQSegment) -> Cli (Set Referent)
+getTypesAt :: (Absolute, HQSegment) -> Cli (Set TypeReference)
 defaultPatchNameSegment :: NameSegment
 
 -- | The default patch path.
 defaultPatchPath :: Split'
 
 -- | Get the patch at a path, or the empty patch if there's no such patch.
-getPatchAt :: Split' -> Cli r Patch
+getPatchAt :: Split' -> Cli Patch
 
 -- | Get the patch at a path.
-getMaybePatchAt :: Split' -> Cli r (Maybe Patch)
+getMaybePatchAt :: Split' -> Cli (Maybe Patch)
 
 -- | Get the patch at a path, or return early if there's no such patch.
-expectPatchAt :: Split' -> Cli r Patch
+expectPatchAt :: Split' -> Cli Patch
 
 -- | Assert that there's no patch at a path, or return early if there is
 --   one.
-assertNoPatchAt :: Split' -> Cli r ()
-getLatestFile :: Cli r (Maybe (FilePath, Bool))
-expectLatestFile :: Cli r (FilePath, Bool)
+assertNoPatchAt :: Split' -> Cli ()
+getLatestFile :: Cli (Maybe (FilePath, Bool))
+expectLatestFile :: Cli (FilePath, Bool)
 
 -- | Get the latest typechecked unison file.
-getLatestTypecheckedFile :: Cli r (Maybe (TypecheckedUnisonFile Symbol Ann))
+getLatestTypecheckedFile :: Cli (Maybe (TypecheckedUnisonFile Symbol Ann))
 
 -- | Get the latest typechecked unison file, or return early if there isn't
 --   one.
-expectLatestTypecheckedFile :: Cli r (TypecheckedUnisonFile Symbol Ann)
+expectLatestTypecheckedFile :: Cli (TypecheckedUnisonFile Symbol Ann)
 
 module Unison.Codebase.Editor.Propagate
-propagateAndApply :: Patch -> Branch0 IO -> Cli r (Branch0 IO)
+propagateAndApply :: Patch -> Branch0 IO -> Cli (Branch0 IO)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Propagate.Edits v)
 instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Codebase.Editor.Propagate.Edits v)
 
@@ -1811,27 +1802,27 @@ module Unison.Codebase.Editor.HandleInput.MoveBranch
 
 -- | Moves a branch and its history from one location to another, and saves
 --   the new root branch.
-doMoveBranch :: forall r. Text -> Bool -> Path' -> Path' -> Cli r ()
+doMoveBranch :: Text -> Bool -> Path' -> Path' -> Cli ()
 
 
 -- | Utilities that have to do with constructing pretty-print environments,
 --   given stateful information in the Cli monad state/environment, such as
 --   the current path.
 module Unison.Cli.PrettyPrintUtils
-prettyPrintEnvDecl :: NamesWithHistory -> Cli r PrettyPrintEnvDecl
+prettyPrintEnvDecl :: NamesWithHistory -> Cli PrettyPrintEnvDecl
 
 -- | Get a pretty print env decl for the current names at the current path.
-currentPrettyPrintEnvDecl :: (Path -> NameScoping) -> Cli r PrettyPrintEnvDecl
+currentPrettyPrintEnvDecl :: (Path -> NameScoping) -> Cli PrettyPrintEnvDecl
 
 
 -- | Helpers/utils that have to do with namespace diffs.
 module Unison.Codebase.Editor.HandleInput.NamespaceDiffUtils
-diffHelper :: Branch0 IO -> Branch0 IO -> Cli r (PrettyPrintEnv, BranchDiffOutput Symbol Ann)
+diffHelper :: Branch0 IO -> Branch0 IO -> Cli (PrettyPrintEnv, BranchDiffOutput Symbol Ann)
 
 
 -- | Helpers<i>utils that have to do with term</i>type metadata.
 module Unison.Codebase.Editor.HandleInput.MetadataUtils
-addDefaultMetadata :: SlurpComponent Symbol -> Cli r ()
+addDefaultMetadata :: SlurpComponent Symbol -> Cli ()
 
 -- | Add/remove links between definitions and metadata. <tt>silent</tt>
 --   controls whether this produces any output to the user. <tt>srcs</tt>
@@ -1839,31 +1830,31 @@ addDefaultMetadata :: SlurpComponent Symbol -> Cli r ()
 --   is (names of the) metadata to pass to <a>op</a> <a>op</a> is the
 --   operation to add<i>remove</i>alter metadata mappings. e.g.
 --   <a>insert</a> is passed to add metadata links.
-manageLinks :: Bool -> [HQSplit'] -> [HashQualified Name] -> (forall r. Ord r => (r, Type, Value) -> Star r NameSegment -> Star r NameSegment) -> Cli r ()
+manageLinks :: Bool -> [HQSplit'] -> [HashQualified Name] -> (forall r. Ord r => (r, Type, Value) -> Star r NameSegment -> Star r NameSegment) -> Cli ()
 
 
 -- | Utilities that have to do with constructing names objects.
 module Unison.Cli.NamesUtils
-basicParseNames :: Cli r Names
-basicPrettyPrintNamesA :: Cli r Names
+basicParseNames :: Cli Names
+basicPrettyPrintNamesA :: Cli Names
 
 -- | Produce a <a>Names</a> needed to display all the hashes used in the
 --   given file.
-displayNames :: Var v => TypecheckedUnisonFile v a -> Cli r NamesWithHistory
-findHistoricalHQs :: Set (HashQualified Name) -> Cli r Names
-getBasicPrettyPrintNames :: Cli r Names
-makeHistoricalParsingNames :: Set (HashQualified Name) -> Cli r NamesWithHistory
-makePrintNamesFromLabeled' :: Set LabeledDependency -> Cli r NamesWithHistory
-makeShadowedPrintNamesFromHQ :: Set (HashQualified Name) -> Names -> Cli r NamesWithHistory
+displayNames :: Var v => TypecheckedUnisonFile v a -> Cli NamesWithHistory
+findHistoricalHQs :: Set (HashQualified Name) -> Cli Names
+getBasicPrettyPrintNames :: Cli Names
+makeHistoricalParsingNames :: Set (HashQualified Name) -> Cli NamesWithHistory
+makePrintNamesFromLabeled' :: Set LabeledDependency -> Cli NamesWithHistory
+makeShadowedPrintNamesFromHQ :: Set (HashQualified Name) -> Names -> Cli NamesWithHistory
 
 module Unison.Codebase.Editor.HandleInput.Update
 
 -- | Handle an <tt>update</tt> command.
-handleUpdate :: Input -> OptionalPatch -> Set Name -> Cli r ()
+handleUpdate :: Input -> OptionalPatch -> Set Name -> Cli ()
 doSlurpAdds :: forall m v. (Monad m, Var v) => SlurpComponent v -> TypecheckedUnisonFile v Ann -> Branch0 m -> Branch0 m
 
 module Unison.Codebase.Editor.HandleInput
-loop :: Either Event Input -> Cli r ()
+loop :: Either Event Input -> Cli ()
 
 module Unison.CommandLine.Main
 main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Branch IO -> STM ()) -> (Absolute -> STM ()) -> IO ()
