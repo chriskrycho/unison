@@ -3391,6 +3391,7 @@ watchKind1to2 :: WatchKind -> WatchKind
 watchKind2to1 :: WatchKind -> WatchKind
 term1to2 :: Hash -> Term Symbol Ann -> Term Symbol
 term2to1 :: forall m. Monad m => Hash -> (Reference -> m ConstructorType) -> Term Symbol -> m (Term Symbol Ann)
+termComponent1to2 :: Hash -> [(Term Symbol Ann, Type Symbol a)] -> [(Term Symbol, TypeT Symbol)]
 decl2to1 :: Hash -> Decl Symbol -> Decl Symbol Ann
 decl1to2 :: Hash -> Decl Symbol a -> Decl Symbol
 symbol2to1 :: Symbol -> Symbol
@@ -3544,7 +3545,9 @@ getTypeOfTermImpl :: Id -> Transaction (Maybe (Type Symbol Ann))
 getTermComponentWithTypes :: (Reference -> Transaction ConstructorType) -> Hash -> Transaction (Maybe [(Term Symbol Ann, Type Symbol Ann)])
 getTypeDeclaration :: Id -> Transaction (Maybe (Decl Symbol Ann))
 getDeclComponent :: Hash -> Transaction (Maybe [Decl Symbol Ann])
+putTermComponent :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Hash -> [(Term Symbol Ann, Type Symbol Ann)] -> Transaction ()
 putTerm :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Id -> Term Symbol Ann -> Type Symbol Ann -> Transaction ()
+putTerm_ :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Id -> Term Symbol Ann -> Type Symbol Ann -> Transaction ()
 tryFlushTermBuffer :: TVar (Map Hash TermBufferEntry) -> Hash -> Transaction ()
 addDeclComponentTypeIndex :: ObjectId -> [[Type Symbol Ann]] -> Transaction ()
 putTypeDeclarationComponent :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Hash -> [Decl Symbol Ann] -> Transaction ()
