@@ -379,49 +379,49 @@ instance GHC.Classes.Ord Unison.Codebase.Editor.Output.PushPull.PushPull
 instance GHC.Classes.Eq Unison.Codebase.Editor.Output.PushPull.PushPull
 
 module Unison.Codebase.Editor.SlurpComponent
-data SlurpComponent v
-SlurpComponent :: Set v -> Set v -> Set v -> SlurpComponent v
-[$sel:types:SlurpComponent] :: SlurpComponent v -> Set v
-[$sel:terms:SlurpComponent] :: SlurpComponent v -> Set v
-[$sel:ctors:SlurpComponent] :: SlurpComponent v -> Set v
-isEmpty :: SlurpComponent v -> Bool
-empty :: Ord v => SlurpComponent v
-difference :: Ord v => SlurpComponent v -> SlurpComponent v -> SlurpComponent v
-intersection :: Ord v => SlurpComponent v -> SlurpComponent v -> SlurpComponent v
-closeWithDependencies :: forall v a. Ord v => TypecheckedUnisonFile v a -> SlurpComponent v -> SlurpComponent v
-fromTypes :: Ord v => Set v -> SlurpComponent v
-fromTerms :: Ord v => Set v -> SlurpComponent v
-fromCtors :: Ord v => Set v -> SlurpComponent v
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.SlurpComponent.SlurpComponent v)
-instance GHC.Classes.Ord v => GHC.Classes.Ord (Unison.Codebase.Editor.SlurpComponent.SlurpComponent v)
-instance GHC.Classes.Eq v => GHC.Classes.Eq (Unison.Codebase.Editor.SlurpComponent.SlurpComponent v)
-instance GHC.Classes.Ord v => GHC.Base.Semigroup (Unison.Codebase.Editor.SlurpComponent.SlurpComponent v)
-instance GHC.Classes.Ord v => GHC.Base.Monoid (Unison.Codebase.Editor.SlurpComponent.SlurpComponent v)
+data SlurpComponent
+SlurpComponent :: Set Symbol -> Set Symbol -> Set Symbol -> SlurpComponent
+[$sel:types:SlurpComponent] :: SlurpComponent -> Set Symbol
+[$sel:terms:SlurpComponent] :: SlurpComponent -> Set Symbol
+[$sel:ctors:SlurpComponent] :: SlurpComponent -> Set Symbol
+empty :: SlurpComponent
+fromTerms :: Set Symbol -> SlurpComponent
+fromTypes :: Set Symbol -> SlurpComponent
+fromCtors :: Set Symbol -> SlurpComponent
+isEmpty :: SlurpComponent -> Bool
+difference :: SlurpComponent -> SlurpComponent -> SlurpComponent
+intersection :: SlurpComponent -> SlurpComponent -> SlurpComponent
+closeWithDependencies :: forall a. TypecheckedUnisonFile Symbol a -> SlurpComponent -> SlurpComponent
+instance GHC.Show.Show Unison.Codebase.Editor.SlurpComponent.SlurpComponent
+instance GHC.Classes.Ord Unison.Codebase.Editor.SlurpComponent.SlurpComponent
+instance GHC.Classes.Eq Unison.Codebase.Editor.SlurpComponent.SlurpComponent
+instance GHC.Base.Semigroup Unison.Codebase.Editor.SlurpComponent.SlurpComponent
+instance GHC.Base.Monoid Unison.Codebase.Editor.SlurpComponent.SlurpComponent
 
 module Unison.Codebase.Editor.SlurpResult
-data SlurpResult v
-SlurpResult :: TypecheckedUnisonFile v Ann -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> SlurpComponent v -> Set v -> Set v -> Map v Aliases -> Map v Aliases -> SlurpComponent v -> SlurpResult v
-[$sel:originalFile:SlurpResult] :: SlurpResult v -> TypecheckedUnisonFile v Ann
-[$sel:extraDefinitions:SlurpResult] :: SlurpResult v -> SlurpComponent v
-[$sel:adds:SlurpResult] :: SlurpResult v -> SlurpComponent v
-[$sel:duplicates:SlurpResult] :: SlurpResult v -> SlurpComponent v
-[$sel:collisions:SlurpResult] :: SlurpResult v -> SlurpComponent v
-[$sel:updates:SlurpResult] :: SlurpResult v -> SlurpComponent v
-[$sel:termExistingConstructorCollisions:SlurpResult] :: SlurpResult v -> Set v
-[$sel:constructorExistingTermCollisions:SlurpResult] :: SlurpResult v -> Set v
-[$sel:termAlias:SlurpResult] :: SlurpResult v -> Map v Aliases
-[$sel:typeAlias:SlurpResult] :: SlurpResult v -> Map v Aliases
-[$sel:defsWithBlockedDependencies:SlurpResult] :: SlurpResult v -> SlurpComponent v
+data SlurpResult
+SlurpResult :: TypecheckedUnisonFile Symbol Ann -> SlurpComponent -> SlurpComponent -> SlurpComponent -> SlurpComponent -> SlurpComponent -> Set Symbol -> Set Symbol -> Map Symbol Aliases -> Map Symbol Aliases -> SlurpComponent -> SlurpResult
+[$sel:originalFile:SlurpResult] :: SlurpResult -> TypecheckedUnisonFile Symbol Ann
+[$sel:extraDefinitions:SlurpResult] :: SlurpResult -> SlurpComponent
+[$sel:adds:SlurpResult] :: SlurpResult -> SlurpComponent
+[$sel:duplicates:SlurpResult] :: SlurpResult -> SlurpComponent
+[$sel:collisions:SlurpResult] :: SlurpResult -> SlurpComponent
+[$sel:updates:SlurpResult] :: SlurpResult -> SlurpComponent
+[$sel:termExistingConstructorCollisions:SlurpResult] :: SlurpResult -> Set Symbol
+[$sel:constructorExistingTermCollisions:SlurpResult] :: SlurpResult -> Set Symbol
+[$sel:termAlias:SlurpResult] :: SlurpResult -> Map Symbol Aliases
+[$sel:typeAlias:SlurpResult] :: SlurpResult -> Map Symbol Aliases
+[$sel:defsWithBlockedDependencies:SlurpResult] :: SlurpResult -> SlurpComponent
 data Aliases
 AddAliases :: Set Name -> Aliases
 UpdateAliases :: Set Name -> Set Name -> Aliases
 [$sel:oldRefNames:AddAliases] :: Aliases -> Set Name
 [$sel:newRefNames:AddAliases] :: Aliases -> Set Name
-isOk :: Ord v => SlurpResult v -> Bool
-isAllDuplicates :: Ord v => SlurpResult v -> Bool
-hasAddsOrUpdates :: Ord v => SlurpResult v -> Bool
-filterUnisonFile :: Ord v => SlurpResult v -> TypecheckedUnisonFile v Ann -> TypecheckedUnisonFile v Ann
-pretty :: forall v. Var v => IsPastTense -> PrettyPrintEnv -> SlurpResult v -> Pretty ColorText
+isOk :: SlurpResult -> Bool
+isAllDuplicates :: SlurpResult -> Bool
+hasAddsOrUpdates :: SlurpResult -> Bool
+filterUnisonFile :: SlurpResult -> TypecheckedUnisonFile Symbol Ann -> TypecheckedUnisonFile Symbol Ann
+pretty :: IsPastTense -> PrettyPrintEnv -> SlurpResult -> Pretty ColorText
 data Status
 Add :: Status
 Update :: Status
@@ -435,7 +435,7 @@ prettyStatus :: Status -> Pretty ColorText
 instance GHC.Classes.Ord Unison.Codebase.Editor.SlurpResult.Aliases
 instance GHC.Classes.Eq Unison.Codebase.Editor.SlurpResult.Aliases
 instance GHC.Show.Show Unison.Codebase.Editor.SlurpResult.Aliases
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.SlurpResult.SlurpResult v)
+instance GHC.Show.Show Unison.Codebase.Editor.SlurpResult.SlurpResult
 instance GHC.Show.Show Unison.Codebase.Editor.SlurpResult.Status
 instance GHC.Classes.Eq Unison.Codebase.Editor.SlurpResult.Status
 instance GHC.Classes.Ord Unison.Codebase.Editor.SlurpResult.Status
@@ -451,20 +451,20 @@ CheckOp :: SlurpOp
 -- | Analyze a file and determine the status of all of its definitions with
 --   respect to a set of vars to analyze and an operation you wish to
 --   perform.
-slurpFile :: forall v. Var v => TypecheckedUnisonFile v Ann -> Set v -> SlurpOp -> Names -> SlurpResult v
+slurpFile :: TypecheckedUnisonFile Symbol Ann -> Set Symbol -> SlurpOp -> Names -> SlurpResult
 instance GHC.Show.Show Unison.Codebase.Editor.Slurp.SlurpOp
 instance GHC.Classes.Eq Unison.Codebase.Editor.Slurp.SlurpOp
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Codebase.Editor.Slurp.TaggedVar v)
-instance GHC.Classes.Ord v => GHC.Classes.Ord (Unison.Codebase.Editor.Slurp.TaggedVar v)
-instance GHC.Classes.Eq v => GHC.Classes.Eq (Unison.Codebase.Editor.Slurp.TaggedVar v)
+instance GHC.Show.Show Unison.Codebase.Editor.Slurp.TaggedVar
+instance GHC.Classes.Ord Unison.Codebase.Editor.Slurp.TaggedVar
+instance GHC.Classes.Eq Unison.Codebase.Editor.Slurp.TaggedVar
 instance GHC.Show.Show Unison.Codebase.Editor.Slurp.DefnStatus
 instance GHC.Classes.Ord Unison.Codebase.Editor.Slurp.DefnStatus
 instance GHC.Classes.Eq Unison.Codebase.Editor.Slurp.DefnStatus
 instance GHC.Show.Show Unison.Codebase.Editor.Slurp.DepStatus
 instance GHC.Classes.Ord Unison.Codebase.Editor.Slurp.DepStatus
 instance GHC.Classes.Eq Unison.Codebase.Editor.Slurp.DepStatus
-instance GHC.Classes.Ord v => GHC.Base.Semigroup (Unison.Codebase.Editor.Slurp.SlurpingSummary v)
-instance GHC.Classes.Ord v => GHC.Base.Monoid (Unison.Codebase.Editor.Slurp.SlurpingSummary v)
+instance GHC.Base.Semigroup Unison.Codebase.Editor.Slurp.SlurpingSummary
+instance GHC.Base.Monoid Unison.Codebase.Editor.Slurp.SlurpingSummary
 
 module Unison.Codebase.Editor.TodoOutput
 type Score = Int
@@ -1040,7 +1040,7 @@ ListOfDefinitions :: FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResul
 ListOfLinks :: PrettyPrintEnv -> [(HashQualified Name, Reference, Maybe (Type Symbol Ann))] -> Output
 ListShallow :: IO PrettyPrintEnv -> [ShallowListEntry Symbol Ann] -> Output
 ListOfPatches :: Set Name -> Output
-SlurpOutput :: Input -> PrettyPrintEnv -> SlurpResult Symbol -> Output
+SlurpOutput :: Input -> PrettyPrintEnv -> SlurpResult -> Output
 ParseErrors :: Text -> [Err Symbol] -> Output
 TypeErrors :: Absolute -> Text -> PrettyPrintEnv -> [ErrorNote Symbol Ann] -> Output
 CompilerBugs :: Text -> PrettyPrintEnv -> [CompilerBug Symbol Ann] -> Output
@@ -1048,7 +1048,7 @@ DisplayConflicts :: Relation Name Referent -> Relation Name Reference -> Output
 EvaluationFailure :: Error -> Output
 Evaluated :: SourceFileContents -> PrettyPrintEnv -> [(Symbol, Term Symbol ())] -> Map Symbol (Ann, WatchKind, Term Symbol (), IsCacheHit) -> Output
 RunResult :: PrettyPrintEnv -> Term Symbol () -> Output
-Typechecked :: SourceName -> PrettyPrintEnv -> SlurpResult Symbol -> TypecheckedUnisonFile Symbol Ann -> Output
+Typechecked :: SourceName -> PrettyPrintEnv -> SlurpResult -> TypecheckedUnisonFile Symbol Ann -> Output
 DisplayRendered :: Maybe FilePath -> Pretty ColorText -> Output
 DisplayDefinitions :: Maybe FilePath -> PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl Symbol Ann)) -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann)) -> Output
 TestIncrementalOutputStart :: PrettyPrintEnv -> (Int, Int) -> Reference -> Term Symbol Ann -> Output
@@ -1822,7 +1822,7 @@ diffHelper :: Branch0 IO -> Branch0 IO -> Cli (PrettyPrintEnv, BranchDiffOutput 
 
 -- | Helpers<i>utils that have to do with term</i>type metadata.
 module Unison.Codebase.Editor.HandleInput.MetadataUtils
-addDefaultMetadata :: SlurpComponent Symbol -> Cli ()
+addDefaultMetadata :: SlurpComponent -> Cli ()
 
 -- | Add/remove links between definitions and metadata. <tt>silent</tt>
 --   controls whether this produces any output to the user. <tt>srcs</tt>
@@ -1851,7 +1851,7 @@ module Unison.Codebase.Editor.HandleInput.Update
 
 -- | Handle an <tt>update</tt> command.
 handleUpdate :: Input -> OptionalPatch -> Set Name -> Cli ()
-doSlurpAdds :: forall m v. (Monad m, Var v) => SlurpComponent v -> TypecheckedUnisonFile v Ann -> Branch0 m -> Branch0 m
+doSlurpAdds :: forall m. Monad m => SlurpComponent -> TypecheckedUnisonFile Symbol Ann -> Branch0 m -> Branch0 m
 
 module Unison.Codebase.Editor.HandleInput
 loop :: Either Event Input -> Cli ()
