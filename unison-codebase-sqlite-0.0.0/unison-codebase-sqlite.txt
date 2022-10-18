@@ -966,7 +966,7 @@ loadWatch :: SqliteExceptionReason e => WatchKind -> IdH -> (ByteString -> Eithe
 loadWatchesByWatchKind :: WatchKind -> Transaction [IdH]
 loadWatchKindsByReference :: IdH -> Transaction [WatchKind]
 clearWatches :: Transaction ()
-addToDependentsIndex :: Reference -> Id -> Transaction ()
+addToDependentsIndex :: [Reference] -> Id -> Transaction ()
 
 -- | Which dependents should be returned?
 --   
