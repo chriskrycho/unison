@@ -3166,7 +3166,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Id -> Decl v a -> m ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -3203,6 +3203,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 --   already exist. The implementation may choose to delay the put until
 --   all of the type declaration's references are stored as well.
 [$sel:putTypeDeclaration:Codebase] :: Codebase m v a -> Id -> Decl v a -> m ()
+[$sel:putTypeDeclarationComponent:Codebase] :: Codebase m v a -> Hash -> [Decl v a] -> Transaction ()
 [$sel:getTermComponentWithTypes:Codebase] :: Codebase m v a -> Hash -> Transaction (Maybe [(Term v a, Type v a)])
 [$sel:getDeclComponent:Codebase] :: Codebase m v a -> Hash -> m (Maybe [Decl v a])
 [$sel:getComponentLength:Codebase] :: Codebase m v a -> Hash -> m (Maybe CycleSize)
@@ -3546,7 +3547,9 @@ getDeclComponent :: Hash -> Transaction (Maybe [Decl Symbol Ann])
 putTerm :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Id -> Term Symbol Ann -> Type Symbol Ann -> Transaction ()
 tryFlushTermBuffer :: TVar (Map Hash TermBufferEntry) -> Hash -> Transaction ()
 addDeclComponentTypeIndex :: ObjectId -> [[Type Symbol Ann]] -> Transaction ()
+putTypeDeclarationComponent :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Hash -> [Decl Symbol Ann] -> Transaction ()
 putTypeDeclaration :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Id -> Decl Symbol Ann -> Transaction ()
+putTypeDeclaration_ :: TVar (Map Hash DeclBufferEntry) -> Id -> Decl Symbol Ann -> Transaction ()
 tryFlushDeclBuffer :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Hash -> Transaction ()
 getRootBranch :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> TVar (Maybe (DataVersion, Branch Transaction)) -> Transaction (Branch Transaction)
 uncachedLoadRootBranch :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> Transaction (Branch Transaction)
@@ -3710,6 +3713,7 @@ unsafeGetTypeDeclaration :: (HasCallStack, Monad m) => Codebase m v a -> Id -> m
 --   already exist. The implementation may choose to delay the put until
 --   all of the type declaration's references are stored as well.
 ($sel:putTypeDeclaration:Codebase) :: Codebase m v a -> Id -> Decl v a -> m ()
+($sel:putTypeDeclarationComponent:Codebase) :: Codebase m v a -> Hash -> [Decl v a] -> Transaction ()
 
 -- | Get the set of type declarations whose hash matches the given prefix.
 ($sel:typeReferencesByPrefix:Codebase) :: Codebase m v a -> ShortHash -> m (Set Id)
