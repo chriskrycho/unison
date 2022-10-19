@@ -1030,231 +1030,6 @@ instance (GHC.Show.Show a, GHC.Show.Show v) => GHC.Show.Show (Unison.UnisonFile.
 instance GHC.Generics.Generic (Unison.UnisonFile.Type.TypecheckedUnisonFile v a)
 instance GHC.Classes.Ord v => GHC.Base.Functor (Unison.UnisonFile.Type.TypecheckedUnisonFile v)
 
-module Unison.Util.Convert
-class Convert a b
-convert :: Convert a b => a -> b
-class Parse a b
-parse :: Parse a b => a -> Maybe b
-instance (Unison.Util.Convert.Parse a a2, Unison.Util.Convert.Parse b b2) => Unison.Util.Convert.Parse (a, b) (a2, b2)
-
-module Unison.Util.CycleTable
-data CycleTable k v
-CycleTable :: BasicHashTable k v -> IOPRef Int -> CycleTable k v
-[$sel:table:CycleTable] :: CycleTable k v -> BasicHashTable k v
-[$sel:sizeRef:CycleTable] :: CycleTable k v -> IOPRef Int
-new :: Int -> IO (CycleTable k v)
-lookup :: (Hashable k, Eq k) => k -> CycleTable k v -> IO (Maybe v)
-insert :: (Hashable k, Eq k) => k -> v -> CycleTable k v -> IO ()
-size :: CycleTable k v -> IO Int
-insertEnd :: (Hashable k, Eq k) => k -> CycleTable k Int -> IO ()
-
-module Unison.Util.CyclicEq
-class CyclicEq a
-cyclicEq :: CyclicEq a => CycleTable Int Int -> CycleTable Int Int -> a -> a -> IO Bool
-bothEq' :: (Eq a, CyclicEq b) => CycleTable Int Int -> CycleTable Int Int -> a -> a -> b -> b -> IO Bool
-bothEq :: (CyclicEq a, CyclicEq b) => CycleTable Int Int -> CycleTable Int Int -> a -> a -> b -> b -> IO Bool
-instance Unison.Util.CyclicEq.CyclicEq a => Unison.Util.CyclicEq.CyclicEq [a]
-instance Unison.Util.CyclicEq.CyclicEq a => Unison.Util.CyclicEq.CyclicEq (Data.Sequence.Internal.Seq a)
-instance Unison.Util.CyclicEq.CyclicEq a => Unison.Util.CyclicEq.CyclicEq (Data.Vector.Vector a)
-
-module Unison.Util.CyclicOrd
-class CyclicOrd a
-cyclicOrd :: CyclicOrd a => CycleTable Int Int -> CycleTable Int Int -> a -> a -> IO Ordering
-bothOrd' :: (Ord a, CyclicOrd b) => CycleTable Int Int -> CycleTable Int Int -> a -> a -> b -> b -> IO Ordering
-bothOrd :: (CyclicOrd a, CyclicOrd b) => CycleTable Int Int -> CycleTable Int Int -> a -> a -> b -> b -> IO Ordering
-instance Unison.Util.CyclicOrd.CyclicOrd a => Unison.Util.CyclicOrd.CyclicOrd [a]
-instance Unison.Util.CyclicOrd.CyclicOrd a => Unison.Util.CyclicOrd.CyclicOrd (Data.Sequence.Internal.Seq a)
-instance Unison.Util.CyclicOrd.CyclicOrd a => Unison.Util.CyclicOrd.CyclicOrd (Data.Vector.Vector a)
-
-module Unison.Util.EnumContainers
-data EnumMap k a
-data EnumSet k
-class EnumKey k
-keyToInt :: EnumKey k => k -> Int
-intToKey :: EnumKey k => Int -> k
-mapFromList :: EnumKey k => [(k, a)] -> EnumMap k a
-setFromList :: EnumKey k => [k] -> EnumSet k
-setToList :: EnumKey k => EnumSet k -> [k]
-mapSingleton :: EnumKey k => k -> a -> EnumMap k a
-setSingleton :: EnumKey k => k -> EnumSet k
-mapInsert :: EnumKey k => k -> a -> EnumMap k a -> EnumMap k a
-unionWith :: EnumKey k => EnumKey k => (a -> a -> a) -> EnumMap k a -> EnumMap k a -> EnumMap k a
-hasKey :: EnumKey k => k -> EnumMap k a -> Bool
-keys :: EnumKey k => EnumMap k a -> [k]
-keysSet :: EnumKey k => EnumMap k a -> EnumSet k
-restrictKeys :: EnumKey k => EnumMap k a -> EnumSet k -> EnumMap k a
-withoutKeys :: EnumKey k => EnumMap k a -> EnumSet k -> EnumMap k a
-member :: EnumKey k => k -> EnumSet k -> Bool
-lookup :: EnumKey k => k -> EnumMap k a -> Maybe a
-lookupWithDefault :: EnumKey k => a -> k -> EnumMap k a -> a
-mapWithKey :: EnumKey k => (k -> a -> b) -> EnumMap k a -> EnumMap k b
-foldMapWithKey :: EnumKey k => Monoid m => (k -> a -> m) -> EnumMap k a -> m
-mapToList :: EnumKey k => EnumMap k a -> [(k, a)]
-(!) :: EnumKey k => EnumMap k a -> k -> a
-findMin :: EnumKey k => EnumSet k -> k
-traverseSet_ :: Applicative f => EnumKey k => (k -> f ()) -> EnumSet k -> f ()
-setSize :: EnumSet k -> Int
-instance GHC.Base.Semigroup (Unison.Util.EnumContainers.EnumMap k a)
-instance GHC.Base.Monoid (Unison.Util.EnumContainers.EnumMap k a)
-instance GHC.Classes.Ord a => GHC.Classes.Ord (Unison.Util.EnumContainers.EnumMap k a)
-instance GHC.Classes.Eq a => GHC.Classes.Eq (Unison.Util.EnumContainers.EnumMap k a)
-instance GHC.Show.Show a => GHC.Show.Show (Unison.Util.EnumContainers.EnumMap k a)
-instance Data.Traversable.Traversable (Unison.Util.EnumContainers.EnumMap k)
-instance Data.Foldable.Foldable (Unison.Util.EnumContainers.EnumMap k)
-instance GHC.Base.Functor (Unison.Util.EnumContainers.EnumMap k)
-instance GHC.Base.Semigroup (Unison.Util.EnumContainers.EnumSet k)
-instance GHC.Base.Monoid (Unison.Util.EnumContainers.EnumSet k)
-instance GHC.Classes.Ord (Unison.Util.EnumContainers.EnumSet k)
-instance GHC.Classes.Eq (Unison.Util.EnumContainers.EnumSet k)
-instance GHC.Show.Show (Unison.Util.EnumContainers.EnumSet k)
-instance Unison.Util.EnumContainers.EnumKey GHC.Word.Word64
-instance Unison.Util.EnumContainers.EnumKey GHC.Word.Word16
-
-module Unison.Util.Exception
-tryAny :: MonadIO m => IO a -> m (Either SomeException a)
-catchAny :: IO a -> (SomeException -> IO a) -> IO a
-
-
--- | Small logging library. Typical usage, import qualified:
---   
---   import qualified Unison.Util.Logger as L
---   
---   do logger &lt;- L.atomic . L.atInfo . L.scope "worker" . L.toHandle $
---   stderr L.warn logger "WARNING!!!" L.debug logger "Debug message, will
---   be ignored" let logger2 = L.atDebug logger L.debug logger2 "Debug
---   message, will be printed" logger' &lt;- L.at L.warnLevel
-module Unison.Util.Logger
-type Level = Int
-type Scope = [String]
-data Logger
-Logger :: !Scope -> (String -> String) -> !Level -> (String -> IO ()) -> Logger
-[$sel:getScope:Logger] :: Logger -> !Scope
-[$sel:prefix:Logger] :: Logger -> String -> String
-[$sel:getLevel:Logger] :: Logger -> !Level
-[$sel:raw:Logger] :: Logger -> String -> IO ()
-
--- | Ensure at most one message is logged at the same time
-atomic :: Logger -> IO Logger
-toHandle :: Handle -> Logger
-toStandardError :: Logger
-toStandardOut :: Logger
-logHandleAt :: Logger -> Level -> Handle -> IO ()
-logAt' :: Logger -> Level -> IO String -> IO ()
-logAt :: Logger -> Level -> String -> IO ()
-scope :: String -> Logger -> Logger
-scope' :: [String] -> Logger -> Logger
-logger :: (String -> IO ()) -> Logger
-error :: Logger -> String -> IO ()
-warn :: Logger -> String -> IO ()
-info :: Logger -> String -> IO ()
-debug :: Logger -> String -> IO ()
-trace :: Logger -> String -> IO ()
-error' :: Logger -> IO String -> IO ()
-warn' :: Logger -> IO String -> IO ()
-info' :: Logger -> IO String -> IO ()
-debug' :: Logger -> IO String -> IO ()
-trace' :: Logger -> IO String -> IO ()
-errorLevel :: Level
-warnLevel :: Level
-infoLevel :: Level
-debugLevel :: Level
-traceLevel :: Level
-at :: Level -> Logger -> Logger
-atError :: Logger -> Logger
-atWarn :: Logger -> Logger
-atInfo :: Logger -> Logger
-atDebug :: Logger -> Logger
-atTrace :: Logger -> Logger
-increment :: Logger -> Logger
-decrement :: Logger -> Logger
-
-
--- | A utility type for saving memory in the presence of many duplicate
---   ByteStrings, etc. If you have data that may be a redundant duplicate,
---   try pinning it to a pin board, and use the result of that operation
---   instead.
---   
---   Without a pin board:
---   
---   x ───── "38dce848c8c829c62" y ───── "38dce848c8c829c62" z ─────
---   "d2518f260535b927b"
---   
---   With a pin board:
---   
---   x ───── "38dce848c8c829c62" ┄┄┄┄┄┐ y ────────┘ board z ─────
---   "d2518f260535b927b" ┄┄┄┄┄┘
---   
---   ... and after x is garbage collected:
---   
---   "38dce848c8c829c62" ┄┄┄┄┄┐ y ────────┘ board z ─────
---   "d2518f260535b927b" ┄┄┄┄┄┘
---   
---   ... and after y is garbage collected:
---   
---   board z ───── "d2518f260535b927b" ┄┄┄┄┄┘
-module Unison.Util.PinBoard
-
--- | A "pin board" is a place to pin values; semantically, it's a set, but
---   differs in a few ways:
---   
---   <ul>
---   <li>Pinned values aren't kept alive by the pin board, they might be
---   garbage collected at any time.</li>
---   <li>If you try to pin a value that's already pinned (per its Eq
---   instance), the pinned one will be returned instead.</li>
---   <li>It has a small API: just <a>new</a> and <a>pin</a>.</li>
---   </ul>
-data PinBoard a
-new :: MonadIO m => m (PinBoard a)
-pin :: forall a m. (Eq a, Hashable a, MonadIO m) => PinBoard a -> a -> m a
-debugDump :: MonadIO m => (a -> Text) -> PinBoard a -> m ()
-debugSize :: PinBoard a -> IO Int
-
-module Unison.Util.Rope
-chunks :: Rope a -> [a]
-singleton :: Sized a => a -> Rope a
-one :: Sized a => a -> Rope a
-map :: Sized b => (a -> b) -> Rope a -> Rope b
-traverse :: (Applicative f, Sized b) => (a -> f b) -> Rope a -> f (Rope b)
-null :: Sized a => Rope a -> Bool
-flatten :: Monoid a => Rope a -> a
-two :: Sized a => Rope a -> Rope a -> Rope a
-cons :: (Sized a, Semigroup a) => a -> Rope a -> Rope a
-uncons :: Sized a => Rope a -> Maybe (a, Rope a)
-snoc :: (Sized a, Semigroup a) => Rope a -> a -> Rope a
-unsnoc :: Sized a => Rope a -> Maybe (Rope a, a)
-index :: (Sized a, Index a ch) => Int -> Rope a -> Maybe ch
-debugDepth :: Rope a -> Int
-class Sized a
-size :: Sized a => a -> Int
-class Take a
-take :: Take a => Int -> a -> a
-class Drop a
-drop :: Drop a => Int -> a -> a
-class Reverse a
-reverse :: Reverse a => a -> a
-class Index a elem
-unsafeIndex :: Index a elem => Int -> a -> elem
-
--- | Roughly size-balanced binary tree of chunks. There are a few
---   operations that are sloppier about rebalancing as long as that can't
---   lead to trees of more than logarithmic depth.
---   
---   The <a>Int</a> in the <a>Two</a> constructor is a cached size of that
---   subtree.
-data Rope a
-instance Data.Foldable.Foldable Unison.Util.Rope.Rope
-instance Unison.Util.Rope.Reverse a => Unison.Util.Rope.Reverse (Unison.Util.Rope.Rope a)
-instance (Unison.Util.Rope.Sized a, Unison.Util.Rope.Index a ch) => Unison.Util.Rope.Index (Unison.Util.Rope.Rope a) ch
-instance (Unison.Util.Rope.Sized a, GHC.Base.Semigroup a, Unison.Util.Rope.Drop a) => Unison.Util.Rope.Drop (Unison.Util.Rope.Rope a)
-instance (Unison.Util.Rope.Sized a, Unison.Util.Rope.Take a, Unison.Util.Rope.Drop a, GHC.Classes.Eq a) => GHC.Classes.Eq (Unison.Util.Rope.Rope a)
-instance (Unison.Util.Rope.Sized a, Unison.Util.Rope.Take a, Unison.Util.Rope.Drop a, GHC.Classes.Ord a) => GHC.Classes.Ord (Unison.Util.Rope.Rope a)
-instance (Unison.Util.Rope.Sized a, GHC.Base.Semigroup a, Unison.Util.Rope.Take a) => Unison.Util.Rope.Take (Unison.Util.Rope.Rope a)
-instance Unison.Util.Rope.Sized a => Unison.Util.Rope.Sized (Unison.Util.Rope.Rope a)
-instance (Unison.Util.Rope.Sized a, GHC.Base.Semigroup a) => GHC.Base.Semigroup (Unison.Util.Rope.Rope a)
-instance (Unison.Util.Rope.Sized a, GHC.Base.Semigroup a) => GHC.Base.Monoid (Unison.Util.Rope.Rope a)
-instance Control.DeepSeq.NFData a => Control.DeepSeq.NFData (Unison.Util.Rope.Rope a)
-
 module Unison.Util.Bytes
 newtype Bytes
 Bytes :: Rope Chunk -> Bytes
@@ -1532,6 +1307,186 @@ parseHQSplit :: String -> Either String HQSplit
 parseHQSplit' :: String -> Either String HQSplit'
 parseShortHashOrHQSplit' :: String -> Either String (Either ShortHash HQSplit')
 wordyNameSegment :: String -> Either String NameSegment
+
+module Unison.Util.Convert
+class Convert a b
+convert :: Convert a b => a -> b
+class Parse a b
+parse :: Parse a b => a -> Maybe b
+instance (Unison.Util.Convert.Parse a a2, Unison.Util.Convert.Parse b b2) => Unison.Util.Convert.Parse (a, b) (a2, b2)
+
+module Unison.Util.CycleTable
+data CycleTable k v
+CycleTable :: BasicHashTable k v -> IOPRef Int -> CycleTable k v
+[$sel:table:CycleTable] :: CycleTable k v -> BasicHashTable k v
+[$sel:sizeRef:CycleTable] :: CycleTable k v -> IOPRef Int
+new :: Int -> IO (CycleTable k v)
+lookup :: (Hashable k, Eq k) => k -> CycleTable k v -> IO (Maybe v)
+insert :: (Hashable k, Eq k) => k -> v -> CycleTable k v -> IO ()
+size :: CycleTable k v -> IO Int
+insertEnd :: (Hashable k, Eq k) => k -> CycleTable k Int -> IO ()
+
+module Unison.Util.CyclicEq
+class CyclicEq a
+cyclicEq :: CyclicEq a => CycleTable Int Int -> CycleTable Int Int -> a -> a -> IO Bool
+bothEq' :: (Eq a, CyclicEq b) => CycleTable Int Int -> CycleTable Int Int -> a -> a -> b -> b -> IO Bool
+bothEq :: (CyclicEq a, CyclicEq b) => CycleTable Int Int -> CycleTable Int Int -> a -> a -> b -> b -> IO Bool
+instance Unison.Util.CyclicEq.CyclicEq a => Unison.Util.CyclicEq.CyclicEq [a]
+instance Unison.Util.CyclicEq.CyclicEq a => Unison.Util.CyclicEq.CyclicEq (Data.Sequence.Internal.Seq a)
+instance Unison.Util.CyclicEq.CyclicEq a => Unison.Util.CyclicEq.CyclicEq (Data.Vector.Vector a)
+
+module Unison.Util.CyclicOrd
+class CyclicOrd a
+cyclicOrd :: CyclicOrd a => CycleTable Int Int -> CycleTable Int Int -> a -> a -> IO Ordering
+bothOrd' :: (Ord a, CyclicOrd b) => CycleTable Int Int -> CycleTable Int Int -> a -> a -> b -> b -> IO Ordering
+bothOrd :: (CyclicOrd a, CyclicOrd b) => CycleTable Int Int -> CycleTable Int Int -> a -> a -> b -> b -> IO Ordering
+instance Unison.Util.CyclicOrd.CyclicOrd a => Unison.Util.CyclicOrd.CyclicOrd [a]
+instance Unison.Util.CyclicOrd.CyclicOrd a => Unison.Util.CyclicOrd.CyclicOrd (Data.Sequence.Internal.Seq a)
+instance Unison.Util.CyclicOrd.CyclicOrd a => Unison.Util.CyclicOrd.CyclicOrd (Data.Vector.Vector a)
+
+module Unison.Util.EnumContainers
+data EnumMap k a
+data EnumSet k
+class EnumKey k
+keyToInt :: EnumKey k => k -> Int
+intToKey :: EnumKey k => Int -> k
+mapFromList :: EnumKey k => [(k, a)] -> EnumMap k a
+setFromList :: EnumKey k => [k] -> EnumSet k
+setToList :: EnumKey k => EnumSet k -> [k]
+mapSingleton :: EnumKey k => k -> a -> EnumMap k a
+setSingleton :: EnumKey k => k -> EnumSet k
+mapInsert :: EnumKey k => k -> a -> EnumMap k a -> EnumMap k a
+unionWith :: EnumKey k => EnumKey k => (a -> a -> a) -> EnumMap k a -> EnumMap k a -> EnumMap k a
+hasKey :: EnumKey k => k -> EnumMap k a -> Bool
+keys :: EnumKey k => EnumMap k a -> [k]
+keysSet :: EnumKey k => EnumMap k a -> EnumSet k
+restrictKeys :: EnumKey k => EnumMap k a -> EnumSet k -> EnumMap k a
+withoutKeys :: EnumKey k => EnumMap k a -> EnumSet k -> EnumMap k a
+member :: EnumKey k => k -> EnumSet k -> Bool
+lookup :: EnumKey k => k -> EnumMap k a -> Maybe a
+lookupWithDefault :: EnumKey k => a -> k -> EnumMap k a -> a
+mapWithKey :: EnumKey k => (k -> a -> b) -> EnumMap k a -> EnumMap k b
+foldMapWithKey :: EnumKey k => Monoid m => (k -> a -> m) -> EnumMap k a -> m
+mapToList :: EnumKey k => EnumMap k a -> [(k, a)]
+(!) :: EnumKey k => EnumMap k a -> k -> a
+findMin :: EnumKey k => EnumSet k -> k
+traverseSet_ :: Applicative f => EnumKey k => (k -> f ()) -> EnumSet k -> f ()
+setSize :: EnumSet k -> Int
+instance GHC.Base.Semigroup (Unison.Util.EnumContainers.EnumMap k a)
+instance GHC.Base.Monoid (Unison.Util.EnumContainers.EnumMap k a)
+instance GHC.Classes.Ord a => GHC.Classes.Ord (Unison.Util.EnumContainers.EnumMap k a)
+instance GHC.Classes.Eq a => GHC.Classes.Eq (Unison.Util.EnumContainers.EnumMap k a)
+instance GHC.Show.Show a => GHC.Show.Show (Unison.Util.EnumContainers.EnumMap k a)
+instance Data.Traversable.Traversable (Unison.Util.EnumContainers.EnumMap k)
+instance Data.Foldable.Foldable (Unison.Util.EnumContainers.EnumMap k)
+instance GHC.Base.Functor (Unison.Util.EnumContainers.EnumMap k)
+instance GHC.Base.Semigroup (Unison.Util.EnumContainers.EnumSet k)
+instance GHC.Base.Monoid (Unison.Util.EnumContainers.EnumSet k)
+instance GHC.Classes.Ord (Unison.Util.EnumContainers.EnumSet k)
+instance GHC.Classes.Eq (Unison.Util.EnumContainers.EnumSet k)
+instance GHC.Show.Show (Unison.Util.EnumContainers.EnumSet k)
+instance Unison.Util.EnumContainers.EnumKey GHC.Word.Word64
+instance Unison.Util.EnumContainers.EnumKey GHC.Word.Word16
+
+module Unison.Util.Exception
+tryAny :: MonadIO m => IO a -> m (Either SomeException a)
+catchAny :: IO a -> (SomeException -> IO a) -> IO a
+
+
+-- | Small logging library. Typical usage, import qualified:
+--   
+--   import qualified Unison.Util.Logger as L
+--   
+--   do logger &lt;- L.atomic . L.atInfo . L.scope "worker" . L.toHandle $
+--   stderr L.warn logger "WARNING!!!" L.debug logger "Debug message, will
+--   be ignored" let logger2 = L.atDebug logger L.debug logger2 "Debug
+--   message, will be printed" logger' &lt;- L.at L.warnLevel
+module Unison.Util.Logger
+type Level = Int
+type Scope = [String]
+data Logger
+Logger :: !Scope -> (String -> String) -> !Level -> (String -> IO ()) -> Logger
+[$sel:getScope:Logger] :: Logger -> !Scope
+[$sel:prefix:Logger] :: Logger -> String -> String
+[$sel:getLevel:Logger] :: Logger -> !Level
+[$sel:raw:Logger] :: Logger -> String -> IO ()
+
+-- | Ensure at most one message is logged at the same time
+atomic :: Logger -> IO Logger
+toHandle :: Handle -> Logger
+toStandardError :: Logger
+toStandardOut :: Logger
+logHandleAt :: Logger -> Level -> Handle -> IO ()
+logAt' :: Logger -> Level -> IO String -> IO ()
+logAt :: Logger -> Level -> String -> IO ()
+scope :: String -> Logger -> Logger
+scope' :: [String] -> Logger -> Logger
+logger :: (String -> IO ()) -> Logger
+error :: Logger -> String -> IO ()
+warn :: Logger -> String -> IO ()
+info :: Logger -> String -> IO ()
+debug :: Logger -> String -> IO ()
+trace :: Logger -> String -> IO ()
+error' :: Logger -> IO String -> IO ()
+warn' :: Logger -> IO String -> IO ()
+info' :: Logger -> IO String -> IO ()
+debug' :: Logger -> IO String -> IO ()
+trace' :: Logger -> IO String -> IO ()
+errorLevel :: Level
+warnLevel :: Level
+infoLevel :: Level
+debugLevel :: Level
+traceLevel :: Level
+at :: Level -> Logger -> Logger
+atError :: Logger -> Logger
+atWarn :: Logger -> Logger
+atInfo :: Logger -> Logger
+atDebug :: Logger -> Logger
+atTrace :: Logger -> Logger
+increment :: Logger -> Logger
+decrement :: Logger -> Logger
+
+
+-- | A utility type for saving memory in the presence of many duplicate
+--   ByteStrings, etc. If you have data that may be a redundant duplicate,
+--   try pinning it to a pin board, and use the result of that operation
+--   instead.
+--   
+--   Without a pin board:
+--   
+--   x ───── "38dce848c8c829c62" y ───── "38dce848c8c829c62" z ─────
+--   "d2518f260535b927b"
+--   
+--   With a pin board:
+--   
+--   x ───── "38dce848c8c829c62" ┄┄┄┄┄┐ y ────────┘ board z ─────
+--   "d2518f260535b927b" ┄┄┄┄┄┘
+--   
+--   ... and after x is garbage collected:
+--   
+--   "38dce848c8c829c62" ┄┄┄┄┄┐ y ────────┘ board z ─────
+--   "d2518f260535b927b" ┄┄┄┄┄┘
+--   
+--   ... and after y is garbage collected:
+--   
+--   board z ───── "d2518f260535b927b" ┄┄┄┄┄┘
+module Unison.Util.PinBoard
+
+-- | A "pin board" is a place to pin values; semantically, it's a set, but
+--   differs in a few ways:
+--   
+--   <ul>
+--   <li>Pinned values aren't kept alive by the pin board, they might be
+--   garbage collected at any time.</li>
+--   <li>If you try to pin a value that's already pinned (per its Eq
+--   instance), the pinned one will be returned instead.</li>
+--   <li>It has a small API: just <a>new</a> and <a>pin</a>.</li>
+--   </ul>
+data PinBoard a
+new :: MonadIO m => m (PinBoard a)
+pin :: forall a m. (Eq a, Hashable a, MonadIO m) => PinBoard a -> a -> m a
+debugDump :: MonadIO m => (a -> Text) -> PinBoard a -> m ()
+debugSize :: PinBoard a -> IO Int
 
 module Unison.Util.Star3
 data Star3 fact d1 d2 d3
@@ -2293,9 +2248,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3Aei loc_a3Aej. Lens' (Env v_a3Aei loc_a3Aej) (TypeLookup v_a3Aei loc_a3Aej)
-termsByShortname :: forall v_a3Aei loc_a3Aej. Lens' (Env v_a3Aei loc_a3Aej) (Map Name [NamedReference v_a3Aei loc_a3Aej])
-ambientAbilities :: forall v_a3Aei loc_a3Aej. Lens' (Env v_a3Aei loc_a3Aej) [Type v_a3Aei loc_a3Aej]
+typeLookup :: forall v_a3wWZ loc_a3wX0. Lens' (Env v_a3wWZ loc_a3wX0) (TypeLookup v_a3wWZ loc_a3wX0)
+termsByShortname :: forall v_a3wWZ loc_a3wX0. Lens' (Env v_a3wWZ loc_a3wX0) (Map Name [NamedReference v_a3wWZ loc_a3wX0])
+ambientAbilities :: forall v_a3wWZ loc_a3wX0. Lens' (Env v_a3wWZ loc_a3wX0) [Type v_a3wWZ loc_a3wX0]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
