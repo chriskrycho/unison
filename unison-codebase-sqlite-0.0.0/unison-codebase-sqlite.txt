@@ -953,6 +953,7 @@ loadCausalByCausalHash :: CausalHash -> Transaction (Maybe (CausalHashId, Branch
 expectCausalByCausalHash :: CausalHash -> Transaction (CausalHashId, BranchHashId)
 loadBranchObjectIdByCausalHashId :: CausalHashId -> Transaction (Maybe BranchObjectId)
 expectBranchObjectIdByCausalHashId :: CausalHashId -> Transaction BranchObjectId
+expectBranchObjectIdByBranchHashId :: BranchHashId -> Transaction BranchObjectId
 saveCausalParents :: CausalHashId -> [CausalHashId] -> Transaction ()
 loadCausalParents :: CausalHashId -> Transaction [CausalHashId]
 
@@ -1019,15 +1020,25 @@ objectIdByBase32Prefix :: ObjectType -> Text -> Transaction [ObjectId]
 namespaceHashIdByBase32Prefix :: Text -> Transaction [BranchHashId]
 causalHashIdByBase32Prefix :: Text -> Transaction [CausalHashId]
 
--- | Drop and recreate the name lookup tables. Use this when resetting
---   names to a new branch.
-resetNameLookupTables :: Transaction ()
+-- | Ensure the name lookup tables exist.
+ensureNameLookupTables :: Transaction ()
+
+-- | Not used in typical operations, but if we ever end up in a situation
+--   where a bug has caused the name lookup index to go out of sync this
+--   can be used to get back to a clean slate.
+dropNameLookupTables :: Transaction ()
 
 -- | Insert the given set of term names into the name lookup table
 insertTermNames :: [NamedRef (TextReferent, Maybe ConstructorType)] -> Transaction ()
 
 -- | Insert the given set of type names into the name lookup table
 insertTypeNames :: [NamedRef TextReference] -> Transaction ()
+
+-- | Remove the given set of term names into the name lookup table
+removeTermNames :: [NamedRef TextReferent] -> Transaction ()
+
+-- | Remove the given set of term names into the name lookup table
+removeTypeNames :: [NamedRef TextReference] -> Transaction ()
 
 -- | Get the list of a term names in the root namespace according to the
 --   name lookup index
@@ -1193,6 +1204,7 @@ saveRootBranch :: HashHandle -> CausalBranch Transaction -> Transaction (BranchO
 loadRootCausalHash :: Transaction (Maybe CausalHash)
 expectRootCausalHash :: Transaction CausalHash
 expectRootCausal :: Transaction (CausalBranch Transaction)
+expectRootBranchHash :: Transaction BranchHash
 
 -- | Load the causal hash at the given path from the root.
 --   
@@ -1206,6 +1218,7 @@ expectCausalHashAtPath :: [Text] -> Transaction CausalHash
 saveBranch :: HashHandle -> CausalBranch Transaction -> Transaction (BranchObjectId, CausalHashId)
 loadCausalBranchByCausalHash :: CausalHash -> Transaction (Maybe (CausalBranch Transaction))
 expectCausalBranchByCausalHash :: CausalHash -> Transaction (CausalBranch Transaction)
+expectBranchByBranchHash :: BranchHash -> Transaction (Branch Transaction)
 
 -- | Looks up statistics for a given branch, if none exist, we compute them
 --   and save them then return them.
@@ -1251,9 +1264,8 @@ termsHavingType :: Reference -> Transaction (Set Id)
 addTypeMentionsToIndexForTerm :: Id -> Set Reference -> Transaction ()
 termsMentioningType :: Reference -> Transaction (Set Id)
 
--- | Given the list of term and type names from the root branch, rebuild
---   the name lookup table.
-rebuildNameIndex :: [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef Reference] -> Transaction ()
+-- | Given lists of names to add and remove, update the index accordingly.
+updateNameIndex :: ([NamedRef (Referent, Maybe ConstructorType)], [NamedRef Referent]) -> ([NamedRef Reference], [NamedRef Reference]) -> Transaction ()
 
 -- | Get all the term and type names for the root namespace from the lookup
 --   table.

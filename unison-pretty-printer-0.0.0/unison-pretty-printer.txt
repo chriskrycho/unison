@@ -220,6 +220,11 @@ column3M :: (ListLike s Char, IsString s, Monad m) => [m (Pretty s, Pretty s, Pr
 column3UnzippedM :: forall m s. (ListLike s Char, IsString s, Monad m) => Pretty s -> [m (Pretty s)] -> [m (Pretty s)] -> [m (Pretty s)] -> m (Pretty s)
 column3sep :: (ListLike s Char, IsString s) => Pretty s -> [(Pretty s, Pretty s, Pretty s)] -> Pretty s
 column3Header :: Pretty ColorText -> Pretty ColorText -> Pretty ColorText -> [(Pretty ColorText, Pretty ColorText, Pretty ColorText)] -> Pretty ColorText
+
+-- | Creates an aligned table with an arbitrary number of columns and
+--   column headers. Ensure all rows have the same number of columns or the
+--   alignment may be off.
+columnNHeader :: [Pretty ColorText] -> [[Pretty ColorText]] -> Pretty ColorText
 commas :: (Foldable f, IsString s) => f (Pretty s) -> Pretty s
 commented :: (Foldable f, ListLike s Char, IsString s) => f (Pretty s) -> Pretty s
 oxfordCommas :: (Foldable f, IsString s) => f (Pretty s) -> Pretty s

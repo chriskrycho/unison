@@ -222,6 +222,7 @@ DebugDumpNamespacesI :: Input
 DebugDumpNamespaceSimpleI :: Input
 DebugClearWatchI :: Input
 DebugDoctorI :: Input
+DebugNameDiffI :: ShortBranchHash -> ShortBranchHash -> Input
 QuitI :: Input
 ApiI :: Input
 UiI :: Input
@@ -267,6 +268,7 @@ type PatchPath = Split'
 type BranchId = Either ShortBranchHash Path'
 type AbsBranchId = Either ShortBranchHash Absolute
 parseBranchId :: String -> Either String BranchId
+parseShortBranchHash :: String -> Either String ShortBranchHash
 type HashOrHQSplit' = Either ShortHash HQSplit'
 
 -- | Should we force the operation or not?
@@ -1113,6 +1115,7 @@ UnknownCodeServer :: Text -> Output
 CredentialFailureMsg :: CredentialFailure -> Output
 PrintVersion :: Text -> Output
 IntegrityCheck :: IntegrityResult -> Output
+DisplayDebugNameDiff :: NameChanges -> Output
 DisplayDebugCompletions :: [Completion] -> Output
 data NumberedOutput
 ShowDiffNamespace :: AbsBranchId -> AbsBranchId -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
@@ -1314,6 +1317,7 @@ debugDumpNamespace :: InputPattern
 debugDumpNamespaceSimple :: InputPattern
 debugClearWatchCache :: InputPattern
 debugDoctor :: InputPattern
+debugNameDiff :: InputPattern
 test :: InputPattern
 testAll :: InputPattern
 docsToHtml :: InputPattern

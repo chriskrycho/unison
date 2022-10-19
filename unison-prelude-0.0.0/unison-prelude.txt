@@ -36,6 +36,11 @@ LSP :: DebugFlag
 
 -- | Timing how long things take
 Timing :: DebugFlag
+
+-- | Useful for adding temporary debugging statements during development.
+--   Remove uses of Debug.Temp before merging to keep things clean for the
+--   next person :)
+Temp :: DebugFlag
 instance GHC.Enum.Enum Unison.Debug.DebugFlag
 instance GHC.Enum.Bounded Unison.Debug.DebugFlag
 instance GHC.Show.Show Unison.Debug.DebugFlag

@@ -2293,9 +2293,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3Ae8 loc_a3Ae9. Lens' (Env v_a3Ae8 loc_a3Ae9) (TypeLookup v_a3Ae8 loc_a3Ae9)
-termsByShortname :: forall v_a3Ae8 loc_a3Ae9. Lens' (Env v_a3Ae8 loc_a3Ae9) (Map Name [NamedReference v_a3Ae8 loc_a3Ae9])
-ambientAbilities :: forall v_a3Ae8 loc_a3Ae9. Lens' (Env v_a3Ae8 loc_a3Ae9) [Type v_a3Ae8 loc_a3Ae9]
+typeLookup :: forall v_a3Aei loc_a3Aej. Lens' (Env v_a3Aei loc_a3Aej) (TypeLookup v_a3Aei loc_a3Aej)
+termsByShortname :: forall v_a3Aei loc_a3Aej. Lens' (Env v_a3Aei loc_a3Aej) (Map Name [NamedReference v_a3Aei loc_a3Aej])
+ambientAbilities :: forall v_a3Aei loc_a3Aej. Lens' (Env v_a3Aei loc_a3Aej) [Type v_a3Aei loc_a3Aej]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3166,7 +3166,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> m ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> m () -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> m ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> (Path -> Maybe BranchHash -> BranchHash -> m ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -3325,7 +3325,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 [$sel:lcaImpl:Codebase] :: Codebase m v a -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash))
 [$sel:beforeImpl:Codebase] :: Codebase m v a -> Maybe (CausalHash -> CausalHash -> m Bool)
 [$sel:namesAtPath:Codebase] :: Codebase m v a -> Path -> m ScopedNames
-[$sel:updateNameLookup:Codebase] :: Codebase m v a -> m ()
+[$sel:updateNameLookup:Codebase] :: Codebase m v a -> Path -> Maybe BranchHash -> BranchHash -> m ()
 
 -- | Acquire a new connection to the same underlying database file this
 --   codebase object connects to.
@@ -3446,6 +3446,66 @@ referent2toshorthash1 :: Maybe Int -> Referent -> ShortHash
 --   to the provided length. If <a>Nothing</a>, it will include the full
 --   length hash.
 reference2toshorthash1 :: Maybe Int -> Reference -> ShortHash
+
+module U.Codebase.Branch.Diff
+
+-- | A tree of local diffs. Each node of the tree contains the definition
+--   diffs at that path.
+newtype TreeDiff
+TreeDiff :: Cofree (Map NameSegment) DefinitionDiffs -> TreeDiff
+[$sel:unTreeDiff:TreeDiff] :: TreeDiff -> Cofree (Map NameSegment) DefinitionDiffs
+
+-- | A summary of a <a>TreeDiff</a>, containing all names added and
+--   removed. Note that there isn't a clear notion of a name "changing"
+--   since conflicts might muddy the notion by having multiple copies of
+--   both the from and to names, so we just talk about adds and removals
+--   instead.
+data NameChanges
+NameChanges :: [(Name, Referent)] -> [(Name, Referent)] -> [(Name, Reference)] -> [(Name, Reference)] -> NameChanges
+[$sel:termNameAdds:NameChanges] :: NameChanges -> [(Name, Referent)]
+[$sel:termNameRemovals:NameChanges] :: NameChanges -> [(Name, Referent)]
+[$sel:typeNameAdds:NameChanges] :: NameChanges -> [(Name, Reference)]
+[$sel:typeNameRemovals:NameChanges] :: NameChanges -> [(Name, Reference)]
+
+-- | Represents the changes to definitions at a given path, not including
+--   child paths.
+--   
+--   Note: doesn't yet include any info on metadata or patch diffs. Feel
+--   free to add it.
+data DefinitionDiffs
+DefinitionDiffs :: Map NameSegment (Diff Referent) -> Map NameSegment (Diff Reference) -> DefinitionDiffs
+[$sel:termDiffs:DefinitionDiffs] :: DefinitionDiffs -> Map NameSegment (Diff Referent)
+[$sel:typeDiffs:DefinitionDiffs] :: DefinitionDiffs -> Map NameSegment (Diff Reference)
+data Diff a
+Diff :: Set a -> Set a -> Diff a
+[$sel:adds:Diff] :: Diff a -> Set a
+[$sel:removals:Diff] :: Diff a -> Set a
+
+-- | Diff two Branches, returning a tree containing all of the changes
+diffBranches :: forall m. Monad m => Branch m -> Branch m -> m TreeDiff
+
+-- | Get a summary of all of the name adds and removals from a tree diff.
+--   
+--   The provided name will be prepended to all names in the output diff,
+--   and can be useful if diffing branches at a specific sub-tree, but you
+--   can pass <a>Nothing</a> if you're diffing from the root.
+nameChanges :: Maybe Name -> TreeDiff -> NameChanges
+instance GHC.Classes.Ord a => GHC.Classes.Ord (U.Codebase.Branch.Diff.Diff a)
+instance GHC.Classes.Eq a => GHC.Classes.Eq (U.Codebase.Branch.Diff.Diff a)
+instance GHC.Show.Show a => GHC.Show.Show (U.Codebase.Branch.Diff.Diff a)
+instance GHC.Classes.Ord U.Codebase.Branch.Diff.DefinitionDiffs
+instance GHC.Classes.Eq U.Codebase.Branch.Diff.DefinitionDiffs
+instance GHC.Show.Show U.Codebase.Branch.Diff.DefinitionDiffs
+instance GHC.Classes.Ord U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Classes.Eq U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Show.Show U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Base.Semigroup U.Codebase.Branch.Diff.NameChanges
+instance GHC.Base.Monoid U.Codebase.Branch.Diff.NameChanges
+instance GHC.Base.Semigroup U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Base.Monoid U.Codebase.Branch.Diff.TreeDiff
+instance Control.Lens.Empty.AsEmpty U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Base.Semigroup U.Codebase.Branch.Diff.DefinitionDiffs
+instance GHC.Base.Monoid U.Codebase.Branch.Diff.DefinitionDiffs
 
 module Unison.Codebase.BranchUtil
 
@@ -3592,19 +3652,27 @@ namesAtPath :: Path -> Transaction ScopedNames
 
 -- | Update the root namespace names index which is used by the share
 --   server for serving api requests.
---   
---   This version should be used if you've already got the root Branch
---   pre-loaded, otherwise it's faster to use
---   <tt>updateNameLookupIndexFromV2Branch</tt>
-updateNameLookupIndexFromV1Branch :: Branch Transaction -> Transaction ()
+updateNameLookupIndex :: (Reference -> Transaction ConstructorType) -> Path -> Maybe BranchHash -> BranchHash -> Transaction ()
 
--- | Update the root namespace names index which is used by the share
---   server for serving api requests.
+-- | Compute the root namespace names index which is used by the share
+--   server for serving api requests. Using <a>updateNameLookupIndex</a> is
+--   preferred whenever possible, since it's considerably faster. This can
+--   be used to reset the index if it ever gets out of sync due to a bug.
+--   
+--   This version can be used if you've already got the root Branch
+--   pre-loaded, otherwise it's faster to use
+--   <a>initializeNameLookupIndexFromV2Root</a>
+initializeNameLookupIndexFromV1Branch :: Branch Transaction -> Transaction ()
+
+-- | Compute the root namespace names index which is used by the share
+--   server for serving api requests. Using <a>updateNameLookupIndex</a> is
+--   preferred whenever possible, since it's considerably faster. This can
+--   be used to reset the index if it ever gets out of sync due to a bug.
 --   
 --   This version should be used if you don't already have the root Branch
---   pre-loaded, If you do, use <tt>updateNameLookupIndexFromV2Branch</tt>
---   instead.
-updateNameLookupIndexFromV2Root :: (Reference -> Transaction ConstructorType) -> Transaction ()
+--   pre-loaded, If you do, use
+--   <a>initializeNameLookupIndexFromV1Branch</a> instead.
+initializeNameLookupIndexFromV2Root :: (Reference -> Transaction ConstructorType) -> Transaction ()
 mkGetDeclType :: MonadIO m => m (Reference -> Transaction ConstructorType)
 instance GHC.Show.Show a => GHC.Show.Show (Unison.Codebase.SqliteCodebase.Operations.BufferEntry a)
 instance GHC.Classes.Eq a => GHC.Classes.Eq (Unison.Codebase.SqliteCodebase.Operations.BufferEntry a)
