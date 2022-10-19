@@ -673,7 +673,7 @@ logError :: Text -> Lsp ()
 
 -- | Environment for the Lsp monad.
 data Env
-Env :: LanguageContextEnv Config -> Codebase IO Symbol Ann -> IO NamesWithHistory -> IO PrettyPrintEnvDecl -> IO Absolute -> MVar VFS -> Runtime Symbol -> TVar (Map Uri FileAnalysis) -> TVar (Set Uri) -> TVar (Map SomeLspId (IO ())) -> Scope -> Env
+Env :: LanguageContextEnv Config -> Codebase IO Symbol Ann -> IO NamesWithHistory -> IO PrettyPrintEnvDecl -> IO Absolute -> MVar VFS -> Runtime Symbol -> TVar (Map Uri FileAnalysis) -> TVar (Set Uri) -> TVar (Map SomeLspId (IO ())) -> TVar CompletionTree -> Scope -> Env
 [$sel:lspContext:Env] :: Env -> LanguageContextEnv Config
 [$sel:codebase:Env] :: Env -> Codebase IO Symbol Ann
 [$sel:parseNamesCache:Env] :: Env -> IO NamesWithHistory
@@ -684,7 +684,15 @@ Env :: LanguageContextEnv Config -> Codebase IO Symbol Ann -> IO NamesWithHistor
 [$sel:checkedFilesVar:Env] :: Env -> TVar (Map Uri FileAnalysis)
 [$sel:dirtyFilesVar:Env] :: Env -> TVar (Set Uri)
 [$sel:cancellationMapVar:Env] :: Env -> TVar (Map SomeLspId (IO ()))
+[$sel:completionsVar:Env] :: Env -> TVar CompletionTree
 [$sel:scope:Env] :: Env -> Scope
+
+-- | A suffix tree over path segments of name completions. see
+--   <tt>namesToCompletionTree</tt> for more on how this is built and the
+--   invariants it should have.
+newtype CompletionTree
+CompletionTree :: Cofree (Map NameSegment) (Set (Name, LabeledDependency)) -> CompletionTree
+[$sel:unCompletionTree:CompletionTree] :: CompletionTree -> Cofree (Map NameSegment) (Set (Name, LabeledDependency))
 
 -- | A monotonically increasing file version tracked by the lsp client.
 type FileVersion = Int32
@@ -700,10 +708,13 @@ FileAnalysis :: Uri -> FileVersion -> LexedSource -> Maybe (UnisonFile Symbol An
 [$sel:diagnostics:FileAnalysis] :: FileAnalysis -> IntervalMap Position [Diagnostic]
 [$sel:codeActions:FileAnalysis] :: FileAnalysis -> IntervalMap Position [CodeAction]
 getCurrentPath :: Lsp Absolute
+getCompletions :: Lsp CompletionTree
 globalPPE :: Lsp PrettyPrintEnvDecl
 getParseNames :: Lsp NamesWithHistory
 data Config
-Config :: Config
+Config :: Maybe Int -> Config
+[$sel:maxCompletions:Config] :: Config -> Maybe Int
+defaultLSPConfig :: Config
 
 -- | Lift a backend computation into the Lsp monad.
 lspBackend :: Backend IO a -> Lsp (Either BackendError a)
@@ -716,7 +727,11 @@ rangedCodeAction :: Text -> [Diagnostic] -> [Range] -> RangedCodeAction
 
 -- | Provided ranges must not intersect.
 includeEdits :: Uri -> Text -> [Range] -> RangedCodeAction -> RangedCodeAction
+getConfig :: Lsp Config
+setConfig :: Config -> Lsp ()
+instance GHC.Show.Show Unison.LSP.Types.CompletionTree
 instance GHC.Show.Show Unison.LSP.Types.FileAnalysis
+instance GHC.Show.Show Unison.LSP.Types.Config
 instance Language.LSP.Server.Core.MonadLsp Unison.LSP.Types.Config Unison.LSP.Types.Lsp
 instance Control.Monad.Reader.Class.MonadReader Unison.LSP.Types.Env Unison.LSP.Types.Lsp
 instance Control.Monad.IO.Unlift.MonadUnliftIO Unison.LSP.Types.Lsp
@@ -727,6 +742,10 @@ instance GHC.Base.Functor Unison.LSP.Types.Lsp
 instance GHC.Show.Show Unison.LSP.Types.RangedCodeAction
 instance GHC.Classes.Eq Unison.LSP.Types.RangedCodeAction
 instance Language.LSP.Types.Lens.HasCodeAction Unison.LSP.Types.RangedCodeAction Language.LSP.Types.CodeAction.CodeAction
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.LSP.Types.Config
+instance Data.Aeson.Types.ToJSON.ToJSON Unison.LSP.Types.Config
+instance GHC.Base.Semigroup Unison.LSP.Types.CompletionTree
+instance GHC.Base.Monoid Unison.LSP.Types.CompletionTree
 
 module Unison.LSP.NotificationHandlers
 initializedHandler :: NotificationMessage 'Initialized -> Lsp ()
@@ -748,6 +767,16 @@ uToLspPos :: Pos -> Position
 uToLspRange :: Range -> Range
 reportDiagnostics :: Foldable f => Uri -> Maybe FileVersion -> f Diagnostic -> Lsp ()
 mkDiagnostic :: Uri -> Range -> DiagnosticSeverity -> Text -> [(Text, Range)] -> Diagnostic
+
+module Unison.LSP.Configuration
+
+-- | Handle configuration changes
+updateConfig :: Config -> Value -> Either Text Config
+
+-- | We could use this notification to cancel/update work-in-progress, but
+--   we don't actually need to update the config here, that's handled by
+--   the lsp library automatically.
+workspaceConfigurationChanged :: NotificationMessage 'WorkspaceDidChangeConfiguration -> Lsp ()
 
 module Unison.LSP.CancelRequest
 
@@ -787,12 +816,6 @@ lspOpenFile :: NotificationMessage 'TextDocumentDidOpen -> Lsp ()
 lspCloseFile :: NotificationMessage 'TextDocumentDidClose -> Lsp ()
 lspChangeFile :: NotificationMessage 'TextDocumentDidChange -> Lsp ()
 
-module Unison.LSP.UCMWorker
-
--- | Watches for state changes in UCM and updates cached LSP state
---   accordingly
-ucmWorker :: TVar PrettyPrintEnvDecl -> TVar NamesWithHistory -> STM (Branch IO) -> STM Absolute -> Lsp ()
-
 module Unison.LSP.Hover
 
 -- | Rudimentary hover handler
@@ -801,16 +824,55 @@ module Unison.LSP.Hover
 hoverHandler :: RequestMessage 'TextDocumentHover -> (Either ResponseError (ResponseResult 'TextDocumentHover) -> Lsp ()) -> Lsp ()
 
 module Unison.LSP.Completion
-
--- | Rudimentary auto-completion handler
---   
---   TODO: * Rewrite this to use an index rather than fuzzy searching ALL
---   names * Respect ucm's current path * Provide namespaces as
---   auto-complete targets * Auto-complete minimally suffixed names *
---   Include docs in completion details?
 completionHandler :: RequestMessage 'TextDocumentCompletion -> (Either ResponseError (ResponseResult 'TextDocumentCompletion) -> Lsp ()) -> Lsp ()
-snippetCompletions :: Text -> Range -> [CompletionItem]
-mkCompletionItem :: Text -> CompletionItem
+mkDefCompletionItem :: Range -> Text -> Text -> Text -> LabeledDependency -> CompletionItem
+
+-- | Generate a completion tree from a set of names. A completion tree is a
+--   suffix tree over the path segments of each name it contains. The goal
+--   is to allow fast completion of names by any partial path suffix.
+--   
+--   The tree is generated by building a trie where all possible suffixes
+--   of a name are reachable from the root of the trie, with sharing over
+--   subtrees to improve memory residency.
+--   
+--   Currently we don't "summarize" all of the children of a node in the
+--   node itself, and instead you have to crawl all the children to get the
+--   actual completions.
+--   
+--   TODO: Would it be worthwhile to perform compression or include child
+--   summaries on the suffix tree? I suspect most namespace trees won't
+--   actually compress very well since each node is likely to have
+--   terms/types at it.
+--   
+--   E.g. From the names: * alpha.beta.Nat * alpha.Text * foxtrot.Text
+--   
+--   It will generate a tree like the following, where each bullet is a
+--   possible completion:
+--   
+--   . ├── foxtrot │ └── Text │ └── * foxtrot.Text (##Text) ├── beta │ └──
+--   Nat │ └── * alpha.beta.Nat (##Nat) ├── alpha │ ├── beta │ │ └── Nat │
+--   │ └── * alpha.beta.Nat (##Nat) │ └── Text │ └── * alpha.Text (##Text)
+--   ├── Text │ ├── * foxtrot.Text (##Text) │ └── * alpha.Text (##Text) └──
+--   Nat └── * alpha.beta.Nat (##Nat)
+namesToCompletionTree :: Names -> CompletionTree
+nameToCompletionTree :: Name -> LabeledDependency -> CompletionTree
+
+-- | Crawl the completion tree and return all valid prefix-based
+--   completions alongside their Path from the provided prefix, and their
+--   full name.
+--   
+--   E.g. if the term "alpha.beta.gamma.map (#abc)" exists in the
+--   completion map, and the query is "beta" the result would be:
+--   
+--   @<tt> [(["beta", "gamma", "map"], "alpha.beta.gamma.map", TermReferent
+--   #abc)] </tt>@
+matchCompletions :: CompletionTree -> Text -> [(Path, Name, LabeledDependency)]
+
+module Unison.LSP.UCMWorker
+
+-- | Watches for state changes in UCM and updates cached LSP state
+--   accordingly
+ucmWorker :: TVar PrettyPrintEnvDecl -> TVar NamesWithHistory -> STM (Branch IO) -> STM Absolute -> Lsp ()
 
 module Unison.Share.Codeserver
 
@@ -1648,10 +1710,6 @@ getLspPort :: IO String
 -- | Spawn an LSP server on the configured port.
 spawnLsp :: Codebase IO Symbol Ann -> Runtime Symbol -> STM (Branch IO) -> STM Absolute -> IO ()
 serverDefinition :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO) -> STM Absolute -> ServerDefinition Config
-
--- | Detect user LSP configuration changes.
-lspOnConfigurationChange :: Config -> Value -> Either Text Config
-lspDefaultConfig :: Config
 
 -- | Initialize any context needed by the LSP server
 lspDoInitialize :: MVar VFS -> Codebase IO Symbol Ann -> Runtime Symbol -> Scope -> STM (Branch IO) -> STM Absolute -> LanguageContextEnv Config -> Message 'Initialize -> IO (Either ResponseError Env)
