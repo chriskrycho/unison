@@ -4652,6 +4652,7 @@ emitCombs :: Var v => RefNums -> Reference -> Word64 -> SuperGroup v -> EnumMap 
 emitComb :: Var v => RefNums -> Reference -> Word64 -> RCtx v -> (Word64, SuperNormal v) -> EnumMap Word64 Comb
 emptyRNs :: RefNums
 argsToLists :: Args -> ([Int], [Int])
+combRef :: CombIx -> Reference
 combDeps :: Comb -> [Word64]
 combTypes :: Comb -> [Word64]
 prettyCombs :: Word64 -> EnumMap Word64 Comb -> ShowS
@@ -4832,6 +4833,7 @@ asize :: MEM b => Stack b -> SZ
 type Off = Int
 type SZ = Int
 type FP = Int
+traceK :: Reference -> K -> [(Reference, Int)]
 frameDataSize :: K -> (Int, Int)
 marshalToForeign :: HasCallStack => Closure -> Foreign
 unull :: Seg 'UN
@@ -4871,7 +4873,7 @@ instance GHC.Show.Show (Unison.Runtime.Stack.Stack 'Unison.Runtime.ANF.UN)
 module Unison.Runtime.Exception
 data RuntimeExn
 PE :: CallStack -> Pretty ColorText -> RuntimeExn
-BU :: Text -> Closure -> RuntimeExn
+BU :: [(Reference, Int)] -> Text -> Closure -> RuntimeExn
 die :: HasCallStack => String -> IO a
 exn :: HasCallStack => String -> a
 instance GHC.Show.Show Unison.Runtime.Exception.RuntimeExn
@@ -5177,9 +5179,9 @@ apply1 :: (Stack 'UN -> Stack 'BX -> IO ()) -> CCache -> ActiveThreads -> Closur
 jump0 :: (Stack 'UN -> Stack 'BX -> IO ()) -> CCache -> ActiveThreads -> Closure -> IO ()
 unitValue :: Closure
 lookupDenv :: Word64 -> DEnv -> Closure
-exec :: CCache -> DEnv -> ActiveThreads -> Stack 'UN -> Stack 'BX -> K -> Instr -> IO (DEnv, Stack 'UN, Stack 'BX, K)
+exec :: CCache -> DEnv -> ActiveThreads -> Stack 'UN -> Stack 'BX -> K -> Reference -> Instr -> IO (DEnv, Stack 'UN, Stack 'BX, K)
 encodeExn :: Stack 'UN -> Stack 'BX -> Either SomeException () -> IO (Stack 'BX)
-eval :: CCache -> DEnv -> ActiveThreads -> Stack 'UN -> Stack 'BX -> K -> Section -> IO ()
+eval :: CCache -> DEnv -> ActiveThreads -> Stack 'UN -> Stack 'BX -> K -> Reference -> Section -> IO ()
 forkEval :: CCache -> ActiveThreads -> Closure -> IO ThreadId
 nestEval :: CCache -> ActiveThreads -> (Closure -> IO ()) -> Closure -> IO ()
 atomicEval :: CCache -> ActiveThreads -> (Closure -> IO ()) -> Closure -> IO ()
