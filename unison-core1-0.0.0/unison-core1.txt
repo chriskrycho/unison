@@ -574,25 +574,6 @@ typed :: Var v => Type -> v
 typeOf :: Var v => v -> Type
 freshId :: Var v => v -> Word64
 freshenId :: Var v => Word64 -> v -> v
-freshIn :: Var v => Set v -> v -> v
-named :: Var v => Text -> v
-rawName :: Type -> Text
-name :: Var v => v -> Text
-uncapitalize :: Var v => v -> v
-missingResult :: Var v => v
-blank :: Var v => v
-inferInput :: Var v => v
-inferOutput :: Var v => v
-inferAbility :: Var v => v
-inferPatternPureE :: Var v => v
-inferPatternPureV :: Var v => v
-inferPatternBindE :: Var v => v
-inferPatternBindV :: Var v => v
-inferTypeConstructor :: Var v => v
-inferTypeConstructorArg :: Var v => v
-inferOther :: Var v => v
-unnamedRef :: Var v => Id -> v
-unnamedTest :: Var v => Text -> v
 data Type
 User :: Text -> Type
 Inference :: InferenceType -> Type
@@ -618,15 +599,31 @@ PatternBindV :: InferenceType
 TypeConstructor :: InferenceType
 TypeConstructorArg :: InferenceType
 Other :: InferenceType
-reset :: Var v => v -> v
-unqualifiedName :: Var v => v -> Text
-unqualified :: Var v => v -> v
-namespaced :: Var v => [v] -> v
-nameStr :: Var v => v -> String
-nameds :: Var v => String -> v
+blank :: Var v => v
+freshIn :: Var v => Set v -> v -> v
+inferAbility :: Var v => v
+inferInput :: Var v => v
+inferOther :: Var v => v
+inferOutput :: Var v => v
+inferPatternBindE :: Var v => v
+inferPatternBindV :: Var v => v
+inferPatternPureE :: Var v => v
+inferPatternPureV :: Var v => v
+inferTypeConstructor :: Var v => v
+inferTypeConstructorArg :: Var v => v
 joinDot :: Var v => v -> v -> v
-freshNamed :: Var v => Set v -> Text -> v
+missingResult :: Var v => v
+name :: Var v => v -> Text
+nameStr :: Var v => v -> String
+named :: Var v => Text -> v
+nameds :: Var v => String -> v
+namespaced :: Var v => [v] -> v
+rawName :: Type -> Text
+reset :: Var v => v -> v
+uncapitalize :: Var v => v -> v
 universallyQuantifyIfFree :: forall v. Var v => v -> Bool
+unnamedRef :: Var v => Id -> v
+unnamedTest :: Var v => Text -> v
 instance GHC.Show.Show Unison.Var.InferenceType
 instance GHC.Classes.Ord Unison.Var.InferenceType
 instance GHC.Classes.Eq Unison.Var.InferenceType
