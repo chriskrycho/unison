@@ -22,6 +22,7 @@ import qualified Unison.ConstructorType as CT
 import Unison.DataDeclaration.ConstructorId (ConstructorId)
 import Unison.LabeledDependency (LabeledDependency)
 import qualified Unison.LabeledDependency as LD
+import Unison.Name (Name)
 import qualified Unison.Name as Name
 import Unison.Names (Names)
 import qualified Unison.Names as Names
@@ -209,12 +210,12 @@ bindSomeNames unsafeVarToName avoid ns e = bindNames unsafeVarToName (avoid <> v
 
 -- Prepare a term for type-directed name resolution by replacing
 -- any remaining free variables with blanks to be resolved by TDNR
-prepareTDNR :: Var v => ABT.Term (F vt b ap) v b -> ABT.Term (F vt b ap) v b
-prepareTDNR t = fmap fst . ABT.visitPure f $ ABT.annotateBound t
+prepareTDNR :: Var v => (Name -> Text) -> ABT.Term (F vt b ap) v b -> ABT.Term (F vt b ap) v b
+prepareTDNR nameToText t = fmap fst . ABT.visitPure f $ ABT.annotateBound t
   where
     f (ABT.Term _ (a, bound) (ABT.Var v))
       | Set.notMember v bound =
-          Just $ resolve (a, bound) a (Text.unpack $ Var.name v)
+          Just $ resolve (a, bound) a (Text.unpack $ Var.name nameToText v)
     f _ = Nothing
 
 amap :: Ord v => (a -> a2) -> Term v a -> Term v a2
@@ -736,7 +737,7 @@ fresh = ABT.fresh
 var :: a -> v -> Term2 vt at ap v a
 var = ABT.annotatedVar
 
-var' :: Var v => Text -> Term0' vt v
+var' :: Var v => Name -> Term0' vt v
 var' = var () . Var.named
 
 ref :: Ord v => a -> Reference -> Term2 vt at ap v a
@@ -863,7 +864,7 @@ lam a v body = ABT.tm' a (Lam (ABT.abs' a v body))
 
 delay :: Var v => a -> Term2 vt at ap v a -> Term2 vt at ap v a
 delay a body =
-  ABT.tm' a (Lam (ABT.abs' a (ABT.freshIn (ABT.freeVars body) (Var.named "_")) body))
+  ABT.tm' a (Lam (ABT.abs' a (ABT.freshIn (ABT.freeVars body) (Var.named (Name.fromSegment "_"))) body))
 
 lam' :: Ord v => a -> [v] -> Term2 vt at ap v a -> Term2 vt at ap v a
 lam' a vs body = foldr (lam a) body vs

@@ -1,10 +1,8 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings #-}
-
 module Unison.Symbol where
 
 import qualified Data.Set as Set
 import qualified Unison.ABT as ABT
+import Unison.Name (Name)
 import Unison.Prelude
 import Unison.Var (Var (..))
 import qualified Unison.Var as Var
@@ -28,9 +26,5 @@ instance Eq Symbol where
 instance Ord Symbol where
   Symbol id1 name1 `compare` Symbol id2 name2 = (id1, name1) `compare` (id2, name2)
 
-instance Show Symbol where
-  show (Symbol 0 n) = show n
-  show (Symbol id n) = show n ++ "-" ++ show id
-
-symbol :: Text -> Symbol
+symbol :: Name -> Symbol
 symbol = Var.named

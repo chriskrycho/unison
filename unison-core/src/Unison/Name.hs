@@ -13,6 +13,7 @@ module Unison.Name
     -- * Basic queries
     countSegments,
     isAbsolute,
+    isRelative,
     isPrefixOf,
     endsWithReverseSegments,
     endsWithSegments,
@@ -164,6 +165,14 @@ isAbsolute :: Name -> Bool
 isAbsolute = \case
   Name Absolute _ -> True
   Name Relative _ -> False
+
+-- | Is this name relative?
+--
+-- /O(1)/.
+isRelative :: Name -> Bool
+isRelative = \case
+  Name Absolute _ -> False
+  Name Relative _ -> True
 
 -- | @isPrefixOf x y@ returns whether @x@ is a prefix of (or equivalent to) @y@, which is false if one name is relative
 -- and the other is absolute.

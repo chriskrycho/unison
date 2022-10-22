@@ -19,7 +19,6 @@ module Unison.Var
     name,
     nameStr,
     named,
-    nameds,
     namespaced,
     rawName,
     reset,
@@ -31,13 +30,15 @@ module Unison.Var
 where
 
 import Data.Char (isLower, toLower)
+import qualified Data.List.NonEmpty as List.NonEmpty
 import Data.Text (pack)
 import qualified Data.Text as Text
 import qualified Unison.ABT as ABT
-import qualified Unison.NameSegment as Name
+import Unison.Name (Name)
+import qualified Unison.Name as Name
+import qualified Unison.NameSegment as NameSegment
 import Unison.Prelude
 import qualified Unison.Reference as Reference
-import Unison.Util.Monoid (intercalateMap)
 import Unison.WatchKind (WatchKind, pattern TestWatch)
 
 -- | A class for variables. Variables may have auxiliary information which
@@ -46,7 +47,7 @@ import Unison.WatchKind (WatchKind, pattern TestWatch)
 --   * `typeOf (typed n) == n`
 --   * `typeOf (ABT.freshIn vs v) == typeOf v`:
 --     `ABT.freshIn` does not alter the name
-class (Show v, ABT.Var v) => Var v where
+class ABT.Var v => Var v where
   typed :: Type -> v
   typeOf :: v -> Type
   freshId :: v -> Word64
@@ -55,12 +56,12 @@ class (Show v, ABT.Var v) => Var v where
 freshIn :: ABT.Var v => Set v -> v -> v
 freshIn = ABT.freshIn
 
-named :: Var v => Text -> v
+named :: Var v => Name -> v
 named n = typed (User n)
 
-rawName :: Type -> Text
-rawName typ = case typ of
-  User n -> n
+rawName :: (Name -> Text) -> Type -> Text
+rawName nameToText typ = case typ of
+  User n -> nameToText n
   Inference Ability -> "𝕖"
   Inference Input -> "𝕒"
   Inference Output -> "𝕣"
@@ -81,14 +82,14 @@ rawName typ = case typ of
   UnnamedReference ref -> Reference.idToText ref
   UnnamedWatch k guid -> fromString k <> "." <> guid
 
-name :: Var v => v -> Text
-name v = rawName (typeOf v) <> showid v
+name :: Var v => (Name -> Text) -> v -> Text
+name nameToText v = rawName nameToText (typeOf v) <> showid v
   where
     showid (freshId -> 0) = ""
     showid (freshId -> n) = pack (show n)
 
 uncapitalize :: Var v => v -> v
-uncapitalize v = nameds $ go (nameStr v)
+uncapitalize v = undefined -- nameds $ go (nameStr v)
   where
     go (c : rest) = toLower c : rest
     go n = n
@@ -127,7 +128,7 @@ unnamedTest guid = typed (UnnamedWatch TestWatch guid)
 
 data Type
   = -- User provided variables, these should generally be left alone
-    User Text
+    User Name
   | -- Variables created during type inference
     Inference InferenceType
   | -- Variables created to finish a block that doesn't end with an expression
@@ -154,7 +155,7 @@ data Type
   | -- A variable for situations where we need to make up one that
     -- definitely won't be used.
     Irrelevant
-  deriving (Eq, Ord, Show)
+  deriving (Eq, Ord)
 
 data InferenceType
   = Ability
@@ -172,31 +173,28 @@ data InferenceType
 reset :: Var v => v -> v
 reset v = typed (typeOf v)
 
-unqualifiedName :: Var v => v -> Text
-unqualifiedName = fromMaybe "" . lastMay . Name.segments' . name
-
-unqualified :: Var v => v -> v
-unqualified v = case typeOf v of
-  User _ -> named . unqualifiedName $ v
-  _ -> v
-
 namespaced :: Var v => [v] -> v
-namespaced vs = named $ intercalateMap "." name vs
+namespaced vs = undefined -- named $ intercalateMap "." name vs
 
-nameStr :: Var v => v -> String
-nameStr = Text.unpack . name
-
-nameds :: Var v => String -> v
-nameds s = named (Text.pack s)
+nameStr :: Var v => (Name -> Text) -> v -> String
+nameStr nameToText = Text.unpack . name nameToText
 
 joinDot :: Var v => v -> v -> v
-joinDot prefix v2 =
-  if name prefix == "."
-    then named (name prefix `mappend` name v2)
-    else named (name prefix `mappend` "." `mappend` name v2)
+joinDot prefix v2 = undefined
+  -- if name prefix == "."
+  --   then named (name prefix `mappend` name v2)
+  --   else named (name prefix `mappend` "." `mappend` name v2)
 
+-- | Is this variable either:
+--
+--   * A user-written var (User) that's a relative, single-segment name (e.g. `foo`, but not `.bar`, nor `baz.qux`)
+--   * An inference var
 universallyQuantifyIfFree :: forall v. Var v => v -> Bool
 universallyQuantifyIfFree v =
-  ok (name $ reset v) && unqualified v == v
-  where
-    ok n = (all isLower . take 1 . Text.unpack) n
+  case typeOf v of
+    User n ->
+      Name.isRelative n && case Name.reverseSegments n of
+        seg List.NonEmpty.:| [] -> isLower (Text.head (NameSegment.toText seg))
+        _ -> False
+    Inference _ -> True
+    _ -> False

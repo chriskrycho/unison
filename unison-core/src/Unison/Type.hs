@@ -12,6 +12,7 @@ import qualified Data.Set as Set
 import Prelude.Extras (Eq1 (..), Ord1 (..), Show1 (..))
 import qualified Unison.ABT as ABT
 import qualified Unison.Kind as K
+import Unison.Name (Name)
 import qualified Unison.Name as Name
 import qualified Unison.Names.ResolutionResult as Names
 import Unison.Prelude
@@ -414,21 +415,21 @@ introOuter a v body = ABT.tm' a (IntroOuter (ABT.abs' a v body))
 iff :: Var v => Type v ()
 iff = forall () aa $ arrows (f <$> [boolean (), a, a]) a
   where
-    aa = Var.named "a"
+    aa = Var.named (Name.fromSegment "a")
     a = var () aa
     f x = ((), x)
 
 iff' :: Var v => a -> Type v a
 iff' loc = forall loc aa $ arrows (f <$> [boolean loc, a, a]) a
   where
-    aa = Var.named "a"
+    aa = Var.named (Name.fromSegment "a")
     a = var loc aa
     f x = (loc, x)
 
 iff2 :: Var v => a -> Type v a
 iff2 loc = forall loc aa $ arrows (f <$> [a, a]) a
   where
-    aa = Var.named "a"
+    aa = Var.named (Name.fromSegment "a")
     a = var loc aa
     f x = (loc, x)
 
@@ -445,14 +446,14 @@ andor' a = arrows (f <$> [boolean a, boolean a]) $ boolean a
 var :: Ord v => a -> v -> Type v a
 var = ABT.annotatedVar
 
-v' :: Var v => Text -> Type v ()
+v' :: Var v => Name -> Type v ()
 v' s = ABT.var (Var.named s)
 
 -- Like `v'`, but creates an annotated variable given an annotation
-av' :: Var v => a -> Text -> Type v a
+av' :: Var v => a -> Name -> Type v a
 av' a s = ABT.annotatedVar a (Var.named s)
 
-forall' :: Var v => a -> [Text] -> Type v a -> Type v a
+forall' :: Var v => a -> [Name] -> Type v a -> Type v a
 forall' a vs body = foldr (forall a) body (Var.named <$> vs)
 
 foralls :: Ord v => a -> [v] -> Type v a -> Type v a
@@ -501,7 +502,7 @@ stripEffect t = ([], t)
 flipApply :: Var v => Type v () -> Type v ()
 flipApply t = forall () b $ arrow () (arrow () t (var () b)) (var () b)
   where
-    b = ABT.fresh t (Var.named "b")
+    b = ABT.fresh t (Var.named (Name.fromSegment "b"))
 
 generalize' :: Var v => Var.Type -> Type v a -> Type v a
 generalize' k t = generalize vsk t
@@ -702,19 +703,19 @@ freeVarsToOuters allowed t = foldr (introOuter (ABT.annotation t)) t vars
 -- | This function removes all variable shadowing from the types and reduces
 -- fresh ids to the minimum possible to avoid ambiguity. Useful when showing
 -- two different types.
-cleanupVars :: Var v => [Type v a] -> [Type v a]
-cleanupVars ts | not Settings.cleanupTypes = ts
-cleanupVars ts =
-  let changedVars = cleanupVarsMap ts
+cleanupVars :: Var v => (Name -> Text) -> [Type v a] -> [Type v a]
+cleanupVars _ ts | not Settings.cleanupTypes = ts
+cleanupVars nameToText ts =
+  let changedVars = cleanupVarsMap nameToText ts
    in cleanupVars1' changedVars <$> ts
 
 -- Compute a variable replacement map from a collection of types, which
 -- can be passed to `cleanupVars1'`. This is used to cleanup variable ids
 -- for multiple related types, like when reporting a type error.
-cleanupVarsMap :: Var v => [Type v a] -> Map.Map v v
-cleanupVarsMap ts =
+cleanupVarsMap :: Var v => (Name -> Text) -> [Type v a] -> Map.Map v v
+cleanupVarsMap nameToText ts =
   let varsByName = foldl' step Map.empty (ts >>= ABT.allVars)
-      step m v = Map.insertWith (++) (Var.name $ Var.reset v) [v] m
+      step m v = Map.insertWith (++) (Var.name nameToText $ Var.reset v) [v] m
       changedVars =
         Map.fromList
           [ (v, Var.freshenId i v)
@@ -728,10 +729,10 @@ cleanupVars1' = ABT.changeVars
 
 -- | This function removes all variable shadowing from the type and reduces
 -- fresh ids to the minimum possible to avoid ambiguity.
-cleanupVars1 :: Var v => Type v a -> Type v a
-cleanupVars1 t | not Settings.cleanupTypes = t
-cleanupVars1 t =
-  case cleanupVars [t] of
+cleanupVars1 :: Var v => (Name -> Text) -> Type v a -> Type v a
+cleanupVars1 _ t | not Settings.cleanupTypes = t
+cleanupVars1 nameToText t =
+  case cleanupVars nameToText [t] of
     [t'] -> t'
     _ -> error "cleanupVars1: expected exactly one result"
 
@@ -748,12 +749,12 @@ cleanupAbilityLists = ABT.visitPure go
             _ -> Just (effect (ABT.annotation t) es $ ABT.visitPure go v)
     go _ = Nothing
 
-cleanups :: Var v => [Type v a] -> [Type v a]
-cleanups ts = cleanupVars $ map cleanupAbilityLists ts
+cleanups :: Var v => (Name -> Text) -> [Type v a] -> [Type v a]
+cleanups nameToText ts = cleanupVars nameToText $ map cleanupAbilityLists ts
 
-cleanup :: Var v => Type v a -> Type v a
-cleanup t | not Settings.cleanupTypes = t
-cleanup t = cleanupVars1 . cleanupAbilityLists $ t
+cleanup :: Var v => (Name -> Text) -> Type v a -> Type v a
+cleanup _ t | not Settings.cleanupTypes = t
+cleanup nameToText t = cleanupVars1 nameToText . cleanupAbilityLists $ t
 
 builtinAbilities :: Set Reference
 builtinAbilities = Set.fromList [builtinIORef, stmRef]
