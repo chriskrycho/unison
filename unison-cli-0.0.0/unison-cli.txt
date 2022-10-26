@@ -539,6 +539,8 @@ writeGitRepo :: P WriteGitRepo
 --   </pre>
 deprecatedWriteGitRemotePath :: P WriteGitRemotePath
 writeRemotePath :: P WriteRemotePath
+parseReadRemoteNamespace :: String -> String -> Either (Pretty ColorText) ReadRemoteNamespace
+parseReadShareRemoteNamespace :: String -> String -> Either (Pretty ColorText) ReadShareRemoteNamespace
 instance GHC.Show.Show Unison.Codebase.Editor.UriParser.Scheme
 instance GHC.Classes.Ord Unison.Codebase.Editor.UriParser.Scheme
 instance GHC.Classes.Eq Unison.Codebase.Editor.UriParser.Scheme
@@ -1347,8 +1349,6 @@ pushForce :: InputPattern
 pushExhaustive :: InputPattern
 createPullRequest :: InputPattern
 loadPullRequest :: InputPattern
-parseReadRemoteNamespace :: String -> String -> Either (Pretty ColorText) ReadRemoteNamespace
-prettyPrintParseError :: String -> ParseErrorBundle Text Void -> Pretty ColorText
 parseWriteGitRepo :: String -> String -> Either (Pretty ColorText) WriteGitRepo
 parseWriteRemotePath :: String -> String -> Either (Pretty ColorText) WriteRemotePath
 squashMerge :: InputPattern
