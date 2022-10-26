@@ -4656,9 +4656,21 @@ data CPattern
 CP :: Pattern -> (Text -> Maybe ([Text], Text)) -> CPattern
 cpattern :: Pattern -> CPattern
 run :: Pattern -> Text -> Maybe ([Text], Text)
-compile :: Pattern -> ([Text] -> Text -> r) -> ([Text] -> Text -> r) -> [Text] -> Text -> r
+data Stack
+Empty :: !Captures -> Stack
+Mark :: !Captures -> !Text -> !Stack -> Stack
+type Captures = [Text] -> [Text]
+stackCaptures :: Stack -> Captures
+pushCaptures :: Captures -> Stack -> Stack
+pushCapture :: Text -> Stack -> Stack
+appendCaptures :: Captures -> Captures -> Captures
+emptyCaptures :: Captures
+capturesToList :: Captures -> [Text]
+type Compiled r = (Stack -> Text -> r) -> (Stack -> Text -> r) -> Stack -> Text -> r
+compile :: Pattern -> Compiled r
 charInPred :: [Char] -> Char -> Bool
 charNotInPred :: [Char] -> Char -> Bool
+try :: String -> Compiled r -> Compiled r
 instance GHC.Classes.Ord Unison.Util.Text.Pattern.Pattern
 instance GHC.Classes.Eq Unison.Util.Text.Pattern.Pattern
 instance GHC.Classes.Eq Unison.Util.Text.Pattern.CPattern
