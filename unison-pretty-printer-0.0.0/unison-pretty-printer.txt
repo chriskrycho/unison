@@ -286,6 +286,7 @@ spaceIfBreak :: IsString s => Pretty s
 spaceIfNeeded :: Eq s => IsString s => Pretty s -> Pretty s -> Pretty s
 spaced :: (Foldable f, IsString s) => f (Pretty s) -> Pretty s
 spacedMap :: (Foldable f, IsString s) => (a -> Pretty s) -> f a -> Pretty s
+spacedTraverse :: (Traversable f, IsString s, Applicative m) => (a -> m (Pretty s)) -> f a -> m (Pretty s)
 spacesIfBreak :: IsString s => Int -> Pretty s
 string :: IsString s => String -> Pretty s
 surroundCommas :: (Foldable f, IsString s) => Pretty s -> Pretty s -> f (Pretty s) -> Pretty s

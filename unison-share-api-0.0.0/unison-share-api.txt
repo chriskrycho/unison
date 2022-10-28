@@ -510,7 +510,7 @@ NoBranchForHash :: CausalHash -> BackendError
 CouldntLoadBranch :: CausalHash -> BackendError
 MissingSignatureForTerm :: Reference -> BackendError
 NoSuchDefinition :: HashQualified Name -> BackendError
-data BackendEnv
+newtype BackendEnv
 BackendEnv :: Bool -> BackendEnv
 
 -- | Whether to use the sqlite name-lookup table to generate Names objects

@@ -600,6 +600,30 @@ type Prefix = [Text]
 type Suffix = Text
 elideFQN :: Imports -> HashQualified Name -> HashQualified Name
 
+module Unison.PrettyPrintEnv.MonadPretty
+type MonadPretty v m = (Var v, MonadReader (PrettyPrintEnv, Set v) m)
+getPPE :: MonadPretty v m => m PrettyPrintEnv
+
+-- | Run a computation with a modified PrettyPrintEnv, restoring the
+--   original
+withPPE :: MonadPretty v m => PrettyPrintEnv -> m a -> m a
+applyPPE :: MonadPretty v m => (PrettyPrintEnv -> a) -> m a
+applyPPE2 :: MonadPretty v m => (PrettyPrintEnv -> a -> b) -> a -> m b
+applyPPE3 :: MonadPretty v m => (PrettyPrintEnv -> a -> b -> c) -> a -> b -> m c
+
+-- | Run a computation with a modified PrettyPrintEnv, restoring the
+--   original
+modifyPPE :: MonadPretty v m => (PrettyPrintEnv -> PrettyPrintEnv) -> m a -> m a
+modifyTypeVars :: MonadPretty v m => (Set v -> Set v) -> m a -> m a
+
+-- | Add type variables to the set of variables that need to be avoided
+addTypeVars :: MonadPretty v m => [v] -> m a -> m a
+
+-- | Check if a list of type variables contains any variables that need to
+--   be avoided
+willCapture :: MonadPretty v m => [v] -> m Bool
+runPretty :: Var v => PrettyPrintEnv -> Reader (PrettyPrintEnv, Set v) a -> a
+
 module Unison.PrettyPrintEnv.Names
 fromNames :: Int -> NamesWithHistory -> PrettyPrintEnv
 fromSuffixNames :: Int -> NamesWithHistory -> PrettyPrintEnv
@@ -1775,16 +1799,17 @@ module Unison.Codebase.CodeLookup.Util
 fromTypecheckedUnisonFile :: forall m v a. (Var v, Monad m) => TypecheckedUnisonFile v a -> CodeLookup v m a
 
 module Unison.Syntax.TypePrinter
-pretty :: forall v a. Var v => PrettyPrintEnv -> Type v a -> Pretty ColorText
-pretty0 :: forall v a. Var v => PrettyPrintEnv -> Imports -> Int -> Type v a -> Pretty SyntaxText
-prettyRaw :: forall v a. Var v => PrettyPrintEnv -> Imports -> Int -> Type v a -> Pretty SyntaxText
+pretty :: Var v => PrettyPrintEnv -> Type v a -> Pretty ColorText
+pretty0 :: forall v a m. MonadPretty v m => Imports -> Int -> Type v a -> m (Pretty SyntaxText)
+prettyRaw :: forall v a m. MonadPretty v m => Imports -> Int -> Type v a -> m (Pretty SyntaxText)
 prettyStr :: Var v => Maybe Width -> PrettyPrintEnv -> Type v a -> String
-prettySyntax :: forall v a. Var v => PrettyPrintEnv -> Type v a -> Pretty SyntaxText
+prettySyntax :: Var v => PrettyPrintEnv -> Type v a -> Pretty SyntaxText
 prettySignaturesST :: Var v => PrettyPrintEnv -> [(Referent, HashQualified Name, Type v a)] -> [Pretty SyntaxText]
 prettySignaturesCT :: Var v => PrettyPrintEnv -> [(Referent, HashQualified Name, Type v a)] -> [Pretty ColorText]
 prettySignaturesCTCollapsed :: Var v => PrettyPrintEnv -> [(Referent, HashQualified Name, Type v a)] -> Pretty ColorText
 prettySignaturesAlt :: Var v => PrettyPrintEnv -> [([HashQualified Name], Type v a)] -> Pretty ColorText
 prettySignaturesAlt' :: Var v => PrettyPrintEnv -> [([HashQualified Name], Type v a)] -> [Pretty ColorText]
+runPretty :: Var v => PrettyPrintEnv -> Reader (PrettyPrintEnv, Set v) a -> a
 
 module Unison.Typechecker.Context
 
@@ -2181,9 +2206,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a3tA8 loc_a3tA9. Lens' (Env v_a3tA8 loc_a3tA9) (TypeLookup v_a3tA8 loc_a3tA9)
-termsByShortname :: forall v_a3tA8 loc_a3tA9. Lens' (Env v_a3tA8 loc_a3tA9) (Map Name [NamedReference v_a3tA8 loc_a3tA9])
-ambientAbilities :: forall v_a3tA8 loc_a3tA9. Lens' (Env v_a3tA8 loc_a3tA9) [Type v_a3tA8 loc_a3tA9]
+typeLookup :: forall v_a3uMJ loc_a3uMK. Lens' (Env v_a3uMJ loc_a3uMK) (TypeLookup v_a3uMJ loc_a3uMK)
+termsByShortname :: forall v_a3uMJ loc_a3uMK. Lens' (Env v_a3uMJ loc_a3uMK) (Map Name [NamedReference v_a3uMJ loc_a3uMK])
+ambientAbilities :: forall v_a3uMJ loc_a3uMK. Lens' (Env v_a3uMJ loc_a3uMK) [Type v_a3uMJ loc_a3uMK]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -2268,114 +2293,15 @@ arrow :: Var v => TypeP v -> TypeP v
 forall :: Var v => TypeP v -> TypeP v
 
 module Unison.Syntax.TermPrinter
-type SyntaxText = SyntaxText' Reference
+emptyAc :: AmbientContext
 pretty :: Var v => PrettyPrintEnv -> Term v a -> Pretty ColorText
 prettyBlock :: Var v => Bool -> PrettyPrintEnv -> Term v a -> Pretty ColorText
 prettyBlock' :: Var v => Bool -> PrettyPrintEnv -> Term v a -> Pretty SyntaxText
 pretty' :: Var v => Maybe Width -> PrettyPrintEnv -> Term v a -> ColorText
-data AmbientContext
-AmbientContext :: Int -> BlockContext -> InfixContext -> Imports -> DocLiteralContext -> Bool -> AmbientContext
-[$sel:precedence:AmbientContext] :: AmbientContext -> Int
-[$sel:blockContext:AmbientContext] :: AmbientContext -> BlockContext
-[$sel:infixContext:AmbientContext] :: AmbientContext -> InfixContext
-[$sel:imports:AmbientContext] :: AmbientContext -> Imports
-[$sel:docContext:AmbientContext] :: AmbientContext -> DocLiteralContext
-[$sel:elideUnit:AmbientContext] :: AmbientContext -> Bool
-data BlockContext
-Block :: BlockContext
-Normal :: BlockContext
-data InfixContext
-Infix :: InfixContext
-NonInfix :: InfixContext
-data DocLiteralContext
-NoDoc :: DocLiteralContext
-MaybeDoc :: DocLiteralContext
-pretty0 :: forall v. Var v => PrettyPrintEnv -> AmbientContext -> Term3 v PrintAnnotation -> Pretty SyntaxText
-prettyPattern :: forall v loc. Var v => PrettyPrintEnv -> AmbientContext -> Int -> [v] -> Pattern loc -> (Pretty SyntaxText, [v])
-type MatchCase' ann tm = ([Pattern ann], Maybe tm, tm)
-arity1Branches :: [MatchCase ann tm] -> [MatchCase' ann tm]
-groupCases :: Ord v => [MatchCase' () (Term3 v ann)] -> [([Pattern ()], [v], [(Maybe (Term3 v ann), Term3 v ann)])]
-printCase :: Var v => PrettyPrintEnv -> Imports -> DocLiteralContext -> [MatchCase' () (Term3 v PrintAnnotation)] -> Pretty SyntaxText
 prettyBinding :: Var v => PrettyPrintEnv -> HashQualified Name -> Term2 v at ap v a -> Pretty SyntaxText
-prettyBinding' :: Var v => Width -> PrettyPrintEnv -> HashQualified Name -> Term v a -> ColorText
-prettyBinding0 :: Var v => PrettyPrintEnv -> AmbientContext -> HashQualified Name -> Term2 v at ap v a -> Pretty SyntaxText
-isDocLiteral :: Term3 v PrintAnnotation -> Bool
-prettyDoc :: Var v => PrettyPrintEnv -> Imports -> Term3 v a -> Pretty SyntaxText
-paren :: Bool -> Pretty SyntaxText -> Pretty SyntaxText
-parenIfInfix :: HashQualified Name -> InfixContext -> Pretty SyntaxText -> Pretty SyntaxText
-l :: IsString s => String -> Pretty s
-isSymbolic :: HashQualified Name -> Bool
-isSymbolic' :: Name -> Bool
-isBlank :: String -> Bool
-emptyAc :: AmbientContext
-emptyBlockAc :: AmbientContext
-ac :: Int -> BlockContext -> Imports -> DocLiteralContext -> AmbientContext
-fmt :: Element r -> Pretty (SyntaxText' r) -> Pretty (SyntaxText' r)
-data PrintAnnotation
-PrintAnnotation :: Map Suffix (Map Prefix Int) -> PrintAnnotation
-[$sel:usages:PrintAnnotation] :: PrintAnnotation -> Map Suffix (Map Prefix Int)
-suffixCounterTerm :: Var v => PrettyPrintEnv -> Term2 v at ap v a -> PrintAnnotation
-suffixCounterType :: Var v => PrettyPrintEnv -> Type v a -> PrintAnnotation
-printAnnotate :: (Var v, Ord v) => PrettyPrintEnv -> Term2 v at ap v a -> Term3 v PrintAnnotation
-countTypeUsages :: (Var v, Ord v) => PrettyPrintEnv -> Type v a -> PrintAnnotation
-countPatternUsages :: PrettyPrintEnv -> Pattern loc -> PrintAnnotation
-countHQ :: HashQualified Name -> PrintAnnotation
-countName :: Name -> PrintAnnotation
-joinName :: Prefix -> Suffix -> Name
-dotConcat :: [Text] -> Text
-noImportRefs :: Reference -> Bool
-(|>) :: a -> (a -> b) -> b
-infixl 0 |>
-calcImports :: (Var v, Ord v) => Imports -> Term3 v PrintAnnotation -> (Imports, [Pretty SyntaxText] -> Pretty SyntaxText)
-allInSubBlock :: (Var v, Ord v) => Term3 v PrintAnnotation -> Prefix -> Suffix -> Int -> Bool
-immediateChildBlockTerms :: (Var vt, Var v) => Term2 vt at ap v a -> [Term2 vt at ap v a]
-isDestructuringBind :: Ord v => Term f v a -> [MatchCase loc (Term f v a)] -> Bool
-isBlock :: Ord v => Term2 vt at ap v a -> Bool
-pattern LetBlock :: Ord v => [(v, Term2 vt at ap v a)] -> Term2 vt at ap v a -> Term2 vt at ap v a
-unLetBlock :: Ord v => Term2 vt at ap v a -> Maybe ([(v, Term2 vt at ap v a)], Term2 vt at ap v a)
-pattern LamsNamedMatch' :: Var v => [v] -> [([Pattern ap], Maybe (Term2 vt at ap v a), Term2 vt at ap v a)] -> Term2 vt at ap v a
-unLamsMatch' :: Var v => Term2 vt at ap v a -> Maybe ([v], [([Pattern ap], Maybe (Term2 vt at ap v a), Term2 vt at ap v a)])
-pattern Bytes' :: [Word64] -> Term3 v PrintAnnotation
-toBytes :: Term3 v PrintAnnotation -> Maybe [Word64]
-prettyDoc2 :: forall v. Var v => PrettyPrintEnv -> AmbientContext -> Term3 v PrintAnnotation -> Maybe (Pretty SyntaxText)
-toDocJoin :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [Term3 v PrintAnnotation]
-toDocUntitledSection :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [Term3 v PrintAnnotation]
-toDocColumn :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [Term3 v PrintAnnotation]
-toDocGroup :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocWord :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe Text
-toDocBold :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocCode :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocCodeBlock :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Text, Text)
-toDocVerbatim :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe Text
-toDocEval :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-_oldDocEval :: Reference
-_oldDocEvalInline :: Reference
-toDocEvalInline :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocExample :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocExampleBlock :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocExample' :: Ord v => Text -> PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocTransclude :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocLink :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Either Reference Referent)
-toDocNamedLink :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation, Term3 v PrintAnnotation)
-toDocItalic :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocStrikethrough :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocParagraph :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [Term3 v PrintAnnotation]
-toDocEmbedTermLink :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe Referent
-toDocEmbedTypeLink :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe Reference
-toDocSourceAnnotations :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [Referent]
-toDocSourceElement :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Either Reference Referent, [Referent])
-toDocSource' :: Ord v => Text -> PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [(Either Reference Referent, [Referent])]
-toDocSource :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [(Either Reference Referent, [Referent])]
-toDocFoldedSource :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [(Either Reference Referent, [Referent])]
-toDocSignatureInline :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe Referent
-toDocEmbedSignatureLink :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe Referent
-toDocEmbedAnnotation :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation)
-toDocEmbedAnnotations :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [Term3 v PrintAnnotation]
-toDocSignature :: Ord v => PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [Referent]
-toDocBulletedList :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe [Term3 v PrintAnnotation]
-toDocNumberedList :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Word64, [Term3 v PrintAnnotation])
-toDocSection :: PrettyPrintEnv -> Term3 v PrintAnnotation -> Maybe (Term3 v PrintAnnotation, [Term3 v PrintAnnotation])
-nameEndsWith :: PrettyPrintEnv -> Text -> Reference -> Bool
+prettyBinding' :: Var v => PrettyPrintEnv -> Width -> HashQualified Name -> Term v a -> ColorText
+pretty0 :: forall v m. MonadPretty v m => AmbientContext -> Term3 v PrintAnnotation -> m (Pretty SyntaxText)
+runPretty :: Var v => PrettyPrintEnv -> Reader (PrettyPrintEnv, Set v) a -> a
 instance GHC.Show.Show Unison.Syntax.TermPrinter.BlockContext
 instance GHC.Classes.Eq Unison.Syntax.TermPrinter.BlockContext
 instance GHC.Show.Show Unison.Syntax.TermPrinter.InfixContext

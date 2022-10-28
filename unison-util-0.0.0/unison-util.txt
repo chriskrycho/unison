@@ -54,6 +54,7 @@ type Field4' s a = Field4 s s a a
 
 module U.Util.Monoid
 intercalateMap :: (Foldable t, Monoid a) => a -> (b -> a) -> t b -> a
+intercalateMapM :: (Traversable t, Monad m, Monoid a) => a -> (b -> m a) -> t b -> m a
 fromMaybe :: Monoid a => Maybe a -> a
 whenM :: Monoid a => Bool -> a -> a
 unlessM :: Monoid a => Bool -> a -> a
