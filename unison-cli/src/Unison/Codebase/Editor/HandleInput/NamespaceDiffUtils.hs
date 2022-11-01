@@ -36,13 +36,13 @@ diffHelper ::
 diffHelper before after =
   Cli.time "diffHelper" do
     Cli.Env {codebase} <- ask
-    rootBranch <- Cli.getRootBranch
+    rootBranch <- Cli.time "getRootBranch" Cli.getRootBranch
     currentPath <- Cli.getCurrentPath
-    hqLength <- liftIO (Codebase.hashLength codebase)
-    diff <- liftIO (BranchDiff.diff0 before after)
+    hqLength <- Cli.time "hashLength codebase" $ liftIO (Codebase.hashLength codebase)
+    diff <- Cli.time "diff0" $ liftIO (BranchDiff.diff0 before after)
     let (_parseNames, prettyNames0, _local) = Backend.namesForBranch rootBranch (Backend.AllNames $ Path.unabsolute currentPath)
-    ppe <- PPE.suffixifiedPPE <$> prettyPrintEnvDecl (NamesWithHistory prettyNames0 mempty)
-    liftIO do
+    ppe <- Cli.time "suffixifiedPPE" (PPE.suffixifiedPPE <$> Cli.time "prettyPrintEnvDecl" (prettyPrintEnvDecl (NamesWithHistory prettyNames0 mempty)))
+    Cli.time "toOutput" $ liftIO do
       fmap (ppe,) do
         OBranchDiff.toOutput
           (Codebase.getTypeOfReferent codebase)
