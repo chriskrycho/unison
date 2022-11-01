@@ -1255,7 +1255,7 @@ lca :: CausalHash -> CausalHash -> Transaction (Maybe CausalHash)
 componentReferencesByPrefix :: ObjectType -> Text -> Maybe Pos -> Transaction [Id]
 termReferentsByPrefix :: Text -> Maybe Word64 -> Transaction [Id]
 declReferentsByPrefix :: Text -> Maybe Pos -> Maybe ConstructorId -> Transaction [(Hash, Pos, DeclType, [ConstructorId])]
-causalHashesByPrefix :: ShortBranchHash -> Transaction (Set CausalHash)
+causalHashesByPrefix :: ShortCausalHash -> Transaction (Set CausalHash)
 
 -- | returns a list of known definitions referencing <tt>r</tt>
 dependents :: DependentsSelector -> Reference -> Transaction (Set Id)
@@ -1312,7 +1312,7 @@ s2cTermWithType :: LocalIds -> Term -> Type -> Transaction (Term Symbol, Type Sy
 -- | Unlocalize a decl.
 s2cDecl :: LocalIds -> Decl Symbol -> Transaction (Decl Symbol)
 declReferencesByPrefix :: Text -> Maybe Word64 -> Transaction [Id]
-branchHashesByPrefix :: ShortBranchHash -> Transaction (Set BranchHash)
+namespaceHashesByPrefix :: ShortNamespaceHash -> Transaction (Set BranchHash)
 
 -- | returns empty set for unknown inputs; doesn't distinguish between term
 --   and decl

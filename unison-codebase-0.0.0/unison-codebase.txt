@@ -74,16 +74,22 @@ ShortHash :: Text -> Maybe Word64 -> Maybe Word64 -> ShortHash
 [prefix] :: ShortHash -> Text
 [cycle] :: ShortHash -> Maybe Word64
 [cid] :: ShortHash -> Maybe Word64
-data ShortBranchHash
-ShortBranchHash :: Text -> ShortBranchHash
-[toText] :: ShortBranchHash -> Text
+newtype ShortCausalHash
+ShortCausalHash :: Text -> ShortCausalHash
+[shortCausalHashToText] :: ShortCausalHash -> Text
+newtype ShortNamespaceHash
+ShortNamespaceHash :: Text -> ShortNamespaceHash
+[shortNamespaceHashToText] :: ShortNamespaceHash -> Text
 shortenTo :: Int -> ShortHash -> ShortHash
 instance GHC.Show.Show U.Codebase.ShortHash.ShortHash
 instance GHC.Classes.Ord U.Codebase.ShortHash.ShortHash
 instance GHC.Classes.Eq U.Codebase.ShortHash.ShortHash
-instance GHC.Show.Show U.Codebase.ShortHash.ShortBranchHash
-instance GHC.Classes.Ord U.Codebase.ShortHash.ShortBranchHash
-instance GHC.Classes.Eq U.Codebase.ShortHash.ShortBranchHash
+instance GHC.Show.Show U.Codebase.ShortHash.ShortCausalHash
+instance GHC.Classes.Ord U.Codebase.ShortHash.ShortCausalHash
+instance GHC.Classes.Eq U.Codebase.ShortHash.ShortCausalHash
+instance GHC.Show.Show U.Codebase.ShortHash.ShortNamespaceHash
+instance GHC.Classes.Ord U.Codebase.ShortHash.ShortNamespaceHash
+instance GHC.Classes.Eq U.Codebase.ShortHash.ShortNamespaceHash
 
 module U.Codebase.Reference
 

@@ -145,7 +145,7 @@ createAuthorInfo :: forall m v a. MonadIO m => Var v => a -> Text -> m (AuthorIn
 
 module Unison.Codebase.Editor.Input
 data Input
-ForkLocalBranchI :: Either ShortBranchHash Path' -> Path' -> Input
+ForkLocalBranchI :: Either ShortCausalHash Path' -> Path' -> Input
 MergeLocalBranchI :: Path' -> Path' -> MergeMode -> Input
 PreviewMergeLocalBranchI :: Path' -> Path' -> Input
 DiffNamespaceI :: BranchId -> BranchId -> Input
@@ -153,7 +153,7 @@ PullRemoteBranchI :: Maybe ReadRemoteNamespace -> Path' -> SyncMode -> PullMode 
 PushRemoteBranchI :: PushRemoteBranchInput -> Input
 CreatePullRequestI :: ReadRemoteNamespace -> ReadRemoteNamespace -> Input
 LoadPullRequestI :: ReadRemoteNamespace -> ReadRemoteNamespace -> Path' -> Input
-ResetRootI :: Either ShortBranchHash Path' -> Input
+ResetRootI :: Either ShortCausalHash Path' -> Input
 CreateMessage :: Pretty ColorText -> Input
 SwitchBranchI :: Maybe Path' -> Input
 UpI :: Input
@@ -222,7 +222,7 @@ DebugDumpNamespacesI :: Input
 DebugDumpNamespaceSimpleI :: Input
 DebugClearWatchI :: Input
 DebugDoctorI :: Input
-DebugNameDiffI :: ShortBranchHash -> ShortBranchHash -> Input
+DebugNameDiffI :: ShortCausalHash -> ShortCausalHash -> Input
 QuitI :: Input
 ApiI :: Input
 UiI :: Input
@@ -265,10 +265,10 @@ ConsoleLocation :: OutputLocation
 LatestFileLocation :: OutputLocation
 FileLocation :: FilePath -> OutputLocation
 type PatchPath = Split'
-type BranchId = Either ShortBranchHash Path'
-type AbsBranchId = Either ShortBranchHash Absolute
+type BranchId = Either ShortCausalHash Path'
+type AbsBranchId = Either ShortCausalHash Absolute
 parseBranchId :: String -> Either String BranchId
-parseShortBranchHash :: String -> Either String ShortBranchHash
+parseShortCausalHash :: String -> Either String ShortCausalHash
 type HashOrHQSplit' = Either ShortHash HQSplit'
 
 -- | Should we force the operation or not?
@@ -1063,7 +1063,7 @@ InvalidSourceName :: String -> Output
 SourceLoadFailed :: String -> Output
 NoMainFunction :: String -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
 BadMainFunction :: String -> Type Symbol Ann -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
-BranchEmpty :: Either ShortBranchHash Path' -> Output
+BranchEmpty :: Either ShortCausalHash Path' -> Output
 BranchNotEmpty :: Path' -> Output
 LoadPullRequest :: ReadRemoteNamespace -> ReadRemoteNamespace -> Path' -> Path' -> Path' -> Path' -> Output
 CreatedNewBranch :: Absolute -> Output
@@ -1081,7 +1081,7 @@ LabeledReferenceNotFound :: HashQualified Name -> Output
 DeleteNameAmbiguous :: Int -> HQSplit' -> Set Referent -> Set Reference -> Output
 TermAmbiguous :: HashQualified Name -> Set Referent -> Output
 HashAmbiguous :: ShortHash -> Set Referent -> Output
-BranchHashAmbiguous :: ShortBranchHash -> Set ShortBranchHash -> Output
+BranchHashAmbiguous :: ShortCausalHash -> Set ShortCausalHash -> Output
 BadNamespace :: String -> String -> Output
 BranchNotFound :: Path' -> Output
 EmptyPush :: Path' -> Output
@@ -1134,9 +1134,9 @@ MetadataAmbiguous :: HashQualified Name -> PrettyPrintEnv -> [Referent] -> Outpu
 NothingToPatch :: PatchPath -> Path' -> Output
 PatchNeedsToBeConflictFree :: Output
 PatchInvolvesExternalDependents :: PrettyPrintEnv -> Set Reference -> Output
-WarnIncomingRootBranch :: ShortBranchHash -> Set ShortBranchHash -> Output
+WarnIncomingRootBranch :: ShortCausalHash -> Set ShortCausalHash -> Output
 StartOfCurrentPathHistory :: Output
-ShowReflog :: [(Maybe UTCTime, ShortBranchHash, Text)] -> Output
+ShowReflog :: [(Maybe UTCTime, ShortCausalHash, Text)] -> Output
 PullAlreadyUpToDate :: ReadRemoteNamespace -> Path' -> Output
 PullSuccessful :: ReadRemoteNamespace -> Path' -> Output
 
@@ -1149,7 +1149,7 @@ PreviewMergeAlreadyUpToDate :: Path' -> Path' -> Output
 -- | No conflicts or edits remain for the current patch.
 NoConflictsOrEdits :: Output
 NotImplemented :: Output
-NoBranchWithHash :: ShortBranchHash -> Output
+NoBranchWithHash :: ShortCausalHash -> Output
 ListDependencies :: Int -> LabeledDependency -> [(Name, Reference)] -> Set Reference -> Output
 
 -- | List dependents of a type or term.
@@ -1438,7 +1438,7 @@ prettyPath' :: Path' -> Pretty
 prettyBranchId :: AbsBranchId -> Pretty
 prettyRelative :: Relative -> Pretty
 prettyAbsolute :: Absolute -> Pretty
-prettySBH :: IsString s => ShortBranchHash -> Pretty s
+prettySCH :: IsString s => ShortCausalHash -> Pretty s
 prettyCausalHash :: IsString s => CausalHash -> Pretty s
 prettyBase32Hex :: IsString s => Base32Hex -> Pretty s
 prettyBase32Hex# :: IsString s => Base32Hex -> Pretty s
@@ -1751,9 +1751,9 @@ resolveSplit' :: (Path', a) -> Cli (Absolute, a)
 --   branches by path are OK - the empty branch will be returned).
 resolveAbsBranchId :: AbsBranchId -> Cli (Branch IO)
 
--- | Resolve a <tt>ShortBranchHash</tt> to the corresponding <tt>Branch
+-- | Resolve a <tt>ShortCausalHash</tt> to the corresponding <tt>Branch
 --   IO</tt>, or fail if no such branch hash is found.
-resolveShortBranchHash :: ShortBranchHash -> Cli (Branch IO)
+resolveShortCausalHash :: ShortCausalHash -> Cli (Branch IO)
 
 -- | Get the root branch.
 getRootBranch :: Cli (Branch IO)

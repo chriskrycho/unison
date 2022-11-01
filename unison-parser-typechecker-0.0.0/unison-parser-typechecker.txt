@@ -312,18 +312,20 @@ getFromFile' :: MonadIO m => Get a -> FilePath -> m (Either String a)
 putBytes :: Put a -> a -> ByteString
 putWithParentDirs :: MonadIO m => Put a -> FilePath -> a -> m ()
 
-module Unison.Codebase.ShortBranchHash
-toString :: ShortBranchHash -> String
-toHash :: Coercible Hash h => ShortBranchHash -> Maybe h
-fromHash :: Coercible h Hash => Int -> h -> ShortBranchHash
-fromText :: Text -> Maybe ShortBranchHash
-newtype ShortBranchHash
-ShortBranchHash :: Text -> ShortBranchHash
-[$sel:toText:ShortBranchHash] :: ShortBranchHash -> Text
-instance GHC.Generics.Generic Unison.Codebase.ShortBranchHash.ShortBranchHash
-instance GHC.Classes.Ord Unison.Codebase.ShortBranchHash.ShortBranchHash
-instance GHC.Classes.Eq Unison.Codebase.ShortBranchHash.ShortBranchHash
-instance GHC.Show.Show Unison.Codebase.ShortBranchHash.ShortBranchHash
+module Unison.Codebase.ShortCausalHash
+toString :: ShortCausalHash -> String
+toHash :: Coercible Hash h => ShortCausalHash -> Maybe h
+fromHash :: Coercible h Hash => Int -> h -> ShortCausalHash
+fromText :: Text -> Maybe ShortCausalHash
+
+-- | Causal Hash Prefix
+newtype ShortCausalHash
+ShortCausalHash :: Text -> ShortCausalHash
+[$sel:toText:ShortCausalHash] :: ShortCausalHash -> Text
+instance GHC.Generics.Generic Unison.Codebase.ShortCausalHash.ShortCausalHash
+instance GHC.Classes.Ord Unison.Codebase.ShortCausalHash.ShortCausalHash
+instance GHC.Classes.Eq Unison.Codebase.ShortCausalHash.ShortCausalHash
+instance GHC.Show.Show Unison.Codebase.ShortCausalHash.ShortCausalHash
 
 module Unison.Codebase.SqliteCodebase.Migrations.Helpers
 abortMigration :: String -> Transaction a
@@ -801,9 +803,9 @@ data ReadRemoteNamespace
 ReadRemoteNamespaceGit :: ReadGitRemoteNamespace -> ReadRemoteNamespace
 ReadRemoteNamespaceShare :: ReadShareRemoteNamespace -> ReadRemoteNamespace
 data ReadGitRemoteNamespace
-ReadGitRemoteNamespace :: ReadGitRepo -> Maybe ShortBranchHash -> Path -> ReadGitRemoteNamespace
+ReadGitRemoteNamespace :: ReadGitRepo -> Maybe ShortCausalHash -> Path -> ReadGitRemoteNamespace
 [$sel:repo:ReadGitRemoteNamespace] :: ReadGitRemoteNamespace -> ReadGitRepo
-[$sel:sbh:ReadGitRemoteNamespace] :: ReadGitRemoteNamespace -> Maybe ShortBranchHash
+[$sel:sch:ReadGitRemoteNamespace] :: ReadGitRemoteNamespace -> Maybe ShortCausalHash
 [$sel:path:ReadGitRemoteNamespace] :: ReadGitRemoteNamespace -> Path
 data ReadShareRemoteNamespace
 ReadShareRemoteNamespace :: ShareCodeserver -> Text -> Path -> ReadShareRemoteNamespace
@@ -876,8 +878,8 @@ PushDestinationHasNewStuff :: WriteGitRepo -> GitProtocolError
 CleanupError :: SomeException -> GitProtocolError
 RemoteRefNotFound :: Text -> Text -> GitProtocolError
 data GitCodebaseError h
-NoRemoteNamespaceWithHash :: ReadGitRepo -> ShortBranchHash -> GitCodebaseError h
-RemoteNamespaceHashAmbiguous :: ReadGitRepo -> ShortBranchHash -> Set h -> GitCodebaseError h
+NoRemoteNamespaceWithHash :: ReadGitRepo -> ShortCausalHash -> GitCodebaseError h
+RemoteNamespaceHashAmbiguous :: ReadGitRepo -> ShortCausalHash -> Set h -> GitCodebaseError h
 CouldntLoadRootBranch :: ReadGitRepo -> h -> GitCodebaseError h
 CouldntParseRemoteBranch :: ReadGitRepo -> String -> GitCodebaseError h
 CouldntLoadSyncedBranch :: ReadGitRemoteNamespace -> h -> GitCodebaseError h
@@ -1988,9 +1990,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2QRI loc_a2QRJ. Lens' (Env v_a2QRI loc_a2QRJ) (TypeLookup v_a2QRI loc_a2QRJ)
-termsByShortname :: forall v_a2QRI loc_a2QRJ. Lens' (Env v_a2QRI loc_a2QRJ) (Map Name [NamedReference v_a2QRI loc_a2QRJ])
-ambientAbilities :: forall v_a2QRI loc_a2QRJ. Lens' (Env v_a2QRI loc_a2QRJ) [Type v_a2QRI loc_a2QRJ]
+typeLookup :: forall v_a2QRO loc_a2QRP. Lens' (Env v_a2QRO loc_a2QRP) (TypeLookup v_a2QRO loc_a2QRP)
+termsByShortname :: forall v_a2QRO loc_a2QRP. Lens' (Env v_a2QRO loc_a2QRP) (Map Name [NamedReference v_a2QRO loc_a2QRP])
+ambientAbilities :: forall v_a2QRO loc_a2QRP. Lens' (Env v_a2QRO loc_a2QRP) [Type v_a2QRO loc_a2QRP]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -2762,7 +2764,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> m ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortBranchHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> (Path -> Maybe BranchHash -> BranchHash -> m ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id -> m (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> m ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> m ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> (Hash -> m (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> m (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortCausalHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> (Path -> Maybe BranchHash -> BranchHash -> m ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -2917,7 +2919,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> m (Maybe (Type v a))) -> (Id 
 [$sel:branchHashLength:Codebase] :: Codebase m v a -> m Int
 
 -- | Get the set of branches whose hash matches the given prefix.
-[$sel:branchHashesByPrefix:Codebase] :: Codebase m v a -> ShortBranchHash -> m (Set CausalHash)
+[$sel:causalHashesByPrefix:Codebase] :: Codebase m v a -> ShortCausalHash -> m (Set CausalHash)
 [$sel:lcaImpl:Codebase] :: Codebase m v a -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash))
 [$sel:beforeImpl:Codebase] :: Codebase m v a -> Maybe (CausalHash -> CausalHash -> m Bool)
 [$sel:namesAtPath:Codebase] :: Codebase m v a -> Path -> m ScopedNames
@@ -2981,7 +2983,7 @@ BranchCache :: (CausalHash -> m (Maybe (Branch m))) -> (CausalHash -> Branch m -
 newBranchCache :: forall m. MonadIO m => m (BranchCache Transaction)
 
 module Unison.Codebase.SqliteCodebase.Conversions
-sbh1to2 :: ShortBranchHash -> ShortBranchHash
+sch1to2 :: ShortCausalHash -> ShortCausalHash
 decltype2to1 :: DeclType -> ConstructorType
 decltype1to2 :: ConstructorType -> DeclType
 watchKind1to2 :: WatchKind -> WatchKind
@@ -3236,7 +3238,7 @@ defnReferencesByPrefix :: ObjectType -> ShortHash -> Transaction (Set Id)
 termReferencesByPrefix :: ShortHash -> Transaction (Set Id)
 declReferencesByPrefix :: ShortHash -> Transaction (Set Id)
 referentsByPrefix :: (Reference -> Transaction ConstructorType) -> ShortHash -> Transaction (Set Id)
-branchHashesByPrefix :: ShortBranchHash -> Transaction (Set CausalHash)
+causalHashesByPrefix :: ShortCausalHash -> Transaction (Set CausalHash)
 sqlLca :: CausalHash -> CausalHash -> Transaction (Maybe CausalHash)
 termExists :: Hash -> Transaction Bool
 declExists :: Hash -> Transaction Bool
@@ -3401,7 +3403,7 @@ getBranchForHash :: Monad m => Codebase m v a -> CausalHash -> m (Maybe (Branch 
 ($sel:putBranch:Codebase) :: Codebase m v a -> Branch m -> m ()
 
 -- | Get the set of branches whose hash matches the given prefix.
-($sel:branchHashesByPrefix:Codebase) :: Codebase m v a -> ShortBranchHash -> m (Set CausalHash)
+($sel:causalHashesByPrefix:Codebase) :: Codebase m v a -> ShortCausalHash -> m (Set CausalHash)
 
 -- | Get the lowest common ancestor of two branches, i.e. the most recent
 --   branch that is an ancestor of both branches.
@@ -3519,7 +3521,7 @@ dependentsOfComponent :: Functor f => Codebase f v a -> Hash -> f (Set Reference
 viewRemoteBranch :: MonadIO m => Codebase m v a -> ReadGitRemoteNamespace -> GitBranchBehavior -> (Branch m -> m r) -> m (Either GitError r)
 
 -- | Sync elements as needed from a remote git codebase into the local one.
---   If <tt>sbh</tt> is supplied, we try to load the specified branch hash;
+--   If <tt>sch</tt> is supplied, we try to load the specified branch hash;
 --   otherwise we try to load the root branch.
 importRemoteBranch :: forall m v a. MonadUnliftIO m => Codebase m v a -> ReadGitRemoteNamespace -> SyncMode -> Preprocessing m -> m (Either GitError (Branch m))
 

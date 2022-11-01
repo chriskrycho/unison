@@ -10,9 +10,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON U.Codebase.HashTags.CausalHash
 instance Data.Aeson.Types.FromJSON.FromJSON U.Codebase.HashTags.CausalHash
 instance Data.Binary.Class.Binary U.Util.Hash.Hash
 instance Data.Binary.Class.Binary U.Codebase.HashTags.CausalHash
-instance Web.Internal.HttpApiData.ToHttpApiData Unison.Codebase.ShortBranchHash.ShortBranchHash
+instance Web.Internal.HttpApiData.ToHttpApiData Unison.Codebase.ShortCausalHash.ShortCausalHash
 instance (Data.OpenApi.Internal.Schema.ToSchema b, Data.OpenApi.Internal.Schema.ToSchema a) => Data.OpenApi.Internal.Schema.ToSchema (Unison.Codebase.Editor.DisplayObject.DisplayObject b a)
-instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Codebase.ShortBranchHash.ShortBranchHash
+instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Codebase.ShortCausalHash.ShortCausalHash
 instance Web.Internal.HttpApiData.FromHttpApiData Unison.Util.Pretty.Width
 instance Web.Internal.HttpApiData.ToHttpApiData Unison.Util.Pretty.Width
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Util.Pretty.Width
@@ -25,7 +25,7 @@ instance Data.Aeson.Types.ToJSON.ToJSON Unison.ShortHash.ShortHash
 instance Data.Aeson.Types.ToJSON.ToJSONKey Unison.ShortHash.ShortHash
 instance Data.Aeson.Types.FromJSON.FromJSON Unison.ShortHash.ShortHash
 instance Data.Aeson.Types.FromJSON.FromJSONKey Unison.ShortHash.ShortHash
-instance Web.Internal.HttpApiData.FromHttpApiData Unison.Codebase.ShortBranchHash.ShortBranchHash
+instance Web.Internal.HttpApiData.FromHttpApiData Unison.Codebase.ShortCausalHash.ShortCausalHash
 instance Web.Internal.HttpApiData.ToHttpApiData Unison.ShortHash.ShortHash
 instance Web.Internal.HttpApiData.FromHttpApiData Unison.ShortHash.ShortHash
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.ShortHash.ShortHash
@@ -503,8 +503,8 @@ listEntryName :: ShallowListEntry v a -> Text
 data BackendError
 NoSuchNamespace :: Absolute -> BackendError
 BadNamespace :: String -> String -> BackendError
-CouldntExpandBranchHash :: ShortBranchHash -> BackendError
-AmbiguousBranchHash :: ShortBranchHash -> Set ShortBranchHash -> BackendError
+CouldntExpandBranchHash :: ShortCausalHash -> BackendError
+AmbiguousBranchHash :: ShortCausalHash -> Set ShortCausalHash -> BackendError
 AmbiguousHashForDefinition :: ShortHash -> BackendError
 NoBranchForHash :: CausalHash -> BackendError
 CouldntLoadBranch :: CausalHash -> BackendError
@@ -633,7 +633,7 @@ DefinitionResults :: Map Reference (DisplayObject (Type v Ann) (Term v Ann)) -> 
 [$sel:termResults:DefinitionResults] :: DefinitionResults v -> Map Reference (DisplayObject (Type v Ann) (Term v Ann))
 [$sel:typeResults:DefinitionResults] :: DefinitionResults v -> Map Reference (DisplayObject () (Decl v Ann))
 [$sel:noResults:DefinitionResults] :: DefinitionResults v -> [HashQualified Name]
-expandShortBranchHash :: Monad m => Codebase m v a -> ShortBranchHash -> Backend m CausalHash
+expandShortCausalHash :: Monad m => Codebase m v a -> ShortCausalHash -> Backend m CausalHash
 
 -- | Efficiently resolve a root hash and path to a shallow branch's causal.
 getShallowCausalAtPathFromRootHash :: Monad m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (CausalBranch m)
@@ -669,8 +669,8 @@ bestNameForType :: forall v. Var v => PrettyPrintEnv -> Width -> Reference -> Te
 scopedNamesForBranchHash :: forall m v a. Monad m => Codebase m v a -> Maybe (CausalBranch m) -> Path -> Backend m (Names, PrettyPrintEnvDecl)
 resolveCausalHash :: Monad m => Maybe CausalHash -> Codebase m v a -> Backend m (Branch m)
 resolveCausalHashV2 :: Monad m => Codebase m v a -> Maybe CausalHash -> Backend m (CausalBranch m)
-resolveRootBranchHash :: Monad m => Maybe ShortBranchHash -> Codebase m v a -> Backend m (Branch m)
-resolveRootBranchHashV2 :: Monad m => Codebase m v a -> Maybe ShortBranchHash -> Backend m (CausalBranch m)
+resolveRootBranchHash :: Monad m => Maybe ShortCausalHash -> Codebase m v a -> Backend m (Branch m)
+resolveRootBranchHashV2 :: Monad m => Codebase m v a -> Maybe ShortCausalHash -> Backend m (CausalBranch m)
 
 -- | Determines whether we include full cycles in the results, (e.g. if I
 --   search for <tt>isEven</tt>, will I find <tt>isOdd</tt> too?)
@@ -731,7 +731,7 @@ noSuchDefinition :: HashQualified Name -> ServerError
 ambiguousHashForDefinition :: ShortHash -> ServerError
 
 module Unison.Server.Endpoints.Projects
-type ProjectsAPI = "projects" :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "owner" ProjectOwner :> APIGet [ProjectListing]
+type ProjectsAPI = "projects" :> QueryParam "rootBranch" ShortCausalHash :> QueryParam "owner" ProjectOwner :> APIGet [ProjectListing]
 newtype ProjectOwner
 ProjectOwner :: Text -> ProjectOwner
 projectOwnerFromText :: Text -> Either Text ProjectOwner
@@ -742,7 +742,7 @@ ProjectListing :: ProjectOwner -> Text -> UnisonHash -> ProjectListing
 [$sel:hash:ProjectListing] :: ProjectListing -> UnisonHash
 backendListEntryToProjectListing :: ProjectOwner -> ShallowListEntry Symbol a -> Maybe ProjectListing
 entryToOwner :: ShallowListEntry Symbol a -> Maybe ProjectOwner
-serve :: forall m. MonadIO m => Codebase m Symbol Ann -> Maybe ShortBranchHash -> Maybe ProjectOwner -> Backend m [ProjectListing]
+serve :: forall m. MonadIO m => Codebase m Symbol Ann -> Maybe ShortCausalHash -> Maybe ProjectOwner -> Backend m [ProjectListing]
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Endpoints.Projects.ProjectOwner
 instance GHC.Show.Show Unison.Server.Endpoints.Projects.ProjectOwner
 instance GHC.Generics.Generic Unison.Server.Endpoints.Projects.ProjectOwner
@@ -757,8 +757,8 @@ instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.Projects.Project
 instance Web.Internal.HttpApiData.FromHttpApiData Unison.Server.Endpoints.Projects.ProjectOwner
 
 module Unison.Server.Endpoints.NamespaceListing
-serve :: Codebase IO Symbol Ann -> Maybe ShortBranchHash -> Maybe Path -> Maybe Path -> Backend IO NamespaceListing
-type NamespaceListingAPI = "list" :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" Path :> QueryParam "namespace" Path :> APIGet NamespaceListing
+serve :: Codebase IO Symbol Ann -> Maybe ShortCausalHash -> Maybe Path -> Maybe Path -> Backend IO NamespaceListing
+type NamespaceListingAPI = "list" :> QueryParam "rootBranch" ShortCausalHash :> QueryParam "relativeTo" Path :> QueryParam "namespace" Path :> APIGet NamespaceListing
 data NamespaceListing
 NamespaceListing :: UnisonName -> UnisonHash -> [NamespaceObject] -> NamespaceListing
 [$sel:namespaceListingFQN:NamespaceListing] :: NamespaceListing -> UnisonName
@@ -808,13 +808,13 @@ instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Endpoints.NamespaceLis
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "namespace" Data.Text.Internal.Text)
 
 module Unison.Server.Endpoints.NamespaceDetails
-type NamespaceDetailsAPI = "namespaces" :> Capture "namespace" Path :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "renderWidth" Width :> APIGet NamespaceDetails
+type NamespaceDetailsAPI = "namespaces" :> Capture "namespace" Path :> QueryParam "rootBranch" ShortCausalHash :> QueryParam "renderWidth" Width :> APIGet NamespaceDetails
 data NamespaceDetails
 NamespaceDetails :: Path -> UnisonHash -> Maybe Doc -> NamespaceDetails
 [$sel:fqn:NamespaceDetails] :: NamespaceDetails -> Path
 [$sel:hash:NamespaceDetails] :: NamespaceDetails -> UnisonHash
 [$sel:readme:NamespaceDetails] :: NamespaceDetails -> Maybe Doc
-namespaceDetails :: Runtime Symbol -> Codebase IO Symbol Ann -> Path -> Maybe ShortBranchHash -> Maybe Width -> Backend IO NamespaceDetails
+namespaceDetails :: Runtime Symbol -> Codebase IO Symbol Ann -> Path -> Maybe ShortCausalHash -> Maybe Width -> Backend IO NamespaceDetails
 instance GHC.Show.Show Unison.Server.Endpoints.NamespaceDetails.NamespaceDetails
 instance GHC.Generics.Generic Unison.Server.Endpoints.NamespaceDetails.NamespaceDetails
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Endpoints.NamespaceDetails.NamespaceDetails
@@ -823,18 +823,18 @@ instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Endpoints.NamespaceDetails
 instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "namespace" Data.Text.Internal.Text)
 
 module Unison.Server.Endpoints.GetDefinitions
-type DefinitionsAPI = "getDefinition" :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" Path :> QueryParams "names" (HashQualified Name) :> QueryParam "renderWidth" Width :> QueryParam "suffixifyBindings" Suffixify :> APIGet DefinitionDisplayResults
-serveDefinitions :: Runtime Symbol -> Codebase IO Symbol Ann -> Maybe ShortBranchHash -> Maybe Path -> [HashQualified Name] -> Maybe Width -> Maybe Suffixify -> Backend IO DefinitionDisplayResults
+type DefinitionsAPI = "getDefinition" :> QueryParam "rootBranch" ShortCausalHash :> QueryParam "relativeTo" Path :> QueryParams "names" (HashQualified Name) :> QueryParam "renderWidth" Width :> QueryParam "suffixifyBindings" Suffixify :> APIGet DefinitionDisplayResults
+serveDefinitions :: Runtime Symbol -> Codebase IO Symbol Ann -> Maybe ShortCausalHash -> Maybe Path -> [HashQualified Name] -> Maybe Width -> Maybe Suffixify -> Backend IO DefinitionDisplayResults
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "renderWidth" Unison.Util.Pretty.Width)
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "suffixifyBindings" Unison.Server.Types.Suffixify)
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "relativeTo" Unison.Codebase.Path.Path)
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "namespace" Unison.Codebase.Path.Path)
-instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "rootBranch" Unison.Codebase.ShortBranchHash.ShortBranchHash)
+instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "rootBranch" Unison.Codebase.ShortCausalHash.ShortCausalHash)
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParams "names" (Unison.HashQualified.HashQualified Unison.Name.Name))
 instance Servant.Docs.Internal.ToSample Unison.Server.Types.DefinitionDisplayResults
 
 module Unison.Server.Endpoints.FuzzyFind
-type FuzzyFindAPI = "find" :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" Path :> QueryParam "limit" Int :> QueryParam "renderWidth" Width :> QueryParam "query" String :> APIGet [(Alignment, FoundResult)]
+type FuzzyFindAPI = "find" :> QueryParam "rootBranch" ShortCausalHash :> QueryParam "relativeTo" Path :> QueryParam "limit" Int :> QueryParam "renderWidth" Width :> QueryParam "query" String :> APIGet [(Alignment, FoundResult)]
 data FoundTerm
 FoundTerm :: HashQualifiedName -> NamedTerm -> FoundTerm
 [$sel:bestFoundTermName:FoundTerm] :: FoundTerm -> HashQualifiedName
@@ -847,7 +847,7 @@ FoundType :: HashQualifiedName -> DisplayObject SyntaxText SyntaxText -> NamedTy
 data FoundResult
 FoundTermResult :: FoundTerm -> FoundResult
 FoundTypeResult :: FoundType -> FoundResult
-serveFuzzyFind :: forall m. MonadIO m => Codebase m Symbol Ann -> Maybe ShortBranchHash -> Maybe Path -> Maybe Int -> Maybe Width -> Maybe String -> Backend m [(Alignment, FoundResult)]
+serveFuzzyFind :: forall m. MonadIO m => Codebase m Symbol Ann -> Maybe ShortCausalHash -> Maybe Path -> Maybe Int -> Maybe Width -> Maybe String -> Backend m [(Alignment, FoundResult)]
 instance GHC.Show.Show Unison.Server.Endpoints.FuzzyFind.FoundTerm
 instance GHC.Generics.Generic Unison.Server.Endpoints.FuzzyFind.FoundTerm
 instance GHC.Show.Show Unison.Server.Endpoints.FuzzyFind.FoundType
@@ -872,16 +872,16 @@ instance Data.Aeson.Types.ToJSON.ToJSON Text.FuzzyFind.Result
 instance Data.Aeson.Types.ToJSON.ToJSON Text.FuzzyFind.ResultSegment
 
 module Unison.Server.Endpoints.DefinitionSummary
-type TermSummaryAPI = "definitions" :> "terms" :> "by-hash" :> Capture "hash" Referent :> "summary" :> QueryParam "name" Name :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" Path :> QueryParam "renderWidth" Width :> APIGet TermSummary
-serveTermSummary :: Codebase IO Symbol Ann -> Referent -> Maybe Name -> Maybe ShortBranchHash -> Maybe Path -> Maybe Width -> Backend IO TermSummary
+type TermSummaryAPI = "definitions" :> "terms" :> "by-hash" :> Capture "hash" Referent :> "summary" :> QueryParam "name" Name :> QueryParam "rootBranch" ShortCausalHash :> QueryParam "relativeTo" Path :> QueryParam "renderWidth" Width :> APIGet TermSummary
+serveTermSummary :: Codebase IO Symbol Ann -> Referent -> Maybe Name -> Maybe ShortCausalHash -> Maybe Path -> Maybe Width -> Backend IO TermSummary
 data TermSummary
 TermSummary :: HashQualified Name -> ShortHash -> DisplayObject SyntaxText SyntaxText -> TermTag -> TermSummary
 [$sel:displayName:TermSummary] :: TermSummary -> HashQualified Name
 [$sel:hash:TermSummary] :: TermSummary -> ShortHash
 [$sel:summary:TermSummary] :: TermSummary -> DisplayObject SyntaxText SyntaxText
 [$sel:tag:TermSummary] :: TermSummary -> TermTag
-type TypeSummaryAPI = "definitions" :> "types" :> "by-hash" :> Capture "hash" Reference :> "summary" :> QueryParam "name" Name :> QueryParam "rootBranch" ShortBranchHash :> QueryParam "relativeTo" Path :> QueryParam "renderWidth" Width :> APIGet TypeSummary
-serveTypeSummary :: Codebase IO Symbol Ann -> Reference -> Maybe Name -> Maybe ShortBranchHash -> Maybe Path -> Maybe Width -> Backend IO TypeSummary
+type TypeSummaryAPI = "definitions" :> "types" :> "by-hash" :> Capture "hash" Reference :> "summary" :> QueryParam "name" Name :> QueryParam "rootBranch" ShortCausalHash :> QueryParam "relativeTo" Path :> QueryParam "renderWidth" Width :> APIGet TypeSummary
+serveTypeSummary :: Codebase IO Symbol Ann -> Reference -> Maybe Name -> Maybe ShortCausalHash -> Maybe Path -> Maybe Width -> Backend IO TypeSummary
 data TypeSummary
 TypeSummary :: HashQualified Name -> ShortHash -> DisplayObject SyntaxText SyntaxText -> TypeTag -> TypeSummary
 [$sel:displayName:TypeSummary] :: TypeSummary -> HashQualified Name

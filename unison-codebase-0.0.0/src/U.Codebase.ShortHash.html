@@ -2,26 +2,32 @@
 </span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE OverloadedStrings #-}</span><span>
 </span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE RecordWildCards #-}</span><span>
 </span><span id="line-4"></span><span>
-</span><span id="line-5"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">U.Codebase.ShortHash</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-6"></span><span>
-</span><span id="line-7"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Text</span></span><span class="hs-special">)</span><span>
-</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Text</span></span><span>
-</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Word</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Word64</span></span><span class="hs-special">)</span><span>
-</span><span id="line-10"></span><span>
-</span><span id="line-11"></span><span class="hs-comment">-- ##Text.++</span><span>
-</span><span id="line-12"></span><span class="hs-comment">--   ^^^^^^^-- builtin</span><span>
-</span><span id="line-13"></span><span>
-</span><span id="line-14"></span><span class="hs-comment">-- #abc123.a#0</span><span>
-</span><span id="line-15"></span><span class="hs-comment">--  ^      ^ ^-cid</span><span>
-</span><span id="line-16"></span><span class="hs-comment">--  |      \-cycle</span><span>
-</span><span id="line-17"></span><span class="hs-comment">--  \-- prefix</span><span>
-</span><span id="line-18"></span><span class="hs-keyword">data</span><span> </span><span id="ShortHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-var">ShortHash</span></a></span></span><span>
-</span><span id="line-19"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="Builtin"><span class="annot"><a href="U.Codebase.ShortHash.html#Builtin"><span class="hs-identifier hs-var">Builtin</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
-</span><span id="line-20"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ShortHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-var">ShortHash</span></a></span></span><span> </span><span class="hs-special">{</span><span id="prefix"><span class="annot"><span class="annottext">ShortHash -&gt; Text
+</span><span id="line-5"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">U.Codebase.ShortHash</span><span>
+</span><span id="line-6"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier">ShortHash</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-7"></span><span>    </span><span class="annot"><a href="U.Codebase.ShortHash.html#ShortCausalHash"><span class="hs-identifier">ShortCausalHash</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-8"></span><span>    </span><span class="annot"><a href="U.Codebase.ShortHash.html#ShortNamespaceHash"><span class="hs-identifier">ShortNamespaceHash</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><span id="line-9"></span><span>    </span><span class="annot"><a href="U.Codebase.ShortHash.html#shortenTo"><span class="hs-identifier">shortenTo</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-10"></span><span>  </span><span class="hs-special">)</span><span>
+</span><span id="line-11"></span><span class="hs-keyword">where</span><span>
+</span><span id="line-12"></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Text</span></span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Text</span></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Word</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Word64</span></span><span class="hs-special">)</span><span>
+</span><span id="line-16"></span><span>
+</span><span id="line-17"></span><span class="hs-comment">-- ##Text.++</span><span>
+</span><span id="line-18"></span><span class="hs-comment">--   ^^^^^^^-- builtin</span><span>
+</span><span id="line-19"></span><span>
+</span><span id="line-20"></span><span class="hs-comment">-- #abc123.a#0</span><span>
+</span><span id="line-21"></span><span class="hs-comment">--  ^      ^ ^-cid</span><span>
+</span><span id="line-22"></span><span class="hs-comment">--  |      \-cycle</span><span>
+</span><span id="line-23"></span><span class="hs-comment">--  \-- prefix</span><span>
+</span><span id="line-24"></span><span class="hs-keyword">data</span><span> </span><span id="ShortHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-var">ShortHash</span></a></span></span><span>
+</span><span id="line-25"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="Builtin"><span class="annot"><a href="U.Codebase.ShortHash.html#Builtin"><span class="hs-identifier hs-var">Builtin</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
+</span><span id="line-26"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ShortHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-var">ShortHash</span></a></span></span><span> </span><span class="hs-special">{</span><span id="prefix"><span class="annot"><span class="annottext">ShortHash -&gt; Text
 </span><a href="U.Codebase.ShortHash.html#prefix"><span class="hs-identifier hs-var hs-var">prefix</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span id="cycle"><span class="annot"><span class="annottext">ShortHash -&gt; Maybe Word64
 </span><a href="U.Codebase.ShortHash.html#cycle"><span class="hs-identifier hs-var hs-var">cycle</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Word64</span></span><span class="hs-special">,</span><span> </span><span id="cid"><span class="annot"><span class="annottext">ShortHash -&gt; Maybe Word64
 </span><a href="U.Codebase.ShortHash.html#cid"><span class="hs-identifier hs-var hs-var">cid</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Word64</span></span><span class="hs-special">}</span><span>
-</span><span id="line-21"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679121234"><span id="local-6989586621679121236"><span class="annot"><span class="annottext">ShortHash -&gt; ShortHash -&gt; Bool
+</span><span id="line-27"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679121435"><span id="local-6989586621679121437"><span class="annot"><span class="annottext">ShortHash -&gt; ShortHash -&gt; Bool
 (ShortHash -&gt; ShortHash -&gt; Bool)
 -&gt; (ShortHash -&gt; ShortHash -&gt; Bool) -&gt; Eq ShortHash
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -29,7 +35,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: ShortHash -&gt; ShortHash -&gt; Bool
 == :: ShortHash -&gt; ShortHash -&gt; Bool
 $c== :: ShortHash -&gt; ShortHash -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121218"><span id="local-6989586621679121220"><span id="local-6989586621679121222"><span id="local-6989586621679121224"><span id="local-6989586621679121226"><span id="local-6989586621679121228"><span id="local-6989586621679121230"><span class="annot"><span class="annottext">Eq ShortHash
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121419"><span id="local-6989586621679121421"><span id="local-6989586621679121423"><span id="local-6989586621679121425"><span id="local-6989586621679121427"><span id="local-6989586621679121429"><span id="local-6989586621679121431"><span class="annot"><span class="annottext">Eq ShortHash
 Eq ShortHash
 -&gt; (ShortHash -&gt; ShortHash -&gt; Ordering)
 -&gt; (ShortHash -&gt; ShortHash -&gt; Bool)
@@ -67,7 +73,7 @@ $c&lt; :: ShortHash -&gt; ShortHash -&gt; Bool
 compare :: ShortHash -&gt; ShortHash -&gt; Ordering
 $ccompare :: ShortHash -&gt; ShortHash -&gt; Ordering
 $cp1Ord :: Eq ShortHash
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121211"><span id="local-6989586621679121213"><span id="local-6989586621679121215"><span class="annot"><span class="annottext">Int -&gt; ShortHash -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121412"><span id="local-6989586621679121414"><span id="local-6989586621679121416"><span class="annot"><span class="annottext">Int -&gt; ShortHash -&gt; ShowS
 [ShortHash] -&gt; ShowS
 ShortHash -&gt; String
 (Int -&gt; ShortHash -&gt; ShowS)
@@ -83,30 +89,31 @@ $cshow :: ShortHash -&gt; String
 showsPrec :: Int -&gt; ShortHash -&gt; ShowS
 $cshowsPrec :: Int -&gt; ShortHash -&gt; ShowS
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-22"></span><span>
-</span><span id="line-23"></span><span class="hs-keyword">data</span><span> </span><span id="ShortBranchHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortBranchHash"><span class="hs-identifier hs-var">ShortBranchHash</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ShortBranchHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortBranchHash"><span class="hs-identifier hs-var">ShortBranchHash</span></a></span></span><span> </span><span class="hs-special">{</span><span id="toText"><span class="annot"><span class="annottext">ShortBranchHash -&gt; Text
-</span><a href="U.Codebase.ShortHash.html#toText"><span class="hs-identifier hs-var hs-var">toText</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">}</span><span> </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679121204"><span id="local-6989586621679121206"><span class="annot"><span class="annottext">ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-(ShortBranchHash -&gt; ShortBranchHash -&gt; Bool)
--&gt; (ShortBranchHash -&gt; ShortBranchHash -&gt; Bool)
--&gt; Eq ShortBranchHash
+</span><span id="line-28"></span><span>
+</span><span id="line-29"></span><span class="hs-keyword">newtype</span><span> </span><span id="ShortCausalHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortCausalHash"><span class="hs-identifier hs-var">ShortCausalHash</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ShortCausalHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortCausalHash"><span class="hs-identifier hs-var">ShortCausalHash</span></a></span></span><span> </span><span class="hs-special">{</span><span id="shortCausalHashToText"><span class="annot"><span class="annottext">ShortCausalHash -&gt; Text
+</span><a href="U.Codebase.ShortHash.html#shortCausalHashToText"><span class="hs-identifier hs-var hs-var">shortCausalHashToText</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">}</span><span>
+</span><span id="line-30"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679121405"><span id="local-6989586621679121407"><span class="annot"><span class="annottext">ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+(ShortCausalHash -&gt; ShortCausalHash -&gt; Bool)
+-&gt; (ShortCausalHash -&gt; ShortCausalHash -&gt; Bool)
+-&gt; Eq ShortCausalHash
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
-/= :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-$c/= :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-== :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-$c== :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121189"><span id="local-6989586621679121191"><span id="local-6989586621679121193"><span id="local-6989586621679121195"><span id="local-6989586621679121197"><span id="local-6989586621679121199"><span id="local-6989586621679121201"><span class="annot"><span class="annottext">Eq ShortBranchHash
-Eq ShortBranchHash
--&gt; (ShortBranchHash -&gt; ShortBranchHash -&gt; Ordering)
--&gt; (ShortBranchHash -&gt; ShortBranchHash -&gt; Bool)
--&gt; (ShortBranchHash -&gt; ShortBranchHash -&gt; Bool)
--&gt; (ShortBranchHash -&gt; ShortBranchHash -&gt; Bool)
--&gt; (ShortBranchHash -&gt; ShortBranchHash -&gt; Bool)
--&gt; (ShortBranchHash -&gt; ShortBranchHash -&gt; ShortBranchHash)
--&gt; (ShortBranchHash -&gt; ShortBranchHash -&gt; ShortBranchHash)
--&gt; Ord ShortBranchHash
-ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-ShortBranchHash -&gt; ShortBranchHash -&gt; Ordering
-ShortBranchHash -&gt; ShortBranchHash -&gt; ShortBranchHash
+/= :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+$c/= :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+== :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+$c== :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121390"><span id="local-6989586621679121392"><span id="local-6989586621679121394"><span id="local-6989586621679121396"><span id="local-6989586621679121398"><span id="local-6989586621679121400"><span id="local-6989586621679121402"><span class="annot"><span class="annottext">Eq ShortCausalHash
+Eq ShortCausalHash
+-&gt; (ShortCausalHash -&gt; ShortCausalHash -&gt; Ordering)
+-&gt; (ShortCausalHash -&gt; ShortCausalHash -&gt; Bool)
+-&gt; (ShortCausalHash -&gt; ShortCausalHash -&gt; Bool)
+-&gt; (ShortCausalHash -&gt; ShortCausalHash -&gt; Bool)
+-&gt; (ShortCausalHash -&gt; ShortCausalHash -&gt; Bool)
+-&gt; (ShortCausalHash -&gt; ShortCausalHash -&gt; ShortCausalHash)
+-&gt; (ShortCausalHash -&gt; ShortCausalHash -&gt; ShortCausalHash)
+-&gt; Ord ShortCausalHash
+ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+ShortCausalHash -&gt; ShortCausalHash -&gt; Ordering
+ShortCausalHash -&gt; ShortCausalHash -&gt; ShortCausalHash
 forall a.
 Eq a
 -&gt; (a -&gt; a -&gt; Ordering)
@@ -117,48 +124,114 @@ Eq a
 -&gt; (a -&gt; a -&gt; a)
 -&gt; (a -&gt; a -&gt; a)
 -&gt; Ord a
-min :: ShortBranchHash -&gt; ShortBranchHash -&gt; ShortBranchHash
-$cmin :: ShortBranchHash -&gt; ShortBranchHash -&gt; ShortBranchHash
-max :: ShortBranchHash -&gt; ShortBranchHash -&gt; ShortBranchHash
-$cmax :: ShortBranchHash -&gt; ShortBranchHash -&gt; ShortBranchHash
-&gt;= :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-$c&gt;= :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-&gt; :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-$c&gt; :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-&lt;= :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-$c&lt;= :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-&lt; :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-$c&lt; :: ShortBranchHash -&gt; ShortBranchHash -&gt; Bool
-compare :: ShortBranchHash -&gt; ShortBranchHash -&gt; Ordering
-$ccompare :: ShortBranchHash -&gt; ShortBranchHash -&gt; Ordering
-$cp1Ord :: Eq ShortBranchHash
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121183"><span id="local-6989586621679121185"><span id="local-6989586621679121187"><span class="annot"><span class="annottext">Int -&gt; ShortBranchHash -&gt; ShowS
-[ShortBranchHash] -&gt; ShowS
-ShortBranchHash -&gt; String
-(Int -&gt; ShortBranchHash -&gt; ShowS)
--&gt; (ShortBranchHash -&gt; String)
--&gt; ([ShortBranchHash] -&gt; ShowS)
--&gt; Show ShortBranchHash
+min :: ShortCausalHash -&gt; ShortCausalHash -&gt; ShortCausalHash
+$cmin :: ShortCausalHash -&gt; ShortCausalHash -&gt; ShortCausalHash
+max :: ShortCausalHash -&gt; ShortCausalHash -&gt; ShortCausalHash
+$cmax :: ShortCausalHash -&gt; ShortCausalHash -&gt; ShortCausalHash
+&gt;= :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+$c&gt;= :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+&gt; :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+$c&gt; :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+&lt;= :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+$c&lt;= :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+&lt; :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+$c&lt; :: ShortCausalHash -&gt; ShortCausalHash -&gt; Bool
+compare :: ShortCausalHash -&gt; ShortCausalHash -&gt; Ordering
+$ccompare :: ShortCausalHash -&gt; ShortCausalHash -&gt; Ordering
+$cp1Ord :: Eq ShortCausalHash
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121384"><span id="local-6989586621679121386"><span id="local-6989586621679121388"><span class="annot"><span class="annottext">Int -&gt; ShortCausalHash -&gt; ShowS
+[ShortCausalHash] -&gt; ShowS
+ShortCausalHash -&gt; String
+(Int -&gt; ShortCausalHash -&gt; ShowS)
+-&gt; (ShortCausalHash -&gt; String)
+-&gt; ([ShortCausalHash] -&gt; ShowS)
+-&gt; Show ShortCausalHash
 forall a.
 (Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
-showList :: [ShortBranchHash] -&gt; ShowS
-$cshowList :: [ShortBranchHash] -&gt; ShowS
-show :: ShortBranchHash -&gt; String
-$cshow :: ShortBranchHash -&gt; String
-showsPrec :: Int -&gt; ShortBranchHash -&gt; ShowS
-$cshowsPrec :: Int -&gt; ShortBranchHash -&gt; ShowS
+showList :: [ShortCausalHash] -&gt; ShowS
+$cshowList :: [ShortCausalHash] -&gt; ShowS
+show :: ShortCausalHash -&gt; String
+$cshow :: ShortCausalHash -&gt; String
+showsPrec :: Int -&gt; ShortCausalHash -&gt; ShowS
+$cshowsPrec :: Int -&gt; ShortCausalHash -&gt; ShowS
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-24"></span><span>
-</span><span id="line-25"></span><span class="annot"><a href="U.Codebase.ShortHash.html#shortenTo"><span class="hs-identifier hs-type">shortenTo</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-type">ShortHash</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-type">ShortHash</span></a></span><span>
-</span><span id="line-26"></span><span id="shortenTo"><span class="annot"><span class="annottext">shortenTo :: Int -&gt; ShortHash -&gt; ShortHash
+</span><span id="line-31"></span><span>
+</span><span id="line-32"></span><span class="hs-keyword">newtype</span><span> </span><span id="ShortNamespaceHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortNamespaceHash"><span class="hs-identifier hs-var">ShortNamespaceHash</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ShortNamespaceHash"><span class="annot"><a href="U.Codebase.ShortHash.html#ShortNamespaceHash"><span class="hs-identifier hs-var">ShortNamespaceHash</span></a></span></span><span> </span><span class="hs-special">{</span><span id="shortNamespaceHashToText"><span class="annot"><span class="annottext">ShortNamespaceHash -&gt; Text
+</span><a href="U.Codebase.ShortHash.html#shortNamespaceHashToText"><span class="hs-identifier hs-var hs-var">shortNamespaceHashToText</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">}</span><span>
+</span><span id="line-33"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679121378"><span id="local-6989586621679121380"><span class="annot"><span class="annottext">ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+(ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool)
+-&gt; (ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool)
+-&gt; Eq ShortNamespaceHash
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+/= :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+$c/= :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+== :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+$c== :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121363"><span id="local-6989586621679121365"><span id="local-6989586621679121367"><span id="local-6989586621679121369"><span id="local-6989586621679121371"><span id="local-6989586621679121373"><span id="local-6989586621679121375"><span class="annot"><span class="annottext">Eq ShortNamespaceHash
+Eq ShortNamespaceHash
+-&gt; (ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Ordering)
+-&gt; (ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool)
+-&gt; (ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool)
+-&gt; (ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool)
+-&gt; (ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool)
+-&gt; (ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; ShortNamespaceHash)
+-&gt; (ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; ShortNamespaceHash)
+-&gt; Ord ShortNamespaceHash
+ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Ordering
+ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; ShortNamespaceHash
+forall a.
+Eq a
+-&gt; (a -&gt; a -&gt; Ordering)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; a)
+-&gt; (a -&gt; a -&gt; a)
+-&gt; Ord a
+min :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; ShortNamespaceHash
+$cmin :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; ShortNamespaceHash
+max :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; ShortNamespaceHash
+$cmax :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; ShortNamespaceHash
+&gt;= :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+$c&gt;= :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+&gt; :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+$c&gt; :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+&lt;= :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+$c&lt;= :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+&lt; :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+$c&lt; :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Bool
+compare :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Ordering
+$ccompare :: ShortNamespaceHash -&gt; ShortNamespaceHash -&gt; Ordering
+$cp1Ord :: Eq ShortNamespaceHash
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679121357"><span id="local-6989586621679121359"><span id="local-6989586621679121361"><span class="annot"><span class="annottext">Int -&gt; ShortNamespaceHash -&gt; ShowS
+[ShortNamespaceHash] -&gt; ShowS
+ShortNamespaceHash -&gt; String
+(Int -&gt; ShortNamespaceHash -&gt; ShowS)
+-&gt; (ShortNamespaceHash -&gt; String)
+-&gt; ([ShortNamespaceHash] -&gt; ShowS)
+-&gt; Show ShortNamespaceHash
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+showList :: [ShortNamespaceHash] -&gt; ShowS
+$cshowList :: [ShortNamespaceHash] -&gt; ShowS
+show :: ShortNamespaceHash -&gt; String
+$cshow :: ShortNamespaceHash -&gt; String
+showsPrec :: Int -&gt; ShortNamespaceHash -&gt; ShowS
+$cshowsPrec :: Int -&gt; ShortNamespaceHash -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-34"></span><span>
+</span><span id="line-35"></span><span class="annot"><a href="U.Codebase.ShortHash.html#shortenTo"><span class="hs-identifier hs-type">shortenTo</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-type">ShortHash</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-type">ShortHash</span></a></span><span>
+</span><span id="line-36"></span><span id="shortenTo"><span class="annot"><span class="annottext">shortenTo :: Int -&gt; ShortHash -&gt; ShortHash
 </span><a href="U.Codebase.ShortHash.html#shortenTo"><span class="hs-identifier hs-var hs-var">shortenTo</span></a></span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679121181"><span class="annot"><span class="annottext">b :: ShortHash
-</span><a href="#local-6989586621679121181"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.ShortHash.html#Builtin"><span class="hs-identifier hs-type">Builtin</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679121356"><span class="annot"><span class="annottext">b :: ShortHash
+</span><a href="#local-6989586621679121356"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.ShortHash.html#Builtin"><span class="hs-identifier hs-type">Builtin</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ShortHash
-</span><a href="#local-6989586621679121181"><span class="hs-identifier hs-var">b</span></a></span><span>
-</span><span id="line-27"></span><span class="annot"><a href="U.Codebase.ShortHash.html#shortenTo"><span class="hs-identifier hs-var">shortenTo</span></a></span><span> </span><span id="local-6989586621679121180"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679121180"><span class="hs-identifier hs-var">i</span></a></span></span><span> </span><span id="local-6989586621679121179"><span class="annot"><span class="annottext">s :: ShortHash
-</span><a href="#local-6989586621679121179"><span class="hs-identifier hs-var">s</span></a></span></span><span class="hs-glyph">@</span><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-type">ShortHash</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679121176"><span id="local-6989586621679121177"><span id="local-6989586621679121178"><span class="annot"><span class="annottext">Maybe Word64
+</span><a href="#local-6989586621679121356"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-37"></span><span class="annot"><a href="U.Codebase.ShortHash.html#shortenTo"><span class="hs-identifier hs-var">shortenTo</span></a></span><span> </span><span id="local-6989586621679121355"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679121355"><span class="hs-identifier hs-var">i</span></a></span></span><span> </span><span id="local-6989586621679121354"><span class="annot"><span class="annottext">s :: ShortHash
+</span><a href="#local-6989586621679121354"><span class="hs-identifier hs-var">s</span></a></span></span><span class="hs-glyph">@</span><span class="annot"><a href="U.Codebase.ShortHash.html#ShortHash"><span class="hs-identifier hs-type">ShortHash</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679121351"><span id="local-6989586621679121352"><span id="local-6989586621679121353"><span class="annot"><span class="annottext">Maybe Word64
 Text
 cid :: Maybe Word64
 cycle :: Maybe Word64
@@ -166,10 +239,10 @@ prefix :: Text
 cid :: ShortHash -&gt; Maybe Word64
 cycle :: ShortHash -&gt; Maybe Word64
 prefix :: ShortHash -&gt; Text
-</span><a href="#local-6989586621679121176"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span></span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ShortHash
-</span><a href="#local-6989586621679121179"><span class="hs-identifier hs-var">s</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">prefix :: Text
+</span><a href="#local-6989586621679121351"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span></span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ShortHash
+</span><a href="#local-6989586621679121354"><span class="hs-identifier hs-var">s</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">prefix :: Text
 </span><a href="U.Codebase.ShortHash.html#prefix"><span class="hs-identifier hs-var">prefix</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Text -&gt; Text
 </span><span class="hs-identifier hs-var">Text.take</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679121180"><span class="hs-identifier hs-var">i</span></a></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679121178"><span class="hs-identifier hs-var">prefix</span></a></span><span class="hs-special">}</span><span>
-</span><span id="line-28"></span></pre></body></html>
+</span><a href="#local-6989586621679121355"><span class="hs-identifier hs-var">i</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679121353"><span class="hs-identifier hs-var">prefix</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-38"></span></pre></body></html>
