@@ -960,6 +960,9 @@ loadCausalParents :: CausalHashId -> Transaction [CausalHashId]
 -- | Like <a>loadCausalParents</a>, but the input and outputs are hashes,
 --   not hash ids.
 loadCausalParentsByHash :: Hash32 -> Transaction [Hash32]
+
+-- | <tt>before x y</tt> returns whether or not <tt>x</tt> occurred before
+--   <tt>y</tt>, i.e. <tt>x</tt> is an ancestor of <tt>y</tt>.
 before :: CausalHashId -> CausalHashId -> Transaction Bool
 lca :: CausalHashId -> CausalHashId -> Transaction (Maybe CausalHashId)
 saveWatch :: WatchKind -> IdH -> ByteString -> Transaction ()
