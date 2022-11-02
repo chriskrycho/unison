@@ -4031,6 +4031,7 @@ groupLinks :: Monoid a => (Bool -> Reference -> a) -> SuperGroup v -> a
 normalLinks :: Monoid a => (Bool -> Reference -> a) -> SuperNormal v -> a
 prettyGroup :: Var v => String -> SuperGroup v -> ShowS
 instance GHC.Show.Show Unison.Runtime.ANF.CompileExn
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Runtime.ANF.Prefix v x)
 instance GHC.Enum.Enum Unison.Runtime.ANF.Mem
 instance GHC.Show.Show Unison.Runtime.ANF.Mem
 instance GHC.Classes.Ord Unison.Runtime.ANF.Mem
@@ -4090,6 +4091,8 @@ instance GHC.Enum.Enum Unison.Runtime.ANF.CTag
 instance GHC.Num.Num Unison.Runtime.ANF.CTag
 instance GHC.Enum.Enum Unison.Runtime.ANF.RTag
 instance GHC.Num.Num Unison.Runtime.ANF.RTag
+instance GHC.Base.Functor (Unison.Runtime.ANF.Prefix v)
+instance GHC.Classes.Ord v => GHC.Base.Applicative (Unison.Runtime.ANF.Prefix v)
 instance GHC.Exception.Type.Exception Unison.Runtime.ANF.CompileExn
 
 module Unison.Runtime.Pattern

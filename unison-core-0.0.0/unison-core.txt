@@ -55,7 +55,7 @@ visit' :: (Traversable f, Monad g, Ord v) => (f (Term f v a) -> g (f (Term f v a
 
 -- | Apply an effectful function to an ABT tree top down, sequencing the
 --   results.
-visit_ :: (Traversable f, Monad g, Ord v) => (f (Term f v a) -> g ()) -> Term f v a -> g (Term f v a)
+visit_ :: (Traversable f, Applicative g, Ord v) => (f (Term f v a) -> g ()) -> Term f v a -> g (Term f v a)
 
 -- | <a>visit</a> specialized to the <a>Identity</a> effect.
 visitPure :: (Traversable f, Ord v) => (Term f v a -> Maybe (Term f v a)) -> Term f v a -> Term f v a

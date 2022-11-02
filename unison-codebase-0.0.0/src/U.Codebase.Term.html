@@ -1415,7 +1415,7 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
      (Set termRef, Set typeRef, Set termLink, Set typeLink)
      (Term (F' text termRef typeRef termLink typeLink vt) v a)
 forall (f :: * -&gt; *) (g :: * -&gt; *) v a.
-(Traversable f, Monad g, Ord v) =&gt;
+(Traversable f, Applicative g, Ord v) =&gt;
 (f (Term f v a) -&gt; g ()) -&gt; Term f v a -&gt; g (Term f v a)
 </span><span class="hs-identifier hs-var">ABT.visit_</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
 </span><span id="line-208"></span><span>    </span><span class="annot"><a href="U.Codebase.Term.html#Ref"><span class="hs-identifier hs-type">Ref</span></a></span><span> </span><span id="local-6989586621679122949"><span class="annot"><span class="annottext">termRef

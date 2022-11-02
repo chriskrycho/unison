@@ -425,6 +425,10 @@ visit :: forall (f :: Type -> Type) g v a. (Traversable f, Applicative g, Ord v)
 --   results.
 visit' :: (Traversable f, Monad g, Ord v) => (f (Term f v a) -> g (f (Term f v a))) -> Term f v a -> g (Term f v a)
 
+-- | Apply an effectful function to an ABT tree top down, sequencing the
+--   results.
+visit_ :: (Traversable f, Applicative g, Ord v) => (f (Term f v a) -> g ()) -> Term f v a -> g (Term f v a)
+
 -- | <a>visit</a> specialized to the <a>Identity</a> effect.
 visitPure :: forall (f :: Type -> Type) v a. (Traversable f, Ord v) => (Term f v a -> Maybe (Term f v a)) -> Term f v a -> Term f v a
 changeVars :: (Foldable f, Functor f, Var v) => Map v v -> Term f v a -> Term f v a
