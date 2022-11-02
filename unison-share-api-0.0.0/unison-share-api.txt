@@ -695,6 +695,7 @@ typesToSyntax :: Var v => Ord a => Suffixify -> Width -> PrettyPrintEnvDecl -> M
 typeToSyntaxHeader :: Width -> HashQualified Name -> DisplayObject () (Decl Symbol Ann) -> DisplayObject SyntaxText SyntaxText
 loadSearchResults :: Applicative m => Codebase m Symbol Ann -> [SearchResult] -> m [SearchResult' Symbol Ann]
 loadTypeDisplayObject :: Applicative m => Codebase m v Ann -> Reference -> m (DisplayObject () (Decl v Ann))
+instance GHC.Show.Show Unison.Server.Backend.BackendError
 instance GHC.Base.Monad m => Control.Monad.Error.Class.MonadError Unison.Server.Backend.BackendError (Unison.Server.Backend.Backend m)
 instance GHC.Base.Monad m => Control.Monad.Reader.Class.MonadReader Unison.Server.Backend.BackendEnv (Unison.Server.Backend.Backend m)
 instance Control.Monad.IO.Class.MonadIO m => Control.Monad.IO.Class.MonadIO (Unison.Server.Backend.Backend m)
