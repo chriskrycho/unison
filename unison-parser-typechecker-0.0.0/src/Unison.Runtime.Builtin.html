@@ -16393,31 +16393,31 @@ Int -&gt; m (MutableByteArray (PrimState m))
 </span><span class="hs-string">&quot;Scope.bytearrayOf&quot;</span></span><span> </span><span class="annot"><span class="annottext">ForeignOp
 </span><a href="Unison.Runtime.Builtin.html#natNatToBox"><span class="hs-identifier hs-var">natNatToBox</span></a></span><span>
 </span><span id="line-2698"></span><span>    </span><span class="annot"><span class="annottext">(ForeignFunc -&gt; FDecl Symbol ())
--&gt; (((Int, Word8) -&gt; IO (MutableByteArray RealWorld))
+-&gt; (((Word8, Int) -&gt; IO (MutableByteArray RealWorld))
     -&gt; ForeignFunc)
--&gt; ((Int, Word8) -&gt; IO (MutableByteArray RealWorld))
+-&gt; ((Word8, Int) -&gt; IO (MutableByteArray RealWorld))
 -&gt; FDecl Symbol ()
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
-</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">((Int, Word8) -&gt; IO (MutableByteArray RealWorld)) -&gt; ForeignFunc
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">((Word8, Int) -&gt; IO (MutableByteArray RealWorld)) -&gt; ForeignFunc
 forall a r.
 (ForeignConvention a, ForeignConvention r) =&gt;
 (a -&gt; IO r) -&gt; ForeignFunc
 </span><a href="Unison.Runtime.Foreign.Function.html#mkForeign"><span class="hs-identifier hs-var">mkForeign</span></a></span><span>
-</span><span id="line-2699"></span><span>    </span><span class="annot"><span class="annottext">(((Int, Word8) -&gt; IO (MutableByteArray RealWorld))
+</span><span id="line-2699"></span><span>    </span><span class="annot"><span class="annottext">(((Word8, Int) -&gt; IO (MutableByteArray RealWorld))
  -&gt; FDecl Symbol ())
--&gt; ((Int, Word8) -&gt; IO (MutableByteArray RealWorld))
+-&gt; ((Word8, Int) -&gt; IO (MutableByteArray RealWorld))
 -&gt; FDecl Symbol ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621680635511"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621680635511"><span class="hs-identifier hs-var">sz</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680635510"><span class="annot"><span class="annottext">Word8
-</span><a href="#local-6989586621680635510"><span class="hs-identifier hs-var">init</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621680635511"><span class="annot"><span class="annottext">Word8
+</span><a href="#local-6989586621680635511"><span class="hs-identifier hs-var">init</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680635510"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621680635510"><span class="hs-identifier hs-var">sz</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-2700"></span><span>      </span><span id="local-6989586621680635509"><span class="annot"><span class="annottext">MutableByteArray RealWorld
 </span><a href="#local-6989586621680635509"><span class="hs-identifier hs-var">arr</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; IO (MutableByteArray (PrimState IO))
 forall (m :: * -&gt; *).
 PrimMonad m =&gt;
 Int -&gt; m (MutableByteArray (PrimState m))
 </span><span class="hs-identifier hs-var">PA.newByteArray</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621680635511"><span class="hs-identifier hs-var">sz</span></a></span><span>
+</span><a href="#local-6989586621680635510"><span class="hs-identifier hs-var">sz</span></a></span><span>
 </span><span id="line-2701"></span><span>      </span><span class="annot"><span class="annottext">MutableByteArray (PrimState IO) -&gt; Int -&gt; Int -&gt; Word8 -&gt; IO ()
 forall (m :: * -&gt; *).
 PrimMonad m =&gt;
@@ -16426,8 +16426,8 @@ MutableByteArray (PrimState m) -&gt; Int -&gt; Int -&gt; Word8 -&gt; m ()
 MutableByteArray (PrimState IO)
 </span><a href="#local-6989586621680635509"><span class="hs-identifier hs-var">arr</span></a></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621680635511"><span class="hs-identifier hs-var">sz</span></a></span><span> </span><span class="annot"><span class="annottext">Word8
-</span><a href="#local-6989586621680635510"><span class="hs-identifier hs-var">init</span></a></span><span>
+</span><a href="#local-6989586621680635510"><span class="hs-identifier hs-var">sz</span></a></span><span> </span><span class="annot"><span class="annottext">Word8
+</span><a href="#local-6989586621680635511"><span class="hs-identifier hs-var">init</span></a></span><span>
 </span><span id="line-2702"></span><span>      </span><span class="hs-identifier">pure</span><span> </span><span class="annot"><span class="annottext">MutableByteArray RealWorld
 </span><a href="#local-6989586621680635509"><span class="hs-identifier hs-var">arr</span></a></span><span>
 </span><span id="line-2703"></span><span>
