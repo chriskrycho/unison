@@ -1800,7 +1800,7 @@ unLamsUntilDelay' :: Var v => Term2 vt at ap v a -> Maybe ([v], Term2 vt at ap v
 unLamsPred' :: (Term2 vt at ap v a, v -> Bool) -> Maybe ([v], Term2 vt at ap v a)
 unReqOrCtor :: Term2 vt at ap v a -> Maybe ConstructorReference
 dependencies :: (Ord v, Ord vt) => Term2 vt at ap v a -> Set Reference
-termDependencies :: (Ord v, Ord vt) => Term2 vt at ap v a -> Set Reference
+termDependencies :: (Ord v, Ord vt) => Term2 vt at ap v a -> Set TermReference
 typeDependencies :: (Ord v, Ord vt) => Term2 vt at ap v a -> Set Reference
 constructorDependencies :: (Ord v, Ord vt) => Term2 vt at ap v a -> Set Reference
 generalizedDependencies :: (Ord v, Ord vt, Ord r) => (Reference -> r) -> (Reference -> r) -> (Reference -> r) -> (Reference -> ConstructorId -> r) -> (Reference -> r) -> (Reference -> ConstructorId -> r) -> (Reference -> r) -> Term2 vt at ap v a -> Set r

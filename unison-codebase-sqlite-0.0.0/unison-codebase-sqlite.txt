@@ -998,6 +998,21 @@ getDependenciesForDependent :: Id -> Transaction [Reference]
 
 -- | Get non-self, user-defined dependencies of a user-defined dependent.
 getDependencyIdsForDependent :: Id -> Transaction [Id]
+
+-- | Given two term (components) A and B, return the set of all terms that
+--   are along any "dependency path" from A to B, not including A nor B;
+--   i.e., the transitive dependencies of A that are transitive dependents
+--   of B.
+--   
+--   For example, if A depends on X and Y, X depends on Q, Y depends on Z,
+--   and X and Z depend on B...
+--   
+--   <ul>
+--   <li>-X-----Q / A B / Y---Z</li>
+--   </ul>
+--   
+--   ...then `getDependenciesBetweenTerms A B` would return the set {X Y Z}
+getDependenciesBetweenTerms :: ObjectId -> ObjectId -> Transaction (Set ObjectId)
 currentSchemaVersion :: SchemaVersion
 countObjects :: Transaction Int
 countCausals :: Transaction Int
