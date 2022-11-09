@@ -533,7 +533,7 @@ shallowPPE :: Monad m => Codebase m v a -> Branch m -> m PrettyPrintEnv
 --   elsewhere, but the package dependency graph makes it hard to find a
 --   good place.
 shallowNames :: forall m v a. Monad m => Codebase m v a -> Branch m -> m Names
-loadReferentType :: MonadIO m => Codebase m Symbol Ann -> Referent -> m (Maybe (Type Symbol Ann))
+loadReferentType :: Codebase m Symbol Ann -> Referent -> Transaction (Maybe (Type Symbol Ann))
 data TermEntry v a
 TermEntry :: Referent -> ShortHash -> NameSegment -> Bool -> Maybe (Type v a) -> TermTag -> TermEntry v a
 [$sel:termEntryReferent:TermEntry] :: TermEntry v a -> Referent
@@ -559,7 +559,7 @@ FoundTypeRef :: Reference -> FoundRef
 fuzzyFind :: Names -> String -> [(Alignment, UnisonName, [FoundRef])]
 lsAtPath :: MonadIO m => Codebase m Symbol Ann -> Maybe (Branch m) -> Absolute -> m [ShallowListEntry Symbol Ann]
 findShallowReadmeInBranchAndRender :: Width -> Runtime Symbol -> Codebase IO Symbol Ann -> PrettyPrintEnvDecl -> Branch m -> Backend IO (Maybe Doc)
-isDoc :: MonadIO m => Codebase m Symbol Ann -> Referent -> m Bool
+isDoc :: Codebase m Symbol Ann -> Referent -> Transaction Bool
 isDoc' :: (Var v, Monoid loc) => Maybe (Type v loc) -> Bool
 doc1Type :: (Ord v, Monoid a) => Type v a
 doc2Type :: (Ord v, Monoid a) => Type v a
@@ -678,7 +678,7 @@ data IncludeCycles
 IncludeCycles :: IncludeCycles
 DontIncludeCycles :: IncludeCycles
 definitionsBySuffixes :: forall m. MonadIO m => Codebase m Symbol Ann -> NameSearch -> IncludeCycles -> [HashQualified Name] -> m (DefinitionResults Symbol)
-displayTerm :: Monad m => Codebase m Symbol Ann -> Reference -> m (DisplayObject (Type Symbol Ann) (Term Symbol Ann))
+displayTerm :: MonadIO m => Codebase m Symbol Ann -> Reference -> m (DisplayObject (Type Symbol Ann) (Term Symbol Ann))
 displayType :: Codebase m Symbol Ann -> Reference -> Transaction (DisplayObject () (Decl Symbol Ann))
 termsToSyntax :: Var v => Ord a => Suffixify -> Width -> PrettyPrintEnvDecl -> Map Reference (DisplayObject (Type v a) (Term v a)) -> Map Reference (DisplayObject SyntaxText SyntaxText)
 typesToSyntax :: Var v => Ord a => Suffixify -> Width -> PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl v a)) -> Map Reference (DisplayObject SyntaxText SyntaxText)
@@ -693,7 +693,7 @@ typesToSyntax :: Var v => Ord a => Suffixify -> Width -> PrettyPrintEnvDecl -> M
 --   
 --   structural type Maybe a
 typeToSyntaxHeader :: Width -> HashQualified Name -> DisplayObject () (Decl Symbol Ann) -> DisplayObject SyntaxText SyntaxText
-loadSearchResults :: MonadIO m => Codebase m Symbol Ann -> [SearchResult] -> m [SearchResult' Symbol Ann]
+loadSearchResults :: Codebase m Symbol Ann -> [SearchResult] -> Transaction [SearchResult' Symbol Ann]
 loadTypeDisplayObject :: Codebase m v Ann -> Reference -> Transaction (DisplayObject () (Decl v Ann))
 instance GHC.Show.Show Unison.Server.Backend.BackendError
 instance GHC.Base.Monad m => Control.Monad.Error.Class.MonadError Unison.Server.Backend.BackendError (Unison.Server.Backend.Backend m)

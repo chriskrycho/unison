@@ -1628,6 +1628,7 @@ respondNumbered :: NumberedOutput -> Cli ()
 
 -- | Time an action.
 time :: String -> Cli a -> Cli a
+runTransaction :: Transaction a -> Cli a
 
 -- | The result of calling <a>$sel:loadSource:Env</a>.
 data LoadSourceResult
@@ -1680,7 +1681,7 @@ ensureAuthenticatedWithCodeserver :: CodeserverURI -> Cli ()
 module Unison.Cli.TypeCheck
 typecheck :: [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> Cli (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
 typecheckHelper :: MonadIO m => Codebase IO Symbol Ann -> IO UniqueName -> [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> m (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
-typecheckFile :: [Type Symbol Ann] -> UnisonFile Symbol Ann -> Cli (Result (Seq (Note Symbol Ann)) (Either Names (TypecheckedUnisonFile Symbol Ann)))
+typecheckFile :: Codebase m Symbol Ann -> [Type Symbol Ann] -> UnisonFile Symbol Ann -> Transaction (Result (Seq (Note Symbol Ann)) (Either Names (TypecheckedUnisonFile Symbol Ann)))
 
 module Unison.LSP.FileAnalysis
 
