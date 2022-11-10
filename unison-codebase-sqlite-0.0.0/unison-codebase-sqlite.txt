@@ -952,6 +952,7 @@ expectCausalValueHashId :: CausalHashId -> Transaction BranchHashId
 loadCausalByCausalHash :: CausalHash -> Transaction (Maybe (CausalHashId, BranchHashId))
 expectCausalByCausalHash :: CausalHash -> Transaction (CausalHashId, BranchHashId)
 loadBranchObjectIdByCausalHashId :: CausalHashId -> Transaction (Maybe BranchObjectId)
+loadBranchObjectIdByBranchHashId :: BranchHashId -> Transaction (Maybe BranchObjectId)
 expectBranchObjectIdByCausalHashId :: CausalHashId -> Transaction BranchObjectId
 expectBranchObjectIdByBranchHashId :: BranchHashId -> Transaction BranchObjectId
 saveCausalParents :: CausalHashId -> [CausalHashId] -> Transaction ()
