@@ -25,12 +25,12 @@
 -&gt; (Either ResponseError (ResponseResult 'TextDocumentHover)
     -&gt; Lsp ())
 -&gt; Lsp ()
-</span><a href="Unison.LSP.Hover.html#hoverHandler"><span class="hs-identifier hs-var hs-var">hoverHandler</span></a></span></span><span> </span><span id="local-6989586621679573264"><span class="annot"><span class="annottext">RequestMessage 'TextDocumentHover
-</span><a href="#local-6989586621679573264"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span id="local-6989586621679573263"><span class="annot"><span class="annottext">Either ResponseError (ResponseResult 'TextDocumentHover) -&gt; Lsp ()
-</span><a href="#local-6989586621679573263"><span class="hs-identifier hs-var">respond</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.LSP.Hover.html#hoverHandler"><span class="hs-identifier hs-var hs-var">hoverHandler</span></a></span></span><span> </span><span id="local-6989586621679573253"><span class="annot"><span class="annottext">RequestMessage 'TextDocumentHover
+</span><a href="#local-6989586621679573253"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span id="local-6989586621679573252"><span class="annot"><span class="annottext">Either ResponseError (ResponseResult 'TextDocumentHover) -&gt; Lsp ()
+</span><a href="#local-6989586621679573252"><span class="hs-identifier hs-var">respond</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-25"></span><span>  </span><span class="annot"><span class="annottext">Either ResponseError (Maybe Hover) -&gt; Lsp ()
 Either ResponseError (ResponseResult 'TextDocumentHover) -&gt; Lsp ()
-</span><a href="#local-6989586621679573263"><span class="hs-identifier hs-var">respond</span></a></span><span> </span><span class="annot"><span class="annottext">(Either ResponseError (Maybe Hover) -&gt; Lsp ())
+</span><a href="#local-6989586621679573252"><span class="hs-identifier hs-var">respond</span></a></span><span> </span><span class="annot"><span class="annottext">(Either ResponseError (Maybe Hover) -&gt; Lsp ())
 -&gt; (Maybe Hover -&gt; Either ResponseError (Maybe Hover))
 -&gt; Maybe Hover
 -&gt; Lsp ()
@@ -42,9 +42,9 @@ forall (m :: * -&gt; *) a b. Monad m =&gt; (a -&gt; m b) -&gt; m a -&gt; m b
 </span><span class="hs-operator hs-var">=&lt;&lt;</span></span><span> </span><span class="annot"><span class="annottext">MaybeT Lsp Hover -&gt; Lsp (Maybe Hover)
 forall (m :: * -&gt; *) a. MaybeT m a -&gt; m (Maybe a)
 </span><span class="hs-identifier hs-var hs-var">runMaybeT</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-26"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679573259"><span class="annot"><span class="annottext">p :: HoverParams
-</span><a href="#local-6989586621679573259"><span class="hs-identifier hs-var hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">RequestMessage 'TextDocumentHover
-</span><a href="#local-6989586621679573264"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">RequestMessage 'TextDocumentHover
+</span><span id="line-26"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679573248"><span class="annot"><span class="annottext">p :: HoverParams
+</span><a href="#local-6989586621679573248"><span class="hs-identifier hs-var hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">RequestMessage 'TextDocumentHover
+</span><a href="#local-6989586621679573253"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">RequestMessage 'TextDocumentHover
 -&gt; Getting
      HoverParams (RequestMessage 'TextDocumentHover) HoverParams
 -&gt; HoverParams
@@ -52,8 +52,8 @@ forall s a. s -&gt; Getting a s a -&gt; a
 </span><span class="hs-operator hs-var">^.</span></span><span> </span><span class="annot"><span class="annottext">Getting HoverParams (RequestMessage 'TextDocumentHover) HoverParams
 forall s a. HasParams s a =&gt; Lens' s a
 </span><span class="hs-identifier hs-var">params</span></span><span class="hs-special">)</span><span>
-</span><span id="line-27"></span><span>    </span><span id="local-6989586621679573256"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679573256"><span class="hs-identifier hs-var">txtIdentifier</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe Text) -&gt; MaybeT Lsp Text
+</span><span id="line-27"></span><span>    </span><span id="local-6989586621679573245"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679573245"><span class="hs-identifier hs-var">txtIdentifier</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe Text) -&gt; MaybeT Lsp Text
 forall (m :: * -&gt; *) a. m (Maybe a) -&gt; MaybeT m a
 </span><span class="hs-identifier hs-var">MaybeT</span></span><span> </span><span class="annot"><span class="annottext">(Lsp (Maybe Text) -&gt; MaybeT Lsp Text)
 -&gt; Lsp (Maybe Text) -&gt; MaybeT Lsp Text
@@ -64,9 +64,9 @@ forall p.
  HasTextDocument p TextDocumentIdentifier) =&gt;
 p -&gt; Lsp (Maybe Text)
 </span><a href="Unison.LSP.VFS.html#identifierAtPosition"><span class="hs-identifier hs-var">identifierAtPosition</span></a></span><span> </span><span class="annot"><span class="annottext">HoverParams
-</span><a href="#local-6989586621679573259"><span class="hs-identifier hs-var">p</span></a></span><span>
-</span><span id="line-28"></span><span>    </span><span id="local-6989586621679573253"><span class="annot"><span class="annottext">HashQualified Name
-</span><a href="#local-6989586621679573253"><span class="hs-identifier hs-var">hqIdentifier</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe (HashQualified Name)) -&gt; MaybeT Lsp (HashQualified Name)
+</span><a href="#local-6989586621679573248"><span class="hs-identifier hs-var">p</span></a></span><span>
+</span><span id="line-28"></span><span>    </span><span id="local-6989586621679573242"><span class="annot"><span class="annottext">HashQualified Name
+</span><a href="#local-6989586621679573242"><span class="hs-identifier hs-var">hqIdentifier</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe (HashQualified Name)) -&gt; MaybeT Lsp (HashQualified Name)
 forall (m :: * -&gt; *) a. m (Maybe a) -&gt; MaybeT m a
 </span><span class="hs-identifier hs-var">MaybeT</span></span><span> </span><span class="annot"><span class="annottext">(Lsp (Maybe (HashQualified Name))
  -&gt; MaybeT Lsp (HashQualified Name))
@@ -81,20 +81,20 @@ forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Maybe (HashQualified Name)
 </span><span class="hs-identifier hs-var">HQ.fromText</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679573256"><span class="hs-identifier hs-var">txtIdentifier</span></a></span><span>
-</span><span id="line-29"></span><span>    </span><span id="local-6989586621679573251"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679573251"><span class="hs-identifier hs-var">cb</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; Codebase IO Symbol Ann)
+</span><a href="#local-6989586621679573245"><span class="hs-identifier hs-var">txtIdentifier</span></a></span><span>
+</span><span id="line-29"></span><span>    </span><span id="local-6989586621679573240"><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679573240"><span class="hs-identifier hs-var">cb</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; Codebase IO Symbol Ann)
 -&gt; MaybeT Lsp (Codebase IO Symbol Ann)
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; Codebase IO Symbol Ann
 </span><a href="Unison.LSP.Types.html#%24sel%3Acodebase%3AEnv"><span class="hs-identifier hs-var hs-var">codebase</span></a></span><span>
-</span><span id="line-30"></span><span>    </span><span id="local-6989586621679573248"><span class="annot"><span class="annottext">Runtime Symbol
-</span><a href="#local-6989586621679573248"><span class="hs-identifier hs-var">rt</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; Runtime Symbol) -&gt; MaybeT Lsp (Runtime Symbol)
+</span><span id="line-30"></span><span>    </span><span id="local-6989586621679573237"><span class="annot"><span class="annottext">Runtime Symbol
+</span><a href="#local-6989586621679573237"><span class="hs-identifier hs-var">rt</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Env -&gt; Runtime Symbol) -&gt; MaybeT Lsp (Runtime Symbol)
 forall r (m :: * -&gt; *) a. MonadReader r m =&gt; (r -&gt; a) -&gt; m a
 </span><span class="hs-identifier hs-var">asks</span></span><span> </span><span class="annot"><span class="annottext">Env -&gt; Runtime Symbol
 </span><a href="Unison.LSP.Types.html#%24sel%3Aruntime%3AEnv"><span class="hs-identifier hs-var hs-var">runtime</span></a></span><span>
-</span><span id="line-31"></span><span>    </span><span id="local-6989586621679573246"><span class="annot"><span class="annottext">DefinitionDisplayResults
-</span><a href="#local-6989586621679573246"><span class="hs-identifier hs-var">results</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe DefinitionDisplayResults)
+</span><span id="line-31"></span><span>    </span><span id="local-6989586621679573235"><span class="annot"><span class="annottext">DefinitionDisplayResults
+</span><a href="#local-6989586621679573235"><span class="hs-identifier hs-var">results</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Lsp (Maybe DefinitionDisplayResults)
 -&gt; MaybeT Lsp DefinitionDisplayResults
 forall (m :: * -&gt; *) a. m (Maybe a) -&gt; MaybeT m a
 </span><span class="hs-identifier hs-var">MaybeT</span></span><span> </span><span class="annot"><span class="annottext">(Lsp (Maybe DefinitionDisplayResults)
@@ -141,37 +141,37 @@ forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool -&gt; Suffixify
 </span><span class="hs-identifier hs-var">Backend.Suffixify</span></span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">True</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Runtime Symbol
-</span><a href="#local-6989586621679573248"><span class="hs-identifier hs-var">rt</span></a></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
-</span><a href="#local-6989586621679573251"><span class="hs-identifier hs-var">cb</span></a></span><span> </span><span class="annot"><span class="annottext">HashQualified Name
-</span><a href="#local-6989586621679573253"><span class="hs-identifier hs-var">hqIdentifier</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-32"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679573240"><span class="annot"><span class="annottext">termResults :: [Text]
-</span><a href="#local-6989586621679573240"><span class="hs-identifier hs-var hs-var">termResults</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TermDefinition -&gt; Text
-</span><a href="#local-6989586621679573239"><span class="hs-identifier hs-var">formatTermDefinition</span></a></span><span> </span><span class="annot"><span class="annottext">(TermDefinition -&gt; Text) -&gt; [TermDefinition] -&gt; [Text]
+</span><a href="#local-6989586621679573237"><span class="hs-identifier hs-var">rt</span></a></span><span> </span><span class="annot"><span class="annottext">Codebase IO Symbol Ann
+</span><a href="#local-6989586621679573240"><span class="hs-identifier hs-var">cb</span></a></span><span> </span><span class="annot"><span class="annottext">HashQualified Name
+</span><a href="#local-6989586621679573242"><span class="hs-identifier hs-var">hqIdentifier</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-32"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679573229"><span class="annot"><span class="annottext">termResults :: [Text]
+</span><a href="#local-6989586621679573229"><span class="hs-identifier hs-var hs-var">termResults</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TermDefinition -&gt; Text
+</span><a href="#local-6989586621679573228"><span class="hs-identifier hs-var">formatTermDefinition</span></a></span><span> </span><span class="annot"><span class="annottext">(TermDefinition -&gt; Text) -&gt; [TermDefinition] -&gt; [Text]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Map Text TermDefinition -&gt; [TermDefinition]
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; [a]
 </span><span class="hs-identifier hs-var">toList</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">DefinitionDisplayResults -&gt; Map Text TermDefinition
 </span><span class="hs-identifier hs-var hs-var">Backend.termDefinitions</span></span><span> </span><span class="annot"><span class="annottext">DefinitionDisplayResults
-</span><a href="#local-6989586621679573246"><span class="hs-identifier hs-var">results</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-33"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679573235"><span class="annot"><span class="annottext">typeResults :: [Text]
-</span><a href="#local-6989586621679573235"><span class="hs-identifier hs-var hs-var">typeResults</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TypeDefinition -&gt; Text
-</span><a href="#local-6989586621679573234"><span class="hs-identifier hs-var">formatTypeDefinition</span></a></span><span> </span><span class="annot"><span class="annottext">(TypeDefinition -&gt; Text) -&gt; [TypeDefinition] -&gt; [Text]
+</span><a href="#local-6989586621679573235"><span class="hs-identifier hs-var">results</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-33"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679573224"><span class="annot"><span class="annottext">typeResults :: [Text]
+</span><a href="#local-6989586621679573224"><span class="hs-identifier hs-var hs-var">typeResults</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TypeDefinition -&gt; Text
+</span><a href="#local-6989586621679573223"><span class="hs-identifier hs-var">formatTypeDefinition</span></a></span><span> </span><span class="annot"><span class="annottext">(TypeDefinition -&gt; Text) -&gt; [TypeDefinition] -&gt; [Text]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Map Text TypeDefinition -&gt; [TypeDefinition]
 forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; [a]
 </span><span class="hs-identifier hs-var">toList</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">DefinitionDisplayResults -&gt; Map Text TypeDefinition
 </span><span class="hs-identifier hs-var hs-var">Backend.typeDefinitions</span></span><span> </span><span class="annot"><span class="annottext">DefinitionDisplayResults
-</span><a href="#local-6989586621679573246"><span class="hs-identifier hs-var">results</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-34"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679573232"><span class="annot"><span class="annottext">markup :: Text
-</span><a href="#local-6989586621679573232"><span class="hs-identifier hs-var hs-var">markup</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; [Text] -&gt; Text
+</span><a href="#local-6989586621679573235"><span class="hs-identifier hs-var">results</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-34"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679573221"><span class="annot"><span class="annottext">markup :: Text
+</span><a href="#local-6989586621679573221"><span class="hs-identifier hs-var hs-var">markup</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; [Text] -&gt; Text
 </span><span class="hs-identifier hs-var">Text.intercalate</span></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;\n\n---\n\n&quot;</span></span><span> </span><span class="annot"><span class="annottext">([Text] -&gt; Text) -&gt; [Text] -&gt; Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">[Text]
-</span><a href="#local-6989586621679573240"><span class="hs-identifier hs-var">termResults</span></a></span><span> </span><span class="annot"><span class="annottext">[Text] -&gt; [Text] -&gt; [Text]
+</span><a href="#local-6989586621679573229"><span class="hs-identifier hs-var">termResults</span></a></span><span> </span><span class="annot"><span class="annottext">[Text] -&gt; [Text] -&gt; [Text]
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Text]
-</span><a href="#local-6989586621679573235"><span class="hs-identifier hs-var">typeResults</span></a></span><span>
+</span><a href="#local-6989586621679573224"><span class="hs-identifier hs-var">typeResults</span></a></span><span>
 </span><span id="line-35"></span><span>    </span><span class="annot"><span class="annottext">Hover -&gt; MaybeT Lsp Hover
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">(Hover -&gt; MaybeT Lsp Hover) -&gt; Hover -&gt; MaybeT Lsp Hover
@@ -184,24 +184,24 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">HoverContents</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">MarkupKind -&gt; Text -&gt; MarkupContent
 </span><span class="hs-identifier hs-var">MarkupContent</span></span><span> </span><span class="annot"><span class="annottext">MarkupKind
 </span><span class="hs-identifier hs-var">MkPlainText</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679573232"><span class="hs-identifier hs-var">markup</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a href="#local-6989586621679573221"><span class="hs-identifier hs-var">markup</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
 </span><span id="line-38"></span><span>          </span><span class="annot"><span class="annottext">$sel:_range:Hover :: Maybe Range
 </span><span class="hs-identifier hs-var">_range</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Range
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-comment">-- TODO add range info</span><span>
 </span><span id="line-39"></span><span>        </span><span class="hs-special">}</span><span>
 </span><span id="line-40"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-41"></span><span>    </span><span class="annot"><a href="#local-6989586621679573239"><span class="hs-identifier hs-type">formatTermDefinition</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.TermDefinition</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
-</span><span id="line-42"></span><span>    </span><span id="local-6989586621679573239"><span class="annot"><span class="annottext">formatTermDefinition :: TermDefinition -&gt; Text
-</span><a href="#local-6989586621679573239"><span class="hs-identifier hs-var hs-var">formatTermDefinition</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Backend.TermDefinition</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679573223"><span class="annot"><span class="annottext">Text
+</span><span id="line-41"></span><span>    </span><span class="annot"><a href="#local-6989586621679573228"><span class="hs-identifier hs-type">formatTermDefinition</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.TermDefinition</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
+</span><span id="line-42"></span><span>    </span><span id="local-6989586621679573228"><span class="annot"><span class="annottext">formatTermDefinition :: TermDefinition -&gt; Text
+</span><a href="#local-6989586621679573228"><span class="hs-identifier hs-var hs-var">formatTermDefinition</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Backend.TermDefinition</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679573212"><span class="annot"><span class="annottext">Text
 $sel:bestTermName:TermDefinition :: TermDefinition -&gt; Text
 bestTermName :: Text
-</span><span class="hs-identifier hs-var hs-var">bestTermName</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679573221"><span class="annot"><span class="annottext">SyntaxText
+</span><span class="hs-identifier hs-var hs-var">bestTermName</span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679573210"><span class="annot"><span class="annottext">SyntaxText
 $sel:signature:TermDefinition :: TermDefinition -&gt; SyntaxText
 signature :: SyntaxText
 </span><span class="hs-keyword hs-var hs-var">signature</span></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-43"></span><span>      </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679573223"><span class="hs-identifier hs-var">bestTermName</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621679573212"><span class="hs-identifier hs-var">bestTermName</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot; : &quot;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
@@ -209,13 +209,13 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Text
 </span><span class="hs-identifier hs-var">Text.pack</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">SyntaxText -&gt; String
 </span><span class="hs-identifier hs-var">Server.toPlain</span></span><span> </span><span class="annot"><span class="annottext">SyntaxText
-</span><a href="#local-6989586621679573221"><span class="hs-keyword hs-var">signature</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679573210"><span class="hs-keyword hs-var">signature</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-44"></span><span>
-</span><span id="line-45"></span><span>    </span><span class="annot"><a href="#local-6989586621679573234"><span class="hs-identifier hs-type">formatTypeDefinition</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.TypeDefinition</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
-</span><span id="line-46"></span><span>    </span><span id="local-6989586621679573234"><span class="annot"><span class="annottext">formatTypeDefinition :: TypeDefinition -&gt; Text
-</span><a href="#local-6989586621679573234"><span class="hs-identifier hs-var hs-var">formatTypeDefinition</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Backend.TypeDefinition</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679573216"><span class="annot"><span class="annottext">Text
+</span><span id="line-45"></span><span>    </span><span class="annot"><a href="#local-6989586621679573223"><span class="hs-identifier hs-type">formatTypeDefinition</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Backend.TypeDefinition</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
+</span><span id="line-46"></span><span>    </span><span id="local-6989586621679573223"><span class="annot"><span class="annottext">formatTypeDefinition :: TypeDefinition -&gt; Text
+</span><a href="#local-6989586621679573223"><span class="hs-identifier hs-var hs-var">formatTypeDefinition</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Backend.TypeDefinition</span></span><span> </span><span class="hs-special">{</span><span id="local-6989586621679573205"><span class="annot"><span class="annottext">Text
 $sel:bestTypeName:TypeDefinition :: TypeDefinition -&gt; Text
 bestTypeName :: Text
 </span><span class="hs-identifier hs-var hs-var">bestTypeName</span></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679573216"><span class="hs-identifier hs-var">bestTypeName</span></a></span><span>
+</span><a href="#local-6989586621679573205"><span class="hs-identifier hs-var">bestTypeName</span></a></span><span>
 </span><span id="line-47"></span></pre></body></html>
