@@ -3271,7 +3271,17 @@ initializeNameLookupIndexFromV1Branch :: Branch Transaction -> Transaction ()
 --   pre-loaded, If you do, use
 --   <a>initializeNameLookupIndexFromV1Branch</a> instead.
 initializeNameLookupIndexFromV2Root :: (Reference -> Transaction ConstructorType) -> Transaction ()
-mkGetDeclType :: MonadIO m => m (Reference -> Transaction ConstructorType)
+
+-- | Given a transaction, return a transaction that first checks a
+--   semispace cache of the given size.
+--   
+--   The transaction should probably be read-only, as we (of course) don't
+--   hit SQLite on a cache hit.
+makeCachedTransaction :: (Ord a, MonadIO m) => Word -> (a -> Transaction b) -> m (a -> Transaction b)
+
+-- | Like <a>makeCachedTransaction</a>, but for when the transaction
+--   returns a Maybe; only cache the Justs.
+makeMaybeCachedTransaction :: (Ord a, MonadIO m) => Word -> (a -> Transaction (Maybe b)) -> m (a -> Transaction (Maybe b))
 instance GHC.Show.Show a => GHC.Show.Show (Unison.Codebase.SqliteCodebase.Operations.BufferEntry a)
 instance GHC.Classes.Eq a => GHC.Classes.Eq (Unison.Codebase.SqliteCodebase.Operations.BufferEntry a)
 
