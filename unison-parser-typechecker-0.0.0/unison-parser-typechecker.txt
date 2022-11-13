@@ -1280,6 +1280,9 @@ type Metadata = Map Type (Set Value)
 type Star a n = Star3 a n Type (Type, Value)
 type R4 a n = Relation4 a n Type Value
 starToR4 :: (Ord r, Ord n) => Star r n -> Relation4 r n Type Value
+
+-- | Flattens a Metadata.Star into a 4-tuple.
+starToR4List :: Ord r => Star r n -> [(r, n, Type, Value)]
 hasMetadata :: Ord a => a -> Type -> Value -> Star a n -> Bool
 hasMetadataWithType' :: Ord a => a -> Type -> R4 a n -> Bool
 hasMetadataWithType :: Ord a => a -> Type -> Star a n -> Bool
@@ -1304,6 +1307,7 @@ CausalHash :: Hash -> CausalHash
 [$sel:unCausalHash:CausalHash] :: CausalHash -> Hash
 head :: Branch m -> Branch0 m
 headHash :: Branch m -> CausalHash
+namespaceHash :: Branch m -> NamespaceHash m
 
 -- | A node in the Unison namespace hierarchy along with its history.
 newtype Branch m
@@ -1317,9 +1321,10 @@ Branch :: UnwrappedBranch m -> Branch m
 --   nodes one level below us. <a>$sel:_edits:Branch0</a> are the
 --   <a>Patch</a>s stored at this node in the code.
 --   
---   The <tt>deep*</tt> fields are derived from the four above.
+--   The remaining fields are derived from the four above. Please don't set
+--   them manually; use Branch.empty0 or Branch.branch0 to construct them.
 data Branch0 m
-Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (EditHash, m Patch) -> Relation Referent Name -> Relation Reference Name -> R4 Referent Name -> R4 Reference Name -> Set Path -> Map Name EditHash -> Branch0 m
+Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (EditHash, m Patch) -> Bool -> Relation Referent Name -> Relation Reference Name -> R4 Referent Name -> R4 Reference Name -> Set Path -> Map Name EditHash -> Branch0 m
 [$sel:_terms:Branch0] :: Branch0 m -> Star Referent NameSegment
 [$sel:_types:Branch0] :: Branch0 m -> Star Reference NameSegment
 
@@ -1327,6 +1332,11 @@ Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSe
 --   tree has a history.
 [$sel:_children:Branch0] :: Branch0 m -> Map NameSegment (Branch m)
 [$sel:_edits:Branch0] :: Branch0 m -> Map NameSegment (EditHash, m Patch)
+
+-- | True if a branch and its children have no definitions or edits in
+--   them. (Computed recursively, and small enough to justify storing here
+--   to avoid computing more than once.)
+[$sel:isEmpty0:Branch0] :: Branch0 m -> Bool
 [$sel:deepTerms:Branch0] :: Branch0 m -> Relation Referent Name
 [$sel:deepTypes:Branch0] :: Branch0 m -> Relation Reference Name
 [$sel:deepTermMetadata:Branch0] :: Branch0 m -> R4 Referent Name
@@ -1990,9 +2000,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2QRQ loc_a2QRR. Lens' (Env v_a2QRQ loc_a2QRR) (TypeLookup v_a2QRQ loc_a2QRR)
-termsByShortname :: forall v_a2QRQ loc_a2QRR. Lens' (Env v_a2QRQ loc_a2QRR) (Map Name [NamedReference v_a2QRQ loc_a2QRR])
-ambientAbilities :: forall v_a2QRQ loc_a2QRR. Lens' (Env v_a2QRQ loc_a2QRR) [Type v_a2QRQ loc_a2QRR]
+typeLookup :: forall v_a2R0V loc_a2R0W. Lens' (Env v_a2R0V loc_a2R0W) (TypeLookup v_a2R0V loc_a2R0W)
+termsByShortname :: forall v_a2R0V loc_a2R0W. Lens' (Env v_a2R0V loc_a2R0W) (Map Name [NamedReference v_a2R0V loc_a2R0W])
+ambientAbilities :: forall v_a2R0V loc_a2R0W. Lens' (Env v_a2R0V loc_a2R0W) [Type v_a2R0V loc_a2R0W]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -2603,9 +2613,10 @@ type UnwrappedBranch m = Causal m (Branch0 m)
 --   nodes one level below us. <a>$sel:_edits:Branch0</a> are the
 --   <a>Patch</a>s stored at this node in the code.
 --   
---   The <tt>deep*</tt> fields are derived from the four above.
+--   The remaining fields are derived from the four above. Please don't set
+--   them manually; use Branch.empty0 or Branch.branch0 to construct them.
 data Branch0 m
-Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (EditHash, m Patch) -> Relation Referent Name -> Relation Reference Name -> R4 Referent Name -> R4 Reference Name -> Set Path -> Map Name EditHash -> Branch0 m
+Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (EditHash, m Patch) -> Bool -> Relation Referent Name -> Relation Reference Name -> R4 Referent Name -> R4 Reference Name -> Set Path -> Map Name EditHash -> Branch0 m
 [$sel:_terms:Branch0] :: Branch0 m -> Star Referent NameSegment
 [$sel:_types:Branch0] :: Branch0 m -> Star Reference NameSegment
 
@@ -2613,6 +2624,11 @@ Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSe
 --   tree has a history.
 [$sel:_children:Branch0] :: Branch0 m -> Map NameSegment (Branch m)
 [$sel:_edits:Branch0] :: Branch0 m -> Map NameSegment (EditHash, m Patch)
+
+-- | True if a branch and its children have no definitions or edits in
+--   them. (Computed recursively, and small enough to justify storing here
+--   to avoid computing more than once.)
+[$sel:isEmpty0:Branch0] :: Branch0 m -> Bool
 [$sel:deepTerms:Branch0] :: Branch0 m -> Relation Referent Name
 [$sel:deepTypes:Branch0] :: Branch0 m -> Relation Reference Name
 [$sel:deepTermMetadata:Branch0] :: Branch0 m -> R4 Referent Name
@@ -2644,13 +2660,6 @@ transform :: Functor m => (forall a. m a -> n a) -> Branch m -> Branch n
 
 -- | Checks whether a branch is empty AND has no history.
 isEmpty :: Branch m -> Bool
-
--- | Checks whether a Branch0 is empty, which means that the branch
---   contains no terms or types, and that the heads of all children are
---   empty by the same definition. This is not as easy as checking whether
---   the branch is equal to the <a>empty0</a> branch because child branches
---   may be empty, but still have history.
-isEmpty0 :: Branch0 m -> Bool
 isOne :: Branch m -> Bool
 before :: Monad m => Branch m -> Branch m -> m Bool
 lca :: Monad m => Branch m -> Branch m -> m (Maybe (Branch m))
