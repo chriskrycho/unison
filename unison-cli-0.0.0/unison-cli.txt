@@ -609,13 +609,21 @@ instance GHC.Classes.Ord Unison.CommandLine.Globbing.TargetType
 instance GHC.Classes.Eq Unison.CommandLine.Globbing.TargetType
 instance GHC.Show.Show Unison.CommandLine.Globbing.GlobArg
 
+module Unison.CommandLine.Types
+data ShouldWatchFiles
+ShouldWatchFiles :: ShouldWatchFiles
+ShouldNotWatchFiles :: ShouldWatchFiles
+instance GHC.Classes.Eq Unison.CommandLine.Types.ShouldWatchFiles
+instance GHC.Show.Show Unison.CommandLine.Types.ShouldWatchFiles
+
 module Unison.CommandLine.Welcome
 data Welcome
-Welcome :: Onboarding -> DownloadBase -> FilePath -> Text -> Welcome
+Welcome :: Onboarding -> DownloadBase -> FilePath -> Text -> ShouldWatchFiles -> Welcome
 [$sel:onboarding:Welcome] :: Welcome -> Onboarding
 [$sel:downloadBase:Welcome] :: Welcome -> DownloadBase
 [$sel:watchDir:Welcome] :: Welcome -> FilePath
 [$sel:unisonVersion:Welcome] :: Welcome -> Text
+[$sel:shouldWatchFiles:Welcome] :: Welcome -> ShouldWatchFiles
 data DownloadBase
 DownloadBase :: ReadShareRemoteNamespace -> DownloadBase
 DontDownloadBase :: DownloadBase
@@ -628,7 +636,7 @@ DownloadingBase :: ReadShareRemoteNamespace -> Onboarding
 Author :: Onboarding
 Finished :: Onboarding
 PreviouslyOnboarded :: Onboarding
-welcome :: CodebaseInitStatus -> DownloadBase -> FilePath -> Text -> Welcome
+welcome :: CodebaseInitStatus -> DownloadBase -> FilePath -> Text -> ShouldWatchFiles -> Welcome
 pullBase :: ReadShareRemoteNamespace -> Either Event Input
 run :: Codebase IO v a -> Welcome -> IO [Either Event Input]
 toInput :: Pretty ColorText -> Either Event Input
@@ -637,7 +645,7 @@ asciiartUnison :: Pretty ColorText
 downloading :: Path -> Pretty ColorText
 header :: Text -> Pretty ColorText
 authorSuggestion :: Pretty ColorText
-getStarted :: FilePath -> IO (Pretty ColorText)
+getStarted :: ShouldWatchFiles -> FilePath -> IO (Pretty ColorText)
 instance GHC.Classes.Eq Unison.CommandLine.Welcome.DownloadBase
 instance GHC.Show.Show Unison.CommandLine.Welcome.DownloadBase
 instance GHC.Classes.Eq Unison.CommandLine.Welcome.CodebaseInitStatus
@@ -1920,7 +1928,7 @@ module Unison.Codebase.Editor.HandleInput
 loop :: Either Event Input -> Cli ()
 
 module Unison.CommandLine.Main
-main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Branch IO -> STM ()) -> (Absolute -> STM ()) -> IO ()
+main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Branch IO -> STM ()) -> (Absolute -> STM ()) -> ShouldWatchFiles -> IO ()
 
 module Unison.Codebase.TranscriptParser
 data Stanza
