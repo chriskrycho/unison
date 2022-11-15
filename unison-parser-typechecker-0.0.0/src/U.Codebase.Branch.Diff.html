@@ -25,13 +25,13 @@
 </span><span id="line-25"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Name</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Name</span></span><span>
 </span><span id="line-26"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
 </span><span id="line-27"></span><span>
-</span><span id="line-28"></span><span class="hs-keyword">data</span><span> </span><span id="Diff"><span class="annot"><a href="U.Codebase.Branch.Diff.html#Diff"><span class="hs-identifier hs-var">Diff</span></a></span></span><span> </span><span id="local-6989586621680620798"><span class="annot"><a href="#local-6989586621680620798"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Diff"><span class="annot"><a href="U.Codebase.Branch.Diff.html#Diff"><span class="hs-identifier hs-var">Diff</span></a></span></span><span>
+</span><span id="line-28"></span><span class="hs-keyword">data</span><span> </span><span id="Diff"><span class="annot"><a href="U.Codebase.Branch.Diff.html#Diff"><span class="hs-identifier hs-var">Diff</span></a></span></span><span> </span><span id="local-6989586621680620802"><span class="annot"><a href="#local-6989586621680620802"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Diff"><span class="annot"><a href="U.Codebase.Branch.Diff.html#Diff"><span class="hs-identifier hs-var">Diff</span></a></span></span><span>
 </span><span id="line-29"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="%24sel%3Aadds%3ADiff"><span class="annot"><span class="annottext">Diff a -&gt; Set a
-</span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aadds%3ADiff"><span class="hs-identifier hs-var hs-var">adds</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="#local-6989586621680620798"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span>
+</span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aadds%3ADiff"><span class="hs-identifier hs-var hs-var">adds</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="#local-6989586621680620802"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-30"></span><span>    </span><span id="%24sel%3Aremovals%3ADiff"><span class="annot"><span class="annottext">Diff a -&gt; Set a
-</span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aremovals%3ADiff"><span class="hs-identifier hs-var hs-var">removals</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="#local-6989586621680620798"><span class="hs-identifier hs-type">a</span></a></span><span>
+</span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aremovals%3ADiff"><span class="hs-identifier hs-var hs-var">removals</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="#local-6989586621680620802"><span class="hs-identifier hs-type">a</span></a></span><span>
 </span><span id="line-31"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-32"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620771"><span id="local-6989586621680620773"><span id="local-6989586621680620775"><span class="annot"><span class="annottext">Int -&gt; Diff a -&gt; ShowS
+</span><span id="line-32"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620775"><span id="local-6989586621680620777"><span id="local-6989586621680620779"><span class="annot"><span class="annottext">Int -&gt; Diff a -&gt; ShowS
 [Diff a] -&gt; ShowS
 Diff a -&gt; String
 (Int -&gt; Diff a -&gt; ShowS)
@@ -47,7 +47,7 @@ show :: Diff a -&gt; String
 $cshow :: forall a. Show a =&gt; Diff a -&gt; String
 showsPrec :: Int -&gt; Diff a -&gt; ShowS
 $cshowsPrec :: forall a. Show a =&gt; Int -&gt; Diff a -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620766"><span id="local-6989586621680620768"><span class="annot"><span class="annottext">Diff a -&gt; Diff a -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620770"><span id="local-6989586621680620772"><span class="annot"><span class="annottext">Diff a -&gt; Diff a -&gt; Bool
 (Diff a -&gt; Diff a -&gt; Bool)
 -&gt; (Diff a -&gt; Diff a -&gt; Bool) -&gt; Eq (Diff a)
 forall a. Eq a =&gt; Diff a -&gt; Diff a -&gt; Bool
@@ -56,7 +56,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: forall a. Eq a =&gt; Diff a -&gt; Diff a -&gt; Bool
 == :: Diff a -&gt; Diff a -&gt; Bool
 $c== :: forall a. Eq a =&gt; Diff a -&gt; Diff a -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620750"><span id="local-6989586621680620752"><span id="local-6989586621680620754"><span id="local-6989586621680620756"><span id="local-6989586621680620758"><span id="local-6989586621680620760"><span id="local-6989586621680620762"><span class="annot"><span class="annottext">Eq (Diff a)
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620754"><span id="local-6989586621680620756"><span id="local-6989586621680620758"><span id="local-6989586621680620760"><span id="local-6989586621680620762"><span id="local-6989586621680620764"><span id="local-6989586621680620766"><span class="annot"><span class="annottext">Eq (Diff a)
 Eq (Diff a)
 -&gt; (Diff a -&gt; Diff a -&gt; Ordering)
 -&gt; (Diff a -&gt; Diff a -&gt; Bool)
@@ -112,7 +112,7 @@ $cp1Ord :: forall a. Ord a =&gt; Eq (Diff a)
 </span><span id="line-41"></span><span>    </span><span class="hs-comment">-- typeMetadataDiffs :: Map (NameSegment, Reference) (Diff Reference)</span><span>
 </span><span id="line-42"></span><span>    </span><span class="hs-comment">-- patchDiffs :: Map NameSegment (Diff ())</span><span>
 </span><span id="line-43"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-44"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620740"><span id="local-6989586621680620742"><span id="local-6989586621680620744"><span class="annot"><span class="annottext">Int -&gt; DefinitionDiffs -&gt; ShowS
+</span><span id="line-44"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620744"><span id="local-6989586621680620746"><span id="local-6989586621680620748"><span class="annot"><span class="annottext">Int -&gt; DefinitionDiffs -&gt; ShowS
 [DefinitionDiffs] -&gt; ShowS
 DefinitionDiffs -&gt; String
 (Int -&gt; DefinitionDiffs -&gt; ShowS)
@@ -127,7 +127,7 @@ show :: DefinitionDiffs -&gt; String
 $cshow :: DefinitionDiffs -&gt; String
 showsPrec :: Int -&gt; DefinitionDiffs -&gt; ShowS
 $cshowsPrec :: Int -&gt; DefinitionDiffs -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620736"><span id="local-6989586621680620738"><span class="annot"><span class="annottext">DefinitionDiffs -&gt; DefinitionDiffs -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620740"><span id="local-6989586621680620742"><span class="annot"><span class="annottext">DefinitionDiffs -&gt; DefinitionDiffs -&gt; Bool
 (DefinitionDiffs -&gt; DefinitionDiffs -&gt; Bool)
 -&gt; (DefinitionDiffs -&gt; DefinitionDiffs -&gt; Bool)
 -&gt; Eq DefinitionDiffs
@@ -136,7 +136,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: DefinitionDiffs -&gt; DefinitionDiffs -&gt; Bool
 == :: DefinitionDiffs -&gt; DefinitionDiffs -&gt; Bool
 $c== :: DefinitionDiffs -&gt; DefinitionDiffs -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620721"><span id="local-6989586621680620723"><span id="local-6989586621680620725"><span id="local-6989586621680620727"><span id="local-6989586621680620729"><span id="local-6989586621680620731"><span id="local-6989586621680620733"><span class="annot"><span class="annottext">Eq DefinitionDiffs
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620725"><span id="local-6989586621680620727"><span id="local-6989586621680620729"><span id="local-6989586621680620731"><span id="local-6989586621680620733"><span id="local-6989586621680620735"><span id="local-6989586621680620737"><span class="annot"><span class="annottext">Eq DefinitionDiffs
 Eq DefinitionDiffs
 -&gt; (DefinitionDiffs -&gt; DefinitionDiffs -&gt; Ordering)
 -&gt; (DefinitionDiffs -&gt; DefinitionDiffs -&gt; Bool)
@@ -176,38 +176,38 @@ $ccompare :: DefinitionDiffs -&gt; DefinitionDiffs -&gt; Ordering
 $cp1Ord :: Eq DefinitionDiffs
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">)</span><span>
 </span><span id="line-45"></span><span>
-</span><span id="line-46"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620716"><span id="local-6989586621680620718"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-type">DefinitionDiffs</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-47"></span><span>  </span><span id="local-6989586621680620714"><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620714"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621680620713"><span class="annot"><span class="annottext">&lt;&gt; :: DefinitionDiffs -&gt; DefinitionDiffs -&gt; DefinitionDiffs
-</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;&gt;</span></span></span><span> </span><span id="local-6989586621680620712"><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620712"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-46"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620720"><span id="local-6989586621680620722"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-type">DefinitionDiffs</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-47"></span><span>  </span><span id="local-6989586621680620718"><span class="annot"><span class="annottext">DefinitionDiffs
+</span><a href="#local-6989586621680620718"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621680620717"><span class="annot"><span class="annottext">&lt;&gt; :: DefinitionDiffs -&gt; DefinitionDiffs -&gt; DefinitionDiffs
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;&gt;</span></span></span><span> </span><span id="local-6989586621680620716"><span class="annot"><span class="annottext">DefinitionDiffs
+</span><a href="#local-6989586621680620716"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-48"></span><span>    </span><span class="annot"><span class="annottext">DefinitionDiffs :: Map NameSegment (Diff Referent)
 -&gt; Map NameSegment (Diff Reference) -&gt; DefinitionDiffs
 </span><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-type">DefinitionDiffs</span></a></span><span>
 </span><span id="line-49"></span><span>      </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">$sel:termDiffs:DefinitionDiffs :: Map NameSegment (Diff Referent)
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3AtermDiffs%3ADefinitionDiffs"><span class="hs-identifier hs-var">termDiffs</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs -&gt; Map NameSegment (Diff Referent)
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3AtermDiffs%3ADefinitionDiffs"><span class="hs-identifier hs-var hs-var">termDiffs</span></a></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620714"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Referent)
+</span><a href="#local-6989586621680620718"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Referent)
 -&gt; Map NameSegment (Diff Referent)
 -&gt; Map NameSegment (Diff Referent)
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs -&gt; Map NameSegment (Diff Referent)
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3AtermDiffs%3ADefinitionDiffs"><span class="hs-identifier hs-var hs-var">termDiffs</span></a></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620712"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">,</span><span>
+</span><a href="#local-6989586621680620716"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-50"></span><span>        </span><span class="annot"><span class="annottext">$sel:typeDiffs:DefinitionDiffs :: Map NameSegment (Diff Reference)
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3AtypeDiffs%3ADefinitionDiffs"><span class="hs-identifier hs-var">typeDiffs</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs -&gt; Map NameSegment (Diff Reference)
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3AtypeDiffs%3ADefinitionDiffs"><span class="hs-identifier hs-var hs-var">typeDiffs</span></a></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620714"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Reference)
+</span><a href="#local-6989586621680620718"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Reference)
 -&gt; Map NameSegment (Diff Reference)
 -&gt; Map NameSegment (Diff Reference)
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs -&gt; Map NameSegment (Diff Reference)
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3AtypeDiffs%3ADefinitionDiffs"><span class="hs-identifier hs-var hs-var">typeDiffs</span></a></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620712"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><a href="#local-6989586621680620716"><span class="hs-identifier hs-var">b</span></a></span><span>
 </span><span id="line-51"></span><span>      </span><span class="hs-special">}</span><span>
 </span><span id="line-52"></span><span>
-</span><span id="line-53"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620706"><span id="local-6989586621680620708"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-type">DefinitionDiffs</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-54"></span><span>  </span><span id="local-6989586621680620704"><span class="annot"><span class="annottext">mempty :: DefinitionDiffs
+</span><span id="line-53"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620710"><span id="local-6989586621680620712"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-type">DefinitionDiffs</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-54"></span><span>  </span><span id="local-6989586621680620708"><span class="annot"><span class="annottext">mempty :: DefinitionDiffs
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">mempty</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Referent)
 -&gt; Map NameSegment (Diff Reference) -&gt; DefinitionDiffs
 </span><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-var">DefinitionDiffs</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Referent)
@@ -221,7 +221,7 @@ forall a. Monoid a =&gt; a
 </span><span id="line-58"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="%24sel%3AunTreeDiff%3ATreeDiff"><span class="annot"><span class="annottext">TreeDiff -&gt; Cofree (Map NameSegment) DefinitionDiffs
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3AunTreeDiff%3ATreeDiff"><span class="hs-identifier hs-var hs-var">unTreeDiff</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Cofree</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span class="hs-special">)</span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-type">DefinitionDiffs</span></a></span><span>
 </span><span id="line-59"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-60"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620696"><span id="local-6989586621680620698"><span id="local-6989586621680620700"><span class="annot"><span class="annottext">Int -&gt; TreeDiff -&gt; ShowS
+</span><span id="line-60"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620700"><span id="local-6989586621680620702"><span id="local-6989586621680620704"><span class="annot"><span class="annottext">Int -&gt; TreeDiff -&gt; ShowS
 [TreeDiff] -&gt; ShowS
 TreeDiff -&gt; String
 (Int -&gt; TreeDiff -&gt; ShowS)
@@ -234,7 +234,7 @@ show :: TreeDiff -&gt; String
 $cshow :: TreeDiff -&gt; String
 showsPrec :: Int -&gt; TreeDiff -&gt; ShowS
 $cshowsPrec :: Int -&gt; TreeDiff -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620692"><span id="local-6989586621680620694"><span class="annot"><span class="annottext">TreeDiff -&gt; TreeDiff -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620696"><span id="local-6989586621680620698"><span class="annot"><span class="annottext">TreeDiff -&gt; TreeDiff -&gt; Bool
 (TreeDiff -&gt; TreeDiff -&gt; Bool)
 -&gt; (TreeDiff -&gt; TreeDiff -&gt; Bool) -&gt; Eq TreeDiff
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -242,7 +242,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: TreeDiff -&gt; TreeDiff -&gt; Bool
 == :: TreeDiff -&gt; TreeDiff -&gt; Bool
 $c== :: TreeDiff -&gt; TreeDiff -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620677"><span id="local-6989586621680620679"><span id="local-6989586621680620681"><span id="local-6989586621680620683"><span id="local-6989586621680620685"><span id="local-6989586621680620687"><span id="local-6989586621680620689"><span class="annot"><span class="annottext">Eq TreeDiff
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620681"><span id="local-6989586621680620683"><span id="local-6989586621680620685"><span id="local-6989586621680620687"><span id="local-6989586621680620689"><span id="local-6989586621680620691"><span id="local-6989586621680620693"><span class="annot"><span class="annottext">Eq TreeDiff
 Eq TreeDiff
 -&gt; (TreeDiff -&gt; TreeDiff -&gt; Ordering)
 -&gt; (TreeDiff -&gt; TreeDiff -&gt; Bool)
@@ -282,22 +282,22 @@ $ccompare :: TreeDiff -&gt; TreeDiff -&gt; Ordering
 $cp1Ord :: Eq TreeDiff
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">)</span><span>
 </span><span id="line-61"></span><span>
-</span><span id="line-62"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620672"><span id="local-6989586621680620674"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-63"></span><span>  </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620671"><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620671"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:&lt;</span></span><span> </span><span id="local-6989586621680620669"><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
-</span><a href="#local-6989586621680620669"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621680620668"><span class="annot"><span class="annottext">&lt;&gt; :: TreeDiff -&gt; TreeDiff -&gt; TreeDiff
-</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;&gt;</span></span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620667"><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620667"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:&lt;</span></span><span> </span><span id="local-6989586621680620666"><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
-</span><a href="#local-6989586621680620666"><span class="hs-identifier hs-var">bs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-62"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620676"><span id="local-6989586621680620678"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-63"></span><span>  </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620675"><span class="annot"><span class="annottext">DefinitionDiffs
+</span><a href="#local-6989586621680620675"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:&lt;</span></span><span> </span><span id="local-6989586621680620673"><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
+</span><a href="#local-6989586621680620673"><span class="hs-keyword hs-var">as</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621680620672"><span class="annot"><span class="annottext">&lt;&gt; :: TreeDiff -&gt; TreeDiff -&gt; TreeDiff
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;&gt;</span></span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620671"><span class="annot"><span class="annottext">DefinitionDiffs
+</span><a href="#local-6989586621680620671"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:&lt;</span></span><span> </span><span id="local-6989586621680620670"><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
+</span><a href="#local-6989586621680620670"><span class="hs-identifier hs-var">bs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-64"></span><span>    </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs -&gt; TreeDiff
 </span><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-var">TreeDiff</span></a></span><span> </span><span class="annot"><span class="annottext">(Cofree (Map NameSegment) DefinitionDiffs -&gt; TreeDiff)
 -&gt; Cofree (Map NameSegment) DefinitionDiffs -&gt; TreeDiff
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620671"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs -&gt; DefinitionDiffs -&gt; DefinitionDiffs
+</span><a href="#local-6989586621680620675"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs -&gt; DefinitionDiffs -&gt; DefinitionDiffs
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620667"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs
+</span><a href="#local-6989586621680620671"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs
 -&gt; Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
 -&gt; Cofree (Map NameSegment) DefinitionDiffs
 forall (f :: * -&gt; *) a. a -&gt; f (Cofree f a) -&gt; Cofree f a
@@ -311,26 +311,26 @@ forall k a. Ord k =&gt; (a -&gt; a -&gt; a) -&gt; Map k a -&gt; Map k a -&gt; Ma
 </span><span class="hs-identifier hs-var">Map.unionWith</span></span><span> </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
 -&gt; Cofree (Map NameSegment) DefinitionDiffs
 -&gt; Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620664"><span class="hs-identifier hs-var">mergeCofrees</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
-</span><a href="#local-6989586621680620669"><span class="hs-keyword hs-var">as</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
-</span><a href="#local-6989586621680620666"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620668"><span class="hs-identifier hs-var">mergeCofrees</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
+</span><a href="#local-6989586621680620673"><span class="hs-keyword hs-var">as</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
+</span><a href="#local-6989586621680620670"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-65"></span><span>    </span><span class="hs-keyword">where</span><span>
-</span><span id="line-66"></span><span>      </span><span id="local-6989586621680620664"><span class="annot"><span class="annottext">mergeCofrees :: Cofree (Map NameSegment) DefinitionDiffs
+</span><span id="line-66"></span><span>      </span><span id="local-6989586621680620668"><span class="annot"><span class="annottext">mergeCofrees :: Cofree (Map NameSegment) DefinitionDiffs
 -&gt; Cofree (Map NameSegment) DefinitionDiffs
 -&gt; Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620664"><span class="hs-identifier hs-var hs-var">mergeCofrees</span></a></span></span><span> </span><span id="local-6989586621680620663"><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620663"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621680620662"><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620662"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TreeDiff -&gt; Cofree (Map NameSegment) DefinitionDiffs
+</span><a href="#local-6989586621680620668"><span class="hs-identifier hs-var hs-var">mergeCofrees</span></a></span></span><span> </span><span id="local-6989586621680620667"><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
+</span><a href="#local-6989586621680620667"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span id="local-6989586621680620666"><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
+</span><a href="#local-6989586621680620666"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TreeDiff -&gt; Cofree (Map NameSegment) DefinitionDiffs
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3AunTreeDiff%3ATreeDiff"><span class="hs-identifier hs-var hs-var">unTreeDiff</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs -&gt; TreeDiff
 </span><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-var">TreeDiff</span></a></span><span> </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620663"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">TreeDiff -&gt; TreeDiff -&gt; TreeDiff
+</span><a href="#local-6989586621680620667"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">TreeDiff -&gt; TreeDiff -&gt; TreeDiff
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs -&gt; TreeDiff
 </span><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-var">TreeDiff</span></a></span><span> </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620662"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620666"><span class="hs-identifier hs-var">y</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-67"></span><span>
-</span><span id="line-68"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620656"><span id="local-6989586621680620658"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-69"></span><span>  </span><span id="local-6989586621680620655"><span class="annot"><span class="annottext">mempty :: TreeDiff
+</span><span id="line-68"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620660"><span id="local-6989586621680620662"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-69"></span><span>  </span><span id="local-6989586621680620659"><span class="annot"><span class="annottext">mempty :: TreeDiff
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">mempty</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs -&gt; TreeDiff
 </span><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-var">TreeDiff</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">DefinitionDiffs
 forall a. Monoid a =&gt; a
@@ -343,7 +343,7 @@ forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span class="hs-special">)</span><span>
 </span><span id="line-70"></span><span>
 </span><span id="line-71"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Lens.AsEmpty</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-72"></span><span>  </span><span id="local-6989586621680620652"><span class="annot"><span class="annottext">_Empty :: p () (f ()) -&gt; p TreeDiff (f TreeDiff)
+</span><span id="line-72"></span><span>  </span><span id="local-6989586621680620656"><span class="annot"><span class="annottext">_Empty :: p () (f ()) -&gt; p TreeDiff (f TreeDiff)
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">_Empty</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TreeDiff -&gt; Prism' TreeDiff ()
 forall a. Eq a =&gt; a -&gt; Prism' a ()
 </span><span class="hs-identifier hs-var">Lens.only</span></span><span> </span><span class="annot"><span class="annottext">TreeDiff
@@ -365,42 +365,42 @@ forall a. Monoid a =&gt; a
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3AtypeNameRemovals%3ANameChanges"><span class="hs-identifier hs-var hs-var">typeNameRemovals</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Reference</span></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
 </span><span id="line-83"></span><span>  </span><span class="hs-special">}</span><span>
 </span><span id="line-84"></span><span>
-</span><span id="line-85"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620640"><span id="local-6989586621680620642"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-86"></span><span>  </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span><span> </span><span id="local-6989586621680620639"><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620639"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621680620638"><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620638"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span id="local-6989586621680620637"><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620637"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span id="local-6989586621680620636"><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620636"><span class="hs-identifier hs-var">d</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621680620635"><span class="annot"><span class="annottext">&lt;&gt; :: NameChanges -&gt; NameChanges -&gt; NameChanges
-</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;&gt;</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span><span> </span><span id="local-6989586621680620634"><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620634"><span class="hs-identifier hs-var">a2</span></a></span></span><span> </span><span id="local-6989586621680620633"><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620633"><span class="hs-identifier hs-var">b2</span></a></span></span><span> </span><span id="local-6989586621680620632"><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620632"><span class="hs-identifier hs-var">c2</span></a></span></span><span> </span><span id="local-6989586621680620631"><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620631"><span class="hs-identifier hs-var">d2</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-85"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620644"><span id="local-6989586621680620646"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-86"></span><span>  </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span><span> </span><span id="local-6989586621680620643"><span class="annot"><span class="annottext">[(Name, Referent)]
+</span><a href="#local-6989586621680620643"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621680620642"><span class="annot"><span class="annottext">[(Name, Referent)]
+</span><a href="#local-6989586621680620642"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span id="local-6989586621680620641"><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620641"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span id="local-6989586621680620640"><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620640"><span class="hs-identifier hs-var">d</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621680620639"><span class="annot"><span class="annottext">&lt;&gt; :: NameChanges -&gt; NameChanges -&gt; NameChanges
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;&gt;</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span><span> </span><span id="local-6989586621680620638"><span class="annot"><span class="annottext">[(Name, Referent)]
+</span><a href="#local-6989586621680620638"><span class="hs-identifier hs-var">a2</span></a></span></span><span> </span><span id="local-6989586621680620637"><span class="annot"><span class="annottext">[(Name, Referent)]
+</span><a href="#local-6989586621680620637"><span class="hs-identifier hs-var">b2</span></a></span></span><span> </span><span id="local-6989586621680620636"><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620636"><span class="hs-identifier hs-var">c2</span></a></span></span><span> </span><span id="local-6989586621680620635"><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620635"><span class="hs-identifier hs-var">d2</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-87"></span><span>    </span><span class="annot"><span class="annottext">[(Name, Referent)]
 -&gt; [(Name, Referent)]
 -&gt; [(Name, Reference)]
 -&gt; [(Name, Reference)]
 -&gt; NameChanges
 </span><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-var">NameChanges</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620639"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">[(Name, Referent)] -&gt; [(Name, Referent)] -&gt; [(Name, Referent)]
+</span><a href="#local-6989586621680620643"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">[(Name, Referent)] -&gt; [(Name, Referent)] -&gt; [(Name, Referent)]
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620634"><span class="hs-identifier hs-var">a2</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620638"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">[(Name, Referent)] -&gt; [(Name, Referent)] -&gt; [(Name, Referent)]
+</span><a href="#local-6989586621680620638"><span class="hs-identifier hs-var">a2</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[(Name, Referent)]
+</span><a href="#local-6989586621680620642"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">[(Name, Referent)] -&gt; [(Name, Referent)] -&gt; [(Name, Referent)]
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620633"><span class="hs-identifier hs-var">b2</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620637"><span class="hs-identifier hs-var">c</span></a></span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)] -&gt; [(Name, Reference)] -&gt; [(Name, Reference)]
+</span><a href="#local-6989586621680620637"><span class="hs-identifier hs-var">b2</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620641"><span class="hs-identifier hs-var">c</span></a></span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)] -&gt; [(Name, Reference)] -&gt; [(Name, Reference)]
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620632"><span class="hs-identifier hs-var">c2</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620636"><span class="hs-identifier hs-var">d</span></a></span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)] -&gt; [(Name, Reference)] -&gt; [(Name, Reference)]
+</span><a href="#local-6989586621680620636"><span class="hs-identifier hs-var">c2</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620640"><span class="hs-identifier hs-var">d</span></a></span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)] -&gt; [(Name, Reference)] -&gt; [(Name, Reference)]
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620631"><span class="hs-identifier hs-var">d2</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620635"><span class="hs-identifier hs-var">d2</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-88"></span><span>
-</span><span id="line-89"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620625"><span id="local-6989586621680620627"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-90"></span><span>  </span><span id="local-6989586621680620624"><span class="annot"><span class="annottext">mempty :: NameChanges
+</span><span id="line-89"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621680620629"><span id="local-6989586621680620631"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-90"></span><span>  </span><span id="local-6989586621680620628"><span class="annot"><span class="annottext">mempty :: NameChanges
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">mempty</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[(Name, Referent)]
 -&gt; [(Name, Referent)]
 -&gt; [(Name, Reference)]
@@ -417,13 +417,13 @@ forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span>
 </span><span id="line-91"></span><span>
 </span><span id="line-92"></span><span class="hs-comment">-- | Diff two Branches, returning a tree containing all of the changes</span><span>
-</span><span id="line-93"></span><span class="annot"><a href="U.Codebase.Branch.Diff.html#diffBranches"><span class="hs-identifier hs-type">diffBranches</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680620814"><span class="annot"><a href="#local-6989586621680620814"><span class="hs-identifier hs-type">m</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621680620814"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Branch</span></span><span> </span><span class="annot"><a href="#local-6989586621680620814"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Branch</span></span><span> </span><span class="annot"><a href="#local-6989586621680620814"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621680620814"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span>
+</span><span id="line-93"></span><span class="annot"><a href="U.Codebase.Branch.Diff.html#diffBranches"><span class="hs-identifier hs-type">diffBranches</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680620818"><span class="annot"><a href="#local-6989586621680620818"><span class="hs-identifier hs-type">m</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621680620818"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Branch</span></span><span> </span><span class="annot"><a href="#local-6989586621680620818"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Branch</span></span><span> </span><span class="annot"><a href="#local-6989586621680620818"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621680620818"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span>
 </span><span id="line-94"></span><span id="diffBranches"><span class="annot"><span class="annottext">diffBranches :: Branch m -&gt; Branch m -&gt; m TreeDiff
-</span><a href="U.Codebase.Branch.Diff.html#diffBranches"><span class="hs-identifier hs-var hs-var">diffBranches</span></a></span></span><span> </span><span id="local-6989586621680620623"><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620623"><span class="hs-identifier hs-var">from</span></a></span></span><span> </span><span id="local-6989586621680620622"><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620622"><span class="hs-identifier hs-var">to</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-95"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620621"><span class="annot"><span class="annottext">termDiffs :: Map NameSegment (Diff Referent)
-</span><a href="#local-6989586621680620621"><span class="hs-identifier hs-var hs-var">termDiffs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Map Referent (m MdValues))
+</span><a href="U.Codebase.Branch.Diff.html#diffBranches"><span class="hs-identifier hs-var hs-var">diffBranches</span></a></span></span><span> </span><span id="local-6989586621680620627"><span class="annot"><span class="annottext">Branch m
+</span><a href="#local-6989586621680620627"><span class="hs-identifier hs-var">from</span></a></span></span><span> </span><span id="local-6989586621680620626"><span class="annot"><span class="annottext">Branch m
+</span><a href="#local-6989586621680620626"><span class="hs-identifier hs-var">to</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-95"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620625"><span class="annot"><span class="annottext">termDiffs :: Map NameSegment (Diff Referent)
+</span><a href="#local-6989586621680620625"><span class="hs-identifier hs-var hs-var">termDiffs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Map Referent (m MdValues))
 -&gt; Map NameSegment (Map Referent (m MdValues))
 -&gt; Map NameSegment (Diff Referent)
 forall ref.
@@ -431,17 +431,17 @@ Ord ref =&gt;
 Map NameSegment (Map ref (m MdValues))
 -&gt; Map NameSegment (Map ref (m MdValues))
 -&gt; Map NameSegment (Diff ref)
-</span><a href="#local-6989586621680620620"><span class="hs-identifier hs-var">diffMap</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (Map Referent (m MdValues))
+</span><a href="#local-6989586621680620624"><span class="hs-identifier hs-var">diffMap</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (Map Referent (m MdValues))
 forall (m :: * -&gt; *).
 Branch m -&gt; Map NameSegment (Map Referent (m MdValues))
 </span><span class="hs-identifier hs-var hs-var">terms</span></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620623"><span class="hs-identifier hs-var">from</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (Map Referent (m MdValues))
+</span><a href="#local-6989586621680620627"><span class="hs-identifier hs-var">from</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (Map Referent (m MdValues))
 forall (m :: * -&gt; *).
 Branch m -&gt; Map NameSegment (Map Referent (m MdValues))
 </span><span class="hs-identifier hs-var hs-var">terms</span></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620622"><span class="hs-identifier hs-var">to</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-96"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620618"><span class="annot"><span class="annottext">typeDiffs :: Map NameSegment (Diff Reference)
-</span><a href="#local-6989586621680620618"><span class="hs-identifier hs-var hs-var">typeDiffs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Map Reference (m MdValues))
+</span><a href="#local-6989586621680620626"><span class="hs-identifier hs-var">to</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-96"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620622"><span class="annot"><span class="annottext">typeDiffs :: Map NameSegment (Diff Reference)
+</span><a href="#local-6989586621680620622"><span class="hs-identifier hs-var hs-var">typeDiffs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Map Reference (m MdValues))
 -&gt; Map NameSegment (Map Reference (m MdValues))
 -&gt; Map NameSegment (Diff Reference)
 forall ref.
@@ -449,27 +449,27 @@ Ord ref =&gt;
 Map NameSegment (Map ref (m MdValues))
 -&gt; Map NameSegment (Map ref (m MdValues))
 -&gt; Map NameSegment (Diff ref)
-</span><a href="#local-6989586621680620620"><span class="hs-identifier hs-var">diffMap</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (Map Reference (m MdValues))
+</span><a href="#local-6989586621680620624"><span class="hs-identifier hs-var">diffMap</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (Map Reference (m MdValues))
 forall (m :: * -&gt; *).
 Branch m -&gt; Map NameSegment (Map Reference (m MdValues))
 </span><span class="hs-identifier hs-var hs-var">types</span></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620623"><span class="hs-identifier hs-var">from</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (Map Reference (m MdValues))
+</span><a href="#local-6989586621680620627"><span class="hs-identifier hs-var">from</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (Map Reference (m MdValues))
 forall (m :: * -&gt; *).
 Branch m -&gt; Map NameSegment (Map Reference (m MdValues))
 </span><span class="hs-identifier hs-var hs-var">types</span></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620622"><span class="hs-identifier hs-var">to</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-97"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620616"><span class="annot"><span class="annottext">defDiff :: DefinitionDiffs
-</span><a href="#local-6989586621680620616"><span class="hs-identifier hs-var hs-var">defDiff</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs :: Map NameSegment (Diff Referent)
+</span><a href="#local-6989586621680620626"><span class="hs-identifier hs-var">to</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-97"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620620"><span class="annot"><span class="annottext">defDiff :: DefinitionDiffs
+</span><a href="#local-6989586621680620620"><span class="hs-identifier hs-var hs-var">defDiff</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs :: Map NameSegment (Diff Referent)
 -&gt; Map NameSegment (Diff Reference) -&gt; DefinitionDiffs
 </span><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-type">DefinitionDiffs</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">Map NameSegment (Diff Referent)
 termDiffs :: Map NameSegment (Diff Referent)
 $sel:termDiffs:DefinitionDiffs :: Map NameSegment (Diff Referent)
-</span><a href="#local-6989586621680620621"><span class="hs-identifier hs-var hs-var">termDiffs</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Reference)
+</span><a href="#local-6989586621680620625"><span class="hs-identifier hs-var hs-var">termDiffs</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Reference)
 typeDiffs :: Map NameSegment (Diff Reference)
 $sel:typeDiffs:DefinitionDiffs :: Map NameSegment (Diff Reference)
-</span><a href="#local-6989586621680620618"><span class="hs-identifier hs-var hs-var">typeDiffs</span></a></span><span class="hs-special">}</span><span>
-</span><span id="line-98"></span><span>  </span><span id="local-6989586621680620615"><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
-</span><a href="#local-6989586621680620615"><span class="hs-identifier hs-var">childDiff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="#local-6989586621680620622"><span class="hs-identifier hs-var hs-var">typeDiffs</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-98"></span><span>  </span><span id="local-6989586621680620619"><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
+</span><a href="#local-6989586621680620619"><span class="hs-identifier hs-var">childDiff</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-99"></span><span>    </span><span class="annot"><span class="annottext">Map NameSegment (CausalBranch m)
 -&gt; Map NameSegment (CausalBranch m)
 -&gt; Map NameSegment (These (CausalBranch m) (CausalBranch m))
@@ -479,10 +479,10 @@ f a -&gt; f b -&gt; f (These a b)
 </span><span class="hs-identifier hs-var">Align.align</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (CausalBranch m)
 forall (m :: * -&gt; *). Branch m -&gt; Map NameSegment (CausalBranch m)
 </span><span class="hs-identifier hs-var hs-var">children</span></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620623"><span class="hs-identifier hs-var">from</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (CausalBranch m)
+</span><a href="#local-6989586621680620627"><span class="hs-identifier hs-var">from</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Branch m -&gt; Map NameSegment (CausalBranch m)
 forall (m :: * -&gt; *). Branch m -&gt; Map NameSegment (CausalBranch m)
 </span><span class="hs-identifier hs-var hs-var">children</span></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620622"><span class="hs-identifier hs-var">to</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620626"><span class="hs-identifier hs-var">to</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-100"></span><span>      </span><span class="annot"><span class="annottext">Map NameSegment (These (CausalBranch m) (CausalBranch m))
 -&gt; (Map NameSegment (These (CausalBranch m) (CausalBranch m))
     -&gt; m (Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)))
@@ -497,16 +497,16 @@ forall (t :: * -&gt; *) (f :: * -&gt; *) a b.
 (a -&gt; f (Maybe b)) -&gt; t a -&gt; f (t b)
 </span><span class="hs-identifier hs-var">wither</span></span><span>
 </span><span id="line-101"></span><span>        </span><span class="hs-special">(</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-102"></span><span>            </span><span class="annot"><span class="hs-identifier hs-type">This</span></span><span> </span><span id="local-6989586621680620609"><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620609"><span class="hs-identifier hs-var">ca</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-102"></span><span>            </span><span class="annot"><span class="hs-identifier hs-type">This</span></span><span> </span><span id="local-6989586621680620613"><span class="annot"><span class="annottext">CausalBranch m
+</span><a href="#local-6989586621680620613"><span class="hs-identifier hs-var">ca</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-103"></span><span>              </span><span class="hs-comment">-- TODO: For the names index we really don't need to know which exact</span><span>
 </span><span id="line-104"></span><span>              </span><span class="hs-comment">-- names were removed, we just need to delete from the index using a</span><span>
 </span><span id="line-105"></span><span>              </span><span class="hs-comment">-- prefix query, this would be faster than crawling to get all the deletes.</span><span>
-</span><span id="line-106"></span><span>              </span><span id="local-6989586621680620608"><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620608"><span class="hs-identifier hs-var">removedChildBranch</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; m (Branch m)
+</span><span id="line-106"></span><span>              </span><span id="local-6989586621680620612"><span class="annot"><span class="annottext">Branch m
+</span><a href="#local-6989586621680620612"><span class="hs-identifier hs-var">removedChildBranch</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; m (Branch m)
 forall (m :: * -&gt; *) hc he e. Causal m hc he e -&gt; m e
 </span><span class="hs-identifier hs-var hs-var">Causal.value</span></span><span> </span><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620609"><span class="hs-identifier hs-var">ca</span></a></span><span>
+</span><a href="#local-6989586621680620613"><span class="hs-identifier hs-var">ca</span></a></span><span>
 </span><span id="line-107"></span><span>              </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
 -&gt; Maybe (Cofree (Map NameSegment) DefinitionDiffs)
 forall a. a -&gt; Maybe a
@@ -524,16 +524,16 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Branch m -&gt; Branch m -&gt; m TreeDiff
 forall (m :: * -&gt; *). Monad m =&gt; Branch m -&gt; Branch m -&gt; m TreeDiff
 </span><a href="U.Codebase.Branch.Diff.html#diffBranches"><span class="hs-identifier hs-var">diffBranches</span></a></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620608"><span class="hs-identifier hs-var">removedChildBranch</span></a></span><span> </span><span class="annot"><span class="annottext">Branch m
+</span><a href="#local-6989586621680620612"><span class="hs-identifier hs-var">removedChildBranch</span></a></span><span> </span><span class="annot"><span class="annottext">Branch m
 forall (m :: * -&gt; *). Branch m
 </span><span class="hs-identifier hs-var">Branch.empty</span></span><span>
-</span><span id="line-108"></span><span>            </span><span class="annot"><span class="hs-identifier hs-type">That</span></span><span> </span><span id="local-6989586621680620602"><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620602"><span class="hs-identifier hs-var">ca</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-109"></span><span>              </span><span id="local-6989586621680620601"><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620601"><span class="hs-identifier hs-var">newChildBranch</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; m (Branch m)
+</span><span id="line-108"></span><span>            </span><span class="annot"><span class="hs-identifier hs-type">That</span></span><span> </span><span id="local-6989586621680620606"><span class="annot"><span class="annottext">CausalBranch m
+</span><a href="#local-6989586621680620606"><span class="hs-identifier hs-var">ca</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-109"></span><span>              </span><span id="local-6989586621680620605"><span class="annot"><span class="annottext">Branch m
+</span><a href="#local-6989586621680620605"><span class="hs-identifier hs-var">newChildBranch</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; m (Branch m)
 forall (m :: * -&gt; *) hc he e. Causal m hc he e -&gt; m e
 </span><span class="hs-identifier hs-var hs-var">Causal.value</span></span><span> </span><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620602"><span class="hs-identifier hs-var">ca</span></a></span><span>
+</span><a href="#local-6989586621680620606"><span class="hs-identifier hs-var">ca</span></a></span><span>
 </span><span id="line-110"></span><span>              </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
 -&gt; Maybe (Cofree (Map NameSegment) DefinitionDiffs)
 forall a. a -&gt; Maybe a
@@ -553,19 +553,19 @@ forall (m :: * -&gt; *). Monad m =&gt; Branch m -&gt; Branch m -&gt; m TreeDiff
 </span><a href="U.Codebase.Branch.Diff.html#diffBranches"><span class="hs-identifier hs-var">diffBranches</span></a></span><span> </span><span class="annot"><span class="annottext">Branch m
 forall (m :: * -&gt; *). Branch m
 </span><span class="hs-identifier hs-var">Branch.empty</span></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620601"><span class="hs-identifier hs-var">newChildBranch</span></a></span><span>
-</span><span id="line-111"></span><span>            </span><span class="annot"><span class="hs-identifier hs-type">These</span></span><span> </span><span id="local-6989586621680620599"><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620599"><span class="hs-identifier hs-var">fromC</span></a></span></span><span> </span><span id="local-6989586621680620598"><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620598"><span class="hs-identifier hs-var">toC</span></a></span></span><span>
+</span><a href="#local-6989586621680620605"><span class="hs-identifier hs-var">newChildBranch</span></a></span><span>
+</span><span id="line-111"></span><span>            </span><span class="annot"><span class="hs-identifier hs-type">These</span></span><span> </span><span id="local-6989586621680620603"><span class="annot"><span class="annottext">CausalBranch m
+</span><a href="#local-6989586621680620603"><span class="hs-identifier hs-var">fromC</span></a></span></span><span> </span><span id="local-6989586621680620602"><span class="annot"><span class="annottext">CausalBranch m
+</span><a href="#local-6989586621680620602"><span class="hs-identifier hs-var">toC</span></a></span></span><span>
 </span><span id="line-112"></span><span>              </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; BranchHash
 forall (m :: * -&gt; *) hc he e. Causal m hc he e -&gt; he
 </span><span class="hs-identifier hs-var hs-var">Causal.valueHash</span></span><span> </span><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620599"><span class="hs-identifier hs-var">fromC</span></a></span><span> </span><span class="annot"><span class="annottext">BranchHash -&gt; BranchHash -&gt; Bool
+</span><a href="#local-6989586621680620603"><span class="hs-identifier hs-var">fromC</span></a></span><span> </span><span class="annot"><span class="annottext">BranchHash -&gt; BranchHash -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; BranchHash
 forall (m :: * -&gt; *) hc he e. Causal m hc he e -&gt; he
 </span><span class="hs-identifier hs-var hs-var">Causal.valueHash</span></span><span> </span><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620598"><span class="hs-identifier hs-var">toC</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="#local-6989586621680620602"><span class="hs-identifier hs-var">toC</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-113"></span><span>                  </span><span class="hs-comment">-- This child didn't change.</span><span>
 </span><span id="line-114"></span><span>                  </span><span class="annot"><span class="annottext">Maybe (Cofree (Map NameSegment) DefinitionDiffs)
 -&gt; m (Maybe (Cofree (Map NameSegment) DefinitionDiffs))
@@ -575,21 +575,21 @@ forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
 </span><span id="line-115"></span><span>              </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-116"></span><span>                  </span><span id="local-6989586621680620596"><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620596"><span class="hs-identifier hs-var">fromChildBranch</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; m (Branch m)
+</span><span id="line-116"></span><span>                  </span><span id="local-6989586621680620600"><span class="annot"><span class="annottext">Branch m
+</span><a href="#local-6989586621680620600"><span class="hs-identifier hs-var">fromChildBranch</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; m (Branch m)
 forall (m :: * -&gt; *) hc he e. Causal m hc he e -&gt; m e
 </span><span class="hs-identifier hs-var hs-var">Causal.value</span></span><span> </span><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620599"><span class="hs-identifier hs-var">fromC</span></a></span><span>
-</span><span id="line-117"></span><span>                  </span><span id="local-6989586621680620595"><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620595"><span class="hs-identifier hs-var">toChildBranch</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; m (Branch m)
+</span><a href="#local-6989586621680620603"><span class="hs-identifier hs-var">fromC</span></a></span><span>
+</span><span id="line-117"></span><span>                  </span><span id="local-6989586621680620599"><span class="annot"><span class="annottext">Branch m
+</span><a href="#local-6989586621680620599"><span class="hs-identifier hs-var">toChildBranch</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">CausalBranch m -&gt; m (Branch m)
 forall (m :: * -&gt; *) hc he e. Causal m hc he e -&gt; m e
 </span><span class="hs-identifier hs-var hs-var">Causal.value</span></span><span> </span><span class="annot"><span class="annottext">CausalBranch m
-</span><a href="#local-6989586621680620598"><span class="hs-identifier hs-var">toC</span></a></span><span>
+</span><a href="#local-6989586621680620602"><span class="hs-identifier hs-var">toC</span></a></span><span>
 </span><span id="line-118"></span><span>                  </span><span class="annot"><span class="annottext">Branch m -&gt; Branch m -&gt; m TreeDiff
 forall (m :: * -&gt; *). Monad m =&gt; Branch m -&gt; Branch m -&gt; m TreeDiff
 </span><a href="U.Codebase.Branch.Diff.html#diffBranches"><span class="hs-identifier hs-var">diffBranches</span></a></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620596"><span class="hs-identifier hs-var">fromChildBranch</span></a></span><span> </span><span class="annot"><span class="annottext">Branch m
-</span><a href="#local-6989586621680620595"><span class="hs-identifier hs-var">toChildBranch</span></a></span><span> </span><span class="annot"><span class="annottext">m TreeDiff
+</span><a href="#local-6989586621680620600"><span class="hs-identifier hs-var">fromChildBranch</span></a></span><span> </span><span class="annot"><span class="annottext">Branch m
+</span><a href="#local-6989586621680620599"><span class="hs-identifier hs-var">toChildBranch</span></a></span><span> </span><span class="annot"><span class="annottext">m TreeDiff
 -&gt; (TreeDiff
     -&gt; m (Maybe (Cofree (Map NameSegment) DefinitionDiffs)))
 -&gt; m (Maybe (Cofree (Map NameSegment) DefinitionDiffs))
@@ -602,8 +602,8 @@ forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">Maybe (Cofree (Map NameSegment) DefinitionDiffs)
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-120"></span><span>                    </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span id="local-6989586621680620593"><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620593"><span class="hs-identifier hs-var">cfr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe (Cofree (Map NameSegment) DefinitionDiffs)
+</span><span id="line-120"></span><span>                    </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span id="local-6989586621680620597"><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
+</span><a href="#local-6989586621680620597"><span class="hs-identifier hs-var">cfr</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe (Cofree (Map NameSegment) DefinitionDiffs)
 -&gt; m (Maybe (Cofree (Map NameSegment) DefinitionDiffs))
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">(Maybe (Cofree (Map NameSegment) DefinitionDiffs)
@@ -622,24 +622,24 @@ forall a. a -&gt; Maybe a
 -&gt; m (Maybe (Cofree (Map NameSegment) DefinitionDiffs))
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620593"><span class="hs-identifier hs-var">cfr</span></a></span><span>
+</span><a href="#local-6989586621680620597"><span class="hs-identifier hs-var">cfr</span></a></span><span>
 </span><span id="line-121"></span><span>        </span><span class="hs-special">)</span><span>
 </span><span id="line-122"></span><span>  </span><span class="hs-identifier">pure</span><span> </span><span class="hs-operator">$</span><span> </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs -&gt; TreeDiff
 </span><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-var">TreeDiff</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">DefinitionDiffs
-</span><a href="#local-6989586621680620616"><span class="hs-identifier hs-var">defDiff</span></a></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs
+</span><a href="#local-6989586621680620620"><span class="hs-identifier hs-var">defDiff</span></a></span><span> </span><span class="annot"><span class="annottext">DefinitionDiffs
 -&gt; Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
 -&gt; Cofree (Map NameSegment) DefinitionDiffs
 forall (f :: * -&gt; *) a. a -&gt; f (Cofree f a) -&gt; Cofree f a
 </span><span class="hs-operator hs-var">:&lt;</span></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
-</span><a href="#local-6989586621680620615"><span class="hs-identifier hs-var">childDiff</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620619"><span class="hs-identifier hs-var">childDiff</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-123"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-124"></span><span>    </span><span class="annot"><a href="#local-6989586621680620620"><span class="hs-identifier hs-type">diffMap</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680620843"><span class="annot"><a href="#local-6989586621680620843"><span class="hs-identifier hs-type">ref</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621680620843"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="#local-6989586621680620843"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621680620814"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">MdValues</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="#local-6989586621680620843"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621680620814"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">MdValues</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#Diff"><span class="hs-identifier hs-type">Diff</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680620843"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-125"></span><span>    </span><span id="local-6989586621680620620"><span class="annot"><span class="annottext">diffMap :: Map NameSegment (Map ref (m MdValues))
+</span><span id="line-124"></span><span>    </span><span class="annot"><a href="#local-6989586621680620624"><span class="hs-identifier hs-type">diffMap</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680620847"><span class="annot"><a href="#local-6989586621680620847"><span class="hs-identifier hs-type">ref</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621680620847"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="#local-6989586621680620847"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621680620818"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">MdValues</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="#local-6989586621680620847"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621680620818"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">MdValues</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#Diff"><span class="hs-identifier hs-type">Diff</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680620847"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-125"></span><span>    </span><span id="local-6989586621680620624"><span class="annot"><span class="annottext">diffMap :: Map NameSegment (Map ref (m MdValues))
 -&gt; Map NameSegment (Map ref (m MdValues))
 -&gt; Map NameSegment (Diff ref)
-</span><a href="#local-6989586621680620620"><span class="hs-identifier hs-var hs-var">diffMap</span></a></span></span><span> </span><span id="local-6989586621680620592"><span class="annot"><span class="annottext">Map NameSegment (Map ref (m MdValues))
-</span><a href="#local-6989586621680620592"><span class="hs-identifier hs-var">l</span></a></span></span><span> </span><span id="local-6989586621680620591"><span class="annot"><span class="annottext">Map NameSegment (Map ref (m MdValues))
-</span><a href="#local-6989586621680620591"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621680620624"><span class="hs-identifier hs-var hs-var">diffMap</span></a></span></span><span> </span><span id="local-6989586621680620596"><span class="annot"><span class="annottext">Map NameSegment (Map ref (m MdValues))
+</span><a href="#local-6989586621680620596"><span class="hs-identifier hs-var">l</span></a></span></span><span> </span><span id="local-6989586621680620595"><span class="annot"><span class="annottext">Map NameSegment (Map ref (m MdValues))
+</span><a href="#local-6989586621680620595"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-126"></span><span>      </span><span class="annot"><span class="annottext">Map NameSegment (Map ref (m MdValues))
 -&gt; Map NameSegment (Map ref (m MdValues))
 -&gt; Map
@@ -648,8 +648,8 @@ forall (f :: * -&gt; *) a b.
 Semialign f =&gt;
 f a -&gt; f b -&gt; f (These a b)
 </span><span class="hs-identifier hs-var">Align.align</span></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Map ref (m MdValues))
-</span><a href="#local-6989586621680620592"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Map ref (m MdValues))
-</span><a href="#local-6989586621680620591"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><a href="#local-6989586621680620596"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Map ref (m MdValues))
+</span><a href="#local-6989586621680620595"><span class="hs-identifier hs-var">r</span></a></span><span>
 </span><span id="line-127"></span><span>        </span><span class="annot"><span class="annottext">Map
   NameSegment (These (Map ref (m MdValues)) (Map ref (m MdValues)))
 -&gt; (Map
@@ -664,18 +664,18 @@ forall a b. a -&gt; (a -&gt; b) -&gt; b
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-identifier hs-var">fmap</span></span><span>
 </span><span id="line-128"></span><span>          </span><span class="hs-special">(</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-129"></span><span>              </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">This</span></span><span> </span><span id="local-6989586621680620590"><span class="annot"><span class="annottext">Map ref (m MdValues)
-</span><a href="#local-6989586621680620590"><span class="hs-identifier hs-var">refs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Diff :: forall a. Set a -&gt; Set a -&gt; Diff a
+</span><span id="line-129"></span><span>              </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">This</span></span><span> </span><span id="local-6989586621680620594"><span class="annot"><span class="annottext">Map ref (m MdValues)
+</span><a href="#local-6989586621680620594"><span class="hs-identifier hs-var">refs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Diff :: forall a. Set a -&gt; Set a -&gt; Diff a
 </span><a href="U.Codebase.Branch.Diff.html#Diff"><span class="hs-identifier hs-type">Diff</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:removals:Diff :: Set ref
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aremovals%3ADiff"><span class="hs-identifier hs-var">removals</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues) -&gt; Set ref
 forall k a. Map k a -&gt; Set k
 </span><span class="hs-identifier hs-var">Map.keysSet</span></span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues)
-</span><a href="#local-6989586621680620590"><span class="hs-identifier hs-var">refs</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:adds:Diff :: Set ref
+</span><a href="#local-6989586621680620594"><span class="hs-identifier hs-var">refs</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:adds:Diff :: Set ref
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aadds%3ADiff"><span class="hs-identifier hs-var">adds</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Set ref
 forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span class="hs-special">}</span><span class="hs-special">)</span><span>
-</span><span id="line-130"></span><span>              </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">That</span></span><span> </span><span id="local-6989586621680620588"><span class="annot"><span class="annottext">Map ref (m MdValues)
-</span><a href="#local-6989586621680620588"><span class="hs-identifier hs-var">refs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Diff :: forall a. Set a -&gt; Set a -&gt; Diff a
+</span><span id="line-130"></span><span>              </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">That</span></span><span> </span><span id="local-6989586621680620592"><span class="annot"><span class="annottext">Map ref (m MdValues)
+</span><a href="#local-6989586621680620592"><span class="hs-identifier hs-var">refs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Diff :: forall a. Set a -&gt; Set a -&gt; Diff a
 </span><a href="U.Codebase.Branch.Diff.html#Diff"><span class="hs-identifier hs-type">Diff</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:removals:Diff :: Set ref
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aremovals%3ADiff"><span class="hs-identifier hs-var">removals</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Set ref
 forall a. Monoid a =&gt; a
@@ -683,32 +683,32 @@ forall a. Monoid a =&gt; a
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aadds%3ADiff"><span class="hs-identifier hs-var">adds</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues) -&gt; Set ref
 forall k a. Map k a -&gt; Set k
 </span><span class="hs-identifier hs-var">Map.keysSet</span></span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues)
-</span><a href="#local-6989586621680620588"><span class="hs-identifier hs-var">refs</span></a></span><span class="hs-special">}</span><span class="hs-special">)</span><span>
-</span><span id="line-131"></span><span>              </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">These</span></span><span> </span><span id="local-6989586621680620587"><span class="annot"><span class="annottext">Map ref (m MdValues)
-</span><a href="#local-6989586621680620587"><span class="hs-identifier hs-var">l'</span></a></span></span><span> </span><span id="local-6989586621680620586"><span class="annot"><span class="annottext">Map ref (m MdValues)
-</span><a href="#local-6989586621680620586"><span class="hs-identifier hs-var">r'</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-132"></span><span>                </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620585"><span class="annot"><span class="annottext">lRefs :: Set ref
-</span><a href="#local-6989586621680620585"><span class="hs-identifier hs-var hs-var">lRefs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues) -&gt; Set ref
+</span><a href="#local-6989586621680620592"><span class="hs-identifier hs-var">refs</span></a></span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><span id="line-131"></span><span>              </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">These</span></span><span> </span><span id="local-6989586621680620591"><span class="annot"><span class="annottext">Map ref (m MdValues)
+</span><a href="#local-6989586621680620591"><span class="hs-identifier hs-var">l'</span></a></span></span><span> </span><span id="local-6989586621680620590"><span class="annot"><span class="annottext">Map ref (m MdValues)
+</span><a href="#local-6989586621680620590"><span class="hs-identifier hs-var">r'</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-132"></span><span>                </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620589"><span class="annot"><span class="annottext">lRefs :: Set ref
+</span><a href="#local-6989586621680620589"><span class="hs-identifier hs-var hs-var">lRefs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues) -&gt; Set ref
 forall k a. Map k a -&gt; Set k
 </span><span class="hs-identifier hs-var">Map.keysSet</span></span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues)
-</span><a href="#local-6989586621680620587"><span class="hs-identifier hs-var">l'</span></a></span><span>
-</span><span id="line-133"></span><span>                    </span><span id="local-6989586621680620584"><span class="annot"><span class="annottext">rRefs :: Set ref
-</span><a href="#local-6989586621680620584"><span class="hs-identifier hs-var hs-var">rRefs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues) -&gt; Set ref
+</span><a href="#local-6989586621680620591"><span class="hs-identifier hs-var">l'</span></a></span><span>
+</span><span id="line-133"></span><span>                    </span><span id="local-6989586621680620588"><span class="annot"><span class="annottext">rRefs :: Set ref
+</span><a href="#local-6989586621680620588"><span class="hs-identifier hs-var hs-var">rRefs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues) -&gt; Set ref
 forall k a. Map k a -&gt; Set k
 </span><span class="hs-identifier hs-var">Map.keysSet</span></span><span> </span><span class="annot"><span class="annottext">Map ref (m MdValues)
-</span><a href="#local-6989586621680620586"><span class="hs-identifier hs-var">r'</span></a></span><span>
+</span><a href="#local-6989586621680620590"><span class="hs-identifier hs-var">r'</span></a></span><span>
 </span><span id="line-134"></span><span>                 </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Diff :: forall a. Set a -&gt; Set a -&gt; Diff a
 </span><a href="U.Codebase.Branch.Diff.html#Diff"><span class="hs-identifier hs-type">Diff</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:removals:Diff :: Set ref
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aremovals%3ADiff"><span class="hs-identifier hs-var">removals</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Set ref
-</span><a href="#local-6989586621680620585"><span class="hs-identifier hs-var">lRefs</span></a></span><span> </span><span class="annot"><span class="annottext">Set ref -&gt; Set ref -&gt; Set ref
+</span><a href="#local-6989586621680620589"><span class="hs-identifier hs-var">lRefs</span></a></span><span> </span><span class="annot"><span class="annottext">Set ref -&gt; Set ref -&gt; Set ref
 forall a. Ord a =&gt; Set a -&gt; Set a -&gt; Set a
 </span><span class="hs-operator hs-var">`Set.difference`</span></span><span> </span><span class="annot"><span class="annottext">Set ref
-</span><a href="#local-6989586621680620584"><span class="hs-identifier hs-var">rRefs</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:adds:Diff :: Set ref
+</span><a href="#local-6989586621680620588"><span class="hs-identifier hs-var">rRefs</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:adds:Diff :: Set ref
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aadds%3ADiff"><span class="hs-identifier hs-var">adds</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Set ref
-</span><a href="#local-6989586621680620584"><span class="hs-identifier hs-var">rRefs</span></a></span><span> </span><span class="annot"><span class="annottext">Set ref -&gt; Set ref -&gt; Set ref
+</span><a href="#local-6989586621680620588"><span class="hs-identifier hs-var">rRefs</span></a></span><span> </span><span class="annot"><span class="annottext">Set ref -&gt; Set ref -&gt; Set ref
 forall a. Ord a =&gt; Set a -&gt; Set a -&gt; Set a
 </span><span class="hs-operator hs-var">`Set.difference`</span></span><span> </span><span class="annot"><span class="annottext">Set ref
-</span><a href="#local-6989586621680620585"><span class="hs-identifier hs-var">lRefs</span></a></span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620589"><span class="hs-identifier hs-var">lRefs</span></a></span><span class="hs-special">}</span><span class="hs-special">)</span><span>
 </span><span id="line-135"></span><span>          </span><span class="hs-special">)</span><span>
 </span><span id="line-136"></span><span>
 </span><span id="line-137"></span><span class="hs-comment">-- | Get a summary of all of the name adds and removals from a tree diff.</span><span>
@@ -720,20 +720,20 @@ forall a. Ord a =&gt; Set a -&gt; Set a -&gt; Set a
 </span><span id="line-143"></span><span>  </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-144"></span><span>  </span><span class="annot"><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span><span>
 </span><span id="line-145"></span><span id="nameChanges"><span class="annot"><span class="annottext">nameChanges :: Maybe Name -&gt; TreeDiff -&gt; NameChanges
-</span><a href="U.Codebase.Branch.Diff.html#nameChanges"><span class="hs-identifier hs-var hs-var">nameChanges</span></a></span></span><span> </span><span id="local-6989586621680620582"><span class="annot"><span class="annottext">Maybe Name
-</span><a href="#local-6989586621680620582"><span class="hs-identifier hs-var">namePrefix</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-type">DefinitionDiffs</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680620581"><span class="annot"><span class="annottext">Map NameSegment (Diff Referent)
+</span><a href="U.Codebase.Branch.Diff.html#nameChanges"><span class="hs-identifier hs-var hs-var">nameChanges</span></a></span></span><span> </span><span id="local-6989586621680620586"><span class="annot"><span class="annottext">Maybe Name
+</span><a href="#local-6989586621680620586"><span class="hs-identifier hs-var">namePrefix</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-type">TreeDiff</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="U.Codebase.Branch.Diff.html#DefinitionDiffs"><span class="hs-identifier hs-type">DefinitionDiffs</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680620585"><span class="annot"><span class="annottext">Map NameSegment (Diff Referent)
 termDiffs :: Map NameSegment (Diff Referent)
 $sel:termDiffs:DefinitionDiffs :: DefinitionDiffs -&gt; Map NameSegment (Diff Referent)
-</span><a href="#local-6989586621680620581"><span class="hs-identifier hs-var hs-var">termDiffs</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620580"><span class="annot"><span class="annottext">Map NameSegment (Diff Reference)
+</span><a href="#local-6989586621680620585"><span class="hs-identifier hs-var hs-var">termDiffs</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620584"><span class="annot"><span class="annottext">Map NameSegment (Diff Reference)
 typeDiffs :: Map NameSegment (Diff Reference)
 $sel:typeDiffs:DefinitionDiffs :: DefinitionDiffs -&gt; Map NameSegment (Diff Reference)
-</span><a href="#local-6989586621680620580"><span class="hs-identifier hs-var hs-var">typeDiffs</span></a></span></span><span class="hs-special">}</span><span> </span><span class="annot"><span class="hs-operator hs-type">:&lt;</span></span><span> </span><span id="local-6989586621680620579"><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
-</span><a href="#local-6989586621680620579"><span class="hs-identifier hs-var">children</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-146"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620578"><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620578"><span class="hs-identifier hs-var">termNameAdds</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620577"><span class="annot"><span class="annottext">[(Name, Referent)]
-</span><a href="#local-6989586621680620577"><span class="hs-identifier hs-var">termNameRemovals</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621680620584"><span class="hs-identifier hs-var hs-var">typeDiffs</span></a></span></span><span class="hs-special">}</span><span> </span><span class="annot"><span class="hs-operator hs-type">:&lt;</span></span><span> </span><span id="local-6989586621680620583"><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
+</span><a href="#local-6989586621680620583"><span class="hs-identifier hs-var">children</span></a></span></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-146"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621680620582"><span class="annot"><span class="annottext">[(Name, Referent)]
+</span><a href="#local-6989586621680620582"><span class="hs-identifier hs-var">termNameAdds</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620581"><span class="annot"><span class="annottext">[(Name, Referent)]
+</span><a href="#local-6989586621680620581"><span class="hs-identifier hs-var">termNameRemovals</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-147"></span><span>        </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Referent)
-</span><a href="#local-6989586621680620581"><span class="hs-identifier hs-var">termDiffs</span></a></span><span>
+</span><a href="#local-6989586621680620585"><span class="hs-identifier hs-var">termDiffs</span></a></span><span>
 </span><span id="line-148"></span><span>            </span><span class="annot"><span class="annottext">Map NameSegment (Diff Referent)
 -&gt; (Map NameSegment (Diff Referent)
     -&gt; ([(Name, Referent)], [(Name, Referent)]))
@@ -746,38 +746,38 @@ forall a b. a -&gt; (a -&gt; b) -&gt; b
 forall i (f :: * -&gt; *) m a.
 (FoldableWithIndex i f, Monoid m) =&gt;
 (i -&gt; a -&gt; m) -&gt; f a -&gt; m
-</span><span class="hs-identifier hs-var">ifoldMap</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621680620576"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621680620576"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span id="local-6989586621680620575"><span class="annot"><span class="annottext">Diff Referent
-</span><a href="#local-6989586621680620575"><span class="hs-identifier hs-var">diff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-149"></span><span>              </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620574"><span class="annot"><span class="annottext">name :: Name
-</span><a href="#local-6989586621680620574"><span class="hs-identifier hs-var hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Name
-</span><a href="#local-6989586621680620573"><span class="hs-identifier hs-var">appendName</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621680620576"><span class="hs-identifier hs-var">ns</span></a></span><span>
+</span><span class="hs-identifier hs-var">ifoldMap</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621680620580"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621680620580"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span id="local-6989586621680620579"><span class="annot"><span class="annottext">Diff Referent
+</span><a href="#local-6989586621680620579"><span class="hs-identifier hs-var">diff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-149"></span><span>              </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620578"><span class="annot"><span class="annottext">name :: Name
+</span><a href="#local-6989586621680620578"><span class="hs-identifier hs-var hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Name
+</span><a href="#local-6989586621680620577"><span class="hs-identifier hs-var">appendName</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621680620580"><span class="hs-identifier hs-var">ns</span></a></span><span>
 </span><span id="line-150"></span><span>               </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Name -&gt; Set Referent -&gt; [(Name, Referent)]
 forall ref. Name -&gt; Set ref -&gt; [(Name, ref)]
-</span><a href="#local-6989586621680620572"><span class="hs-identifier hs-var">listifyNames</span></a></span><span> </span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680620574"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Referent -&gt; [(Name, Referent)])
+</span><a href="#local-6989586621680620576"><span class="hs-identifier hs-var">listifyNames</span></a></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621680620578"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Referent -&gt; [(Name, Referent)])
 -&gt; Set Referent -&gt; [(Name, Referent)]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Diff Referent -&gt; Set Referent
 forall a. Diff a -&gt; Set a
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aadds%3ADiff"><span class="hs-identifier hs-var hs-var">adds</span></a></span><span> </span><span class="annot"><span class="annottext">Diff Referent
-</span><a href="#local-6989586621680620575"><span class="hs-identifier hs-var">diff</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Set Referent -&gt; [(Name, Referent)]
+</span><a href="#local-6989586621680620579"><span class="hs-identifier hs-var">diff</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Set Referent -&gt; [(Name, Referent)]
 forall ref. Name -&gt; Set ref -&gt; [(Name, ref)]
-</span><a href="#local-6989586621680620572"><span class="hs-identifier hs-var">listifyNames</span></a></span><span> </span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680620574"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Referent -&gt; [(Name, Referent)])
+</span><a href="#local-6989586621680620576"><span class="hs-identifier hs-var">listifyNames</span></a></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621680620578"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Referent -&gt; [(Name, Referent)])
 -&gt; Set Referent -&gt; [(Name, Referent)]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Diff Referent -&gt; Set Referent
 forall a. Diff a -&gt; Set a
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aremovals%3ADiff"><span class="hs-identifier hs-var hs-var">removals</span></a></span><span> </span><span class="annot"><span class="annottext">Diff Referent
-</span><a href="#local-6989586621680620575"><span class="hs-identifier hs-var">diff</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620579"><span class="hs-identifier hs-var">diff</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-151"></span><span>        </span><span class="hs-special">)</span><span>
-</span><span id="line-152"></span><span>      </span><span class="hs-special">(</span><span id="local-6989586621680620571"><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620571"><span class="hs-identifier hs-var">typeNameAdds</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620570"><span class="annot"><span class="annottext">[(Name, Reference)]
-</span><a href="#local-6989586621680620570"><span class="hs-identifier hs-var">typeNameRemovals</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-152"></span><span>      </span><span class="hs-special">(</span><span id="local-6989586621680620575"><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620575"><span class="hs-identifier hs-var">typeNameAdds</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680620574"><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620574"><span class="hs-identifier hs-var">typeNameRemovals</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-153"></span><span>        </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Diff Reference)
-</span><a href="#local-6989586621680620580"><span class="hs-identifier hs-var">typeDiffs</span></a></span><span>
+</span><a href="#local-6989586621680620584"><span class="hs-identifier hs-var">typeDiffs</span></a></span><span>
 </span><span id="line-154"></span><span>            </span><span class="annot"><span class="annottext">Map NameSegment (Diff Reference)
 -&gt; (Map NameSegment (Diff Reference)
     -&gt; ([(Name, Reference)], [(Name, Reference)]))
@@ -790,37 +790,37 @@ forall a b. a -&gt; (a -&gt; b) -&gt; b
 forall i (f :: * -&gt; *) m a.
 (FoldableWithIndex i f, Monoid m) =&gt;
 (i -&gt; a -&gt; m) -&gt; f a -&gt; m
-</span><span class="hs-identifier hs-var">ifoldMap</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621680620569"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621680620569"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span id="local-6989586621680620568"><span class="annot"><span class="annottext">Diff Reference
-</span><a href="#local-6989586621680620568"><span class="hs-identifier hs-var">diff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-155"></span><span>              </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620567"><span class="annot"><span class="annottext">name :: Name
-</span><a href="#local-6989586621680620567"><span class="hs-identifier hs-var hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Name
-</span><a href="#local-6989586621680620573"><span class="hs-identifier hs-var">appendName</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621680620569"><span class="hs-identifier hs-var">ns</span></a></span><span>
+</span><span class="hs-identifier hs-var">ifoldMap</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621680620573"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621680620573"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span id="local-6989586621680620572"><span class="annot"><span class="annottext">Diff Reference
+</span><a href="#local-6989586621680620572"><span class="hs-identifier hs-var">diff</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-155"></span><span>              </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680620571"><span class="annot"><span class="annottext">name :: Name
+</span><a href="#local-6989586621680620571"><span class="hs-identifier hs-var hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Name
+</span><a href="#local-6989586621680620577"><span class="hs-identifier hs-var">appendName</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621680620573"><span class="hs-identifier hs-var">ns</span></a></span><span>
 </span><span id="line-156"></span><span>               </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Name -&gt; Set Reference -&gt; [(Name, Reference)]
 forall ref. Name -&gt; Set ref -&gt; [(Name, ref)]
-</span><a href="#local-6989586621680620572"><span class="hs-identifier hs-var">listifyNames</span></a></span><span> </span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680620567"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Reference -&gt; [(Name, Reference)])
+</span><a href="#local-6989586621680620576"><span class="hs-identifier hs-var">listifyNames</span></a></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621680620571"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Reference -&gt; [(Name, Reference)])
 -&gt; Set Reference -&gt; [(Name, Reference)]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Diff Reference -&gt; Set Reference
 forall a. Diff a -&gt; Set a
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aadds%3ADiff"><span class="hs-identifier hs-var hs-var">adds</span></a></span><span> </span><span class="annot"><span class="annottext">Diff Reference
-</span><a href="#local-6989586621680620568"><span class="hs-identifier hs-var">diff</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Set Reference -&gt; [(Name, Reference)]
+</span><a href="#local-6989586621680620572"><span class="hs-identifier hs-var">diff</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Set Reference -&gt; [(Name, Reference)]
 forall ref. Name -&gt; Set ref -&gt; [(Name, ref)]
-</span><a href="#local-6989586621680620572"><span class="hs-identifier hs-var">listifyNames</span></a></span><span> </span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680620567"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Reference -&gt; [(Name, Reference)])
+</span><a href="#local-6989586621680620576"><span class="hs-identifier hs-var">listifyNames</span></a></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621680620571"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Reference -&gt; [(Name, Reference)])
 -&gt; Set Reference -&gt; [(Name, Reference)]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Diff Reference -&gt; Set Reference
 forall a. Diff a -&gt; Set a
 </span><a href="U.Codebase.Branch.Diff.html#%24sel%3Aremovals%3ADiff"><span class="hs-identifier hs-var hs-var">removals</span></a></span><span> </span><span class="annot"><span class="annottext">Diff Reference
-</span><a href="#local-6989586621680620568"><span class="hs-identifier hs-var">diff</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620572"><span class="hs-identifier hs-var">diff</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-157"></span><span>        </span><span class="hs-special">)</span><span>
-</span><span id="line-158"></span><span>      </span><span id="local-6989586621680620566"><span class="annot"><span class="annottext">childNameChanges :: NameChanges
-</span><a href="#local-6989586621680620566"><span class="hs-identifier hs-var hs-var">childNameChanges</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-158"></span><span>      </span><span id="local-6989586621680620570"><span class="annot"><span class="annottext">childNameChanges :: NameChanges
+</span><a href="#local-6989586621680620570"><span class="hs-identifier hs-var hs-var">childNameChanges</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-159"></span><span>        </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
-</span><a href="#local-6989586621680620579"><span class="hs-identifier hs-var">children</span></a></span><span>
+</span><a href="#local-6989586621680620583"><span class="hs-identifier hs-var">children</span></a></span><span>
 </span><span id="line-160"></span><span>            </span><span class="annot"><span class="annottext">Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
 -&gt; (Map NameSegment (Cofree (Map NameSegment) DefinitionDiffs)
     -&gt; NameChanges)
@@ -833,19 +833,19 @@ forall a b. a -&gt; (a -&gt; b) -&gt; b
 forall i (f :: * -&gt; *) m a.
 (FoldableWithIndex i f, Monoid m) =&gt;
 (i -&gt; a -&gt; m) -&gt; f a -&gt; m
-</span><span class="hs-identifier hs-var">ifoldMap</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621680620565"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621680620565"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span id="local-6989586621680620564"><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620564"><span class="hs-identifier hs-var">childTree</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span class="hs-identifier hs-var">ifoldMap</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621680620569"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621680620569"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span id="local-6989586621680620568"><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
+</span><a href="#local-6989586621680620568"><span class="hs-identifier hs-var">childTree</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-161"></span><span>              </span><span class="annot"><span class="annottext">Maybe Name -&gt; TreeDiff -&gt; NameChanges
 </span><a href="U.Codebase.Branch.Diff.html#nameChanges"><span class="hs-identifier hs-var">nameChanges</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Name -&gt; Maybe Name
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(Name -&gt; Maybe Name) -&gt; Name -&gt; Maybe Name
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Name
-</span><a href="#local-6989586621680620573"><span class="hs-identifier hs-var">appendName</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621680620565"><span class="hs-identifier hs-var">ns</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs -&gt; TreeDiff
+</span><a href="#local-6989586621680620577"><span class="hs-identifier hs-var">appendName</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621680620569"><span class="hs-identifier hs-var">ns</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs -&gt; TreeDiff
 </span><a href="U.Codebase.Branch.Diff.html#TreeDiff"><span class="hs-identifier hs-var">TreeDiff</span></a></span><span> </span><span class="annot"><span class="annottext">Cofree (Map NameSegment) DefinitionDiffs
-</span><a href="#local-6989586621680620564"><span class="hs-identifier hs-var">childTree</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620568"><span class="hs-identifier hs-var">childTree</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-162"></span><span>        </span><span class="hs-special">)</span><span>
 </span><span id="line-163"></span><span>   </span><span class="hs-keyword">in</span><span> </span><span class="annot"><span class="annottext">NameChanges :: [(Name, Referent)]
 -&gt; [(Name, Referent)]
@@ -855,26 +855,26 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><a href="U.Codebase.Branch.Diff.html#NameChanges"><span class="hs-identifier hs-type">NameChanges</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">[(Name, Referent)]
 termNameAdds :: [(Name, Referent)]
 $sel:termNameAdds:NameChanges :: [(Name, Referent)]
-</span><a href="#local-6989586621680620578"><span class="hs-identifier hs-var hs-var">termNameAdds</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(Name, Referent)]
+</span><a href="#local-6989586621680620582"><span class="hs-identifier hs-var hs-var">termNameAdds</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(Name, Referent)]
 termNameRemovals :: [(Name, Referent)]
 $sel:termNameRemovals:NameChanges :: [(Name, Referent)]
-</span><a href="#local-6989586621680620577"><span class="hs-identifier hs-var hs-var">termNameRemovals</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620581"><span class="hs-identifier hs-var hs-var">termNameRemovals</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)]
 typeNameAdds :: [(Name, Reference)]
 $sel:typeNameAdds:NameChanges :: [(Name, Reference)]
-</span><a href="#local-6989586621680620571"><span class="hs-identifier hs-var hs-var">typeNameAdds</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)]
+</span><a href="#local-6989586621680620575"><span class="hs-identifier hs-var hs-var">typeNameAdds</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(Name, Reference)]
 typeNameRemovals :: [(Name, Reference)]
 $sel:typeNameRemovals:NameChanges :: [(Name, Reference)]
-</span><a href="#local-6989586621680620570"><span class="hs-identifier hs-var hs-var">typeNameRemovals</span></a></span><span class="hs-special">}</span><span> </span><span class="annot"><span class="annottext">NameChanges -&gt; NameChanges -&gt; NameChanges
+</span><a href="#local-6989586621680620574"><span class="hs-identifier hs-var hs-var">typeNameRemovals</span></a></span><span class="hs-special">}</span><span> </span><span class="annot"><span class="annottext">NameChanges -&gt; NameChanges -&gt; NameChanges
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">NameChanges
-</span><a href="#local-6989586621680620566"><span class="hs-identifier hs-var">childNameChanges</span></a></span><span>
+</span><a href="#local-6989586621680620570"><span class="hs-identifier hs-var">childNameChanges</span></a></span><span>
 </span><span id="line-164"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-165"></span><span>    </span><span class="annot"><a href="#local-6989586621680620573"><span class="hs-identifier hs-type">appendName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span>
-</span><span id="line-166"></span><span>    </span><span id="local-6989586621680620573"><span class="annot"><span class="annottext">appendName :: NameSegment -&gt; Name
-</span><a href="#local-6989586621680620573"><span class="hs-identifier hs-var hs-var">appendName</span></a></span></span><span> </span><span id="local-6989586621680620563"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621680620563"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-165"></span><span>    </span><span class="annot"><a href="#local-6989586621680620577"><span class="hs-identifier hs-type">appendName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span>
+</span><span id="line-166"></span><span>    </span><span id="local-6989586621680620577"><span class="annot"><span class="annottext">appendName :: NameSegment -&gt; Name
+</span><a href="#local-6989586621680620577"><span class="hs-identifier hs-var hs-var">appendName</span></a></span></span><span> </span><span id="local-6989586621680620567"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621680620567"><span class="hs-identifier hs-var">ns</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-167"></span><span>      </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe Name
-</span><a href="#local-6989586621680620582"><span class="hs-identifier hs-var">namePrefix</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621680620586"><span class="hs-identifier hs-var">namePrefix</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-168"></span><span>        </span><span class="annot"><span class="annottext">Maybe Name
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Name
 </span><span class="hs-identifier hs-var">Name.fromSegment</span></span><span> </span><span class="annot"><span class="annottext">(NameSegment -&gt; Name)
@@ -884,21 +884,21 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><a href="Unison.Codebase.SqliteCodebase.Conversions.html#namesegment2to1"><span class="hs-identifier hs-var">Cv.namesegment2to1</span></a></span><span> </span><span class="annot"><span class="annottext">(NameSegment -&gt; Name) -&gt; NameSegment -&gt; Name
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621680620563"><span class="hs-identifier hs-var">ns</span></a></span><span>
-</span><span id="line-169"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621680620560"><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680620560"><span class="hs-identifier hs-var">prefix</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680620560"><span class="hs-identifier hs-var">prefix</span></a></span><span> </span><span class="annot"><span class="annottext">Name -&gt; NameSegment -&gt; Name
+</span><a href="#local-6989586621680620567"><span class="hs-identifier hs-var">ns</span></a></span><span>
+</span><span id="line-169"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621680620564"><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621680620564"><span class="hs-identifier hs-var">prefix</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621680620564"><span class="hs-identifier hs-var">prefix</span></a></span><span> </span><span class="annot"><span class="annottext">Name -&gt; NameSegment -&gt; Name
 forall s a. Snoc s s a a =&gt; s -&gt; a -&gt; s
 </span><span class="hs-operator hs-var">Lens.|&gt;</span></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; NameSegment
 </span><a href="Unison.Codebase.SqliteCodebase.Conversions.html#namesegment2to1"><span class="hs-identifier hs-var">Cv.namesegment2to1</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621680620563"><span class="hs-identifier hs-var">ns</span></a></span><span>
-</span><span id="line-170"></span><span>    </span><span id="local-6989586621680620789"><span class="annot"><a href="#local-6989586621680620572"><span class="hs-identifier hs-type">listifyNames</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="#local-6989586621680620789"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621680620789"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">)</span></span><span>
-</span><span id="line-171"></span><span>    </span><span id="local-6989586621680620572"><span class="annot"><span class="annottext">listifyNames :: Name -&gt; Set ref -&gt; [(Name, ref)]
-</span><a href="#local-6989586621680620572"><span class="hs-identifier hs-var hs-var">listifyNames</span></a></span></span><span> </span><span id="local-6989586621680620558"><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680620558"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621680620557"><span class="annot"><span class="annottext">Set ref
-</span><a href="#local-6989586621680620557"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621680620567"><span class="hs-identifier hs-var">ns</span></a></span><span>
+</span><span id="line-170"></span><span>    </span><span id="local-6989586621680620793"><span class="annot"><a href="#local-6989586621680620576"><span class="hs-identifier hs-type">listifyNames</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="#local-6989586621680620793"><span class="hs-identifier hs-type">ref</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621680620793"><span class="hs-identifier hs-type">ref</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">)</span></span><span>
+</span><span id="line-171"></span><span>    </span><span id="local-6989586621680620576"><span class="annot"><span class="annottext">listifyNames :: Name -&gt; Set ref -&gt; [(Name, ref)]
+</span><a href="#local-6989586621680620576"><span class="hs-identifier hs-var hs-var">listifyNames</span></a></span></span><span> </span><span id="local-6989586621680620562"><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621680620562"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621680620561"><span class="annot"><span class="annottext">Set ref
+</span><a href="#local-6989586621680620561"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-172"></span><span>      </span><span class="annot"><span class="annottext">Set ref
-</span><a href="#local-6989586621680620557"><span class="hs-identifier hs-var">xs</span></a></span><span>
+</span><a href="#local-6989586621680620561"><span class="hs-identifier hs-var">xs</span></a></span><span>
 </span><span id="line-173"></span><span>        </span><span class="annot"><span class="annottext">Set ref -&gt; (Set ref -&gt; [ref]) -&gt; [ref]
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">Set ref -&gt; [ref]
@@ -909,5 +909,5 @@ forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">(ref -&gt; (Name, ref)) -&gt; [ref] -&gt; [(Name, ref)]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680620558"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">,</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680620562"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">,</span><span class="hs-special">)</span><span>
 </span><span id="line-175"></span></pre></body></html>
