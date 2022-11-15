@@ -2773,7 +2773,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> m ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> (Hash -> Transaction (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> Transaction (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortCausalHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> (Hash -> Transaction (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> Transaction (Set Id)) -> (Hash -> m (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortCausalHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -2810,7 +2810,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a)
 -- | Enqueue the put of a type declaration into the codebase, if it doesn't
 --   already exist. The implementation may choose to delay the put until
 --   all of the type declaration's references are stored as well.
-[$sel:putTypeDeclaration:Codebase] :: Codebase m v a -> Id -> Decl v a -> m ()
+[$sel:putTypeDeclaration:Codebase] :: Codebase m v a -> Id -> Decl v a -> Transaction ()
 [$sel:putTypeDeclarationComponent:Codebase] :: Codebase m v a -> Hash -> [Decl v a] -> Transaction ()
 [$sel:getTermComponentWithTypes:Codebase] :: Codebase m v a -> Hash -> Transaction (Maybe [(Term v a, Type v a)])
 [$sel:getDeclComponent:Codebase] :: Codebase m v a -> Hash -> Transaction (Maybe [Decl v a])
@@ -3402,7 +3402,7 @@ unsafeGetTypeDeclaration :: HasCallStack => Codebase m v a -> Id -> Transaction 
 -- | Enqueue the put of a type declaration into the codebase, if it doesn't
 --   already exist. The implementation may choose to delay the put until
 --   all of the type declaration's references are stored as well.
-($sel:putTypeDeclaration:Codebase) :: Codebase m v a -> Id -> Decl v a -> m ()
+($sel:putTypeDeclaration:Codebase) :: Codebase m v a -> Id -> Decl v a -> Transaction ()
 ($sel:putTypeDeclarationComponent:Codebase) :: Codebase m v a -> Hash -> [Decl v a] -> Transaction ()
 
 -- | Get the set of type declarations whose hash matches the given prefix.
@@ -3574,12 +3574,12 @@ runTransaction :: MonadIO m => Codebase m v a -> Transaction b -> m b
 -- | Acquire a new connection to the same underlying database file this
 --   codebase object connects to.
 ($sel:withConnectionIO:Codebase) :: Codebase m v a -> forall x. (Connection -> IO x) -> IO x
-addDefsToCodebase :: forall m v a. (MonadIO m, Var v, Show a) => Codebase m v a -> TypecheckedUnisonFile v a -> m ()
+addDefsToCodebase :: forall m v a. (Var v, Show a) => Codebase m v a -> TypecheckedUnisonFile v a -> Transaction ()
 componentReferencesForReference :: Monad m => Codebase m v a -> Reference -> m (Set Reference)
 
 -- | Write all of UCM's dependencies (builtins types and an empty
 --   namespace) into the codebase
-installUcmDependencies :: forall m. MonadIO m => Codebase m Symbol Ann -> m ()
+installUcmDependencies :: Codebase m Symbol Ann -> Transaction ()
 toCodeLookup :: MonadIO m => Codebase m Symbol Ann -> CodeLookup Symbol m Ann
 typeLookupForDependencies :: BuiltinAnnotation a => Codebase m Symbol a -> Set Reference -> Transaction (TypeLookup Symbol a)
 unsafeGetComponentLength :: (HasCallStack, Monad m) => Codebase m v a -> Hash -> m CycleSize
