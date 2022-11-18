@@ -970,6 +970,8 @@ saveWatch :: WatchKind -> IdH -> ByteString -> Transaction ()
 loadWatch :: SqliteExceptionReason e => WatchKind -> IdH -> (ByteString -> Either e a) -> Transaction (Maybe a)
 loadWatchesByWatchKind :: WatchKind -> Transaction [IdH]
 loadWatchKindsByReference :: IdH -> Transaction [WatchKind]
+
+-- | Delete all watches that were put by <tt>putWatch</tt>.
 clearWatches :: Transaction ()
 addToDependentsIndex :: [Reference] -> Id -> Transaction ()
 
@@ -1265,6 +1267,8 @@ saveWatch :: WatchKind -> Id -> Term Symbol -> Transaction ()
 -- | returns Nothing if the expression isn't cached.
 loadWatch :: WatchKind -> Id -> MaybeT Transaction (Term Symbol)
 listWatches :: WatchKind -> Transaction [Id]
+
+-- | Delete all watches that were put by <tt>putWatch</tt>.
 clearWatches :: Transaction ()
 before :: CausalHash -> CausalHash -> Transaction (Maybe Bool)
 lca :: CausalHash -> CausalHash -> Transaction (Maybe CausalHash)
@@ -1295,6 +1299,9 @@ NamesByPath :: [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef (Refere
 [$sel:termNamesExternalToPath:NamesByPath] :: NamesByPath -> [NamedRef (Referent, Maybe ConstructorType)]
 [$sel:typeNamesInPath:NamesByPath] :: NamesByPath -> [NamedRef Reference]
 [$sel:typeNamesExternalToPath:NamesByPath] :: NamesByPath -> [NamedRef Reference]
+
+-- | Gets the specified number of reflog entries in chronological order,
+--   most recent first.
 getReflog :: Int -> Transaction [Entry CausalHash Text]
 appendReflog :: Entry CausalHash Text -> Transaction ()
 expectDbBranch :: BranchObjectId -> Transaction DbBranch

@@ -2773,7 +2773,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> (Hash -> Transaction (Maybe [Decl v a])) -> (Hash -> m (Maybe CycleSize)) -> m CausalHash -> m (Branch m) -> m Bool -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CausalHash -> m Bool) -> (EditHash -> m (Maybe Patch)) -> (EditHash -> Patch -> m ()) -> (EditHash -> m Bool) -> (DependentsSelector -> Reference -> Transaction (Set Id)) -> (Hash -> Transaction (Set Id)) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> m [Id]) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (WatchKind -> Id -> Term v a -> m ()) -> m () -> (Int -> m [Entry CausalHash Text]) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> m Int -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> m Int -> (ShortCausalHash -> m (Set CausalHash)) -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash)) -> Maybe (CausalHash -> CausalHash -> m Bool) -> (Path -> m ScopedNames) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> m (Branch m) -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -2813,17 +2813,9 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a)
 [$sel:putTypeDeclaration:Codebase] :: Codebase m v a -> Id -> Decl v a -> Transaction ()
 [$sel:putTypeDeclarationComponent:Codebase] :: Codebase m v a -> Hash -> [Decl v a] -> Transaction ()
 [$sel:getTermComponentWithTypes:Codebase] :: Codebase m v a -> Hash -> Transaction (Maybe [(Term v a, Type v a)])
-[$sel:getDeclComponent:Codebase] :: Codebase m v a -> Hash -> Transaction (Maybe [Decl v a])
-[$sel:getComponentLength:Codebase] :: Codebase m v a -> Hash -> m (Maybe CycleSize)
-
--- | Get the root causal Hash.
-[$sel:getRootCausalHash:Codebase] :: Codebase m v a -> m CausalHash
 
 -- | Get the root branch.
 [$sel:getRootBranch:Codebase] :: Codebase m v a -> m (Branch m)
-
--- | Get whether the root branch exists.
-[$sel:getRootBranchExists:Codebase] :: Codebase m v a -> m Bool
 
 -- | Like <a>$sel:putBranch:Codebase</a>, but also adjusts the root branch
 --   pointer afterwards.
@@ -2838,25 +2830,6 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a)
 --   exist in the codebase.
 [$sel:putBranch:Codebase] :: Codebase m v a -> Branch m -> m ()
 
--- | Check whether the given branch exists in the codebase.
-[$sel:branchExists:Codebase] :: Codebase m v a -> CausalHash -> m Bool
-
--- | Get a patch from the codebase.
-[$sel:getPatch:Codebase] :: Codebase m v a -> EditHash -> m (Maybe Patch)
-
--- | Put a patch into the codebase.
---   
---   Note that <a>$sel:putBranch:Codebase</a> may also put patches.
-[$sel:putPatch:Codebase] :: Codebase m v a -> EditHash -> Patch -> m ()
-
--- | Check whether the given patch exists in the codebase.
-[$sel:patchExists:Codebase] :: Codebase m v a -> EditHash -> m Bool
-
--- | Get the set of user-defined terms and type declarations that depend on
---   the given term, type declaration, or builtin type.
-[$sel:dependentsImpl:Codebase] :: Codebase m v a -> DependentsSelector -> Reference -> Transaction (Set Id)
-[$sel:dependentsOfComponentImpl:Codebase] :: Codebase m v a -> Hash -> Transaction (Set Id)
-
 -- | Copy a branch and all of its dependencies from the given codebase into
 --   this one.
 [$sel:syncFromDirectory:Codebase] :: Codebase m v a -> CodebasePath -> SyncMode -> Branch m -> m ()
@@ -2870,36 +2843,9 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a)
 --   root branch.
 [$sel:pushGitBranch:Codebase] :: Codebase m v a -> forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))
 
--- | <tt>watches k</tt> returns all of the references <tt>r</tt> that were
---   previously put by a <tt>putWatch k r t</tt>. <tt>t</tt> can be
---   retrieved by <tt>getWatch k r</tt>.
-[$sel:watches:Codebase] :: Codebase m v a -> WatchKind -> m [Id]
-
 -- | <tt>getWatch k r</tt> returns watch result <tt>t</tt> that was
 --   previously put by <tt>putWatch k r t</tt>.
 [$sel:getWatch:Codebase] :: Codebase m v a -> WatchKind -> Id -> m (Maybe (Term v a))
-
--- | <tt>putWatch k r t</tt> puts a watch of kind <tt>k</tt>, with
---   hash-of-expression <tt>r</tt> and decompiled result <tt>t</tt> into
---   the codebase.
---   
---   For example, in the watch expression below, <tt>k</tt> is
---   <a>Regular</a>, <tt>r</tt> is the hash of <tt>x</tt>, and <tt>t</tt>
---   is <tt>7</tt>.
---   
---   <pre>
---   &gt; x = 3 + 4
---     ⧩
---     7
---   </pre>
-[$sel:putWatch:Codebase] :: Codebase m v a -> WatchKind -> Id -> Term v a -> m ()
-
--- | Delete all watches that were put by <a>$sel:putWatch:Codebase</a>.
-[$sel:clearWatches:Codebase] :: Codebase m v a -> m ()
-
--- | Gets the specified number of reflog entries in chronological order,
---   most recent first.
-[$sel:getReflog:Codebase] :: Codebase m v a -> Int -> m [Entry CausalHash Text]
 
 -- | Get the set of user-defined terms-or-constructors that have the given
 --   type.
@@ -2909,29 +2855,9 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a)
 --   type anywhere in their signature.
 [$sel:termsMentioningTypeImpl:Codebase] :: Codebase m v a -> Reference -> m (Set Id)
 
--- | The number of base32 characters needed to distinguish any two
---   references in the codebase.
-[$sel:hashLength:Codebase] :: Codebase m v a -> m Int
-
--- | Get the set of user-defined terms whose hash matches the given prefix.
-[$sel:termReferencesByPrefix:Codebase] :: Codebase m v a -> ShortHash -> m (Set Id)
-
--- | Get the set of type declarations whose hash matches the given prefix.
-[$sel:typeReferencesByPrefix:Codebase] :: Codebase m v a -> ShortHash -> m (Set Id)
-
 -- | Get the set of user-defined terms-or-constructors whose hash matches
 --   the given prefix.
 [$sel:termReferentsByPrefix:Codebase] :: Codebase m v a -> ShortHash -> m (Set Id)
-
--- | The number of base32 characters needed to distinguish any two branch
---   in the codebase.
-[$sel:branchHashLength:Codebase] :: Codebase m v a -> m Int
-
--- | Get the set of branches whose hash matches the given prefix.
-[$sel:causalHashesByPrefix:Codebase] :: Codebase m v a -> ShortCausalHash -> m (Set CausalHash)
-[$sel:lcaImpl:Codebase] :: Codebase m v a -> Maybe (CausalHash -> CausalHash -> m (Maybe CausalHash))
-[$sel:beforeImpl:Codebase] :: Codebase m v a -> Maybe (CausalHash -> CausalHash -> m Bool)
-[$sel:namesAtPath:Codebase] :: Codebase m v a -> Path -> m ScopedNames
 [$sel:updateNameLookup:Codebase] :: Codebase m v a -> Path -> Maybe BranchHash -> BranchHash -> Transaction ()
 
 -- | Acquire a new connection to the same underlying database file this
@@ -3224,37 +3150,78 @@ putTypeDeclaration_ :: TVar (Map Hash DeclBufferEntry) -> Id -> Decl Symbol Ann 
 tryFlushDeclBuffer :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Hash -> Transaction ()
 getRootBranch :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> TVar (Maybe (DataVersion, Branch Transaction)) -> Transaction (Branch Transaction)
 uncachedLoadRootBranch :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> Transaction (Branch Transaction)
+
+-- | Get whether the root branch exists.
 getRootBranchExists :: Transaction Bool
 putRootBranch :: TVar (Maybe (DataVersion, Branch Transaction)) -> Branch Transaction -> Transaction ()
 getBranchForHash :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> CausalHash -> Transaction (Maybe (Branch Transaction))
 putBranch :: Branch Transaction -> Transaction ()
-isCausalHash :: CausalHash -> Transaction Bool
+
+-- | Check whether the given branch exists in the codebase.
+branchExists :: CausalHash -> Transaction Bool
 getPatch :: EditHash -> Transaction (Maybe Patch)
+
+-- | Put a patch into the codebase.
+--   
+--   Note that <a>putBranch</a> may also put patches.
 putPatch :: EditHash -> Patch -> Transaction ()
+
+-- | Check whether the given patch exists in the codebase.
 patchExists :: EditHash -> Transaction Bool
 dependentsImpl :: DependentsSelector -> Reference -> Transaction (Set Id)
 dependentsOfComponentImpl :: Hash -> Transaction (Set Id)
+
+-- | <tt>watches k</tt> returns all of the references <tt>r</tt> that were
+--   previously put by a <tt>putWatch k r t</tt>. <tt>t</tt> can be
+--   retrieved by <tt>getWatch k r</tt>.
 watches :: WatchKind -> Transaction [Id]
 getWatch :: (Reference -> Transaction ConstructorType) -> WatchKind -> Id -> Transaction (Maybe (Term Symbol Ann))
+
+-- | <tt>putWatch k r t</tt> puts a watch of kind <tt>k</tt>, with
+--   hash-of-expression <tt>r</tt> and decompiled result <tt>t</tt> into
+--   the codebase.
+--   
+--   For example, in the watch expression below, <tt>k</tt> is
+--   <a>Regular</a>, <tt>r</tt> is the hash of <tt>x</tt>, and <tt>t</tt>
+--   is <tt>7</tt>.
+--   
+--   <pre>
+--   &gt; x = 3 + 4
+--     ⧩
+--     7
+--   </pre>
 putWatch :: WatchKind -> Id -> Term Symbol Ann -> Transaction ()
 standardWatchKinds :: [WatchKind]
-clearWatches :: Transaction ()
 termsOfTypeImpl :: (Reference -> Transaction ConstructorType) -> Reference -> Transaction (Set Id)
 termsMentioningTypeImpl :: (Reference -> Transaction ConstructorType) -> Reference -> Transaction (Set Id)
+
+-- | The number of base32 characters needed to distinguish any two
+--   references in the codebase.
 hashLength :: Transaction Int
+
+-- | The number of base32 characters needed to distinguish any two branch
+--   in the codebase.
 branchHashLength :: Transaction Int
 defnReferencesByPrefix :: ObjectType -> ShortHash -> Transaction (Set Id)
 termReferencesByPrefix :: ShortHash -> Transaction (Set Id)
-declReferencesByPrefix :: ShortHash -> Transaction (Set Id)
+
+-- | Get the set of type declarations whose hash matches the given prefix.
+typeReferencesByPrefix :: ShortHash -> Transaction (Set Id)
 referentsByPrefix :: (Reference -> Transaction ConstructorType) -> ShortHash -> Transaction (Set Id)
+
+-- | Get the set of branches whose hash matches the given prefix.
 causalHashesByPrefix :: ShortCausalHash -> Transaction (Set CausalHash)
 sqlLca :: CausalHash -> CausalHash -> Transaction (Maybe CausalHash)
 termExists :: Hash -> Transaction Bool
 declExists :: Hash -> Transaction Bool
-before :: CausalHash -> CausalHash -> Transaction (Maybe Bool)
+before :: CausalHash -> CausalHash -> Transaction Bool
 
 -- | Construct a <a>ScopedNames</a> which can produce names which are
 --   relative to the provided Path.
+--   
+--   NOTE: this method requires an up-to-date name lookup index, which is
+--   currently not kept up-to-date automatically (because it's slow to do
+--   so).
 namesAtPath :: Path -> Transaction ScopedNames
 
 -- | Update the root namespace names index which is used by the share
@@ -3367,7 +3334,7 @@ isTerm :: BuiltinAnnotation a => Codebase m Symbol a -> Reference -> Transaction
 
 -- | Get the metadata attached to the term at a given path and name
 --   relative to the given branch.
-termMetadata :: Monad m => Codebase m v a -> Maybe (Branch m) -> Split -> Maybe Referent -> m [Map MetadataValue MetadataType]
+termMetadata :: MonadIO m => Codebase m v a -> Maybe (Branch m) -> Split -> Maybe Referent -> m [Map MetadataValue MetadataType]
 
 -- | Get the type of a referent.
 getTypeOfReferent :: BuiltinAnnotation a => Codebase m Symbol a -> Referent -> Transaction (Maybe (Type Symbol a))
@@ -3378,9 +3345,7 @@ termsOfType :: (Var v, Functor m) => Codebase m v a -> Type v a -> m (Set Refere
 -- | Get the set of terms-or-constructors mention the given type anywhere
 --   in their signature.
 termsMentioningType :: (Var v, Functor m) => Codebase m v a -> Type v a -> m (Set Referent)
-
--- | Get the set of user-defined terms whose hash matches the given prefix.
-($sel:termReferencesByPrefix:Codebase) :: Codebase m v a -> ShortHash -> m (Set Id)
+termReferencesByPrefix :: ShortHash -> Transaction (Set Id)
 
 -- | Get the set of user-defined terms-or-constructors whose hash matches
 --   the given prefix.
@@ -3397,7 +3362,7 @@ termsMentioningType :: (Var v, Functor m) => Codebase m v a -> Type v a -> m (Se
 -- | Like <a>$sel:getTypeDeclaration:Codebase</a>, for when the type
 --   declaration is known to exist in the codebase.
 unsafeGetTypeDeclaration :: HasCallStack => Codebase m v a -> Id -> Transaction (Decl v a)
-($sel:getDeclComponent:Codebase) :: Codebase m v a -> Hash -> Transaction (Maybe [Decl v a])
+getDeclComponent :: Hash -> Transaction (Maybe [Decl Symbol Ann])
 
 -- | Enqueue the put of a type declaration into the codebase, if it doesn't
 --   already exist. The implementation may choose to delay the put until
@@ -3406,11 +3371,11 @@ unsafeGetTypeDeclaration :: HasCallStack => Codebase m v a -> Id -> Transaction 
 ($sel:putTypeDeclarationComponent:Codebase) :: Codebase m v a -> Hash -> [Decl v a] -> Transaction ()
 
 -- | Get the set of type declarations whose hash matches the given prefix.
-($sel:typeReferencesByPrefix:Codebase) :: Codebase m v a -> ShortHash -> m (Set Id)
+typeReferencesByPrefix :: ShortHash -> Transaction (Set Id)
 isType :: Codebase m v a -> Reference -> Transaction Bool
 
 -- | Check whether the given branch exists in the codebase.
-($sel:branchExists:Codebase) :: Codebase m v a -> CausalHash -> m Bool
+branchExists :: CausalHash -> Transaction Bool
 
 -- | Get a branch from the codebase.
 getBranchForHash :: Monad m => Codebase m v a -> CausalHash -> m (Maybe (Branch m))
@@ -3423,55 +3388,58 @@ getBranchForHash :: Monad m => Codebase m v a -> CausalHash -> m (Maybe (Branch 
 ($sel:putBranch:Codebase) :: Codebase m v a -> Branch m -> m ()
 
 -- | Get the set of branches whose hash matches the given prefix.
-($sel:causalHashesByPrefix:Codebase) :: Codebase m v a -> ShortCausalHash -> m (Set CausalHash)
+causalHashesByPrefix :: ShortCausalHash -> Transaction (Set CausalHash)
 
 -- | Get the lowest common ancestor of two branches, i.e. the most recent
 --   branch that is an ancestor of both branches.
-lca :: Monad m => Codebase m v a -> Branch m -> Branch m -> m (Maybe (Branch m))
-($sel:beforeImpl:Codebase) :: Codebase m v a -> Maybe (CausalHash -> CausalHash -> m Bool)
+lca :: MonadIO m => Codebase m v a -> Branch m -> Branch m -> m (Maybe (Branch m))
+before :: CausalHash -> CausalHash -> Transaction Bool
 
 -- | Recursively descend into causals following the given path, Use the
 --   root causal if none is provided.
-getShallowBranchAtPath :: Monad m => Codebase m v a -> Path -> Maybe (Branch m) -> m (Branch m)
+getShallowBranchAtPath :: MonadIO m => Codebase m v a -> Path -> Maybe (Branch m) -> m (Branch m)
 
 -- | Recursively descend into causals following the given path, Use the
 --   root causal if none is provided.
-getShallowCausalAtPath :: Monad m => Codebase m v a -> Path -> Maybe (CausalBranch m) -> m (CausalBranch m)
+getShallowCausalAtPath :: MonadIO m => Codebase m v a -> Path -> Maybe (CausalBranch m) -> m (CausalBranch m)
 ($sel:getShallowCausalForHash:Codebase) :: Codebase m v a -> CausalHash -> m (CausalBranch m)
-getShallowCausalFromRoot :: Monad m => Codebase m v a -> Maybe CausalHash -> Path -> m (CausalBranch m)
+getShallowCausalFromRoot :: MonadIO m => Codebase m v a -> Maybe CausalHash -> Path -> m (CausalBranch m)
 
 -- | Get the shallow representation of the root branches without loading
 --   the children or history.
-getShallowRootBranch :: Monad m => Codebase m v a -> m (Branch m)
+getShallowRootBranch :: MonadIO m => Codebase m v a -> m (Branch m)
 
 -- | Get the shallow representation of the root branches without loading
 --   the children or history.
-getShallowRootCausal :: Monad m => Codebase m v a -> m (CausalBranch m)
+getShallowRootCausal :: MonadIO m => Codebase m v a -> m (CausalBranch m)
 
 -- | Get the root branch.
 ($sel:getRootBranch:Codebase) :: Codebase m v a -> m (Branch m)
 
 -- | Get whether the root branch exists.
-($sel:getRootBranchExists:Codebase) :: Codebase m v a -> m Bool
-
--- | Get the root causal Hash.
-($sel:getRootCausalHash:Codebase) :: Codebase m v a -> m CausalHash
+getRootBranchExists :: Transaction Bool
+expectRootCausalHash :: Transaction CausalHash
 
 -- | Like <a>$sel:putBranch:Codebase</a>, but also adjusts the root branch
 --   pointer afterwards.
 ($sel:putRootBranch:Codebase) :: Codebase m v a -> Text -> Branch m -> m ()
-($sel:namesAtPath:Codebase) :: Codebase m v a -> Path -> m ScopedNames
+
+-- | Construct a <a>ScopedNames</a> which can produce names which are
+--   relative to the provided Path.
+--   
+--   NOTE: this method requires an up-to-date name lookup index, which is
+--   currently not kept up-to-date automatically (because it's slow to do
+--   so).
+namesAtPath :: Path -> Transaction ScopedNames
 
 -- | Check whether the given patch exists in the codebase.
-($sel:patchExists:Codebase) :: Codebase m v a -> EditHash -> m Bool
-
--- | Get a patch from the codebase.
-($sel:getPatch:Codebase) :: Codebase m v a -> EditHash -> m (Maybe Patch)
+patchExists :: EditHash -> Transaction Bool
+getPatch :: EditHash -> Transaction (Maybe Patch)
 
 -- | Put a patch into the codebase.
 --   
---   Note that <a>$sel:putBranch:Codebase</a> may also put patches.
-($sel:putPatch:Codebase) :: Codebase m v a -> EditHash -> Patch -> m ()
+--   Note that <a>putBranch</a> may also put patches.
+putPatch :: EditHash -> Patch -> Transaction ()
 
 -- | <tt>getWatch k r</tt> returns watch result <tt>t</tt> that was
 --   previously put by <tt>putWatch k r t</tt>.
@@ -3491,7 +3459,7 @@ lookupWatchCache :: Monad m => Codebase m v a -> Id -> m (Maybe (Term v a))
 -- | <tt>watches k</tt> returns all of the references <tt>r</tt> that were
 --   previously put by a <tt>putWatch k r t</tt>. <tt>t</tt> can be
 --   retrieved by <tt>getWatch k r</tt>.
-($sel:watches:Codebase) :: Codebase m v a -> WatchKind -> m [Id]
+watches :: WatchKind -> Transaction [Id]
 
 -- | <tt>putWatch k r t</tt> puts a watch of kind <tt>k</tt>, with
 --   hash-of-expression <tt>r</tt> and decompiled result <tt>t</tt> into
@@ -3506,27 +3474,27 @@ lookupWatchCache :: Monad m => Codebase m v a -> Id -> m (Maybe (Term v a))
 --     ⧩
 --     7
 --   </pre>
-($sel:putWatch:Codebase) :: Codebase m v a -> WatchKind -> Id -> Term v a -> m ()
+putWatch :: WatchKind -> Id -> Term Symbol Ann -> Transaction ()
 
--- | Delete all watches that were put by <a>$sel:putWatch:Codebase</a>.
-($sel:clearWatches:Codebase) :: Codebase m v a -> m ()
+-- | Delete all watches that were put by <tt>putWatch</tt>.
+clearWatches :: Transaction ()
 
 -- | Gets the specified number of reflog entries in chronological order,
 --   most recent first.
-($sel:getReflog:Codebase) :: Codebase m v a -> Int -> m [Entry CausalHash Text]
+getReflog :: Int -> Transaction [Entry CausalHash Text]
 
 -- | The number of base32 characters needed to distinguish any two
 --   references in the codebase.
-($sel:hashLength:Codebase) :: Codebase m v a -> m Int
+hashLength :: Transaction Int
 
 -- | The number of base32 characters needed to distinguish any two branch
 --   in the codebase.
-($sel:branchHashLength:Codebase) :: Codebase m v a -> m Int
+branchHashLength :: Transaction Int
 
 -- | Get the set of terms, type declarations, and builtin types that depend
 --   on the given term, type declaration, or builtin type.
-dependents :: Codebase m v a -> DependentsSelector -> Reference -> Transaction (Set Reference)
-dependentsOfComponent :: Codebase m v a -> Hash -> Transaction (Set Reference)
+dependents :: DependentsSelector -> Reference -> Transaction (Set Reference)
+dependentsOfComponent :: Hash -> Transaction (Set Reference)
 
 -- | Copy a branch and all of its dependencies from the given codebase into
 --   this one.
@@ -3575,14 +3543,14 @@ runTransaction :: MonadIO m => Codebase m v a -> Transaction b -> m b
 --   codebase object connects to.
 ($sel:withConnectionIO:Codebase) :: Codebase m v a -> forall x. (Connection -> IO x) -> IO x
 addDefsToCodebase :: forall m v a. (Var v, Show a) => Codebase m v a -> TypecheckedUnisonFile v a -> Transaction ()
-componentReferencesForReference :: Monad m => Codebase m v a -> Reference -> m (Set Reference)
+componentReferencesForReference :: Reference -> Transaction (Set Reference)
 
 -- | Write all of UCM's dependencies (builtins types and an empty
 --   namespace) into the codebase
 installUcmDependencies :: Codebase m Symbol Ann -> Transaction ()
 toCodeLookup :: MonadIO m => Codebase m Symbol Ann -> CodeLookup Symbol m Ann
 typeLookupForDependencies :: BuiltinAnnotation a => Codebase m Symbol a -> Set Reference -> Transaction (TypeLookup Symbol a)
-unsafeGetComponentLength :: (HasCallStack, Monad m) => Codebase m v a -> Hash -> m CycleSize
+unsafeGetComponentLength :: HasCallStack => Hash -> Transaction CycleSize
 
 module Unison.Codebase.SqliteCodebase.Paths
 

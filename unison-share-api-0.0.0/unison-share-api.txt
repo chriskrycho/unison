@@ -519,12 +519,13 @@ BackendEnv :: Bool -> BackendEnv
 newtype Backend m a
 Backend :: ReaderT BackendEnv (ExceptT BackendError m) a -> Backend m a
 [$sel:runBackend:Backend] :: Backend m a -> ReaderT BackendEnv (ExceptT BackendError m) a
+hoistBackend :: (forall x. m x -> n x) -> Backend m a -> Backend n a
 suffixifyNames :: Int -> Names -> PrettyPrintEnv
 namesForBranch :: Branch m -> NameScoping -> (Names, Names, Names)
 basicSuffixifiedNames :: Int -> Branch m -> NameScoping -> PrettyPrintEnv
 parseNamesForBranch :: Branch m -> NameScoping -> Names
 prettyNamesForBranch :: Branch m -> NameScoping -> Names
-shallowPPE :: Monad m => Codebase m v a -> Branch m -> m PrettyPrintEnv
+shallowPPE :: MonadIO m => Codebase m v a -> Branch m -> m PrettyPrintEnv
 
 -- | A <a>Names</a> which only includes mappings for things _directly_
 --   accessible from the branch.
@@ -568,7 +569,7 @@ resultListType :: (Ord v, Monoid a) => Type v a
 termListEntry :: MonadIO m => Codebase m Symbol Ann -> Branch m -> ExactName NameSegment Referent -> m (TermEntry Symbol Ann)
 getTermTag :: (Monad m, Var v) => Codebase m v a -> Referent -> Maybe (Type v Ann) -> m TermTag
 getTypeTag :: Var v => Codebase m v Ann -> Reference -> Transaction TypeTag
-typeListEntry :: MonadIO m => Var v => Codebase m v Ann -> Branch m -> ExactName NameSegment Reference -> m TypeEntry
+typeListEntry :: Var v => Codebase m v Ann -> Branch m -> ExactName NameSegment Reference -> Transaction TypeEntry
 typeDeclHeader :: forall v m. Var v => Codebase m v Ann -> PrettyPrintEnv -> Reference -> Transaction (DisplayObject SyntaxText SyntaxText)
 formatTypeName :: PrettyPrintEnv -> Reference -> SyntaxText
 formatTypeName' :: PrettyPrintEnv -> Reference -> SyntaxText
@@ -580,8 +581,8 @@ typeEntryToNamedType :: TypeEntry -> NamedType
 lsBranch :: MonadIO m => Codebase m Symbol Ann -> Branch m -> m [ShallowListEntry Symbol Ann]
 
 -- | Look up types in the codebase by short hash, and include builtins.
-typeReferencesByShortHash :: Monad m => Codebase m v a -> ShortHash -> m (Set Reference)
-termReferencesByShortHash :: Monad m => Codebase m v a -> ShortHash -> m (Set Reference)
+typeReferencesByShortHash :: ShortHash -> Transaction (Set Reference)
+termReferencesByShortHash :: ShortHash -> Transaction (Set Reference)
 
 -- | Look up terms in the codebase by short hash, and include builtins.
 termReferentsByShortHash :: Monad m => Codebase m v a -> ShortHash -> m (Set Referent)
@@ -627,16 +628,16 @@ makeNameSearch :: Int -> NamesWithHistory -> NameSearch
 
 -- | Interpret a <a>Search</a> as a function from name to search results.
 applySearch :: Show r => Search r -> HashQualified Name -> [SearchResult]
-hqNameQuery :: Monad m => Codebase m v Ann -> NameSearch -> [HashQualified Name] -> m QueryResult
+hqNameQuery :: MonadIO m => Codebase m v Ann -> NameSearch -> [HashQualified Name] -> m QueryResult
 data DefinitionResults v
 DefinitionResults :: Map Reference (DisplayObject (Type v Ann) (Term v Ann)) -> Map Reference (DisplayObject () (Decl v Ann)) -> [HashQualified Name] -> DefinitionResults v
 [$sel:termResults:DefinitionResults] :: DefinitionResults v -> Map Reference (DisplayObject (Type v Ann) (Term v Ann))
 [$sel:typeResults:DefinitionResults] :: DefinitionResults v -> Map Reference (DisplayObject () (Decl v Ann))
 [$sel:noResults:DefinitionResults] :: DefinitionResults v -> [HashQualified Name]
-expandShortCausalHash :: Monad m => Codebase m v a -> ShortCausalHash -> Backend m CausalHash
+expandShortCausalHash :: ShortCausalHash -> Backend Transaction CausalHash
 
 -- | Efficiently resolve a root hash and path to a shallow branch's causal.
-getShallowCausalAtPathFromRootHash :: Monad m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (CausalBranch m)
+getShallowCausalAtPathFromRootHash :: MonadIO m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (CausalBranch m)
 formatType' :: Var v => PrettyPrintEnv -> Width -> Type v a -> SyntaxText
 formatType :: Var v => PrettyPrintEnv -> Width -> Type v a -> SyntaxText
 formatSuffixedType :: Var v => PrettyPrintEnvDecl -> Width -> Type v Ann -> SyntaxText
@@ -666,11 +667,11 @@ bestNameForType :: forall v. Var v => PrettyPrintEnv -> Width -> Reference -> Te
 --   for the shortest unambiguous suffix within the scope in which the name
 --   is found (local, falling back to global)</li>
 --   </ul>
-scopedNamesForBranchHash :: forall m v a. Monad m => Codebase m v a -> Maybe (CausalBranch m) -> Path -> Backend m (Names, PrettyPrintEnvDecl)
+scopedNamesForBranchHash :: forall m v a. MonadIO m => Codebase m v a -> Maybe (CausalBranch m) -> Path -> Backend m (Names, PrettyPrintEnvDecl)
 resolveCausalHash :: Monad m => Maybe CausalHash -> Codebase m v a -> Backend m (Branch m)
-resolveCausalHashV2 :: Monad m => Codebase m v a -> Maybe CausalHash -> Backend m (CausalBranch m)
-resolveRootBranchHash :: Monad m => Maybe ShortCausalHash -> Codebase m v a -> Backend m (Branch m)
-resolveRootBranchHashV2 :: Monad m => Codebase m v a -> Maybe ShortCausalHash -> Backend m (CausalBranch m)
+resolveCausalHashV2 :: MonadIO m => Codebase m v a -> Maybe CausalHash -> Backend m (CausalBranch m)
+resolveRootBranchHash :: MonadIO m => Maybe ShortCausalHash -> Codebase m v a -> Backend m (Branch m)
+resolveRootBranchHashV2 :: MonadIO m => Codebase m v a -> Maybe ShortCausalHash -> Backend m (CausalBranch m)
 
 -- | Determines whether we include full cycles in the results, (e.g. if I
 --   search for <tt>isEven</tt>, will I find <tt>isOdd</tt> too?)
