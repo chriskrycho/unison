@@ -60,8 +60,8 @@ instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "fqn" Unis
 instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "namespace" Unison.Codebase.Path.Path)
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Codebase.Path.Path
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Codebase.Path.Path
-instance GHC.Show.Show n => Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified.HashQualified n)
-instance GHC.Show.Show n => Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified'.HashQualified n)
+instance Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified.HashQualified Unison.Name.Name)
+instance Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified'.HashQualified Unison.NameSegment.NameSegment)
 instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified'.HashQualified Unison.Name.Name)
 instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified.HashQualified Unison.Name.Name)
 instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified'.HashQualified Unison.NameSegment.NameSegment)
