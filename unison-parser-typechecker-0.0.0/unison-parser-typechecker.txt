@@ -3991,6 +3991,7 @@ TyLink :: Reference -> BLit
 Bytes :: Bytes -> BLit
 Quote :: Value -> BLit
 Code :: SuperGroup Symbol -> BLit
+BArr :: ByteArray -> BLit
 packTags :: RTag -> CTag -> Word64
 unpackTags :: Word64 -> (RTag, CTag)
 maskTags :: Word64 -> Word64
@@ -4556,6 +4557,8 @@ putPair :: MonadPut m => (a -> m ()) -> (b -> m ()) -> (a, b) -> m ()
 getPair :: MonadGet m => m a -> m b -> m (a, b)
 getBytes :: MonadGet m => m Bytes
 putBytes :: MonadPut m => Bytes -> m ()
+getByteArray :: MonadGet m => m ByteArray
+putByteArray :: MonadPut m => ByteArray -> m ()
 getBlock :: MonadGet m => m Chunk
 putBlock :: MonadPut m => Chunk -> m ()
 putHash :: MonadPut m => Hash -> m ()
@@ -4630,6 +4633,7 @@ TyLinkT :: BLTag
 BytesT :: BLTag
 QuoteT :: BLTag
 CodeT :: BLTag
+BArrT :: BLTag
 data VaTag
 PartialT :: VaTag
 DataT :: VaTag

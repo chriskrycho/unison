@@ -193,6 +193,10 @@ ExecuteI :: String -> [String] -> Input
 SaveExecuteResultI :: Name -> Input
 IOTestI :: HashQualified Name -> Input
 MakeStandaloneI :: String -> HashQualified Name -> Input
+ExecuteSchemeI :: HashQualified Name -> Input
+CompileSchemeI :: String -> HashQualified Name -> Input
+GenSchemeLibsI :: Input
+FetchSchemeCompilerI :: Input
 TestI :: TestInput -> Input
 LinkI :: HashQualified Name -> [HQSplit'] -> Input
 UnlinkI :: HashQualified Name -> [HQSplit'] -> Input
@@ -1395,6 +1399,10 @@ execute :: InputPattern
 saveExecuteResult :: InputPattern
 ioTest :: InputPattern
 makeStandalone :: InputPattern
+runScheme :: InputPattern
+compileScheme :: InputPattern
+schemeLibgen :: InputPattern
+fetchScheme :: InputPattern
 createAuthor :: InputPattern
 gist :: InputPattern
 authLogin :: InputPattern
@@ -1690,6 +1698,7 @@ module Unison.Cli.TypeCheck
 typecheck :: [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> Cli (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
 typecheckHelper :: MonadIO m => Codebase IO Symbol Ann -> IO UniqueName -> [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> m (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
 typecheckFile :: Codebase m Symbol Ann -> [Type Symbol Ann] -> UnisonFile Symbol Ann -> Transaction (Result (Seq (Note Symbol Ann)) (Either Names (TypecheckedUnisonFile Symbol Ann)))
+typecheckTerm :: Term Symbol Ann -> Cli (Result (Seq (Note Symbol Ann)) (Type Symbol Ann))
 
 module Unison.LSP.FileAnalysis
 
@@ -1923,6 +1932,14 @@ module Unison.Codebase.Editor.HandleInput.Update
 -- | Handle an <tt>update</tt> command.
 handleUpdate :: Input -> OptionalPatch -> Set Name -> Cli ()
 doSlurpAdds :: forall m. Monad m => SlurpComponent -> TypecheckedUnisonFile Symbol Ann -> Branch0 m -> Branch0 m
+
+module Unison.Codebase.Editor.HandleInput.TermResolution
+lookupTermRefs :: HashQualified Name -> Names -> ([Reference], [Referent])
+lookupTermRefWithType :: Codebase IO Symbol Ann -> HashQualified Name -> Cli [(Reference, Type Symbol Ann)]
+resolveCon :: HashQualified Name -> Cli ConstructorReference
+resolveTerm :: HashQualified Name -> Cli Referent
+resolveTermRef :: HashQualified Name -> Cli Reference
+resolveMainRef :: HashQualified Name -> Cli (Reference, PrettyPrintEnv)
 
 module Unison.Codebase.Editor.HandleInput
 loop :: Either Event Input -> Cli ()
