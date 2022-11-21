@@ -102,8 +102,8 @@ forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span id="line-32"></span><span class="hs-comment">--</span><span>
 </span><span id="line-33"></span><span class="hs-comment">-- 1. Prefer Relative Names to Absolute Names</span><span>
 </span><span id="line-34"></span><span class="hs-comment">-- 2. Prefer names that aren't hash qualified to those that are</span><span>
-</span><span id="line-35"></span><span class="hs-comment">-- 3. Prefer names which have fewer segments in their suffixified form (if applicable)</span><span>
-</span><span id="line-36"></span><span class="hs-comment">-- 4. Prefer names which have fewer segments in their fully-qualified form</span><span>
+</span><span id="line-35"></span><span class="hs-comment">-- 3. Prefer names which have fewer segments in their fully-qualified form</span><span>
+</span><span id="line-36"></span><span class="hs-comment">-- 4. Prefer names which have fewer segments in their suffixified form (if applicable)</span><span>
 </span><span id="line-37"></span><span class="annot"><a href="Unison.PrettyPrintEnv.Names.html#prioritize"><span class="hs-identifier hs-type">prioritize</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">HQ'.HashQualified</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">HQ'.HashQualified</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">HQ'.HashQualified</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">HQ'.HashQualified</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Name</span></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
 </span><span id="line-38"></span><span id="prioritize"><span class="annot"><span class="annottext">prioritize :: [(HashQualified Name, HashQualified Name)]
 -&gt; [(HashQualified Name, HashQualified Name)]
@@ -121,12 +121,12 @@ forall b a. Ord b =&gt; (a -&gt; b) -&gt; [a] -&gt; [a]
 </span><a href="#local-6989586621680588646"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Maybe ShortHash
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Int
-</span><span class="hs-identifier hs-var">Name.countSegments</span></span><span> </span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680588646"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Int
 </span><span class="hs-identifier hs-var">Name.countSegments</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">HashQualified Name -&gt; Name
 forall n. HashQualified n -&gt; n
 </span><span class="hs-identifier hs-var">HQ'.toName</span></span><span> </span><span class="annot"><span class="annottext">HashQualified Name
-</span><a href="#local-6989586621680588648"><span class="hs-identifier hs-var">fqn</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680588648"><span class="hs-identifier hs-var">fqn</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Int
+</span><span class="hs-identifier hs-var">Name.countSegments</span></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621680588646"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-41"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621680588642"><span class="annot"><span class="annottext">HashQualified Name
 </span><a href="#local-6989586621680588642"><span class="hs-identifier hs-var">fqn</span></a></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">HQ'.HashQualified</span></span><span> </span><span id="local-6989586621680588640"><span class="annot"><span class="annottext">Name
 </span><a href="#local-6989586621680588640"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621680588639"><span class="annot"><span class="annottext">ShortHash
@@ -136,12 +136,12 @@ forall n. HashQualified n -&gt; n
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ShortHash
 </span><a href="#local-6989586621680588639"><span class="hs-identifier hs-var">hash</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Int
-</span><span class="hs-identifier hs-var">Name.countSegments</span></span><span> </span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621680588640"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Int
 </span><span class="hs-identifier hs-var">Name.countSegments</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">HashQualified Name -&gt; Name
 forall n. HashQualified n -&gt; n
 </span><span class="hs-identifier hs-var">HQ'.toName</span></span><span> </span><span class="annot"><span class="annottext">HashQualified Name
-</span><a href="#local-6989586621680588642"><span class="hs-identifier hs-var">fqn</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621680588642"><span class="hs-identifier hs-var">fqn</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Int
+</span><span class="hs-identifier hs-var">Name.countSegments</span></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621680588640"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-42"></span><span>
 </span><span id="line-43"></span><span class="annot"><a href="Unison.PrettyPrintEnv.Names.html#fromSuffixNames"><span class="hs-identifier hs-type">fromSuffixNames</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Int</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">NamesWithHistory</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.PrettyPrintEnv.html#PrettyPrintEnv"><span class="hs-identifier hs-type">PrettyPrintEnv</span></a></span><span>
 </span><span id="line-44"></span><span id="fromSuffixNames"><span class="annot"><span class="annottext">fromSuffixNames :: Int -&gt; NamesWithHistory -&gt; PrettyPrintEnv
