@@ -1529,9 +1529,6 @@ instance GHC.Base.Functor Unison.Type.F
 instance Data.Foldable.Foldable Unison.Type.F
 instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Type.Monotype v a)
 instance GHC.Show.Show v => GHC.Show.Show (Unison.Type.Monotype v a)
-instance Prelude.Extras.Eq1 Unison.Type.F
-instance Prelude.Extras.Ord1 Unison.Type.F
-instance Prelude.Extras.Show1 Unison.Type.F
 instance GHC.Show.Show a => GHC.Show.Show (Unison.Type.F a)
 
 module Unison.Type.Names
@@ -1827,8 +1824,6 @@ instance GHC.Generics.Generic1 (Unison.Term.F typeVar typeAnn patternAnn)
 instance GHC.Generics.Generic (Unison.Term.F typeVar typeAnn patternAnn a)
 instance GHC.Base.Functor (Unison.Term.F typeVar typeAnn patternAnn)
 instance Data.Foldable.Foldable (Unison.Term.F typeVar typeAnn patternAnn)
-instance (GHC.Classes.Eq a, U.Core.ABT.Var.Var v) => Prelude.Extras.Eq1 (Unison.Term.F v a p)
-instance GHC.Show.Show v => Prelude.Extras.Show1 (Unison.Term.F v a p)
 instance (U.Core.ABT.Var.Var vt, GHC.Classes.Eq at, GHC.Classes.Eq a) => GHC.Classes.Eq (Unison.Term.F vt at p a)
 instance (GHC.Show.Show v, GHC.Show.Show a) => GHC.Show.Show (Unison.Term.F v a0 p a)
 
@@ -1894,7 +1889,6 @@ instance (GHC.Show.Show a, GHC.Show.Show v) => GHC.Show.Show (Unison.DataDeclara
 instance (U.Core.ABT.Var.Var v, GHC.Classes.Eq a) => GHC.Classes.Eq (Unison.DataDeclaration.EffectDeclaration v a)
 instance (GHC.Show.Show a, GHC.Show.Show v) => GHC.Show.Show (Unison.DataDeclaration.DeclOrBuiltin v a)
 instance (U.Core.ABT.Var.Var v, GHC.Classes.Eq a) => GHC.Classes.Eq (Unison.DataDeclaration.DeclOrBuiltin v a)
-instance Prelude.Extras.Show1 Unison.DataDeclaration.F
 instance GHC.Show.Show a => GHC.Show.Show (Unison.DataDeclaration.F a)
 instance Data.Foldable.Foldable Unison.DataDeclaration.F
 instance GHC.Base.Functor Unison.DataDeclaration.F
