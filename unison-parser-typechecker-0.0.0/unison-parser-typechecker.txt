@@ -87,6 +87,7 @@ OpenCodebaseDoesntExist :: OpenCodebaseError
 -- | The codebase exists, but its schema version is unknown to this
 --   application.
 OpenCodebaseUnknownSchemaVersion :: SchemaVersion -> OpenCodebaseError
+OpenCodebaseFileLockFailed :: OpenCodebaseError
 
 -- | The codebase exists, but requires a migration before it can be used.
 OpenCodebaseRequiresMigration :: SchemaVersion -> SchemaVersion -> OpenCodebaseError
@@ -859,6 +860,7 @@ instance GHC.Classes.Eq Unison.Codebase.Editor.RemoteRepo.WriteRemotePath
 module Unison.Codebase.SqliteCodebase.GitError
 data GitSqliteCodebaseError
 GitCouldntParseRootBranchHash :: ReadGitRepo -> String -> GitSqliteCodebaseError
+CodebaseFileLockFailed :: GitSqliteCodebaseError
 NoDatabaseFile :: ReadGitRepo -> CodebasePath -> GitSqliteCodebaseError
 UnrecognizedSchemaVersion :: ReadGitRepo -> CodebasePath -> SchemaVersion -> GitSqliteCodebaseError
 CodebaseRequiresMigration :: SchemaVersion -> SchemaVersion -> GitSqliteCodebaseError
@@ -2000,9 +2002,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2QVy loc_a2QVz. Lens' (Env v_a2QVy loc_a2QVz) (TypeLookup v_a2QVy loc_a2QVz)
-termsByShortname :: forall v_a2QVy loc_a2QVz. Lens' (Env v_a2QVy loc_a2QVz) (Map Name [NamedReference v_a2QVy loc_a2QVz])
-ambientAbilities :: forall v_a2QVy loc_a2QVz. Lens' (Env v_a2QVy loc_a2QVz) [Type v_a2QVy loc_a2QVz]
+typeLookup :: forall v_a2QYR loc_a2QYS. Lens' (Env v_a2QYR loc_a2QYS) (TypeLookup v_a2QYR loc_a2QYS)
+termsByShortname :: forall v_a2QYR loc_a2QYS. Lens' (Env v_a2QYR loc_a2QYS) (Map Name [NamedReference v_a2QYR loc_a2QYS])
+ambientAbilities :: forall v_a2QYR loc_a2QYS. Lens' (Env v_a2QYR loc_a2QYS) [Type v_a2QYR loc_a2QYS]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -2571,6 +2573,17 @@ instance GHC.Base.Semigroup Unison.Codebase.SqliteCodebase.Branch.Dependencies.D
 instance GHC.Generics.Generic Unison.Codebase.SqliteCodebase.Branch.Dependencies.Dependencies'
 instance GHC.Show.Show Unison.Codebase.SqliteCodebase.Branch.Dependencies.Dependencies'
 instance GHC.Classes.Eq Unison.Codebase.SqliteCodebase.Branch.Dependencies.Dependencies'
+
+module Unison.Codebase.RootBranchCache
+data RootBranchCache
+newEmptyRootBranchCache :: STM RootBranchCache
+newEmptyRootBranchCacheIO :: MonadIO m => m RootBranchCache
+fetchRootBranch :: forall m. MonadUnliftIO m => RootBranchCache -> m (Branch Transaction) -> m (Branch Transaction)
+
+-- | Take a cache lock so that no other thread can read or write to the
+--   cache, perform an action with the cached value, then restore the cache
+--   to Empty or Full
+withLock :: forall m r. MonadUnliftIO m => RootBranchCache -> ((forall x. m x -> m x) -> Maybe (Branch Transaction) -> m r) -> (r -> Maybe (Branch Transaction)) -> m r
 
 module Unison.Codebase.Branch.Raw
 type Star r n = Star r n
@@ -3148,12 +3161,11 @@ putTypeDeclarationComponent :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash
 putTypeDeclaration :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Id -> Decl Symbol Ann -> Transaction ()
 putTypeDeclaration_ :: TVar (Map Hash DeclBufferEntry) -> Id -> Decl Symbol Ann -> Transaction ()
 tryFlushDeclBuffer :: TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Hash -> Transaction ()
-getRootBranch :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> TVar (Maybe (DataVersion, Branch Transaction)) -> Transaction (Branch Transaction)
 uncachedLoadRootBranch :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> Transaction (Branch Transaction)
 
 -- | Get whether the root branch exists.
 getRootBranchExists :: Transaction Bool
-putRootBranch :: TVar (Maybe (DataVersion, Branch Transaction)) -> Branch Transaction -> Transaction ()
+putRootBranch :: Branch Transaction -> Transaction ()
 getBranchForHash :: BranchCache Transaction -> (Reference -> Transaction ConstructorType) -> CausalHash -> Transaction (Maybe (Branch Transaction))
 putBranch :: Branch Transaction -> Transaction ()
 
@@ -3567,6 +3579,7 @@ makeCodebaseDirPath :: CodebasePath -> FilePath
 -- | Makes a path to store a backup of a sqlite database given the current
 --   time.
 backupCodebasePath :: NominalDiffTime -> FilePath
+lockfilePath :: CodebasePath -> FilePath
 
 module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema5To6
 
@@ -3618,13 +3631,13 @@ codebaseExists :: MonadIO m => CodebasePath -> m Bool
 
 module Unison.Codebase.Init
 data Init m v a
-Init :: (forall r. DebugName -> CodebasePath -> MigrationStrategy -> (Codebase m v a -> m r) -> m (Either OpenCodebaseError r)) -> (forall r. DebugName -> CodebasePath -> (Codebase m v a -> m r) -> m (Either CreateCodebaseError r)) -> (CodebasePath -> CodebasePath) -> Init m v a
+Init :: (forall r. DebugName -> CodebasePath -> CodebaseLockOption -> MigrationStrategy -> (Codebase m v a -> m r) -> m (Either OpenCodebaseError r)) -> (forall r. DebugName -> CodebasePath -> CodebaseLockOption -> (Codebase m v a -> m r) -> m (Either CreateCodebaseError r)) -> (CodebasePath -> CodebasePath) -> Init m v a
 
 -- | open an existing codebase
-[$sel:withOpenCodebase:Init] :: Init m v a -> forall r. DebugName -> CodebasePath -> MigrationStrategy -> (Codebase m v a -> m r) -> m (Either OpenCodebaseError r)
+[$sel:withOpenCodebase:Init] :: Init m v a -> forall r. DebugName -> CodebasePath -> CodebaseLockOption -> MigrationStrategy -> (Codebase m v a -> m r) -> m (Either OpenCodebaseError r)
 
 -- | create a new codebase
-[$sel:withCreatedCodebase:Init] :: Init m v a -> forall r. DebugName -> CodebasePath -> (Codebase m v a -> m r) -> m (Either CreateCodebaseError r)
+[$sel:withCreatedCodebase:Init] :: Init m v a -> forall r. DebugName -> CodebasePath -> CodebaseLockOption -> (Codebase m v a -> m r) -> m (Either CreateCodebaseError r)
 
 -- | given a codebase root, and given that the codebase root may have other
 --   junk in it, give the path to the "actual" files; e.g. what a forked
@@ -3640,6 +3653,9 @@ CouldntCreateCodebase :: Pretty -> InitError
 data CodebaseInitOptions
 Home :: CodebasePath -> CodebaseInitOptions
 Specified :: SpecifiedCodebase -> CodebaseInitOptions
+data CodebaseLockOption
+DoLock :: CodebaseLockOption
+DontLock :: CodebaseLockOption
 data InitResult
 OpenedCodebase :: InitResult
 CreatedCodebase :: InitResult
@@ -3659,14 +3675,14 @@ MigrateAfterPrompt :: MigrationStrategy
 --   migrating
 DontMigrate :: MigrationStrategy
 type Pretty = Pretty ColorText
-createCodebase :: MonadIO m => Init m v a -> DebugName -> CodebasePath -> (Codebase m v a -> m r) -> m (Either Pretty r)
+createCodebase :: MonadIO m => Init m v a -> DebugName -> CodebasePath -> CodebaseLockOption -> (Codebase m v a -> m r) -> m (Either Pretty r)
 
 -- | try to init a codebase where none exists and then exit regardless
 --   (i.e. `ucm --codebase dir init`)
-initCodebaseAndExit :: MonadIO m => Init m Symbol Ann -> DebugName -> Maybe CodebasePath -> m ()
-withOpenOrCreateCodebase :: MonadIO m => Init m v a -> DebugName -> CodebaseInitOptions -> MigrationStrategy -> ((InitResult, CodebasePath, Codebase m v a) -> m r) -> m (Either (CodebasePath, InitError) r)
-withNewUcmCodebaseOrExit :: MonadIO m => Init m Symbol Ann -> DebugName -> CodebasePath -> (Codebase m Symbol Ann -> m r) -> m r
-withTemporaryUcmCodebase :: MonadUnliftIO m => Init m Symbol Ann -> DebugName -> ((CodebasePath, Codebase m Symbol Ann) -> m r) -> m r
+initCodebaseAndExit :: MonadIO m => Init m Symbol Ann -> DebugName -> Maybe CodebasePath -> CodebaseLockOption -> m ()
+withOpenOrCreateCodebase :: MonadIO m => Init m v a -> DebugName -> CodebaseInitOptions -> CodebaseLockOption -> MigrationStrategy -> ((InitResult, CodebasePath, Codebase m v a) -> m r) -> m (Either (CodebasePath, InitError) r)
+withNewUcmCodebaseOrExit :: MonadIO m => Init m Symbol Ann -> DebugName -> CodebasePath -> CodebaseLockOption -> (Codebase m Symbol Ann -> m r) -> m r
+withTemporaryUcmCodebase :: MonadUnliftIO m => Init m Symbol Ann -> DebugName -> CodebaseLockOption -> ((CodebasePath, Codebase m Symbol Ann) -> m r) -> m r
 instance GHC.Classes.Ord Unison.Codebase.Init.MigrationStrategy
 instance GHC.Classes.Eq Unison.Codebase.Init.MigrationStrategy
 instance GHC.Show.Show Unison.Codebase.Init.MigrationStrategy
@@ -3689,6 +3705,9 @@ MigrateAfterPrompt :: MigrationStrategy
 -- | Triggers an <a>OpenCodebaseRequiresMigration</a> error instead of
 --   migrating
 DontMigrate :: MigrationStrategy
+data CodebaseLockOption
+DoLock :: CodebaseLockOption
+DontLock :: CodebaseLockOption
 instance GHC.Classes.Eq Unison.Codebase.SqliteCodebase.CodebaseStatus
 instance GHC.Show.Show (Unison.Codebase.SqliteCodebase.Entity m)
 

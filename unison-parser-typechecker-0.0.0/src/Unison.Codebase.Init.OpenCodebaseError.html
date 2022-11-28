@@ -15,13 +15,14 @@
 </span><span id="line-15"></span><span>    </span><span id="OpenCodebaseDoesntExist"><span class="annot"><a href="Unison.Codebase.Init.OpenCodebaseError.html#OpenCodebaseDoesntExist"><span class="hs-identifier hs-var">OpenCodebaseDoesntExist</span></a></span></span><span>
 </span><span id="line-16"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="hs-comment">-- | The codebase exists, but its schema version is unknown to this application.</span><span>
 </span><span id="line-17"></span><span>    </span><span id="OpenCodebaseUnknownSchemaVersion"><span class="annot"><a href="Unison.Codebase.Init.OpenCodebaseError.html#OpenCodebaseUnknownSchemaVersion"><span class="hs-identifier hs-var">OpenCodebaseUnknownSchemaVersion</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">SchemaVersion</span></span><span>
-</span><span id="line-18"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="hs-comment">-- | The codebase exists, but requires a migration before it can be used.</span><span>
-</span><span id="line-19"></span><span>    </span><span id="OpenCodebaseRequiresMigration"><span class="annot"><a href="Unison.Codebase.Init.OpenCodebaseError.html#OpenCodebaseRequiresMigration"><span class="hs-identifier hs-var">OpenCodebaseRequiresMigration</span></a></span></span><span>
-</span><span id="line-20"></span><span>      </span><span class="hs-comment">-- current version</span><span>
-</span><span id="line-21"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">SchemaVersion</span></span><span>
-</span><span id="line-22"></span><span>      </span><span class="hs-comment">-- required version</span><span>
-</span><span id="line-23"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">SchemaVersion</span></span><span>
-</span><span id="line-24"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680585841"><span id="local-6989586621680585843"><span id="local-6989586621680585845"><span class="annot"><span class="annottext">Int -&gt; OpenCodebaseError -&gt; ShowS
+</span><span id="line-18"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="OpenCodebaseFileLockFailed"><span class="annot"><a href="Unison.Codebase.Init.OpenCodebaseError.html#OpenCodebaseFileLockFailed"><span class="hs-identifier hs-var">OpenCodebaseFileLockFailed</span></a></span></span><span>
+</span><span id="line-19"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="hs-comment">-- | The codebase exists, but requires a migration before it can be used.</span><span>
+</span><span id="line-20"></span><span>    </span><span id="OpenCodebaseRequiresMigration"><span class="annot"><a href="Unison.Codebase.Init.OpenCodebaseError.html#OpenCodebaseRequiresMigration"><span class="hs-identifier hs-var">OpenCodebaseRequiresMigration</span></a></span></span><span>
+</span><span id="line-21"></span><span>      </span><span class="hs-comment">-- current version</span><span>
+</span><span id="line-22"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">SchemaVersion</span></span><span>
+</span><span id="line-23"></span><span>      </span><span class="hs-comment">-- required version</span><span>
+</span><span id="line-24"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">SchemaVersion</span></span><span>
+</span><span id="line-25"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680587614"><span id="local-6989586621680587616"><span id="local-6989586621680587618"><span class="annot"><span class="annottext">Int -&gt; OpenCodebaseError -&gt; ShowS
 [OpenCodebaseError] -&gt; ShowS
 OpenCodebaseError -&gt; String
 (Int -&gt; OpenCodebaseError -&gt; ShowS)
@@ -36,7 +37,7 @@ show :: OpenCodebaseError -&gt; String
 $cshow :: OpenCodebaseError -&gt; String
 showsPrec :: Int -&gt; OpenCodebaseError -&gt; ShowS
 $cshowsPrec :: Int -&gt; OpenCodebaseError -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680585836"><span id="local-6989586621680585838"><span class="annot"><span class="annottext">OpenCodebaseError -&gt; OpenCodebaseError -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680587609"><span id="local-6989586621680587611"><span class="annot"><span class="annottext">OpenCodebaseError -&gt; OpenCodebaseError -&gt; Bool
 (OpenCodebaseError -&gt; OpenCodebaseError -&gt; Bool)
 -&gt; (OpenCodebaseError -&gt; OpenCodebaseError -&gt; Bool)
 -&gt; Eq OpenCodebaseError
@@ -46,7 +47,7 @@ $c/= :: OpenCodebaseError -&gt; OpenCodebaseError -&gt; Bool
 == :: OpenCodebaseError -&gt; OpenCodebaseError -&gt; Bool
 $c== :: OpenCodebaseError -&gt; OpenCodebaseError -&gt; Bool
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-25"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">anyclass</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680585827"><span id="local-6989586621680585829"><span id="local-6989586621680585831"><span class="annot"><span class="annottext">Show OpenCodebaseError
+</span><span id="line-26"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">anyclass</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680587600"><span id="local-6989586621680587602"><span id="local-6989586621680587604"><span class="annot"><span class="annottext">Show OpenCodebaseError
 Typeable OpenCodebaseError
 Typeable OpenCodebaseError
 -&gt; Show OpenCodebaseError
@@ -73,4 +74,4 @@ $ctoException :: OpenCodebaseError -&gt; SomeException
 $cp2Exception :: Show OpenCodebaseError
 $cp1Exception :: Typeable OpenCodebaseError
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Exception</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-26"></span></pre></body></html>
+</span><span id="line-27"></span></pre></body></html>
