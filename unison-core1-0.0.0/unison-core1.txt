@@ -755,6 +755,22 @@ isAbsolute :: Name -> Bool
 --   <i>O(n)</i>, where <i>n</i> is the number of name segments.
 isPrefixOf :: Name -> Name -> Bool
 
+-- | <tt>beginsWithSegment name segment</tt> returns whether
+--   <tt>name</tt>'s first name segment is <tt>segment</tt>.
+--   
+--   <pre>
+--   &gt;&gt;&gt; beginsWithSegment "abc.def" "abc"
+--   True
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; beginsWithSegment "abc.def" "ab"
+--   False
+--   </pre>
+--   
+--   <i>O(n)</i>, where <i>n</i> is the number of name segments.
+beginsWithSegment :: Name -> NameSegment -> Bool
+
 -- | Like <a>endsWithSegments</a>, but accepts a list of name segments in
 --   reverse order.
 --   
