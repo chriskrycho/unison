@@ -2773,7 +2773,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> m (Branch m) -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> Id -> m (Maybe (Term v a))) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> m (Branch m) -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> Id -> Transaction (Maybe (Term v a))) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -2845,7 +2845,7 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a)
 
 -- | <tt>getWatch k r</tt> returns watch result <tt>t</tt> that was
 --   previously put by <tt>putWatch k r t</tt>.
-[$sel:getWatch:Codebase] :: Codebase m v a -> WatchKind -> Id -> m (Maybe (Term v a))
+[$sel:getWatch:Codebase] :: Codebase m v a -> WatchKind -> Id -> Transaction (Maybe (Term v a))
 
 -- | Get the set of user-defined terms-or-constructors that have the given
 --   type.
@@ -3443,7 +3443,7 @@ putPatch :: EditHash -> Patch -> Transaction ()
 
 -- | <tt>getWatch k r</tt> returns watch result <tt>t</tt> that was
 --   previously put by <tt>putWatch k r t</tt>.
-($sel:getWatch:Codebase) :: Codebase m v a -> WatchKind -> Id -> m (Maybe (Term v a))
+($sel:getWatch:Codebase) :: Codebase m v a -> WatchKind -> Id -> Transaction (Maybe (Term v a))
 
 -- | Like <a>$sel:getWatch:Codebase</a>, but first looks up the given
 --   reference as a regular watch, then as a test watch.
@@ -3454,7 +3454,7 @@ putPatch :: EditHash -> Patch -> Transaction ()
 --       MaybeT (getWatch codebase RegularWatch ref)
 --         <a>|</a> MaybeT (getWatch codebase TestWatch ref))
 --   </pre>
-lookupWatchCache :: Monad m => Codebase m v a -> Id -> m (Maybe (Term v a))
+lookupWatchCache :: Codebase m v a -> Id -> Transaction (Maybe (Term v a))
 
 -- | <tt>watches k</tt> returns all of the references <tt>r</tt> that were
 --   previously put by a <tt>putWatch k r t</tt>. <tt>t</tt> can be
