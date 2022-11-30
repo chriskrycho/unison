@@ -1255,23 +1255,23 @@ exactComplete :: String -> [String] -> [Completion]
 
 -- | Completes a term or type argument by prefix-matching against the
 --   query.
-prefixCompleteTermOrType :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
+prefixCompleteTermOrType :: String -> Absolute -> Transaction [Completion]
 
 -- | Completes a term argument by prefix-matching against the query.
-prefixCompleteTerm :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
+prefixCompleteTerm :: String -> Absolute -> Transaction [Completion]
 
 -- | Completes a term or type argument by prefix-matching against the
 --   query.
-prefixCompleteType :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
+prefixCompleteType :: String -> Absolute -> Transaction [Completion]
 
 -- | Completes a patch argument by prefix-matching against the query.
-prefixCompletePatch :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
+prefixCompletePatch :: String -> Absolute -> Transaction [Completion]
 
 -- | The empty completor.
 noCompletions :: MonadIO m => String -> Codebase m v a -> AuthenticatedHttpClient -> Absolute -> m [Completion]
 
 -- | Completes a namespace argument by prefix-matching against the query.
-prefixCompleteNamespace :: forall m v a. MonadIO m => String -> Codebase m v a -> Absolute -> m [Completion]
+prefixCompleteNamespace :: String -> Absolute -> Transaction [Completion]
 prettyCompletion :: Bool -> (String, Pretty ColorText) -> Completion
 fixupCompletion :: String -> [Completion] -> [Completion]
 

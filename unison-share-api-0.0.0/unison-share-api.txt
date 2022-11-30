@@ -558,7 +558,7 @@ data FoundRef
 FoundTermRef :: Referent -> FoundRef
 FoundTypeRef :: Reference -> FoundRef
 fuzzyFind :: Names -> String -> [(Alignment, UnisonName, [FoundRef])]
-lsAtPath :: MonadIO m => Codebase m Symbol Ann -> Maybe (Branch m) -> Absolute -> m [ShallowListEntry Symbol Ann]
+lsAtPath :: MonadIO m => Codebase m Symbol Ann -> Maybe (Branch Transaction) -> Absolute -> m [ShallowListEntry Symbol Ann]
 findShallowReadmeInBranchAndRender :: Width -> Runtime Symbol -> Codebase IO Symbol Ann -> PrettyPrintEnvDecl -> Branch m -> Backend IO (Maybe Doc)
 isDoc :: Codebase m Symbol Ann -> Referent -> Transaction Bool
 isDoc' :: (Var v, Monoid loc) => Maybe (Type v loc) -> Bool
@@ -566,10 +566,10 @@ doc1Type :: (Ord v, Monoid a) => Type v a
 doc2Type :: (Ord v, Monoid a) => Type v a
 isTestResultList :: forall v a. (Var v, Monoid a) => Maybe (Type v a) -> Bool
 resultListType :: (Ord v, Monoid a) => Type v a
-termListEntry :: MonadIO m => Codebase m Symbol Ann -> Branch m -> ExactName NameSegment Referent -> m (TermEntry Symbol Ann)
+termListEntry :: MonadIO m => Codebase m Symbol Ann -> Branch n -> ExactName NameSegment Referent -> m (TermEntry Symbol Ann)
 getTermTag :: (Monad m, Var v) => Codebase m v a -> Referent -> Maybe (Type v Ann) -> m TermTag
 getTypeTag :: Var v => Codebase m v Ann -> Reference -> Transaction TypeTag
-typeListEntry :: Var v => Codebase m v Ann -> Branch m -> ExactName NameSegment Reference -> Transaction TypeEntry
+typeListEntry :: Var v => Codebase m v Ann -> Branch n -> ExactName NameSegment Reference -> Transaction TypeEntry
 typeDeclHeader :: forall v m. Var v => Codebase m v Ann -> PrettyPrintEnv -> Reference -> Transaction (DisplayObject SyntaxText SyntaxText)
 formatTypeName :: PrettyPrintEnv -> Reference -> SyntaxText
 formatTypeName' :: PrettyPrintEnv -> Reference -> SyntaxText
@@ -578,7 +578,7 @@ typeEntryToNamedType :: TypeEntry -> NamedType
 
 -- | Find all definitions and children reachable from the given
 --   <a>Branch</a>,
-lsBranch :: MonadIO m => Codebase m Symbol Ann -> Branch m -> m [ShallowListEntry Symbol Ann]
+lsBranch :: MonadIO m => Codebase m Symbol Ann -> Branch n -> m [ShallowListEntry Symbol Ann]
 
 -- | Look up types in the codebase by short hash, and include builtins.
 typeReferencesByShortHash :: ShortHash -> Transaction (Set Reference)
@@ -637,7 +637,7 @@ DefinitionResults :: Map Reference (DisplayObject (Type v Ann) (Term v Ann)) -> 
 expandShortCausalHash :: ShortCausalHash -> Backend Transaction CausalHash
 
 -- | Efficiently resolve a root hash and path to a shallow branch's causal.
-getShallowCausalAtPathFromRootHash :: MonadIO m => Codebase m v a -> Maybe CausalHash -> Path -> Backend m (CausalBranch m)
+getShallowCausalAtPathFromRootHash :: Maybe CausalHash -> Path -> Transaction (CausalBranch Transaction)
 formatType' :: Var v => PrettyPrintEnv -> Width -> Type v a -> SyntaxText
 formatType :: Var v => PrettyPrintEnv -> Width -> Type v a -> SyntaxText
 formatSuffixedType :: Var v => PrettyPrintEnvDecl -> Width -> Type v Ann -> SyntaxText
@@ -667,11 +667,11 @@ bestNameForType :: forall v. Var v => PrettyPrintEnv -> Width -> Reference -> Te
 --   for the shortest unambiguous suffix within the scope in which the name
 --   is found (local, falling back to global)</li>
 --   </ul>
-scopedNamesForBranchHash :: forall m v a. MonadIO m => Codebase m v a -> Maybe (CausalBranch m) -> Path -> Backend m (Names, PrettyPrintEnvDecl)
+scopedNamesForBranchHash :: forall m n v a. MonadIO m => Codebase m v a -> Maybe (CausalBranch n) -> Path -> Backend m (Names, PrettyPrintEnvDecl)
 resolveCausalHash :: Monad m => Maybe CausalHash -> Codebase m v a -> Backend m (Branch m)
-resolveCausalHashV2 :: MonadIO m => Codebase m v a -> Maybe CausalHash -> Backend m (CausalBranch m)
+resolveCausalHashV2 :: Maybe CausalHash -> Transaction (CausalBranch Transaction)
 resolveRootBranchHash :: MonadIO m => Maybe ShortCausalHash -> Codebase m v a -> Backend m (Branch m)
-resolveRootBranchHashV2 :: MonadIO m => Codebase m v a -> Maybe ShortCausalHash -> Backend m (CausalBranch m)
+resolveRootBranchHashV2 :: Maybe ShortCausalHash -> Backend Transaction (CausalBranch Transaction)
 
 -- | Determines whether we include full cycles in the results, (e.g. if I
 --   search for <tt>isEven</tt>, will I find <tt>isOdd</tt> too?)

@@ -2786,7 +2786,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> m (Branch m) -> (Text -> Branch m -> m ()) -> (CausalHash -> m (CausalBranch m)) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> Id -> Transaction (Maybe (Term v a))) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> m (Branch m) -> (Text -> Branch m -> m ()) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> Id -> Transaction (Maybe (Term v a))) -> (Reference -> m (Set Id)) -> (Reference -> m (Set Id)) -> (ShortHash -> m (Set Id)) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -2833,7 +2833,6 @@ Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a)
 -- | Like <a>$sel:putBranch:Codebase</a>, but also adjusts the root branch
 --   pointer afterwards.
 [$sel:putRootBranch:Codebase] :: Codebase m v a -> Text -> Branch m -> m ()
-[$sel:getShallowCausalForHash:Codebase] :: Codebase m v a -> CausalHash -> m (CausalBranch m)
 [$sel:getBranchForHashImpl:Codebase] :: Codebase m v a -> CausalHash -> m (Maybe (Branch m))
 
 -- | Put a branch into the codebase, which includes its children, its
@@ -3346,7 +3345,7 @@ isTerm :: BuiltinAnnotation a => Codebase m Symbol a -> Reference -> Transaction
 
 -- | Get the metadata attached to the term at a given path and name
 --   relative to the given branch.
-termMetadata :: MonadIO m => Codebase m v a -> Maybe (Branch m) -> Split -> Maybe Referent -> m [Map MetadataValue MetadataType]
+termMetadata :: Maybe (Branch Transaction) -> Split -> Maybe Referent -> Transaction [Map MetadataValue MetadataType]
 
 -- | Get the type of a referent.
 getTypeOfReferent :: BuiltinAnnotation a => Codebase m Symbol a -> Referent -> Transaction (Maybe (Type Symbol a))
@@ -3409,21 +3408,21 @@ before :: CausalHash -> CausalHash -> Transaction Bool
 
 -- | Recursively descend into causals following the given path, Use the
 --   root causal if none is provided.
-getShallowBranchAtPath :: MonadIO m => Codebase m v a -> Path -> Maybe (Branch m) -> m (Branch m)
+getShallowBranchAtPath :: Path -> Maybe (Branch Transaction) -> Transaction (Branch Transaction)
 
 -- | Recursively descend into causals following the given path, Use the
 --   root causal if none is provided.
-getShallowCausalAtPath :: MonadIO m => Codebase m v a -> Path -> Maybe (CausalBranch m) -> m (CausalBranch m)
-($sel:getShallowCausalForHash:Codebase) :: Codebase m v a -> CausalHash -> m (CausalBranch m)
-getShallowCausalFromRoot :: MonadIO m => Codebase m v a -> Maybe CausalHash -> Path -> m (CausalBranch m)
+getShallowCausalAtPath :: Path -> Maybe (CausalBranch Transaction) -> Transaction (CausalBranch Transaction)
+expectCausalBranchByCausalHash :: CausalHash -> Transaction (CausalBranch Transaction)
+getShallowCausalFromRoot :: Maybe CausalHash -> Path -> Transaction (CausalBranch Transaction)
 
 -- | Get the shallow representation of the root branches without loading
 --   the children or history.
-getShallowRootBranch :: MonadIO m => Codebase m v a -> m (Branch m)
+getShallowRootBranch :: Transaction (Branch Transaction)
 
 -- | Get the shallow representation of the root branches without loading
 --   the children or history.
-getShallowRootCausal :: MonadIO m => Codebase m v a -> m (CausalBranch m)
+getShallowRootCausal :: Transaction (CausalBranch Transaction)
 
 -- | Get the root branch.
 ($sel:getRootBranch:Codebase) :: Codebase m v a -> m (Branch m)
