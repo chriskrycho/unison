@@ -615,6 +615,15 @@ inferPatternPureE :: Var v => v
 inferPatternPureV :: Var v => v
 inferTypeConstructor :: Var v => v
 inferTypeConstructorArg :: Var v => v
+
+-- | Currently, actions in blocks are encoded as bindings with names of the
+--   form _123 (an underscore, followed by 1 or more digits). This function
+--   returns <a>True</a> if the input variable has this form.
+--   
+--   Various places check for this (the pretty-printer, to determine how to
+--   print the binding), and the typechecker (to decide if it should ensure
+--   the binding has type <tt>()</tt>).
+isAction :: Var v => v -> Bool
 joinDot :: Var v => v -> v -> v
 missingResult :: Var v => v
 name :: Var v => v -> Text
