@@ -1974,7 +1974,7 @@ module Unison.Codebase.Editor.HandleInput
 loop :: Either Event Input -> Cli ()
 
 module Unison.CommandLine.Main
-main :: FilePath -> Welcome -> Absolute -> (Config, IO ()) -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Branch IO -> STM ()) -> (Absolute -> STM ()) -> ShouldWatchFiles -> IO ()
+main :: FilePath -> Welcome -> Absolute -> Config -> [Either Event Input] -> Runtime Symbol -> Runtime Symbol -> Codebase IO Symbol Ann -> Maybe BaseUrl -> UCMVersion -> (Branch IO -> STM ()) -> (Absolute -> STM ()) -> ShouldWatchFiles -> IO ()
 
 module Unison.Codebase.TranscriptParser
 data Stanza

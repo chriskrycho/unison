@@ -4905,6 +4905,7 @@ arrayCmp :: (Closure -> Closure -> Ordering) -> Array Closure -> Array Closure -
 
 module Unison.Runtime.Interface
 startRuntime :: Bool -> RuntimeHost -> Text -> IO (Runtime Symbol)
+withRuntime :: MonadUnliftIO m => Bool -> RuntimeHost -> Text -> (Runtime Symbol -> m a) -> m a
 standalone :: CCache -> Word64 -> IO StoredCache
 runStandalone :: StoredCache -> Word64 -> IO (Either (Pretty ColorText) ())
 data StoredCache
@@ -4916,6 +4917,13 @@ decodeStandalone :: ByteString -> Either String (Text, Text, Word64, StoredCache
 data RuntimeHost
 OneOff :: RuntimeHost
 Persistent :: RuntimeHost
+data Runtime v
+Runtime :: IO () -> (CodeLookup v IO () -> PrettyPrintEnv -> Term v -> IO (Either Error (Term v))) -> (CodeLookup v IO () -> PrettyPrintEnv -> Reference -> FilePath -> IO (Maybe Error)) -> Type v Ann -> Type v Ann -> Runtime v
+[$sel:terminate:Runtime] :: Runtime v -> IO ()
+[$sel:evaluate:Runtime] :: Runtime v -> CodeLookup v IO () -> PrettyPrintEnv -> Term v -> IO (Either Error (Term v))
+[$sel:compileTo:Runtime] :: Runtime v -> CodeLookup v IO () -> PrettyPrintEnv -> Reference -> FilePath -> IO (Maybe Error)
+[$sel:mainType:Runtime] :: Runtime v -> Type v Ann
+[$sel:ioTestType:Runtime] :: Runtime v -> Type v Ann
 instance GHC.Show.Show Unison.Runtime.Interface.StoredCache
 
 module Unison.Util.TransitiveClosure
