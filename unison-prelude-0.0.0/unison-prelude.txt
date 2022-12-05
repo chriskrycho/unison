@@ -2265,6 +2265,12 @@ eitherToMaybe :: Either a b -> Maybe b
 --   \a -&gt; maybeToEither a Nothing == Left a
 --   </pre>
 maybeToEither :: a -> Maybe b -> Either a b
+
+-- | Like <a>fold</a> but for Alternative.
+altSum :: (Alternative f, Foldable t) => t (f a) -> f a
+
+-- | Like <a>foldMap</a> but for Alternative.
+altMap :: (Alternative f, Foldable t) => (a -> f b) -> t a -> f b
 onLeft :: Applicative m => (a -> m b) -> Either a b -> m b
 onLeftM :: Monad m => (a -> m b) -> m (Either a b) -> m b
 whenLeft :: Applicative m => Either a b -> (a -> m b) -> m b

@@ -80,6 +80,7 @@ instance Data.Traversable.Traversable f => Data.Traversable.Traversable (U.Core.
 instance Data.Foldable.Foldable f => Data.Foldable.Foldable (U.Core.ABT.ABT f v)
 instance GHC.Base.Functor f => GHC.Base.Functor (U.Core.ABT.ABT f v)
 instance (GHC.Show.Show v, GHC.Show.Show r, GHC.Show.Show (f r)) => GHC.Show.Show (U.Core.ABT.ABT f v r)
+instance (GHC.Classes.Eq v, GHC.Classes.Eq r, GHC.Classes.Eq (f r)) => GHC.Classes.Eq (U.Core.ABT.ABT f v r)
 instance Data.Traversable.Traversable f => Data.Traversable.Traversable (U.Core.ABT.Term f v)
 instance GHC.Generics.Generic (U.Core.ABT.Term f v a)
 instance Data.Foldable.Foldable f => Data.Foldable.Foldable (U.Core.ABT.Term f v)

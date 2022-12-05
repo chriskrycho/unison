@@ -13,6 +13,30 @@ Ann :: Pos -> Pos -> Ann
 [$sel:start:Intrinsic] :: Ann -> Pos
 [$sel:end:Intrinsic] :: Ann -> Pos
 startingLine :: Ann -> Maybe Line
+
+-- | Checks whether an annotation contains a given position i.e. pos ∈
+--   [start, end)
+--   
+--   <pre>
+--   &gt;&gt;&gt; Intrinsic `contains` L.Pos 1 1
+--   False
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; External `contains` L.Pos 1 1
+--   False
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; Ann (L.Pos 0 0) (L.Pos 0 10) `contains` L.Pos 0 5
+--   True
+--   </pre>
+--   
+--   <pre>
+--   &gt;&gt;&gt; Ann (L.Pos 0 0) (L.Pos 0 10) `contains` L.Pos 0 10
+--   False
+--   </pre>
+contains :: Ann -> Pos -> Bool
 instance GHC.Show.Show Unison.Parser.Ann.Ann
 instance GHC.Classes.Ord Unison.Parser.Ann.Ann
 instance GHC.Classes.Eq Unison.Parser.Ann.Ann
