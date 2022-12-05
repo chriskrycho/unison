@@ -5,6 +5,19 @@
 @package unison-syntax
 @version 0.0.0
 
+module Unison.Lexer.Pos
+data Pos
+Pos :: {-# UNPACK #-} !Line -> {-# UNPACK #-} !Column -> Pos
+type Line = Int
+type Column = Int
+line :: Pos -> Line
+column :: Pos -> Column
+instance GHC.Classes.Ord Unison.Lexer.Pos.Pos
+instance GHC.Classes.Eq Unison.Lexer.Pos.Pos
+instance GHC.Show.Show Unison.Lexer.Pos.Pos
+instance GHC.Base.Semigroup Unison.Lexer.Pos.Pos
+instance GHC.Base.Monoid Unison.Lexer.Pos.Pos
+
 module Unison.Parser.Ann
 data Ann
 Intrinsic :: Ann
@@ -129,6 +142,76 @@ instance GHC.Classes.Ord Unison.Syntax.Lexer.Lexeme
 instance GHC.Show.Show Unison.Syntax.Lexer.Lexeme
 instance GHC.Classes.Eq Unison.Syntax.Lexer.Lexeme
 
+
+-- | Syntax-related combinators for Name (to/from string types).
+module Unison.Syntax.Name
+
+-- | Parse a name from a string literal.
+--   
+--   Performs very minor validation (a name can't be empty, nor contain a
+--   <tt>#</tt> character [at least currently?]) but makes no attempt at
+--   rejecting bogus names like "foo...bar...baz".
+fromText :: Text -> Maybe Name
+
+-- | Parse a name from a string literal.
+--   
+--   Performs very minor validation (a name can't be empty, nor contain a
+--   <tt>#</tt> character [at least currently?]) but makes no attempt at
+--   rejecting bogus names like "foo...bar...baz".
+fromTextEither :: Text -> Either Text Name
+
+-- | Unsafely parse a name from a string literal. See
+--   <a>unsafeFromText</a>.
+unsafeFromString :: String -> Name
+
+-- | Unsafely parse a name from a string literal.
+--   
+--   Performs very minor validation (a name can't be empty, nor contain a
+--   <tt>#</tt> character [at least currently?]) but makes no attempt at
+--   rejecting bogus names like "foo...bar...baz".
+unsafeFromText :: HasCallStack => Text -> Name
+
+-- | Unsafely parse a name from a var, by first rendering the var as a
+--   string.
+--   
+--   See <a>unsafeFromText</a>.
+unsafeFromVar :: Var v => v -> Name
+
+-- | Convert a name to a string representation.
+toString :: Name -> String
+
+-- | Convert a name to a string representation.
+toText :: Name -> Text
+
+-- | Convert a name to a string representation, then parse that as a var.
+toVar :: Var v => Name -> v
+instance Unison.Util.Alphabetical.Alphabetical Unison.Name.Internal.Name
+instance Data.String.IsString Unison.Name.Internal.Name
+
+
+-- | Syntax-related combinators for HashQualified' (to/from string types).
+module Unison.Syntax.HashQualified'
+fromString :: String -> Maybe (HashQualified Name)
+fromText :: Text -> Maybe (HashQualified Name)
+unsafeFromText :: HasCallStack => Text -> HashQualified Name
+toString :: HashQualified Name -> String
+toText :: HashQualified Name -> Text
+instance Data.String.IsString (Unison.HashQualified'.HashQualified Unison.Name.Internal.Name)
+instance Unison.Name.Parse Data.Text.Internal.Text (Unison.HashQualified'.HashQualified Unison.Name.Internal.Name)
+
+
+-- | Syntax-related combinators for HashQualified (to/from string types).
+module Unison.Syntax.HashQualified
+fromString :: String -> Maybe (HashQualified Name)
+fromText :: Text -> Maybe (HashQualified Name)
+unsafeFromString :: String -> HashQualified Name
+unsafeFromText :: Text -> HashQualified Name
+unsafeFromVar :: Var v => v -> HashQualified Name
+toString :: HashQualified Name -> String
+toText :: HashQualified Name -> Text
+toVar :: Var v => HashQualified Name -> v
+instance Unison.Name.Parse Data.Text.Internal.Text (Unison.HashQualified.HashQualified Unison.Name.Internal.Name)
+
 module Unison.UnisonFile.Error
 data Error v a
 UnknownType :: v -> a -> Error v a
@@ -243,6 +326,5 @@ instance Unison.Syntax.Parser.Annotated a => Unison.Syntax.Parser.Annotated (U.C
 instance Unison.Syntax.Parser.Annotated a => Unison.Syntax.Parser.Annotated (Unison.Pattern.Pattern a)
 instance Unison.Syntax.Parser.Annotated a => Unison.Syntax.Parser.Annotated [a]
 instance (Unison.Syntax.Parser.Annotated a, Unison.Syntax.Parser.Annotated b) => Unison.Syntax.Parser.Annotated (Unison.Term.MatchCase a b)
-instance (GHC.Classes.Ord v, GHC.Show.Show v) => Text.Megaparsec.Error.ShowErrorComponent (Unison.Syntax.Parser.Error v)
 instance GHC.Base.Semigroup Unison.Syntax.Parser.UniqueName
 instance GHC.Base.Monoid Unison.Syntax.Parser.UniqueName

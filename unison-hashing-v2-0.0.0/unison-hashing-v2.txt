@@ -223,7 +223,7 @@ Effects :: [a] -> F a
 Forall :: a -> F a
 IntroOuter :: a -> F a
 bindExternal :: Var v => [(v, Reference)] -> Type v a -> Type v a
-bindReferences :: Var v => Set v -> Map Name Reference -> Type v a -> ResolutionResult v a (Type v a)
+bindReferences :: Var v => (v -> Name) -> Set v -> Map Name Reference -> Type v a -> ResolutionResult v a (Type v a)
 toReference :: (Ord v, Show v) => Type v a -> Reference
 toReferenceMentions :: (Ord v, Show v) => Type v a -> Set Reference
 booleanRef :: Reference
@@ -354,7 +354,7 @@ Unique :: Text -> Modifier
 --   ctors have the same FQN as one of the types. TODO: assert this and
 --   bomb if not satisfied, or else do local mangling and unmangling to
 --   ensure this doesn't affect the hash.
-hashDecls :: (Eq v, Var v, Show v) => Map v (DataDeclaration v a) -> ResolutionResult v a [(v, Id, DataDeclaration v a)]
+hashDecls :: (Eq v, Var v, Show v) => (v -> Name) -> Map v (DataDeclaration v a) -> ResolutionResult v a [(v, Id, DataDeclaration v a)]
 instance GHC.Show.Show Unison.Hashing.V2.DataDeclaration.Modifier
 instance GHC.Classes.Ord Unison.Hashing.V2.DataDeclaration.Modifier
 instance GHC.Classes.Eq Unison.Hashing.V2.DataDeclaration.Modifier

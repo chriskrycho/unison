@@ -341,7 +341,9 @@ BranchDiffOutput :: [UpdateTypeDisplay v a] -> [UpdateTermDisplay v a] -> [Updat
 [$sel:renamedTerms:BranchDiffOutput] :: BranchDiffOutput v a -> [RenameTermDisplay v a]
 isEmpty :: BranchDiffOutput v a -> Bool
 type TermDisplay v a = (HashQualified Name, Referent, Maybe (Type v a), MetadataDiff (MetadataDisplay v a))
+compareTermDisplay :: TermDisplay v a -> TermDisplay v a -> Ordering
 type TypeDisplay v a = (HashQualified Name, Reference, Maybe (DeclOrBuiltin v a), MetadataDiff (MetadataDisplay v a))
+compareTypeDisplay :: TypeDisplay v a -> TypeDisplay v a -> Ordering
 type AddedTermDisplay v a = ([(HashQualified Name, [MetadataDisplay v a])], Referent, Maybe (Type v a))
 type AddedTypeDisplay v a = ([(HashQualified Name, [MetadataDisplay v a])], Reference, Maybe (DeclOrBuiltin v a))
 type RemovedTermDisplay v a = ([HashQualified Name], Referent, Maybe (Type v a))
@@ -349,7 +351,9 @@ type RemovedTypeDisplay v a = ([HashQualified Name], Reference, Maybe (DeclOrBui
 type SimpleTermDisplay v a = (HashQualified Name, Referent, Maybe (Type v a))
 type SimpleTypeDisplay v a = (HashQualified Name, Reference, Maybe (DeclOrBuiltin v a))
 type UpdateTermDisplay v a = (Maybe [SimpleTermDisplay v a], [TermDisplay v a])
+compareUpdateTermDisplay :: UpdateTermDisplay v a -> UpdateTermDisplay v a -> Ordering
 type UpdateTypeDisplay v a = (Maybe [SimpleTypeDisplay v a], [TypeDisplay v a])
+compareUpdateTypeDisplay :: UpdateTypeDisplay v a -> UpdateTypeDisplay v a -> Ordering
 type MetadataDisplay v a = (HashQualified Name, Referent, Maybe (Type v a))
 type RenameTermDisplay v a = (Referent, Maybe (Type v a), Set (HashQualified Name), Set (HashQualified Name))
 type RenameTypeDisplay v a = (Reference, Maybe (DeclOrBuiltin v a), Set (HashQualified Name), Set (HashQualified Name))
@@ -484,7 +488,6 @@ TodoOutput :: Score -> ([(Reference, Maybe (Type v a))], [(Reference, DisplayObj
 labeledDependencies :: Ord v => TodoOutput v a -> Set LabeledDependency
 noConflicts :: TodoOutput v a -> Bool
 noEdits :: TodoOutput v a -> Bool
-instance (GHC.Show.Show v, GHC.Show.Show a) => GHC.Show.Show (Unison.Codebase.Editor.TodoOutput.TodoOutput v a)
 
 module Unison.Codebase.Editor.UCMVersion
 type UCMVersion = Text
@@ -771,7 +774,6 @@ includeEdits :: Uri -> Text -> [Range] -> RangedCodeAction -> RangedCodeAction
 getConfig :: Lsp Config
 setConfig :: Config -> Lsp ()
 instance GHC.Show.Show Unison.LSP.Types.CompletionTree
-instance GHC.Show.Show Unison.LSP.Types.FileAnalysis
 instance GHC.Show.Show Unison.LSP.Types.Config
 instance Language.LSP.Server.Core.MonadLsp Unison.LSP.Types.Config Unison.LSP.Types.Lsp
 instance Control.Monad.Reader.Class.MonadReader Unison.LSP.Types.Env Unison.LSP.Types.Lsp
@@ -1140,7 +1142,7 @@ DeleteEverythingConfirmation :: Output
 MoveRootBranchConfirmation :: Output
 MovedOverExistingBranch :: Path' -> Output
 DeletedEverything :: Output
-ListNames :: IsGlobal -> Int -> [(Reference, Set (HashQualified Name))] -> [(Referent, Set (HashQualified Name))] -> Output
+ListNames :: IsGlobal -> Int -> [(Reference, [HashQualified Name])] -> [(Referent, [HashQualified Name])] -> Output
 ListOfDefinitions :: FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' Symbol Ann] -> Output
 ListOfLinks :: PrettyPrintEnv -> [(HashQualified Name, Reference, Maybe (Type Symbol Ann))] -> Output
 ListShallow :: IO PrettyPrintEnv -> [ShallowListEntry Symbol Ann] -> Output

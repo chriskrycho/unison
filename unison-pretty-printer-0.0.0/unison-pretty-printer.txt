@@ -5,19 +5,6 @@
 @package unison-pretty-printer
 @version 0.0.0
 
-module Unison.Lexer.Pos
-data Pos
-Pos :: {-# UNPACK #-} !Line -> {-# UNPACK #-} !Column -> Pos
-type Line = Int
-type Column = Int
-line :: Pos -> Line
-column :: Pos -> Column
-instance GHC.Classes.Ord Unison.Lexer.Pos.Pos
-instance GHC.Classes.Eq Unison.Lexer.Pos.Pos
-instance GHC.Show.Show Unison.Lexer.Pos.Pos
-instance GHC.Base.Semigroup Unison.Lexer.Pos.Pos
-instance GHC.Base.Monoid Unison.Lexer.Pos.Pos
-
 module Unison.Util.Less
 less :: String -> IO ()
 
@@ -258,7 +245,7 @@ mayColumn2 :: (ListLike s Char, IsString s) => [(Pretty s, Maybe (Pretty s))] ->
 nest :: (ListLike s Char, IsString s) => Pretty s -> Pretty s -> Pretty s
 num :: (Show n, Num n, IsString s) => n -> Pretty s
 newline :: IsString s => Pretty s
-leftJustify :: (Eq s, Show s, ListLike s Char, IsString s) => [(Pretty s, a)] -> [(Pretty s, a)]
+leftJustify :: (Eq s, ListLike s Char, IsString s) => [(Pretty s, a)] -> [(Pretty s, a)]
 lineSkip :: IsString s => Pretty s
 nonEmpty :: (Foldable f, IsString s) => f (Pretty s) -> [Pretty s]
 numbered :: (Foldable f, ListLike s Char, IsString s) => (Int -> Pretty s) -> f (Pretty s) -> Pretty s

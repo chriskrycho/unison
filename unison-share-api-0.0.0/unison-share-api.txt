@@ -35,16 +35,16 @@ instance Web.Internal.HttpApiData.FromHttpApiData Unison.Reference.Reference
 instance Web.Internal.HttpApiData.FromHttpApiData Unison.Referent.Referent
 instance Data.OpenApi.Internal.Schema.ToSchema Data.OpenApi.Internal.Reference
 instance (Data.Aeson.Types.ToJSON.ToJSON b, Data.Aeson.Types.ToJSON.ToJSON a) => Data.Aeson.Types.ToJSON.ToJSON (Unison.Codebase.Editor.DisplayObject.DisplayObject b a)
-instance Data.Aeson.Types.ToJSON.ToJSON Unison.Name.Name
-instance Data.OpenApi.Internal.Schema.ToSchema Unison.Name.Name
+instance Data.Aeson.Types.ToJSON.ToJSON Unison.Name.Internal.Name
+instance Data.OpenApi.Internal.Schema.ToSchema Unison.Name.Internal.Name
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.ShortHash.ShortHash
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Reference.Reference
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Referent.Referent
-instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Name.Name
+instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Name.Internal.Name
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Codebase.Path.Path
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema Unison.Codebase.Path.Relative
-instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "name" Unison.Name.Name)
-instance Web.Internal.HttpApiData.FromHttpApiData Unison.Name.Name
+instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "name" Unison.Name.Internal.Name)
+instance Web.Internal.HttpApiData.FromHttpApiData Unison.Name.Internal.Name
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.ConstructorType.ConstructorType
 instance Web.Internal.HttpApiData.FromHttpApiData Unison.Codebase.Path.Relative
 instance Web.Internal.HttpApiData.ToHttpApiData Unison.Codebase.Path.Relative
@@ -56,21 +56,23 @@ instance Web.Internal.HttpApiData.FromHttpApiData Unison.Codebase.Path.Path
 instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "hash" Unison.ShortHash.ShortHash)
 instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "hash" Unison.Reference.Reference)
 instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "hash" Unison.Referent.Referent)
-instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "fqn" Unison.Name.Name)
+instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "fqn" Unison.Name.Internal.Name)
 instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "namespace" Unison.Codebase.Path.Path)
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Codebase.Path.Path
 instance Data.OpenApi.Internal.Schema.ToSchema Unison.Codebase.Path.Path
-instance Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified.HashQualified Unison.Name.Name)
+instance Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified.HashQualified Unison.Name.Internal.Name)
+instance Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified.HashQualified Unison.NameSegment.NameSegment)
+instance Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified'.HashQualified Unison.Name.Internal.Name)
 instance Data.Aeson.Types.ToJSON.ToJSON (Unison.HashQualified'.HashQualified Unison.NameSegment.NameSegment)
-instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified'.HashQualified Unison.Name.Name)
-instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified.HashQualified Unison.Name.Name)
+instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified'.HashQualified Unison.Name.Internal.Name)
+instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified.HashQualified Unison.Name.Internal.Name)
 instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified'.HashQualified Unison.NameSegment.NameSegment)
 instance Data.Aeson.Types.FromJSON.FromJSON (Unison.HashQualified.HashQualified Unison.NameSegment.NameSegment)
-instance Web.Internal.HttpApiData.FromHttpApiData (Unison.HashQualified.HashQualified Unison.Name.Name)
-instance Web.Internal.HttpApiData.FromHttpApiData (Unison.HashQualified'.HashQualified Unison.Name.Name)
+instance Web.Internal.HttpApiData.FromHttpApiData (Unison.HashQualified.HashQualified Unison.Name.Internal.Name)
+instance Web.Internal.HttpApiData.FromHttpApiData (Unison.HashQualified'.HashQualified Unison.Name.Internal.Name)
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema (Unison.HashQualified.HashQualified n)
 instance Data.OpenApi.Internal.ParamSchema.ToParamSchema (Unison.HashQualified'.HashQualified n)
-instance Web.Internal.HttpApiData.ToHttpApiData Unison.Name.Name
+instance Web.Internal.HttpApiData.ToHttpApiData Unison.Name.Internal.Name
 
 module Unison.Server.SearchResult
 data SearchResult
@@ -108,6 +110,10 @@ truncateAliases :: Int -> SearchResult -> SearchResult
 -- | You may want to sort this list differently afterward.
 fromNames :: Names -> [SearchResult]
 _fromNames :: Names -> [SearchResult]
+
+-- | Sort a list of search results by name. If names are equal, fall back
+--   to comparing by reference (putting types before terms).
+compareByName :: SearchResult -> SearchResult -> Ordering
 instance GHC.Show.Show Unison.Server.SearchResult.TermResult
 instance GHC.Classes.Ord Unison.Server.SearchResult.TermResult
 instance GHC.Classes.Eq Unison.Server.SearchResult.TermResult
@@ -484,13 +490,13 @@ instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.TermTag
 instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Types.TermTag
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Types.TypeTag
 instance Data.Aeson.Types.FromJSON.FromJSON Unison.Server.Types.TypeTag
-instance Data.OpenApi.Internal.ParamSchema.ToParamSchema (Unison.Server.Types.ExactName Unison.Name.Name Unison.ShortHash.ShortHash)
-instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "exact-name" (Unison.Server.Types.ExactName Unison.Name.Name Unison.ShortHash.ShortHash))
-instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "fqn" (Unison.Server.Types.ExactName Unison.Name.Name Unison.ShortHash.ShortHash))
+instance Data.OpenApi.Internal.ParamSchema.ToParamSchema (Unison.Server.Types.ExactName Unison.Name.Internal.Name Unison.ShortHash.ShortHash)
+instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "exact-name" (Unison.Server.Types.ExactName Unison.Name.Internal.Name Unison.ShortHash.ShortHash))
+instance Servant.Docs.Internal.ToCapture (Servant.API.Capture.Capture "fqn" (Unison.Server.Types.ExactName Unison.Name.Internal.Name Unison.ShortHash.ShortHash))
 instance Data.Bifunctor.Bifunctor Unison.Server.Types.ExactName
 instance Data.Bifoldable.Bifoldable Unison.Server.Types.ExactName
 instance Data.Bitraversable.Bitraversable Unison.Server.Types.ExactName
-instance Web.Internal.HttpApiData.FromHttpApiData (Unison.Server.Types.ExactName Unison.Name.Name Unison.ShortHash.ShortHash)
+instance Web.Internal.HttpApiData.FromHttpApiData (Unison.Server.Types.ExactName Unison.Name.Internal.Name Unison.ShortHash.ShortHash)
 
 module Unison.Server.Backend
 type SyntaxText = SyntaxText' Reference
@@ -840,7 +846,7 @@ instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "suffi
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "relativeTo" Unison.Codebase.Path.Path)
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "namespace" Unison.Codebase.Path.Path)
 instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParam "rootBranch" Unison.Codebase.ShortCausalHash.ShortCausalHash)
-instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParams "names" (Unison.HashQualified.HashQualified Unison.Name.Name))
+instance Servant.Docs.Internal.ToParam (Servant.API.QueryParam.QueryParams "names" (Unison.HashQualified.HashQualified Unison.Name.Internal.Name))
 instance Servant.Docs.Internal.ToSample Unison.Server.Types.DefinitionDisplayResults
 
 module Unison.Server.Endpoints.FuzzyFind

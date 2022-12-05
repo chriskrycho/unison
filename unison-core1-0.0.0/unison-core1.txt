@@ -346,6 +346,20 @@ instance GHC.Classes.Eq Unison.NameSegment.NameSegment
 instance Unison.Util.Alphabetical.Alphabetical Unison.NameSegment.NameSegment
 instance Data.String.IsString Unison.NameSegment.NameSegment
 
+
+-- | The private Unison.Name innards. Prefer importing Unison.Name instead,
+--   unless you need the data constructor of Name.
+module Unison.Name.Internal
+
+-- | A name is an absolute-or-relative non-empty list of name segments.
+data Name
+Name :: Position -> NonEmpty NameSegment -> Name
+instance GHC.Show.Show Unison.Name.Internal.Name
+instance GHC.Generics.Generic Unison.Name.Internal.Name
+instance GHC.Classes.Eq Unison.Name.Internal.Name
+instance GHC.Classes.Ord Unison.Name.Internal.Name
+instance Control.Lens.Cons.Snoc Unison.Name.Internal.Name Unison.Name.Internal.Name Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
+
 module Unison.Util.Components
 
 -- | Order bindings by dependencies and group into components. Each
@@ -546,115 +560,6 @@ validate :: (Semigroup e, Foldable f) => (a -> Either e b) -> f a -> Either e [b
 intercalateMapWith :: (a -> a -> b) -> (a -> b) -> [a] -> [b]
 quenchRuns :: Eq a => a -> a -> [a] -> [a]
 
-module Unison.WatchKind
-type WatchKind = String
-
--- | A non-test watch, such as <tt> &gt; 3 + 4 </tt>
-pattern RegularWatch :: (Eq a, IsString a) => a
-
--- | A named test watch, such as
---   
---   <pre>
---   test&gt; x = expect (1 == 1)
---   </pre>
---   
---   Note: currently test watches don't need to be named by the user, but
---   that "feature" will be removed soon.
-pattern TestWatch :: (Eq a, IsString a) => a
-
-module Unison.Var
-
--- | A class for variables. Variables may have auxiliary information which
---   may not form part of their identity according to <a>Eq</a> /
---   <a>Ord</a>. Laws:
---   
---   <ul>
---   <li>`typeOf (typed n) == n`</li>
---   <li>`typeOf (ABT.freshIn vs v) == typeOf v`: <a>freshIn</a> does not
---   alter the name</li>
---   </ul>
-class (Show v, Var v) => Var v
-typed :: Var v => Type -> v
-typeOf :: Var v => v -> Type
-freshId :: Var v => v -> Word64
-freshenId :: Var v => Word64 -> v -> v
-data Type
-User :: Text -> Type
-Inference :: InferenceType -> Type
-MissingResult :: Type
-Blank :: Type
-
--- | An unnamed reference, created during unhashing a term/decl component.
-UnnamedReference :: Id -> Type
-UnnamedWatch :: WatchKind -> Text -> Type
-Eta :: Type
-ANFBlank :: Type
-Float :: Type
-Pattern :: Type
-Irrelevant :: Type
-data InferenceType
-Ability :: InferenceType
-Input :: InferenceType
-Output :: InferenceType
-PatternPureE :: InferenceType
-PatternPureV :: InferenceType
-PatternBindE :: InferenceType
-PatternBindV :: InferenceType
-TypeConstructor :: InferenceType
-TypeConstructorArg :: InferenceType
-Other :: InferenceType
-blank :: Var v => v
-freshIn :: Var v => Set v -> v -> v
-inferAbility :: Var v => v
-inferInput :: Var v => v
-inferOther :: Var v => v
-inferOutput :: Var v => v
-inferPatternBindE :: Var v => v
-inferPatternBindV :: Var v => v
-inferPatternPureE :: Var v => v
-inferPatternPureV :: Var v => v
-inferTypeConstructor :: Var v => v
-inferTypeConstructorArg :: Var v => v
-
--- | Currently, actions in blocks are encoded as bindings with names of the
---   form _123 (an underscore, followed by 1 or more digits). This function
---   returns <a>True</a> if the input variable has this form.
---   
---   Various places check for this (the pretty-printer, to determine how to
---   print the binding), and the typechecker (to decide if it should ensure
---   the binding has type <tt>()</tt>).
-isAction :: Var v => v -> Bool
-joinDot :: Var v => v -> v -> v
-missingResult :: Var v => v
-name :: Var v => v -> Text
-nameStr :: Var v => v -> String
-named :: Var v => Text -> v
-nameds :: Var v => String -> v
-namespaced :: Var v => [v] -> v
-rawName :: Type -> Text
-reset :: Var v => v -> v
-uncapitalize :: Var v => v -> v
-universallyQuantifyIfFree :: forall v. Var v => v -> Bool
-unnamedRef :: Var v => Id -> v
-unnamedTest :: Var v => Text -> v
-instance GHC.Show.Show Unison.Var.InferenceType
-instance GHC.Classes.Ord Unison.Var.InferenceType
-instance GHC.Classes.Eq Unison.Var.InferenceType
-instance GHC.Show.Show Unison.Var.Type
-instance GHC.Classes.Ord Unison.Var.Type
-instance GHC.Classes.Eq Unison.Var.Type
-
-module Unison.Symbol
-data Symbol
-Symbol :: !Word64 -> Type -> Symbol
-symbol :: Text -> Symbol
-instance GHC.Generics.Generic Unison.Symbol.Symbol
-instance U.Core.ABT.Var.Var Unison.Symbol.Symbol
-instance Unison.Var.Var Unison.Symbol.Symbol
-instance GHC.Classes.Eq Unison.Symbol.Symbol
-instance GHC.Classes.Ord Unison.Symbol.Symbol
-instance GHC.Show.Show Unison.Symbol.Symbol
-
 module Unison.Name
 
 -- | A name is an absolute-or-relative non-empty list of name segments.
@@ -699,38 +604,6 @@ fromSegments :: NonEmpty NameSegment -> Name
 --   
 --   <i>O(1)</i>
 fromReverseSegments :: NonEmpty NameSegment -> Name
-
--- | Parse a name from a string literal.
---   
---   Performs very minor validation (a name can't be empty, nor contain a
---   <tt>#</tt> character [at least currently?]) but makes no attempt at
---   rejecting bogus names like "foo...bar...baz".
-fromText :: Text -> Maybe Name
-
--- | Unsafely parse a name from a string literal.
---   
---   Performs very minor validation (a name can't be empty, nor contain a
---   <tt>#</tt> character [at least currently?]) but makes no attempt at
---   rejecting bogus names like "foo...bar...baz".
-fromTextEither :: Text -> Either Text Name
-
--- | Unsafely parse a name from a string literal.
---   
---   See <a>unsafeFromText</a>.
-unsafeFromString :: String -> Name
-
--- | Unsafely parse a name from a string literal.
---   
---   Performs very minor validation (a name can't be empty, nor contain a
---   <tt>#</tt> character [at least currently?]) but makes no attempt at
---   rejecting bogus names like "foo...bar...baz".
-unsafeFromText :: HasCallStack => Text -> Name
-
--- | Unsafely parse a name from a var, by first rendering the var as a
---   string.
---   
---   See <a>unsafeFromText</a>.
-unsafeFromVar :: Var v => v -> Name
 
 -- | Return the number of name segments in a name.
 --   
@@ -868,7 +741,7 @@ setPosition :: Position -> Name -> Name
 --   
 --   <pre>
 --   &gt;&gt;&gt; parent "a.b.c"
---   Just "b.c"
+--   Just "a.b"
 --   </pre>
 --   
 --   <pre>
@@ -916,8 +789,8 @@ stripNamePrefix :: Name -> Name -> Maybe Name
 --   "c"
 --   </pre>
 unqualified :: Name -> Name
-sortNames :: [Name] -> [Name]
-sortNamed :: (a -> Name) -> [a] -> [a]
+sortNames :: (Name -> Text) -> [Name] -> [Name]
+sortNamed :: (Name -> Text) -> (a -> Name) -> [a] -> [a]
 sortByText :: (a -> Text) -> [a] -> [a]
 searchBySuffix :: Ord r => Name -> Relation Name r -> Set r
 searchByRankedSuffix :: Ord r => Name -> Relation Name r -> Set r
@@ -949,15 +822,6 @@ shortestUniqueSuffix :: forall r. Ord r => Name -> r -> Relation Name r -> Name
 --   Prefix matches are performed at the *segment* level: &gt;&gt;&gt;
 --   commonPrefix "a.bears" "a.beats" [a]
 commonPrefix :: Name -> Name -> [NameSegment]
-
--- | Convert a name to a string representation.
-toString :: Name -> String
-
--- | Convert a name to a string representation.
-toText :: Name -> Text
-
--- | Convert a name to a string representation, then parse that as a var.
-toVar :: Var v => Name -> v
 
 -- | Return all "splits" of a relative name, which pair a possibly-empty
 --   prefix of name segments with a suffix, such that the original name is
@@ -1016,22 +880,15 @@ compareAlphabetical :: Alphabetical n => n -> n -> Ordering
 --   
 --   <i>O(n)</i>, where <i>n</i> is the number of name segments.
 compareSuffix :: Name -> Name -> Ordering
-instance GHC.Generics.Generic Unison.Name.Name
-instance GHC.Classes.Eq Unison.Name.Name
 instance Unison.Name.Parse Data.Text.Internal.Text Unison.NameSegment.NameSegment
 instance (Unison.Name.Parse a a2, Unison.Name.Parse b b2) => Unison.Name.Parse (a, b) (a2, b2)
-instance Unison.Util.Alphabetical.Alphabetical Unison.Name.Name
-instance Data.String.IsString Unison.Name.Name
-instance GHC.Classes.Ord Unison.Name.Name
-instance GHC.Show.Show Unison.Name.Name
-instance Control.Lens.Cons.Snoc Unison.Name.Name Unison.Name.Name Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
 
 module Unison.HashQualified
 data HashQualified n
 NameOnly :: n -> HashQualified n
 HashOnly :: ShortHash -> HashQualified n
 HashQualified :: n -> ShortHash -> HashQualified n
-stripNamespace :: Text -> HashQualified Name -> HashQualified Name
+stripNamespace :: Name -> HashQualified Name -> HashQualified Name
 toName :: HashQualified n -> Maybe n
 sortByLength :: [HashQualified Name] -> [HashQualified Name]
 hasName :: HashQualified Name -> Bool
@@ -1039,13 +896,7 @@ hasHash :: HashQualified Name -> Bool
 toHash :: HashQualified n -> Maybe ShortHash
 fromNameHash :: Maybe Name -> Maybe ShortHash -> HashQualified Name
 take :: Int -> HashQualified n -> HashQualified n
-toString :: Show n => HashQualified n -> String
 toStringWith :: (n -> String) -> HashQualified n -> String
-fromString :: String -> Maybe (HashQualified Name)
-unsafeFromString :: String -> HashQualified Name
-fromText :: Text -> Maybe (HashQualified Name)
-unsafeFromText :: Text -> HashQualified Name
-toText :: Show n => HashQualified n -> Text
 toTextWith :: (n -> Text) -> HashQualified n -> Text
 fromNamedReferent :: n -> Referent -> HashQualified n
 fromNamedReference :: n -> Reference -> HashQualified n
@@ -1053,9 +904,6 @@ fromReferent :: Referent -> HashQualified Name
 fromReference :: Reference -> HashQualified Name
 fromPattern :: ConstructorReference -> HashQualified Name
 fromName :: n -> HashQualified n
-unsafeFromVar :: Var v => v -> HashQualified Name
-fromVar :: Var v => v -> Maybe (HashQualified Name)
-toVar :: Var v => HashQualified Name -> v
 matchesNamedReferent :: Name -> Referent -> HashQualified Name -> Bool
 matchesNamedReference :: Name -> Reference -> HashQualified Name -> Bool
 requalify :: HashQualified Name -> Referent -> HashQualified Name
@@ -1063,12 +911,12 @@ instance GHC.Generics.Generic (Unison.HashQualified.HashQualified n)
 instance GHC.Show.Show n => GHC.Show.Show (Unison.HashQualified.HashQualified n)
 instance GHC.Base.Functor Unison.HashQualified.HashQualified
 instance Data.Traversable.Traversable Unison.HashQualified.HashQualified
+instance GHC.Classes.Ord n => GHC.Classes.Ord (Unison.HashQualified.HashQualified n)
 instance Data.Foldable.Foldable Unison.HashQualified.HashQualified
 instance GHC.Classes.Eq n => GHC.Classes.Eq (Unison.HashQualified.HashQualified n)
-instance (GHC.Classes.Eq n, Unison.Util.Alphabetical.Alphabetical n) => GHC.Classes.Ord (Unison.HashQualified.HashQualified n)
+instance Unison.Util.Alphabetical.Alphabetical n => Unison.Util.Alphabetical.Alphabetical (Unison.HashQualified.HashQualified n)
 instance Unison.Name.Convert n n2 => Unison.Name.Convert (Unison.HashQualified.HashQualified n) (Unison.HashQualified.HashQualified n2)
 instance Unison.Name.Convert n (Unison.HashQualified.HashQualified n)
-instance Unison.Name.Parse Data.Text.Internal.Text (Unison.HashQualified.HashQualified Unison.Name.Name)
 
 module Unison.HashQualified'
 data HashQualified n
@@ -1083,16 +931,11 @@ fromHQ :: HashQualified n -> Maybe (HashQualified n)
 --   <a>Nothing</a>.
 fromHQ2 :: HashQualified n -> Either ShortHash (HashQualified n)
 toName :: HashQualified n -> n
-nameLength :: HashQualified Name -> Int
+nameLength :: (Name -> Text) -> HashQualified Name -> Int
 take :: Int -> HashQualified n -> HashQualified n
 toNameOnly :: HashQualified n -> HashQualified n
 toHash :: HashQualified n -> Maybe ShortHash
-toString :: Show n => HashQualified n -> String
 toStringWith :: (n -> String) -> HashQualified n -> String
-fromText :: Text -> Maybe (HashQualified Name)
-unsafeFromText :: Text -> HashQualified Name
-fromString :: String -> Maybe (HashQualified Name)
-toText :: Show n => HashQualified n -> Text
 toTextWith :: (n -> Text) -> HashQualified n -> Text
 fromNamedReferent :: n -> Referent -> HashQualified n
 fromNamedReference :: n -> Reference -> HashQualified n
@@ -1105,17 +948,16 @@ requalify :: HashQualified Name -> Referent -> HashQualified Name
 --   segments is listed first. NameOnly &lt; HashQualified
 sortByLength :: [HashQualified Name] -> [HashQualified Name]
 instance Data.Traversable.Traversable Unison.HashQualified'.HashQualified
+instance GHC.Show.Show n => GHC.Show.Show (Unison.HashQualified'.HashQualified n)
+instance GHC.Classes.Ord n => GHC.Classes.Ord (Unison.HashQualified'.HashQualified n)
 instance Data.Foldable.Foldable Unison.HashQualified'.HashQualified
 instance GHC.Generics.Generic (Unison.HashQualified'.HashQualified n)
 instance GHC.Base.Functor Unison.HashQualified'.HashQualified
 instance GHC.Classes.Eq n => GHC.Classes.Eq (Unison.HashQualified'.HashQualified n)
-instance Unison.Util.Alphabetical.Alphabetical n => GHC.Classes.Ord (Unison.HashQualified'.HashQualified n)
-instance Data.String.IsString (Unison.HashQualified'.HashQualified Unison.Name.Name)
-instance GHC.Show.Show n => GHC.Show.Show (Unison.HashQualified'.HashQualified n)
+instance Unison.Util.Alphabetical.Alphabetical n => Unison.Util.Alphabetical.Alphabetical (Unison.HashQualified'.HashQualified n)
 instance Unison.Name.Convert n n2 => Unison.Name.Parse (Unison.HashQualified'.HashQualified n) n2
 instance Unison.Name.Convert (Unison.HashQualified'.HashQualified n) (Unison.HashQualified.HashQualified n)
 instance Unison.Name.Parse (Unison.HashQualified.HashQualified n) (Unison.HashQualified'.HashQualified n)
-instance Unison.Name.Parse Data.Text.Internal.Text (Unison.HashQualified'.HashQualified Unison.Name.Name)
 
 module Unison.Names
 data Names
@@ -1139,7 +981,7 @@ filterTypes :: (Name -> Bool) -> Names -> Names
 map :: (Name -> Name) -> Names -> Names
 makeAbsolute :: Names -> Names
 makeRelative :: Names -> Names
-fuzzyFind :: [String] -> Names -> [(Alignment, Name, Set (Either Referent TypeReference))]
+fuzzyFind :: (Name -> Text) -> [String] -> Names -> [(Alignment, Name, Set (Either Referent TypeReference))]
 
 -- | Like hqTermName and hqTypeName, but considers term and type names to
 --   conflict with each other (so will hash-qualify if there is e.g. both a
@@ -1228,11 +1070,11 @@ expandWildcardImport :: Name -> Names -> [(Name, Name)]
 isEmpty :: Names -> Bool
 hashQualifyTypesRelation :: Relation Name TypeReference -> Relation (HashQualified Name) TypeReference
 hashQualifyTermsRelation :: Relation Name Referent -> Relation (HashQualified Name) Referent
+instance GHC.Show.Show Unison.Names.Names
 instance GHC.Classes.Ord Unison.Names.Names
 instance GHC.Classes.Eq Unison.Names.Names
 instance GHC.Base.Semigroup Unison.Names.Names
 instance GHC.Base.Monoid Unison.Names.Names
-instance GHC.Show.Show Unison.Names.Names
 
 module Unison.NamesWithHistory
 
@@ -1350,6 +1192,104 @@ instance (GHC.Show.Show var, GHC.Show.Show annotation) => GHC.Show.Show (Unison.
 instance (GHC.Classes.Ord var, GHC.Classes.Ord annotation) => GHC.Classes.Ord (Unison.Names.ResolutionResult.ResolutionFailure var annotation)
 instance (GHC.Classes.Eq var, GHC.Classes.Eq annotation) => GHC.Classes.Eq (Unison.Names.ResolutionResult.ResolutionFailure var annotation)
 
+module Unison.WatchKind
+type WatchKind = String
+
+-- | A non-test watch, such as <tt> &gt; 3 + 4 </tt>
+pattern RegularWatch :: (Eq a, IsString a) => a
+
+-- | A named test watch, such as
+--   
+--   <pre>
+--   test&gt; x = expect (1 == 1)
+--   </pre>
+--   
+--   Note: currently test watches don't need to be named by the user, but
+--   that "feature" will be removed soon.
+pattern TestWatch :: (Eq a, IsString a) => a
+
+module Unison.Var
+
+-- | A class for variables. Variables may have auxiliary information which
+--   may not form part of their identity according to <a>Eq</a> /
+--   <a>Ord</a>. Laws:
+--   
+--   <ul>
+--   <li>`typeOf (typed n) == n`</li>
+--   <li>`typeOf (ABT.freshIn vs v) == typeOf v`: <a>freshIn</a> does not
+--   alter the name</li>
+--   </ul>
+class (Show v, Var v) => Var v
+typed :: Var v => Type -> v
+typeOf :: Var v => v -> Type
+freshId :: Var v => v -> Word64
+freshenId :: Var v => Word64 -> v -> v
+data Type
+User :: Text -> Type
+Inference :: InferenceType -> Type
+MissingResult :: Type
+Blank :: Type
+
+-- | An unnamed reference, created during unhashing a term/decl component.
+UnnamedReference :: Id -> Type
+UnnamedWatch :: WatchKind -> Text -> Type
+Eta :: Type
+ANFBlank :: Type
+Float :: Type
+Pattern :: Type
+Irrelevant :: Type
+data InferenceType
+Ability :: InferenceType
+Input :: InferenceType
+Output :: InferenceType
+PatternPureE :: InferenceType
+PatternPureV :: InferenceType
+PatternBindE :: InferenceType
+PatternBindV :: InferenceType
+TypeConstructor :: InferenceType
+TypeConstructorArg :: InferenceType
+Other :: InferenceType
+blank :: Var v => v
+freshIn :: Var v => Set v -> v -> v
+inferAbility :: Var v => v
+inferInput :: Var v => v
+inferOther :: Var v => v
+inferOutput :: Var v => v
+inferPatternBindE :: Var v => v
+inferPatternBindV :: Var v => v
+inferPatternPureE :: Var v => v
+inferPatternPureV :: Var v => v
+inferTypeConstructor :: Var v => v
+inferTypeConstructorArg :: Var v => v
+
+-- | Currently, actions in blocks are encoded as bindings with names of the
+--   form _123 (an underscore, followed by 1 or more digits). This function
+--   returns <a>True</a> if the input variable has this form.
+--   
+--   Various places check for this (the pretty-printer, to determine how to
+--   print the binding), and the typechecker (to decide if it should ensure
+--   the binding has type <tt>()</tt>).
+isAction :: Var v => v -> Bool
+joinDot :: Var v => v -> v -> v
+missingResult :: Var v => v
+name :: Var v => v -> Text
+nameStr :: Var v => v -> String
+named :: Var v => Text -> v
+nameds :: Var v => String -> v
+namespaced :: Var v => [v] -> v
+rawName :: Type -> Text
+reset :: Var v => v -> v
+uncapitalize :: Var v => v -> v
+universallyQuantifyIfFree :: forall v. Var v => v -> Bool
+unnamedRef :: Var v => Id -> v
+unnamedTest :: Var v => Text -> v
+instance GHC.Show.Show Unison.Var.InferenceType
+instance GHC.Classes.Ord Unison.Var.InferenceType
+instance GHC.Classes.Eq Unison.Var.InferenceType
+instance GHC.Show.Show Unison.Var.Type
+instance GHC.Classes.Ord Unison.Var.Type
+instance GHC.Classes.Eq Unison.Var.Type
+
 module Unison.Type
 
 -- | Base functor for types in the Unison language
@@ -1370,7 +1310,7 @@ type Type v a = Term F v a
 wrapV :: Ord v => Type v a -> Type (V v) a
 freeVars :: Type v a -> Set v
 bindExternal :: Var v => [(v, Reference)] -> Type v a -> Type v a
-bindReferences :: Var v => Set v -> Map Name Reference -> Type v a -> ResolutionResult v a (Type v a)
+bindReferences :: Var v => (v -> Name) -> Set v -> Map Name Reference -> Type v a -> ResolutionResult v a (Type v a)
 newtype Monotype v a
 Monotype :: Type v a -> Monotype v a
 [getPolytype] :: Monotype v a -> Type v a
@@ -1557,7 +1497,7 @@ instance GHC.Show.Show v => GHC.Show.Show (Unison.Type.Monotype v a)
 instance GHC.Show.Show a => GHC.Show.Show (Unison.Type.F a)
 
 module Unison.Type.Names
-bindNames :: Var v => Set v -> Names -> Type v a -> ResolutionResult v a (Type v a)
+bindNames :: Var v => (v -> Name) -> Set v -> Names -> Type v a -> ResolutionResult v a (Type v a)
 
 module Unison.Pattern
 data Pattern loc
@@ -1662,8 +1602,8 @@ type Term0 v = Term v ()
 -- | Terms with type variables in <tt>vt</tt>, and term variables in
 --   <tt>v</tt>
 type Term0' vt v = Term' vt v ()
-bindNames :: forall v a. Var v => Set v -> Names -> Term v a -> ResolutionResult v a (Term v a)
-bindSomeNames :: forall v a. Var v => Set v -> Names -> Term v a -> ResolutionResult v a (Term v a)
+bindNames :: forall v a. Var v => (v -> Name) -> Set v -> Names -> Term v a -> ResolutionResult v a (Term v a)
+bindSomeNames :: forall v a. Var v => (v -> Name) -> Set v -> Names -> Term v a -> ResolutionResult v a (Term v a)
 prepareTDNR :: Var v => Term (F vt b ap) v b -> Term (F vt b ap) v b
 amap :: Ord v => (a -> a2) -> Term v a -> Term v a2
 patternMap :: (Pattern ap -> Pattern ap2) -> Term2 vt at ap v a -> Term2 vt at ap2 v a
@@ -1852,6 +1792,17 @@ instance Data.Foldable.Foldable (Unison.Term.F typeVar typeAnn patternAnn)
 instance (U.Core.ABT.Var.Var vt, GHC.Classes.Eq at, GHC.Classes.Eq a) => GHC.Classes.Eq (Unison.Term.F vt at p a)
 instance (GHC.Show.Show v, GHC.Show.Show a) => GHC.Show.Show (Unison.Term.F v a0 p a)
 
+module Unison.Symbol
+data Symbol
+Symbol :: !Word64 -> Type -> Symbol
+symbol :: Text -> Symbol
+instance GHC.Generics.Generic Unison.Symbol.Symbol
+instance U.Core.ABT.Var.Var Unison.Symbol.Symbol
+instance Unison.Var.Var Unison.Symbol.Symbol
+instance GHC.Classes.Eq Unison.Symbol.Symbol
+instance GHC.Classes.Ord Unison.Symbol.Symbol
+instance GHC.Show.Show Unison.Symbol.Symbol
+
 module Unison.DataDeclaration
 data DataDeclaration v a
 DataDeclaration :: Modifier -> a -> [v] -> [(a, v, Type v a)] -> DataDeclaration v a
@@ -1874,7 +1825,7 @@ Unique :: Text -> Modifier
 --   term and type variables, both free and bound.
 allVars :: Ord v => DataDeclaration v a -> Set v
 asDataDecl :: Decl v a -> DataDeclaration v a
-bindReferences :: Var v => Set v -> Map Name Reference -> DataDeclaration v a -> ResolutionResult v a (DataDeclaration v a)
+bindReferences :: Var v => (v -> Name) -> Set v -> Map Name Reference -> DataDeclaration v a -> ResolutionResult v a (DataDeclaration v a)
 constructorNames :: Var v => DataDeclaration v a -> [Text]
 constructors :: DataDeclaration v a -> [(v, Type v a)]
 constructorType :: Decl v a -> ConstructorType
@@ -1919,6 +1870,6 @@ instance Data.Foldable.Foldable Unison.DataDeclaration.F
 instance GHC.Base.Functor Unison.DataDeclaration.F
 
 module Unison.DataDeclaration.Names
-bindNames :: Var v => Set v -> Names -> DataDeclaration v a -> ResolutionResult v a (DataDeclaration v a)
-dataDeclToNames' :: Var v => (v, (Id, DataDeclaration v a)) -> Names
-effectDeclToNames' :: Var v => (v, (Id, EffectDeclaration v a)) -> Names
+bindNames :: Var v => (v -> Name) -> Set v -> Names -> DataDeclaration v a -> ResolutionResult v a (DataDeclaration v a)
+dataDeclToNames' :: Var v => (v -> Name) -> (v, (Id, DataDeclaration v a)) -> Names
+effectDeclToNames' :: Var v => (v -> Name) -> (v, (Id, EffectDeclaration v a)) -> Names
