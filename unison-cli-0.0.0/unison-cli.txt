@@ -721,7 +721,7 @@ Env :: LanguageContextEnv Config -> Codebase IO Symbol Ann -> IO NamesWithHistor
 [$sel:lspContext:Env] :: Env -> LanguageContextEnv Config
 [$sel:codebase:Env] :: Env -> Codebase IO Symbol Ann
 [$sel:parseNamesCache:Env] :: Env -> IO NamesWithHistory
-[$sel:ppeCache:Env] :: Env -> IO PrettyPrintEnvDecl
+[$sel:ppedCache:Env] :: Env -> IO PrettyPrintEnvDecl
 [$sel:currentPathCache:Env] :: Env -> IO Absolute
 [$sel:vfsVar:Env] :: Env -> MVar VFS
 [$sel:runtime:Env] :: Env -> Runtime Symbol
@@ -753,7 +753,7 @@ FileAnalysis :: Uri -> FileVersion -> LexedSource -> Maybe (UnisonFile Symbol An
 [$sel:codeActions:FileAnalysis] :: FileAnalysis -> IntervalMap Position [CodeAction]
 getCurrentPath :: Lsp Absolute
 getCompletions :: Lsp CompletionTree
-globalPPE :: Lsp PrettyPrintEnvDecl
+globalPPED :: Lsp PrettyPrintEnvDecl
 getParseNames :: Lsp NamesWithHistory
 data Config
 Config :: Maybe Int -> Config
@@ -1734,11 +1734,12 @@ module Unison.LSP.FileAnalysis
 -- | Lex, parse, and typecheck a file.
 checkFile :: HasUri d Uri => d -> Lsp (Maybe FileAnalysis)
 fileAnalysisWorker :: Lsp ()
-analyseFile :: Foldable f => Uri -> Text -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
+analyseFile :: Foldable f => PrettyPrintEnvDecl -> Uri -> Text -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
 analyseNotes :: Foldable f => Uri -> PrettyPrintEnv -> String -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
 toRangeMap :: Foldable f => f (Range, a) -> IntervalMap Position [a]
 getFileAnalysis :: Uri -> Lsp (Maybe FileAnalysis)
-ppeForFile :: Uri -> Lsp PrettyPrintEnv
+ppedForFile :: Uri -> Lsp PrettyPrintEnvDecl
+ppedForFileHelper :: Maybe (UnisonFile Symbol a) -> Maybe (TypecheckedUnisonFile Symbol a) -> Lsp PrettyPrintEnvDecl
 
 module Unison.LSP.FoldingRange
 foldingRangeRequest :: RequestMessage 'TextDocumentFoldingRange -> (Either ResponseError (ResponseResult 'TextDocumentFoldingRange) -> Lsp ()) -> Lsp ()
