@@ -3114,7 +3114,9 @@ propagatedUpdates :: Ord r => DiffSlice r -> Map Name (Set r)
 instance GHC.Show.Show a => GHC.Show.Show (Unison.Codebase.BranchDiff.DiffType a)
 instance GHC.Show.Show r => GHC.Show.Show (Unison.Codebase.BranchDiff.NamespaceSlice r)
 instance GHC.Show.Show r => GHC.Show.Show (Unison.Codebase.BranchDiff.DiffSlice r)
+instance GHC.Generics.Generic (Unison.Codebase.BranchDiff.DiffSlice r)
 instance GHC.Show.Show Unison.Codebase.BranchDiff.BranchDiff
+instance GHC.Generics.Generic Unison.Codebase.BranchDiff.BranchDiff
 
 module Unison.Codebase.Branch.Names
 findHistoricalHQs :: Monad m => Set (HashQualified Name) -> Branch m -> m (Set (HashQualified Name), Names)
