@@ -326,6 +326,7 @@ instance Data.Traversable.Traversable Unison.Util.Alphabetical.OrderAlphabetical
 instance GHC.Base.Functor Unison.Util.Alphabetical.OrderAlphabetically
 instance (GHC.Classes.Eq a, Unison.Util.Alphabetical.Alphabetical a) => GHC.Classes.Ord (Unison.Util.Alphabetical.OrderAlphabetically a)
 instance Unison.Util.Alphabetical.Alphabetical a => Unison.Util.Alphabetical.Alphabetical [a]
+instance Unison.Util.Alphabetical.Alphabetical a => Unison.Util.Alphabetical.Alphabetical (GHC.Base.NonEmpty a)
 instance Unison.Util.Alphabetical.Alphabetical a => Unison.Util.Alphabetical.Alphabetical (GHC.Maybe.Maybe a)
 instance Unison.Util.Alphabetical.Alphabetical Data.Text.Internal.Text
 
@@ -354,9 +355,25 @@ module Unison.Name.Internal
 -- | A name is an absolute-or-relative non-empty list of name segments.
 data Name
 Name :: Position -> NonEmpty NameSegment -> Name
+
+-- | Is this name absolute?
+--   
+--   <i>O(1)</i>.
+isAbsolute :: Name -> Bool
+
+-- | Return the name segments of a name.
+--   
+--   <pre>
+--   &gt;&gt;&gt; segments "a.b.c"
+--   "a" :| ["b", "c"]
+--   </pre>
+--   
+--   <i>O(n)</i>, where <i>n</i> is the number of name segments.
+segments :: Name -> NonEmpty NameSegment
 instance GHC.Show.Show Unison.Name.Internal.Name
 instance GHC.Generics.Generic Unison.Name.Internal.Name
 instance GHC.Classes.Eq Unison.Name.Internal.Name
+instance Unison.Util.Alphabetical.Alphabetical Unison.Name.Internal.Name
 instance GHC.Classes.Ord Unison.Name.Internal.Name
 instance Control.Lens.Cons.Snoc Unison.Name.Internal.Name Unison.Name.Internal.Name Unison.NameSegment.NameSegment Unison.NameSegment.NameSegment
 

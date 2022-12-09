@@ -2,32 +2,36 @@
 </span><span id="line-2"></span><span class="hs-comment">-- Name.</span><span>
 </span><span id="line-3"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Unison.Name.Internal</span><span>
 </span><span id="line-4"></span><span>  </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier">Name</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
-</span><span id="line-5"></span><span>  </span><span class="hs-special">)</span><span>
-</span><span id="line-6"></span><span class="hs-keyword">where</span><span>
-</span><span id="line-7"></span><span>
-</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Lens</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Lens</span></span><span>
-</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.List.NonEmpty</span></span><span> </span><span class="hs-special">(</span><span class="hs-keyword">pattern</span><span> </span><span class="annot"><span class="hs-operator">(:|)</span></span><span class="hs-special">)</span><span>
-</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.List.NonEmpty</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">List</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">NonEmpty</span></span><span class="hs-special">)</span><span>
-</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.NameSegment.html"><span class="hs-identifier">Unison.NameSegment</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier">NameSegment</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Position.html"><span class="hs-identifier">Unison.Position</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Position.html#Position"><span class="hs-identifier">Position</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
-</span><span id="line-14"></span><span>
-</span><span id="line-15"></span><span class="hs-comment">-- | A name is an absolute-or-relative non-empty list of name segments.</span><span>
-</span><span id="line-16"></span><span id="local-6989586621679196189"><span id="local-6989586621679196190"></span></span><span class="hs-keyword">data</span><span> </span><span id="Name"><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-var">Name</span></a></span></span><span>
-</span><span id="line-17"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-comment">-- A few example names:</span><span>
-</span><span id="line-18"></span><span>    </span><span class="hs-comment">--</span><span>
-</span><span id="line-19"></span><span>    </span><span class="hs-comment">--   &quot;foo.bar&quot;  --&gt; Name Relative [&quot;bar&quot;, &quot;foo&quot;]</span><span>
-</span><span id="line-20"></span><span>    </span><span class="hs-comment">--   &quot;.foo.bar&quot; --&gt; Name Absolute [&quot;bar&quot;, &quot;foo&quot;]</span><span>
-</span><span id="line-21"></span><span>    </span><span class="hs-comment">--   &quot;|&gt;.&lt;|&quot;    --&gt; Name Relative [&quot;&lt;|&quot;, &quot;|&gt;&quot;]</span><span>
-</span><span id="line-22"></span><span>    </span><span class="hs-comment">--   &quot;.&quot;        --&gt; Name Relative [&quot;.&quot;]</span><span>
-</span><span id="line-23"></span><span>    </span><span class="hs-comment">--   &quot;..&quot;       --&gt; Name Absolute [&quot;.&quot;]</span><span>
-</span><span id="line-24"></span><span>    </span><span class="hs-comment">--</span><span>
-</span><span id="line-25"></span><span>    </span><span id="Name"><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-var">Name</span></a></span></span><span>
-</span><span id="line-26"></span><span>      </span><span class="hs-comment">-- whether the name is positioned absolutely (to some arbitrary root namespace), or relatively</span><span>
-</span><span id="line-27"></span><span>      </span><span class="annot"><a href="Unison.Position.html#Position"><span class="hs-identifier hs-type">Position</span></a></span><span>
-</span><span id="line-28"></span><span>      </span><span class="hs-comment">-- the name segments in reverse order</span><span>
-</span><span id="line-29"></span><span>      </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">List.NonEmpty</span></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-30"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679196184"><span id="local-6989586621679196186"><span class="annot"><span class="annottext">Name -&gt; Name -&gt; Bool
+</span><span id="line-5"></span><span>    </span><span class="annot"><a href="Unison.Name.Internal.html#isAbsolute"><span class="hs-identifier">isAbsolute</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-6"></span><span>    </span><span class="annot"><a href="Unison.Name.Internal.html#segments"><span class="hs-identifier">segments</span></a></span><span class="hs-special">,</span><span>
+</span><span id="line-7"></span><span>  </span><span class="hs-special">)</span><span>
+</span><span id="line-8"></span><span class="hs-keyword">where</span><span>
+</span><span id="line-9"></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Lens</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Lens</span></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.List.NonEmpty</span></span><span> </span><span class="hs-special">(</span><span class="hs-keyword">pattern</span><span> </span><span class="annot"><span class="hs-operator">(:|)</span></span><span class="hs-special">)</span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.List.NonEmpty</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">List</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">NonEmpty</span></span><span class="hs-special">)</span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.List.NonEmpty</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">List.NonEmpty</span></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.NameSegment.html"><span class="hs-identifier">Unison.NameSegment</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier">NameSegment</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Position.html"><span class="hs-identifier">Unison.Position</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Position.html#Position"><span class="hs-identifier">Position</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Prelude</span></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Unison.Util.Alphabetical.html"><span class="hs-identifier">Unison.Util.Alphabetical</span></a></span><span>
+</span><span id="line-18"></span><span>
+</span><span id="line-19"></span><span class="hs-comment">-- | A name is an absolute-or-relative non-empty list of name segments.</span><span>
+</span><span id="line-20"></span><span id="local-6989586621679196271"><span id="local-6989586621679196272"></span></span><span class="hs-keyword">data</span><span> </span><span id="Name"><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-var">Name</span></a></span></span><span>
+</span><span id="line-21"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-comment">-- A few example names:</span><span>
+</span><span id="line-22"></span><span>    </span><span class="hs-comment">--</span><span>
+</span><span id="line-23"></span><span>    </span><span class="hs-comment">--   &quot;foo.bar&quot;  --&gt; Name Relative [&quot;bar&quot;, &quot;foo&quot;]</span><span>
+</span><span id="line-24"></span><span>    </span><span class="hs-comment">--   &quot;.foo.bar&quot; --&gt; Name Absolute [&quot;bar&quot;, &quot;foo&quot;]</span><span>
+</span><span id="line-25"></span><span>    </span><span class="hs-comment">--   &quot;|&gt;.&lt;|&quot;    --&gt; Name Relative [&quot;&lt;|&quot;, &quot;|&gt;&quot;]</span><span>
+</span><span id="line-26"></span><span>    </span><span class="hs-comment">--   &quot;.&quot;        --&gt; Name Relative [&quot;.&quot;]</span><span>
+</span><span id="line-27"></span><span>    </span><span class="hs-comment">--   &quot;..&quot;       --&gt; Name Absolute [&quot;.&quot;]</span><span>
+</span><span id="line-28"></span><span>    </span><span class="hs-comment">--</span><span>
+</span><span id="line-29"></span><span>    </span><span id="Name"><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-var">Name</span></a></span></span><span>
+</span><span id="line-30"></span><span>      </span><span class="hs-comment">-- whether the name is positioned absolutely (to some arbitrary root namespace), or relatively</span><span>
+</span><span id="line-31"></span><span>      </span><span class="annot"><a href="Unison.Position.html#Position"><span class="hs-identifier hs-type">Position</span></a></span><span>
+</span><span id="line-32"></span><span>      </span><span class="hs-comment">-- the name segments in reverse order</span><span>
+</span><span id="line-33"></span><span>      </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">List.NonEmpty</span></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-34"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679196266"><span id="local-6989586621679196268"><span class="annot"><span class="annottext">Name -&gt; Name -&gt; Bool
 (Name -&gt; Name -&gt; Bool) -&gt; (Name -&gt; Name -&gt; Bool) -&gt; Eq Name
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 /= :: Name -&gt; Name -&gt; Bool
@@ -42,7 +46,7 @@ forall a.
 (forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
 $cto :: forall x. Rep Name x -&gt; Name
 $cfrom :: forall x. Name -&gt; Rep Name x
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679196174"><span id="local-6989586621679196176"><span id="local-6989586621679196178"><span class="annot"><span class="annottext">Int -&gt; Name -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">Generic</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679196256"><span id="local-6989586621679196258"><span id="local-6989586621679196260"><span class="annot"><span class="annottext">Int -&gt; Name -&gt; ShowS
 [Name] -&gt; ShowS
 Name -&gt; String
 (Int -&gt; Name -&gt; ShowS)
@@ -56,78 +60,138 @@ $cshow :: Name -&gt; String
 showsPrec :: Int -&gt; Name -&gt; ShowS
 $cshowsPrec :: Int -&gt; Name -&gt; ShowS
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-31"></span><span>
-</span><span id="line-32"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679196159"><span id="local-6989586621679196161"><span id="local-6989586621679196163"><span id="local-6989586621679196165"><span id="local-6989586621679196167"><span id="local-6989586621679196169"><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span></span></span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-33"></span><span>  </span><span id="local-6989586621679196157"><span class="annot"><span class="annottext">compare :: Name -&gt; Name -&gt; Ordering
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var">compare</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span id="local-6989586621679196155"><span class="annot"><span class="annottext">Position
-</span><a href="#local-6989586621679196155"><span class="hs-identifier hs-var">p0</span></a></span></span><span> </span><span id="local-6989586621679196154"><span class="annot"><span class="annottext">NonEmpty NameSegment
-</span><a href="#local-6989586621679196154"><span class="hs-identifier hs-var">ss0</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span id="local-6989586621679196153"><span class="annot"><span class="annottext">Position
-</span><a href="#local-6989586621679196153"><span class="hs-identifier hs-var">p1</span></a></span></span><span> </span><span id="local-6989586621679196152"><span class="annot"><span class="annottext">NonEmpty NameSegment
-</span><a href="#local-6989586621679196152"><span class="hs-identifier hs-var">ss1</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-34"></span><span>    </span><span class="annot"><span class="annottext">NonEmpty NameSegment -&gt; NonEmpty NameSegment -&gt; Ordering
+</span><span id="line-35"></span><span>
+</span><span id="line-36"></span><span class="hs-comment">-- | Compare names (kinda) alphabetically: absolute comes before relative, but otherwise compare the name segments</span><span>
+</span><span id="line-37"></span><span class="hs-comment">-- alphabetically, in order.</span><span>
+</span><span id="line-38"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Unison.Util.Alphabetical.html#Alphabetical"><span class="hs-identifier hs-type">Alphabetical</span></a></span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-39"></span><span>  </span><span id="local-6989586621679196251"><span class="annot"><span class="annottext">compareAlphabetical :: Name -&gt; Name -&gt; Ordering
+</span><a href="Unison.Util.Alphabetical.html#compareAlphabetical"><span class="hs-identifier hs-var hs-var hs-var hs-var">compareAlphabetical</span></a></span></span><span> </span><span id="local-6989586621679196249"><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621679196249"><span class="hs-identifier hs-var">n1</span></a></span></span><span> </span><span id="local-6989586621679196248"><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621679196248"><span class="hs-identifier hs-var">n2</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-40"></span><span>    </span><span class="hs-keyword">case</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Name -&gt; Bool
+</span><a href="Unison.Name.Internal.html#isAbsolute"><span class="hs-identifier hs-var">isAbsolute</span></a></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621679196249"><span class="hs-identifier hs-var">n1</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Bool
+</span><a href="Unison.Name.Internal.html#isAbsolute"><span class="hs-identifier hs-var">isAbsolute</span></a></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621679196248"><span class="hs-identifier hs-var">n2</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-41"></span><span>      </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">True</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">False</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ordering
+</span><span class="hs-identifier hs-var">LT</span></span><span>
+</span><span id="line-42"></span><span>      </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">False</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">True</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Ordering
+</span><span class="hs-identifier hs-var">GT</span></span><span>
+</span><span id="line-43"></span><span>      </span><span class="annot"><span class="annottext">(Bool, Bool)
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">NonEmpty NameSegment -&gt; NonEmpty NameSegment -&gt; Ordering
+forall n. Alphabetical n =&gt; n -&gt; n -&gt; Ordering
+</span><a href="Unison.Util.Alphabetical.html#compareAlphabetical"><span class="hs-identifier hs-var">compareAlphabetical</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Name -&gt; NonEmpty NameSegment
+</span><a href="Unison.Name.Internal.html#segments"><span class="hs-identifier hs-var">segments</span></a></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621679196249"><span class="hs-identifier hs-var">n1</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Name -&gt; NonEmpty NameSegment
+</span><a href="Unison.Name.Internal.html#segments"><span class="hs-identifier hs-var">segments</span></a></span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621679196248"><span class="hs-identifier hs-var">n2</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-44"></span><span>
+</span><span id="line-45"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679196234"><span id="local-6989586621679196236"><span id="local-6989586621679196238"><span id="local-6989586621679196240"><span id="local-6989586621679196242"><span id="local-6989586621679196244"><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span></span></span></span></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-46"></span><span>  </span><span id="local-6989586621679196232"><span class="annot"><span class="annottext">compare :: Name -&gt; Name -&gt; Ordering
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">compare</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span id="local-6989586621679196230"><span class="annot"><span class="annottext">Position
+</span><a href="#local-6989586621679196230"><span class="hs-identifier hs-var">p0</span></a></span></span><span> </span><span id="local-6989586621679196229"><span class="annot"><span class="annottext">NonEmpty NameSegment
+</span><a href="#local-6989586621679196229"><span class="hs-identifier hs-var">ss0</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span id="local-6989586621679196228"><span class="annot"><span class="annottext">Position
+</span><a href="#local-6989586621679196228"><span class="hs-identifier hs-var">p1</span></a></span></span><span> </span><span id="local-6989586621679196227"><span class="annot"><span class="annottext">NonEmpty NameSegment
+</span><a href="#local-6989586621679196227"><span class="hs-identifier hs-var">ss1</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-47"></span><span>    </span><span class="annot"><span class="annottext">NonEmpty NameSegment -&gt; NonEmpty NameSegment -&gt; Ordering
 forall a. Ord a =&gt; a -&gt; a -&gt; Ordering
 </span><span class="hs-identifier hs-var">compare</span></span><span> </span><span class="annot"><span class="annottext">NonEmpty NameSegment
-</span><a href="#local-6989586621679196154"><span class="hs-identifier hs-var">ss0</span></a></span><span> </span><span class="annot"><span class="annottext">NonEmpty NameSegment
-</span><a href="#local-6989586621679196152"><span class="hs-identifier hs-var">ss1</span></a></span><span> </span><span class="annot"><span class="annottext">Ordering -&gt; Ordering -&gt; Ordering
+</span><a href="#local-6989586621679196229"><span class="hs-identifier hs-var">ss0</span></a></span><span> </span><span class="annot"><span class="annottext">NonEmpty NameSegment
+</span><a href="#local-6989586621679196227"><span class="hs-identifier hs-var">ss1</span></a></span><span> </span><span class="annot"><span class="annottext">Ordering -&gt; Ordering -&gt; Ordering
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Position -&gt; Position -&gt; Ordering
 forall a. Ord a =&gt; a -&gt; a -&gt; Ordering
 </span><span class="hs-identifier hs-var">compare</span></span><span> </span><span class="annot"><span class="annottext">Position
-</span><a href="#local-6989586621679196155"><span class="hs-identifier hs-var">p0</span></a></span><span> </span><span class="annot"><span class="annottext">Position
-</span><a href="#local-6989586621679196153"><span class="hs-identifier hs-var">p1</span></a></span><span>
-</span><span id="line-35"></span><span>
-</span><span id="line-36"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Lens.Snoc</span></span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-37"></span><span>  </span><span id="local-6989586621679196149"><span class="annot"><span class="annottext">_Snoc :: p (Name, NameSegment) (f (Name, NameSegment)) -&gt; p Name (f Name)
+</span><a href="#local-6989586621679196230"><span class="hs-identifier hs-var">p0</span></a></span><span> </span><span class="annot"><span class="annottext">Position
+</span><a href="#local-6989586621679196228"><span class="hs-identifier hs-var">p1</span></a></span><span>
+</span><span id="line-48"></span><span>
+</span><span id="line-49"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Lens.Snoc</span></span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-50"></span><span>  </span><span id="local-6989586621679196224"><span class="annot"><span class="annottext">_Snoc :: p (Name, NameSegment) (f (Name, NameSegment)) -&gt; p Name (f Name)
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var">_Snoc</span></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-38"></span><span>    </span><span class="annot"><span class="annottext">((Name, NameSegment) -&gt; Name)
+</span><span id="line-51"></span><span>    </span><span class="annot"><span class="annottext">((Name, NameSegment) -&gt; Name)
 -&gt; (Name -&gt; Either Name (Name, NameSegment))
 -&gt; Prism Name Name (Name, NameSegment) (Name, NameSegment)
 forall b t s a. (b -&gt; t) -&gt; (s -&gt; Either t a) -&gt; Prism s t a b
 </span><span class="hs-identifier hs-var">Lens.prism</span></span><span> </span><span class="annot"><span class="annottext">(Name, NameSegment) -&gt; Name
-</span><a href="#local-6989586621679196146"><span class="hs-identifier hs-var">snoc</span></a></span><span> </span><span class="annot"><span class="annottext">Name -&gt; Either Name (Name, NameSegment)
-</span><a href="#local-6989586621679196145"><span class="hs-identifier hs-var">unsnoc</span></a></span><span>
-</span><span id="line-39"></span><span>    </span><span class="hs-keyword">where</span><span>
-</span><span id="line-40"></span><span>      </span><span class="annot"><a href="#local-6989586621679196146"><span class="hs-identifier hs-type">snoc</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span>
-</span><span id="line-41"></span><span>      </span><span id="local-6989586621679196146"><span class="annot"><span class="annottext">snoc :: (Name, NameSegment) -&gt; Name
-</span><a href="#local-6989586621679196146"><span class="hs-identifier hs-var hs-var">snoc</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span id="local-6989586621679196144"><span class="annot"><span class="annottext">Position
-</span><a href="#local-6989586621679196144"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679196143"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679196143"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:|</span></span><span> </span><span id="local-6989586621679196142"><span class="annot"><span class="annottext">[NameSegment]
-</span><a href="#local-6989586621679196142"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span id="local-6989586621679196141"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679196141"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-42"></span><span>        </span><span class="annot"><span class="annottext">Position -&gt; NonEmpty NameSegment -&gt; Name
+</span><a href="#local-6989586621679196221"><span class="hs-identifier hs-var">snoc</span></a></span><span> </span><span class="annot"><span class="annottext">Name -&gt; Either Name (Name, NameSegment)
+</span><a href="#local-6989586621679196220"><span class="hs-identifier hs-var">unsnoc</span></a></span><span>
+</span><span id="line-52"></span><span>    </span><span class="hs-keyword">where</span><span>
+</span><span id="line-53"></span><span>      </span><span class="annot"><a href="#local-6989586621679196221"><span class="hs-identifier hs-type">snoc</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span>
+</span><span id="line-54"></span><span>      </span><span id="local-6989586621679196221"><span class="annot"><span class="annottext">snoc :: (Name, NameSegment) -&gt; Name
+</span><a href="#local-6989586621679196221"><span class="hs-identifier hs-var hs-var">snoc</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span id="local-6989586621679196219"><span class="annot"><span class="annottext">Position
+</span><a href="#local-6989586621679196219"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679196218"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679196218"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:|</span></span><span> </span><span id="local-6989586621679196217"><span class="annot"><span class="annottext">[NameSegment]
+</span><a href="#local-6989586621679196217"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span id="local-6989586621679196216"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679196216"><span class="hs-identifier hs-var">y</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-55"></span><span>        </span><span class="annot"><span class="annottext">Position -&gt; NonEmpty NameSegment -&gt; Name
 </span><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-var">Name</span></a></span><span> </span><span class="annot"><span class="annottext">Position
-</span><a href="#local-6989586621679196144"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679196141"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; [NameSegment] -&gt; NonEmpty NameSegment
+</span><a href="#local-6989586621679196219"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679196216"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; [NameSegment] -&gt; NonEmpty NameSegment
 forall a. a -&gt; [a] -&gt; NonEmpty a
 </span><span class="hs-operator hs-var">:|</span></span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679196143"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; [NameSegment] -&gt; [NameSegment]
+</span><a href="#local-6989586621679196218"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; [NameSegment] -&gt; [NameSegment]
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[NameSegment]
-</span><a href="#local-6989586621679196142"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-43"></span><span>      </span><span class="annot"><a href="#local-6989586621679196145"><span class="hs-identifier hs-type">unsnoc</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-44"></span><span>      </span><span id="local-6989586621679196145"><span class="annot"><span class="annottext">unsnoc :: Name -&gt; Either Name (Name, NameSegment)
-</span><a href="#local-6989586621679196145"><span class="hs-identifier hs-var hs-var">unsnoc</span></a></span></span><span> </span><span id="local-6989586621679196140"><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621679196140"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-45"></span><span>        </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621679196140"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-46"></span><span>          </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="annot"><span class="annottext">Position
+</span><a href="#local-6989586621679196217"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-56"></span><span>      </span><span class="annot"><a href="#local-6989586621679196220"><span class="hs-identifier hs-type">unsnoc</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-57"></span><span>      </span><span id="local-6989586621679196220"><span class="annot"><span class="annottext">unsnoc :: Name -&gt; Either Name (Name, NameSegment)
+</span><a href="#local-6989586621679196220"><span class="hs-identifier hs-var hs-var">unsnoc</span></a></span></span><span> </span><span id="local-6989586621679196215"><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621679196215"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-58"></span><span>        </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Name
+</span><a href="#local-6989586621679196215"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-59"></span><span>          </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="annot"><span class="annottext">Position
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment
 </span><span class="hs-identifier">_</span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:|</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Name -&gt; Either Name (Name, NameSegment)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Name
-</span><a href="#local-6989586621679196140"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-47"></span><span>          </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span id="local-6989586621679196139"><span class="annot"><span class="annottext">Position
-</span><a href="#local-6989586621679196139"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679196138"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679196138"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:|</span></span><span> </span><span id="local-6989586621679196137"><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679196137"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679196136"><span class="annot"><span class="annottext">[NameSegment]
-</span><a href="#local-6989586621679196136"><span class="hs-identifier hs-var">ys</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(Name, NameSegment) -&gt; Either Name (Name, NameSegment)
+</span><a href="#local-6989586621679196215"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-60"></span><span>          </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span id="local-6989586621679196214"><span class="annot"><span class="annottext">Position
+</span><a href="#local-6989586621679196214"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679196213"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679196213"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="annot"><span class="hs-operator hs-type">:|</span></span><span> </span><span id="local-6989586621679196212"><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679196212"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679196211"><span class="annot"><span class="annottext">[NameSegment]
+</span><a href="#local-6989586621679196211"><span class="hs-identifier hs-var">ys</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(Name, NameSegment) -&gt; Either Name (Name, NameSegment)
 forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Position -&gt; NonEmpty NameSegment -&gt; Name
 </span><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-var">Name</span></a></span><span> </span><span class="annot"><span class="annottext">Position
-</span><a href="#local-6989586621679196139"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679196137"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; [NameSegment] -&gt; NonEmpty NameSegment
+</span><a href="#local-6989586621679196214"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679196212"><span class="hs-identifier hs-var">y</span></a></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; [NameSegment] -&gt; NonEmpty NameSegment
 forall a. a -&gt; [a] -&gt; NonEmpty a
 </span><span class="hs-operator hs-var">:|</span></span><span> </span><span class="annot"><span class="annottext">[NameSegment]
-</span><a href="#local-6989586621679196136"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">NameSegment
-</span><a href="#local-6989586621679196138"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-48"></span></pre></body></html>
+</span><a href="#local-6989586621679196211"><span class="hs-identifier hs-var">ys</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">NameSegment
+</span><a href="#local-6989586621679196213"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-61"></span><span>
+</span><span id="line-62"></span><span class="hs-comment">-- | Is this name absolute?</span><span>
+</span><span id="line-63"></span><span class="hs-comment">--</span><span>
+</span><span id="line-64"></span><span class="hs-comment">-- /O(1)/.</span><span>
+</span><span id="line-65"></span><span class="annot"><a href="Unison.Name.Internal.html#isAbsolute"><span class="hs-identifier hs-type">isAbsolute</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
+</span><span id="line-66"></span><span id="isAbsolute"><span class="annot"><span class="annottext">isAbsolute :: Name -&gt; Bool
+</span><a href="Unison.Name.Internal.html#isAbsolute"><span class="hs-identifier hs-var hs-var">isAbsolute</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
+</span><span id="line-67"></span><span>  </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="annot"><span class="annottext">Position
+</span><a href="Unison.Position.html#Absolute"><span class="hs-identifier hs-var">Absolute</span></a></span><span> </span><span class="annot"><span class="annottext">NonEmpty NameSegment
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">True</span></span><span>
+</span><span id="line-68"></span><span>  </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="annot"><span class="annottext">Position
+</span><a href="Unison.Position.html#Relative"><span class="hs-identifier hs-var">Relative</span></a></span><span> </span><span class="annot"><span class="annottext">NonEmpty NameSegment
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">False</span></span><span>
+</span><span id="line-69"></span><span>
+</span><span id="line-70"></span><span class="hs-comment">-- | Return the name segments of a name.</span><span>
+</span><span id="line-71"></span><span class="hs-comment">--</span><span>
+</span><span id="line-72"></span><span class="hs-comment">-- &gt;&gt;&gt; segments &quot;a.b.c&quot;</span><span>
+</span><span id="line-73"></span><span class="hs-comment">-- &quot;a&quot; :| [&quot;b&quot;, &quot;c&quot;]</span><span>
+</span><span id="line-74"></span><span class="hs-comment">--</span><span>
+</span><span id="line-75"></span><span class="hs-comment">-- /O(n)/, where /n/ is the number of name segments.</span><span>
+</span><span id="line-76"></span><span class="annot"><a href="Unison.Name.Internal.html#segments"><span class="hs-identifier hs-type">segments</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">List.NonEmpty</span></span><span> </span><span class="annot"><a href="Unison.NameSegment.html#NameSegment"><span class="hs-identifier hs-type">NameSegment</span></a></span><span>
+</span><span id="line-77"></span><span id="segments"><span class="annot"><span class="annottext">segments :: Name -&gt; NonEmpty NameSegment
+</span><a href="Unison.Name.Internal.html#segments"><span class="hs-identifier hs-var hs-var">segments</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Name.Internal.html#Name"><span class="hs-identifier hs-type">Name</span></a></span><span> </span><span class="annot"><span class="annottext">Position
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679196208"><span class="annot"><span class="annottext">NonEmpty NameSegment
+</span><a href="#local-6989586621679196208"><span class="hs-identifier hs-var">ss</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-78"></span><span>  </span><span class="annot"><span class="annottext">NonEmpty NameSegment -&gt; NonEmpty NameSegment
+forall a. NonEmpty a -&gt; NonEmpty a
+</span><span class="hs-identifier hs-var">List.NonEmpty.reverse</span></span><span> </span><span class="annot"><span class="annottext">NonEmpty NameSegment
+</span><a href="#local-6989586621679196208"><span class="hs-identifier hs-var">ss</span></a></span><span>
+</span><span id="line-79"></span></pre></body></html>
