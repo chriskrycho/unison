@@ -167,11 +167,7 @@ MoveTypeI :: HQSplit' -> Split' -> Input
 MoveBranchI :: Path' -> Path' -> Input
 MovePatchI :: Split' -> Split' -> Input
 CopyPatchI :: Split' -> Split' -> Input
-DeleteI :: HQSplit' -> Input
-DeleteTermI :: HQSplit' -> Input
-DeleteTypeI :: HQSplit' -> Input
-DeleteBranchI :: Insistence -> Maybe Split' -> Input
-DeletePatchI :: Split' -> Input
+DeleteI :: DeleteTarget -> Input
 ResolveTermNameI :: HQSplit' -> Input
 ResolveTypeNameI :: HQSplit' -> Input
 LoadI :: Maybe FilePath -> Input
@@ -300,6 +296,15 @@ data ShowDefinitionScope
 ShowDefinitionLocal :: ShowDefinitionScope
 ShowDefinitionGlobal :: ShowDefinitionScope
 type IsGlobal = Bool
+data DeleteOutput
+DeleteOutput'Diff :: DeleteOutput
+DeleteOutput'NoDiff :: DeleteOutput
+data DeleteTarget
+DeleteTarget'TermOrType :: DeleteOutput -> HQSplit' -> DeleteTarget
+DeleteTarget'Term :: DeleteOutput -> HQSplit' -> DeleteTarget
+DeleteTarget'Type :: DeleteOutput -> HQSplit' -> DeleteTarget
+DeleteTarget'Branch :: Insistence -> Maybe Split' -> DeleteTarget
+DeleteTarget'Patch :: Split' -> DeleteTarget
 instance GHC.Show.Show Unison.Codebase.Editor.Input.OptionalPatch
 instance GHC.Classes.Ord Unison.Codebase.Editor.Input.OptionalPatch
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.OptionalPatch
@@ -322,6 +327,10 @@ instance GHC.Show.Show Unison.Codebase.Editor.Input.FindScope
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.FindScope
 instance GHC.Show.Show Unison.Codebase.Editor.Input.ShowDefinitionScope
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.ShowDefinitionScope
+instance GHC.Show.Show Unison.Codebase.Editor.Input.DeleteOutput
+instance GHC.Classes.Eq Unison.Codebase.Editor.Input.DeleteOutput
+instance GHC.Show.Show Unison.Codebase.Editor.Input.DeleteTarget
+instance GHC.Classes.Eq Unison.Codebase.Editor.Input.DeleteTarget
 instance GHC.Show.Show Unison.Codebase.Editor.Input.Input
 instance GHC.Classes.Eq Unison.Codebase.Editor.Input.Input
 
@@ -1388,9 +1397,13 @@ findVerboseAll :: InputPattern
 findPatch :: InputPattern
 renameTerm :: InputPattern
 renameType :: InputPattern
+deleteGen :: Maybe String -> String -> (HQSplit' -> DeleteTarget) -> InputPattern
 delete :: InputPattern
+deleteVerbose :: InputPattern
 deleteTerm :: InputPattern
+deleteTermVerbose :: InputPattern
 deleteType :: InputPattern
+deleteTypeVerbose :: InputPattern
 deleteTermReplacementCommand :: String
 deleteTypeReplacementCommand :: String
 deleteReplacement :: Bool -> InputPattern

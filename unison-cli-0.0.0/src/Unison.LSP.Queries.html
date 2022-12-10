@@ -27,17 +27,17 @@
 </span><span id="line-27"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.Type</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Type</span></span><span>
 </span><span id="line-28"></span><span>
 </span><span id="line-29"></span><span class="hs-comment">-- | Returns the reference a given term node refers to, if any.</span><span>
-</span><span id="line-30"></span><span id="local-6989586621679595695"><span id="local-6989586621679595696"><span class="annot"><a href="Unison.LSP.Queries.html#refInTerm"><span class="hs-identifier hs-type">refInTerm</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621679595696"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679595695"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">LabeledDependency</span></span><span class="hs-special">)</span></span></span><span>
+</span><span id="line-30"></span><span id="local-6989586621679597508"><span id="local-6989586621679597509"><span class="annot"><a href="Unison.LSP.Queries.html#refInTerm"><span class="hs-identifier hs-type">refInTerm</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621679597509"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679597508"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">LabeledDependency</span></span><span class="hs-special">)</span></span></span><span>
 </span><span id="line-31"></span><span id="refInTerm"><span class="annot"><span class="annottext">refInTerm :: Term v a -&gt; Maybe LabeledDependency
-</span><a href="Unison.LSP.Queries.html#refInTerm"><span class="hs-identifier hs-var hs-var">refInTerm</span></a></span></span><span> </span><span id="local-6989586621679595694"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595694"><span class="hs-identifier hs-var">term</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.LSP.Queries.html#refInTerm"><span class="hs-identifier hs-var hs-var">refInTerm</span></a></span></span><span> </span><span id="local-6989586621679597507"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597507"><span class="hs-identifier hs-var">term</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-32"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Term v a -&gt; ABT (F v a a) v (Term v a)
 forall (f :: * -&gt; *) v a. Term f v a -&gt; ABT f v (Term f v a)
 </span><span class="hs-identifier hs-var hs-var">ABT.out</span></span><span> </span><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595694"><span class="hs-identifier hs-var">term</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-33"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">ABT.Tm</span></span><span> </span><span id="local-6989586621679595691"><span class="annot"><span class="annottext">F v a a (Term v a)
-</span><a href="#local-6989586621679595691"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">F v a a (Term v a)
-</span><a href="#local-6989586621679595691"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679597507"><span class="hs-identifier hs-var">term</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-33"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">ABT.Tm</span></span><span> </span><span id="local-6989586621679597504"><span class="annot"><span class="annottext">F v a a (Term v a)
+</span><a href="#local-6989586621679597504"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">F v a a (Term v a)
+</span><a href="#local-6989586621679597504"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-34"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Int</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
@@ -59,167 +59,167 @@ forall a. Maybe a
 </span><span id="line-40"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Blank</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-41"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Ref</span></span><span> </span><span id="local-6989586621679595682"><span class="annot"><span class="annottext">Reference
-</span><a href="#local-6989586621679595682"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
+</span><span id="line-41"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Ref</span></span><span> </span><span id="local-6989586621679597495"><span class="annot"><span class="annottext">Reference
+</span><a href="#local-6989586621679597495"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Reference -&gt; LabeledDependency
 </span><span class="hs-identifier hs-var">LD.TermReference</span></span><span> </span><span class="annot"><span class="annottext">Reference
-</span><a href="#local-6989586621679595682"><span class="hs-identifier hs-var">ref</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-42"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Constructor</span></span><span> </span><span id="local-6989586621679595679"><span class="annot"><span class="annottext">ConstructorReference
-</span><a href="#local-6989586621679595679"><span class="hs-identifier hs-var">conRef</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
+</span><a href="#local-6989586621679597495"><span class="hs-identifier hs-var">ref</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-42"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Constructor</span></span><span> </span><span id="local-6989586621679597492"><span class="annot"><span class="annottext">ConstructorReference
+</span><a href="#local-6989586621679597492"><span class="hs-identifier hs-var">conRef</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ConstructorReference -&gt; ConstructorType -&gt; LabeledDependency
 </span><span class="hs-identifier hs-var">LD.ConReference</span></span><span> </span><span class="annot"><span class="annottext">ConstructorReference
-</span><a href="#local-6989586621679595679"><span class="hs-identifier hs-var">conRef</span></a></span><span> </span><span class="annot"><span class="annottext">ConstructorType
+</span><a href="#local-6989586621679597492"><span class="hs-identifier hs-var">conRef</span></a></span><span> </span><span class="annot"><span class="annottext">ConstructorType
 </span><span class="hs-identifier hs-var">CT.Data</span></span><span class="hs-special">)</span><span>
-</span><span id="line-43"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Request</span></span><span> </span><span id="local-6989586621679595675"><span class="annot"><span class="annottext">ConstructorReference
-</span><a href="#local-6989586621679595675"><span class="hs-identifier hs-var">conRef</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
+</span><span id="line-43"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Request</span></span><span> </span><span id="local-6989586621679597488"><span class="annot"><span class="annottext">ConstructorReference
+</span><a href="#local-6989586621679597488"><span class="hs-identifier hs-var">conRef</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ConstructorReference -&gt; ConstructorType -&gt; LabeledDependency
 </span><span class="hs-identifier hs-var">LD.ConReference</span></span><span> </span><span class="annot"><span class="annottext">ConstructorReference
-</span><a href="#local-6989586621679595675"><span class="hs-identifier hs-var">conRef</span></a></span><span> </span><span class="annot"><span class="annottext">ConstructorType
+</span><a href="#local-6989586621679597488"><span class="hs-identifier hs-var">conRef</span></a></span><span> </span><span class="annot"><span class="annottext">ConstructorType
 </span><span class="hs-identifier hs-var">CT.Effect</span></span><span class="hs-special">)</span><span>
-</span><span id="line-44"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Handle</span></span><span> </span><span id="local-6989586621679595672"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595672"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595671"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595671"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-44"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Handle</span></span><span> </span><span id="local-6989586621679597485"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597485"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597484"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597484"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-45"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.App</span></span><span> </span><span id="local-6989586621679595669"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595669"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595668"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595668"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-45"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.App</span></span><span> </span><span id="local-6989586621679597482"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597482"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597481"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597481"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-46"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Ann</span></span><span> </span><span id="local-6989586621679595666"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595666"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595665"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595665"><span class="hs-identifier hs-var">_typ</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-46"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Ann</span></span><span> </span><span id="local-6989586621679597479"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597479"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597478"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597478"><span class="hs-identifier hs-var">_typ</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-47"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.List</span></span><span> </span><span id="local-6989586621679595663"><span class="annot"><span class="annottext">Seq (Term v a)
-</span><a href="#local-6989586621679595663"><span class="hs-identifier hs-var">_xs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-47"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.List</span></span><span> </span><span id="local-6989586621679597476"><span class="annot"><span class="annottext">Seq (Term v a)
+</span><a href="#local-6989586621679597476"><span class="hs-identifier hs-var">_xs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-48"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.If</span></span><span> </span><span id="local-6989586621679595661"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595661"><span class="hs-identifier hs-var">_cond</span></a></span></span><span> </span><span id="local-6989586621679595660"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595660"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595659"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595659"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-48"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.If</span></span><span> </span><span id="local-6989586621679597474"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597474"><span class="hs-identifier hs-var">_cond</span></a></span></span><span> </span><span id="local-6989586621679597473"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597473"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597472"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597472"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-49"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.And</span></span><span> </span><span id="local-6989586621679595657"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595657"><span class="hs-identifier hs-var">_l</span></a></span></span><span> </span><span id="local-6989586621679595656"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595656"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-49"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.And</span></span><span> </span><span id="local-6989586621679597470"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597470"><span class="hs-identifier hs-var">_l</span></a></span></span><span> </span><span id="local-6989586621679597469"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597469"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-50"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Or</span></span><span> </span><span id="local-6989586621679595654"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595654"><span class="hs-identifier hs-var">_l</span></a></span></span><span> </span><span id="local-6989586621679595653"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595653"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-50"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Or</span></span><span> </span><span id="local-6989586621679597467"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597467"><span class="hs-identifier hs-var">_l</span></a></span></span><span> </span><span id="local-6989586621679597466"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597466"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-51"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Lam</span></span><span> </span><span id="local-6989586621679595651"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595651"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-51"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Lam</span></span><span> </span><span id="local-6989586621679597464"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597464"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-52"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.LetRec</span></span><span> </span><span id="local-6989586621679595649"><span class="annot"><span class="annottext">IsTop
-</span><a href="#local-6989586621679595649"><span class="hs-identifier hs-var">_isTop</span></a></span></span><span> </span><span id="local-6989586621679595648"><span class="annot"><span class="annottext">[Term v a]
-</span><a href="#local-6989586621679595648"><span class="hs-identifier hs-var">_xs</span></a></span></span><span> </span><span id="local-6989586621679595647"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595647"><span class="hs-identifier hs-var">_y</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-52"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.LetRec</span></span><span> </span><span id="local-6989586621679597462"><span class="annot"><span class="annottext">IsTop
+</span><a href="#local-6989586621679597462"><span class="hs-identifier hs-var">_isTop</span></a></span></span><span> </span><span id="local-6989586621679597461"><span class="annot"><span class="annottext">[Term v a]
+</span><a href="#local-6989586621679597461"><span class="hs-identifier hs-var">_xs</span></a></span></span><span> </span><span id="local-6989586621679597460"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597460"><span class="hs-identifier hs-var">_y</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-53"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Let</span></span><span> </span><span id="local-6989586621679595645"><span class="annot"><span class="annottext">IsTop
-</span><a href="#local-6989586621679595645"><span class="hs-identifier hs-var">_isTop</span></a></span></span><span> </span><span id="local-6989586621679595644"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595644"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595643"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595643"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-53"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Let</span></span><span> </span><span id="local-6989586621679597458"><span class="annot"><span class="annottext">IsTop
+</span><a href="#local-6989586621679597458"><span class="hs-identifier hs-var">_isTop</span></a></span></span><span> </span><span id="local-6989586621679597457"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597457"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597456"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597456"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-54"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Match</span></span><span> </span><span id="local-6989586621679595641"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595641"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595640"><span class="annot"><span class="annottext">[MatchCase a (Term v a)]
-</span><a href="#local-6989586621679595640"><span class="hs-identifier hs-var">_cases</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-54"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.Match</span></span><span> </span><span id="local-6989586621679597454"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597454"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597453"><span class="annot"><span class="annottext">[MatchCase a (Term v a)]
+</span><a href="#local-6989586621679597453"><span class="hs-identifier hs-var">_cases</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-55"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.TermLink</span></span><span> </span><span id="local-6989586621679595638"><span class="annot"><span class="annottext">Referent
-</span><a href="#local-6989586621679595638"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
+</span><span id="line-55"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.TermLink</span></span><span> </span><span id="local-6989586621679597451"><span class="annot"><span class="annottext">Referent
+</span><a href="#local-6989586621679597451"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Referent -&gt; LabeledDependency
 </span><span class="hs-identifier hs-var">LD.TermReferent</span></span><span> </span><span class="annot"><span class="annottext">Referent
-</span><a href="#local-6989586621679595638"><span class="hs-identifier hs-var">ref</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-56"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.TypeLink</span></span><span> </span><span id="local-6989586621679595635"><span class="annot"><span class="annottext">Reference
-</span><a href="#local-6989586621679595635"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
+</span><a href="#local-6989586621679597451"><span class="hs-identifier hs-var">ref</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-56"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Term.TypeLink</span></span><span> </span><span id="local-6989586621679597448"><span class="annot"><span class="annottext">Reference
+</span><a href="#local-6989586621679597448"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">LabeledDependency -&gt; Maybe LabeledDependency
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Reference -&gt; LabeledDependency
 </span><span class="hs-identifier hs-var">LD.TypeReference</span></span><span> </span><span class="annot"><span class="annottext">Reference
-</span><a href="#local-6989586621679595635"><span class="hs-identifier hs-var">ref</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-57"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">ABT.Var</span></span><span> </span><span id="local-6989586621679595632"><span class="annot"><span class="annottext">v
-</span><a href="#local-6989586621679595632"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><a href="#local-6989586621679597448"><span class="hs-identifier hs-var">ref</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-57"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">ABT.Var</span></span><span> </span><span id="local-6989586621679597445"><span class="annot"><span class="annottext">v
+</span><a href="#local-6989586621679597445"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-58"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">ABT.Cycle</span></span><span> </span><span id="local-6989586621679595630"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595630"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-58"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">ABT.Cycle</span></span><span> </span><span id="local-6989586621679597443"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597443"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-59"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">ABT.Abs</span></span><span> </span><span id="local-6989586621679595628"><span class="annot"><span class="annottext">v
-</span><a href="#local-6989586621679595628"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span id="local-6989586621679595627"><span class="annot"><span class="annottext">Term v a
-</span><a href="#local-6989586621679595627"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
+</span><span id="line-59"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">ABT.Abs</span></span><span> </span><span id="local-6989586621679597441"><span class="annot"><span class="annottext">v
+</span><a href="#local-6989586621679597441"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span id="local-6989586621679597440"><span class="annot"><span class="annottext">Term v a
+</span><a href="#local-6989586621679597440"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe LabeledDependency
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
 </span><span id="line-60"></span><span>
 </span><span id="line-61"></span><span class="hs-comment">-- Returns the reference a given type node refers to, if any.</span><span>
-</span><span id="line-62"></span><span id="local-6989586621679595704"><span id="local-6989586621679595705"><span class="annot"><a href="Unison.LSP.Queries.html#refInType"><span class="hs-identifier hs-type">refInType</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><a href="#local-6989586621679595705"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679595704"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">TypeReference</span></span></span></span><span>
+</span><span id="line-62"></span><span id="local-6989586621679597517"><span id="local-6989586621679597518"><span class="annot"><a href="Unison.LSP.Queries.html#refInType"><span class="hs-identifier hs-type">refInType</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><a href="#local-6989586621679597518"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679597517"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">TypeReference</span></span></span></span><span>
 </span><span id="line-63"></span><span id="refInType"><span class="annot"><span class="annottext">refInType :: Type v a -&gt; Maybe Reference
-</span><a href="Unison.LSP.Queries.html#refInType"><span class="hs-identifier hs-var hs-var">refInType</span></a></span></span><span> </span><span id="local-6989586621679595626"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595626"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Type v a -&gt; ABT F v (Type v a)
+</span><a href="Unison.LSP.Queries.html#refInType"><span class="hs-identifier hs-var hs-var">refInType</span></a></span></span><span> </span><span id="local-6989586621679597439"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597439"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Type v a -&gt; ABT F v (Type v a)
 forall (f :: * -&gt; *) v a. Term f v a -&gt; ABT f v (Term f v a)
 </span><span class="hs-identifier hs-var hs-var">ABT.out</span></span><span> </span><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595626"><span class="hs-identifier hs-var">typ</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-64"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">ABT.Tm</span></span><span> </span><span id="local-6989586621679595625"><span class="annot"><span class="annottext">F (Type v a)
-</span><a href="#local-6989586621679595625"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">F (Type v a)
-</span><a href="#local-6989586621679595625"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-65"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Ref</span></span><span> </span><span id="local-6989586621679595623"><span class="annot"><span class="annottext">Reference
-</span><a href="#local-6989586621679595623"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Reference -&gt; Maybe Reference
+</span><a href="#local-6989586621679597439"><span class="hs-identifier hs-var">typ</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-64"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">ABT.Tm</span></span><span> </span><span id="local-6989586621679597438"><span class="annot"><span class="annottext">F (Type v a)
+</span><a href="#local-6989586621679597438"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">F (Type v a)
+</span><a href="#local-6989586621679597438"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-65"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Ref</span></span><span> </span><span id="local-6989586621679597436"><span class="annot"><span class="annottext">Reference
+</span><a href="#local-6989586621679597436"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Reference -&gt; Maybe Reference
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">Reference
-</span><a href="#local-6989586621679595623"><span class="hs-identifier hs-var">ref</span></a></span><span>
-</span><span id="line-66"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Arrow</span></span><span> </span><span id="local-6989586621679595621"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595621"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595620"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595620"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><a href="#local-6989586621679597436"><span class="hs-identifier hs-var">ref</span></a></span><span>
+</span><span id="line-66"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Arrow</span></span><span> </span><span id="local-6989586621679597434"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597434"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597433"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597433"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-67"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Effect</span></span><span> </span><span id="local-6989586621679595618"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595618"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595617"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595617"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><span id="line-67"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Effect</span></span><span> </span><span id="local-6989586621679597431"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597431"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597430"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597430"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-68"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.App</span></span><span> </span><span id="local-6989586621679595615"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595615"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595614"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595614"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><span id="line-68"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.App</span></span><span> </span><span id="local-6989586621679597428"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597428"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597427"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597427"><span class="hs-identifier hs-var">_b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-69"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Forall</span></span><span> </span><span id="local-6989586621679595612"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595612"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><span id="line-69"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Forall</span></span><span> </span><span id="local-6989586621679597425"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597425"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-70"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Ann</span></span><span> </span><span id="local-6989586621679595610"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595610"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679595609"><span class="annot"><span class="annottext">Kind
-</span><a href="#local-6989586621679595609"><span class="hs-identifier hs-var">_kind</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><span id="line-70"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Ann</span></span><span> </span><span id="local-6989586621679597423"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597423"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span id="local-6989586621679597422"><span class="annot"><span class="annottext">Kind
+</span><a href="#local-6989586621679597422"><span class="hs-identifier hs-var">_kind</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-71"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Effects</span></span><span> </span><span id="local-6989586621679595607"><span class="annot"><span class="annottext">[Type v a]
-</span><a href="#local-6989586621679595607"><span class="hs-identifier hs-var">_es</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><span id="line-71"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.Effects</span></span><span> </span><span id="local-6989586621679597420"><span class="annot"><span class="annottext">[Type v a]
+</span><a href="#local-6989586621679597420"><span class="hs-identifier hs-var">_es</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-72"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.IntroOuter</span></span><span> </span><span id="local-6989586621679595605"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595605"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><span id="line-72"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Type.IntroOuter</span></span><span> </span><span id="local-6989586621679597418"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597418"><span class="hs-identifier hs-var">_a</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-73"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">ABT.Var</span></span><span> </span><span id="local-6989586621679595604"><span class="annot"><span class="annottext">v
-</span><a href="#local-6989586621679595604"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><span id="line-73"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">ABT.Var</span></span><span> </span><span id="local-6989586621679597417"><span class="annot"><span class="annottext">v
+</span><a href="#local-6989586621679597417"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-74"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">ABT.Cycle</span></span><span> </span><span id="local-6989586621679595603"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595603"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><span id="line-74"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">ABT.Cycle</span></span><span> </span><span id="local-6989586621679597416"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597416"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-75"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">ABT.Abs</span></span><span> </span><span id="local-6989586621679595602"><span class="annot"><span class="annottext">v
-</span><a href="#local-6989586621679595602"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span id="local-6989586621679595601"><span class="annot"><span class="annottext">Type v a
-</span><a href="#local-6989586621679595601"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
+</span><span id="line-75"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">ABT.Abs</span></span><span> </span><span id="local-6989586621679597415"><span class="annot"><span class="annottext">v
+</span><a href="#local-6989586621679597415"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span id="local-6989586621679597414"><span class="annot"><span class="annottext">Type v a
+</span><a href="#local-6989586621679597414"><span class="hs-identifier hs-var">_r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe Reference
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
 </span><span id="line-76"></span><span>
@@ -229,16 +229,16 @@ forall a. Maybe a
 </span><span id="line-80"></span><span id="findSmallestEnclosingNode"><span class="annot"><span class="annottext">findSmallestEnclosingNode :: Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
-</span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var hs-var">findSmallestEnclosingNode</span></a></span></span><span> </span><span id="local-6989586621679595600"><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span></span><span> </span><span id="local-6989586621679595599"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span></span><span>
+</span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var hs-var">findSmallestEnclosingNode</span></a></span></span><span> </span><span id="local-6989586621679597413"><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span></span><span> </span><span id="local-6989586621679597412"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span></span><span>
 </span><span id="line-81"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">IsTop -&gt; IsTop
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Ann
 forall (f :: * -&gt; *) v a. Term f v a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span> </span><span class="annot"><span class="annottext">Ann -&gt; Pos -&gt; IsTop
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span> </span><span class="annot"><span class="annottext">Ann -&gt; Pos -&gt; IsTop
 </span><span class="hs-operator hs-var">`Ann.contains`</span></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
 </span><span id="line-82"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">IsTop
@@ -252,7 +252,7 @@ forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
  -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
@@ -261,88 +261,88 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span id="line-83"></span><span>      </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; ABT (F Symbol Ann Ann) Symbol (Term Symbol Ann)
 forall (f :: * -&gt; *) v a. Term f v a -&gt; ABT f v (Term f v a)
 </span><span class="hs-identifier hs-var hs-var">ABT.out</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-84"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Tm</span></span><span> </span><span id="local-6989586621679595594"><span class="annot"><span class="annottext">F Symbol Ann Ann (Term Symbol Ann)
-</span><a href="#local-6989586621679595594"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">F Symbol Ann Ann (Term Symbol Ann)
-</span><a href="#local-6989586621679595594"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-84"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Tm</span></span><span> </span><span id="local-6989586621679597407"><span class="annot"><span class="annottext">F Symbol Ann Ann (Term Symbol Ann)
+</span><a href="#local-6989586621679597407"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">F Symbol Ann Ann (Term Symbol Ann)
+</span><a href="#local-6989586621679597407"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-85"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Int</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-86"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Nat</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-87"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Float</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-88"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Boolean</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-89"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Text</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-90"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Char</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-91"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Blank</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-92"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Ref</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-93"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Constructor</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-94"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Request</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-95"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Handle</span></span><span> </span><span id="local-6989586621679595593"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595593"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595592"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595592"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-95"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Handle</span></span><span> </span><span id="local-6989586621679597406"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597406"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597405"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597405"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595593"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597406"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -350,16 +350,16 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595592"><span class="hs-identifier hs-var">b</span></a></span><span>
-</span><span id="line-96"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.App</span></span><span> </span><span id="local-6989586621679595591"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595591"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595590"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595590"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597405"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-96"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.App</span></span><span> </span><span id="local-6989586621679597404"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597404"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597403"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597403"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595591"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597404"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -367,16 +367,16 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595590"><span class="hs-identifier hs-var">b</span></a></span><span>
-</span><span id="line-97"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Ann</span></span><span> </span><span id="local-6989586621679595589"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595589"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595588"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595588"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597403"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-97"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Ann</span></span><span> </span><span id="local-6989586621679597402"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597402"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597401"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597401"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595589"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597402"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -388,10 +388,10 @@ forall a b. b -&gt; Either a b
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595588"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-98"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.List</span></span><span> </span><span id="local-6989586621679595586"><span class="annot"><span class="annottext">Seq (Term Symbol Ann)
-</span><a href="#local-6989586621679595586"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Seq (Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597401"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-98"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.List</span></span><span> </span><span id="local-6989586621679597399"><span class="annot"><span class="annottext">Seq (Term Symbol Ann)
+</span><a href="#local-6989586621679597399"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Seq (Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) (t :: * -&gt; *) a.
 (Alternative f, Foldable t) =&gt;
@@ -400,22 +400,22 @@ t (f a) -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">(Term Symbol Ann
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">(Term Symbol Ann
  -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
 -&gt; Seq (Term Symbol Ann)
 -&gt; Seq (Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Seq (Term Symbol Ann)
-</span><a href="#local-6989586621679595586"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-99"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.If</span></span><span> </span><span id="local-6989586621679595584"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595584"><span class="hs-identifier hs-var">cond</span></a></span></span><span> </span><span id="local-6989586621679595583"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595583"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595582"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595582"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597399"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-99"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.If</span></span><span> </span><span id="local-6989586621679597397"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597397"><span class="hs-identifier hs-var">cond</span></a></span></span><span> </span><span id="local-6989586621679597396"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597396"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597395"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597395"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595584"><span class="hs-identifier hs-var">cond</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597397"><span class="hs-identifier hs-var">cond</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -423,8 +423,8 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595583"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597396"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -432,16 +432,16 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595582"><span class="hs-identifier hs-var">b</span></a></span><span>
-</span><span id="line-100"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.And</span></span><span> </span><span id="local-6989586621679595581"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595581"><span class="hs-identifier hs-var">l</span></a></span></span><span> </span><span id="local-6989586621679595580"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595580"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597395"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-100"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.And</span></span><span> </span><span id="local-6989586621679597394"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597394"><span class="hs-identifier hs-var">l</span></a></span></span><span> </span><span id="local-6989586621679597393"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597393"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595581"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597394"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -449,16 +449,16 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595580"><span class="hs-identifier hs-var">r</span></a></span><span>
-</span><span id="line-101"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Or</span></span><span> </span><span id="local-6989586621679595579"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595579"><span class="hs-identifier hs-var">l</span></a></span></span><span> </span><span id="local-6989586621679595578"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595578"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597393"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><span id="line-101"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Or</span></span><span> </span><span id="local-6989586621679597392"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597392"><span class="hs-identifier hs-var">l</span></a></span></span><span> </span><span id="local-6989586621679597391"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597391"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595579"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597392"><span class="hs-identifier hs-var">l</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -466,19 +466,19 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595578"><span class="hs-identifier hs-var">r</span></a></span><span>
-</span><span id="line-102"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Lam</span></span><span> </span><span id="local-6989586621679595577"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595577"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597391"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><span id="line-102"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Lam</span></span><span> </span><span id="local-6989586621679597390"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597390"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595577"><span class="hs-identifier hs-var">a</span></a></span><span>
-</span><span id="line-103"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.LetRec</span></span><span> </span><span id="local-6989586621679595576"><span class="annot"><span class="annottext">IsTop
-</span><a href="#local-6989586621679595576"><span class="hs-identifier hs-var">_isTop</span></a></span></span><span> </span><span id="local-6989586621679595575"><span class="annot"><span class="annottext">[Term Symbol Ann]
-</span><a href="#local-6989586621679595575"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span id="local-6989586621679595574"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595574"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[Maybe (Either (Term Symbol Ann) (Type Symbol Ann))]
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597390"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-103"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.LetRec</span></span><span> </span><span id="local-6989586621679597389"><span class="annot"><span class="annottext">IsTop
+</span><a href="#local-6989586621679597389"><span class="hs-identifier hs-var">_isTop</span></a></span></span><span> </span><span id="local-6989586621679597388"><span class="annot"><span class="annottext">[Term Symbol Ann]
+</span><a href="#local-6989586621679597388"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span id="local-6989586621679597387"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597387"><span class="hs-identifier hs-var">y</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[Maybe (Either (Term Symbol Ann) (Type Symbol Ann))]
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) (t :: * -&gt; *) a.
 (Alternative f, Foldable t) =&gt;
@@ -487,13 +487,13 @@ t (f a) -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">(Term Symbol Ann
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">(Term Symbol Ann
  -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
 -&gt; [Term Symbol Ann]
 -&gt; [Maybe (Either (Term Symbol Ann) (Type Symbol Ann))]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Term Symbol Ann]
-</span><a href="#local-6989586621679595575"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597388"><span class="hs-identifier hs-var">xs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -501,17 +501,17 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595574"><span class="hs-identifier hs-var">y</span></a></span><span>
-</span><span id="line-104"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Let</span></span><span> </span><span id="local-6989586621679595573"><span class="annot"><span class="annottext">IsTop
-</span><a href="#local-6989586621679595573"><span class="hs-identifier hs-var">_isTop</span></a></span></span><span> </span><span id="local-6989586621679595572"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595572"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595571"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595571"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597387"><span class="hs-identifier hs-var">y</span></a></span><span>
+</span><span id="line-104"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Let</span></span><span> </span><span id="local-6989586621679597386"><span class="annot"><span class="annottext">IsTop
+</span><a href="#local-6989586621679597386"><span class="hs-identifier hs-var">_isTop</span></a></span></span><span> </span><span id="local-6989586621679597385"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597385"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597384"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597384"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595572"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597385"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -519,17 +519,17 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595571"><span class="hs-identifier hs-var">b</span></a></span><span>
-</span><span id="line-105"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Match</span></span><span> </span><span id="local-6989586621679595570"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595570"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595569"><span class="annot"><span class="annottext">[MatchCase Ann (Term Symbol Ann)]
-</span><a href="#local-6989586621679595569"><span class="hs-identifier hs-var">cases</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597384"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-105"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.Match</span></span><span> </span><span id="local-6989586621679597383"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597383"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597382"><span class="annot"><span class="annottext">[MatchCase Ann (Term Symbol Ann)]
+</span><a href="#local-6989586621679597382"><span class="hs-identifier hs-var">cases</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-106"></span><span>            </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595570"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597383"><span class="hs-identifier hs-var">a</span></a></span><span>
 </span><span id="line-107"></span><span>              </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
@@ -540,15 +540,15 @@ forall (f :: * -&gt; *) (t :: * -&gt; *) a.
 (Alternative f, Foldable t) =&gt;
 t (f a) -&gt; f a
 </span><span class="hs-identifier hs-var">altSum</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[MatchCase Ann (Term Symbol Ann)]
-</span><a href="#local-6989586621679595569"><span class="hs-identifier hs-var">cases</span></a></span><span> </span><span class="annot"><span class="annottext">[MatchCase Ann (Term Symbol Ann)]
+</span><a href="#local-6989586621679597382"><span class="hs-identifier hs-var">cases</span></a></span><span> </span><span class="annot"><span class="annottext">[MatchCase Ann (Term Symbol Ann)]
 -&gt; (MatchCase Ann (Term Symbol Ann)
     -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
 -&gt; [Maybe (Either (Term Symbol Ann) (Type Symbol Ann))]
 forall (f :: * -&gt; *) a b. Functor f =&gt; f a -&gt; (a -&gt; b) -&gt; f b
-</span><span class="hs-operator hs-var">&lt;&amp;&gt;</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">MatchCase</span></span><span> </span><span id="local-6989586621679595567"><span class="annot"><span class="annottext">Pattern Ann
-</span><a href="#local-6989586621679595567"><span class="hs-identifier hs-var">_pat</span></a></span></span><span> </span><span id="local-6989586621679595566"><span class="annot"><span class="annottext">Maybe (Term Symbol Ann)
-</span><a href="#local-6989586621679595566"><span class="hs-identifier hs-var">grd</span></a></span></span><span> </span><span id="local-6989586621679595565"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595565"><span class="hs-identifier hs-var">body</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe (Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
+</span><span class="hs-operator hs-var">&lt;&amp;&gt;</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">MatchCase</span></span><span> </span><span id="local-6989586621679597380"><span class="annot"><span class="annottext">Pattern Ann
+</span><a href="#local-6989586621679597380"><span class="hs-identifier hs-var">_pat</span></a></span></span><span> </span><span id="local-6989586621679597379"><span class="annot"><span class="annottext">Maybe (Term Symbol Ann)
+</span><a href="#local-6989586621679597379"><span class="hs-identifier hs-var">grd</span></a></span></span><span> </span><span id="local-6989586621679597378"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597378"><span class="hs-identifier hs-var">body</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe (Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) (t :: * -&gt; *) a.
 (Alternative f, Foldable t) =&gt;
@@ -557,13 +557,13 @@ t (f a) -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">(Term Symbol Ann
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">(Term Symbol Ann
  -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
 -&gt; Maybe (Term Symbol Ann)
 -&gt; Maybe (Maybe (Either (Term Symbol Ann) (Type Symbol Ann)))
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Maybe (Term Symbol Ann)
-</span><a href="#local-6989586621679595566"><span class="hs-identifier hs-var">grd</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+</span><a href="#local-6989586621679597379"><span class="hs-identifier hs-var">grd</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
@@ -571,45 +571,45 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595565"><span class="hs-identifier hs-var">body</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597378"><span class="hs-identifier hs-var">body</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-108"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.TermLink</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-109"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Term.TypeLink</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-110"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Var</span></span><span> </span><span id="local-6989586621679595564"><span class="annot"><span class="annottext">Symbol
-</span><a href="#local-6989586621679595564"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-110"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Var</span></span><span> </span><span id="local-6989586621679597377"><span class="annot"><span class="annottext">Symbol
+</span><a href="#local-6989586621679597377"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Either (Term Symbol Ann) (Type Symbol Ann)
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Term Symbol Ann -&gt; Either (Term Symbol Ann) (Type Symbol Ann)
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595599"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-111"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Cycle</span></span><span> </span><span id="local-6989586621679595563"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595563"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597412"><span class="hs-identifier hs-var">term</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-111"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Cycle</span></span><span> </span><span id="local-6989586621679597376"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597376"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595563"><span class="hs-identifier hs-var">r</span></a></span><span>
-</span><span id="line-112"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Abs</span></span><span> </span><span id="local-6989586621679595562"><span class="annot"><span class="annottext">Symbol
-</span><a href="#local-6989586621679595562"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span id="local-6989586621679595561"><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595561"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597376"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><span id="line-112"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Abs</span></span><span> </span><span id="local-6989586621679597375"><span class="annot"><span class="annottext">Symbol
+</span><a href="#local-6989586621679597375"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span id="local-6989586621679597374"><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597374"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos
 -&gt; Term Symbol Ann
 -&gt; Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingNode"><span class="hs-identifier hs-var">findSmallestEnclosingNode</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595600"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
-</span><a href="#local-6989586621679595561"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><a href="#local-6989586621679597413"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Term Symbol Ann
+</span><a href="#local-6989586621679597374"><span class="hs-identifier hs-var">r</span></a></span><span>
 </span><span id="line-113"></span><span>
 </span><span id="line-114"></span><span class="hs-comment">-- | Find the the node in a type which contains the specified position, but none of its</span><span>
 </span><span id="line-115"></span><span class="hs-comment">-- children contain that position.</span><span>
@@ -617,16 +617,16 @@ forall a b. a -&gt; Either a b
 </span><span id="line-117"></span><span class="hs-comment">-- that a position references.</span><span>
 </span><span id="line-118"></span><span class="annot"><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-type">findSmallestEnclosingType</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Pos</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span>
 </span><span id="line-119"></span><span id="findSmallestEnclosingType"><span class="annot"><span class="annottext">findSmallestEnclosingType :: Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
-</span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var hs-var">findSmallestEnclosingType</span></a></span></span><span> </span><span id="local-6989586621679595560"><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span></span><span> </span><span id="local-6989586621679595559"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595559"><span class="hs-identifier hs-var">typ</span></a></span></span><span>
+</span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var hs-var">findSmallestEnclosingType</span></a></span></span><span> </span><span id="local-6989586621679597373"><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span></span><span> </span><span id="local-6989586621679597372"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597372"><span class="hs-identifier hs-var">typ</span></a></span></span><span>
 </span><span id="line-120"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">IsTop -&gt; IsTop
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Type Symbol Ann -&gt; Ann
 forall (f :: * -&gt; *) v a. Term f v a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">ABT.annotation</span></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595559"><span class="hs-identifier hs-var">typ</span></a></span><span> </span><span class="annot"><span class="annottext">Ann -&gt; Pos -&gt; IsTop
+</span><a href="#local-6989586621679597372"><span class="hs-identifier hs-var">typ</span></a></span><span> </span><span class="annot"><span class="annottext">Ann -&gt; Pos -&gt; IsTop
 </span><span class="hs-operator hs-var">`Ann.contains`</span></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (Type Symbol Ann)
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
 </span><span id="line-121"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">IsTop
@@ -636,101 +636,101 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 </span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595559"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Maybe (Type Symbol Ann) -&gt; Maybe (Type Symbol Ann))
+</span><a href="#local-6989586621679597372"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Maybe (Type Symbol Ann) -&gt; Maybe (Type Symbol Ann))
 -&gt; Maybe (Type Symbol Ann) -&gt; Maybe (Type Symbol Ann)
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-122"></span><span>      </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann -&gt; ABT F Symbol (Type Symbol Ann)
 forall (f :: * -&gt; *) v a. Term f v a -&gt; ABT f v (Term f v a)
 </span><span class="hs-identifier hs-var hs-var">ABT.out</span></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595559"><span class="hs-identifier hs-var">typ</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-123"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Tm</span></span><span> </span><span id="local-6989586621679595558"><span class="annot"><span class="annottext">F (Type Symbol Ann)
-</span><a href="#local-6989586621679595558"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">F (Type Symbol Ann)
-</span><a href="#local-6989586621679595558"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679597372"><span class="hs-identifier hs-var">typ</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-123"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Tm</span></span><span> </span><span id="local-6989586621679597371"><span class="annot"><span class="annottext">F (Type Symbol Ann)
+</span><a href="#local-6989586621679597371"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">F (Type Symbol Ann)
+</span><a href="#local-6989586621679597371"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-124"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Ref</span></span><span> </span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595559"><span class="hs-identifier hs-var">typ</span></a></span><span>
-</span><span id="line-125"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Arrow</span></span><span> </span><span id="local-6989586621679595557"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595557"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595556"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595556"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597372"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-125"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Arrow</span></span><span> </span><span id="local-6989586621679597370"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597370"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597369"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597369"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595557"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597370"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Type Symbol Ann)
 -&gt; Maybe (Type Symbol Ann) -&gt; Maybe (Type Symbol Ann)
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 </span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595556"><span class="hs-identifier hs-var">b</span></a></span><span>
-</span><span id="line-126"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Effect</span></span><span> </span><span id="local-6989586621679595555"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595555"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595554"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595554"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597369"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-126"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Effect</span></span><span> </span><span id="local-6989586621679597368"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597368"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597367"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597367"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595555"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597368"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Type Symbol Ann)
 -&gt; Maybe (Type Symbol Ann) -&gt; Maybe (Type Symbol Ann)
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 </span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595554"><span class="hs-identifier hs-var">b</span></a></span><span>
-</span><span id="line-127"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.App</span></span><span> </span><span id="local-6989586621679595553"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595553"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595552"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595552"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597367"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-127"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.App</span></span><span> </span><span id="local-6989586621679597366"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597366"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597365"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597365"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595553"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597366"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe (Type Symbol Ann)
 -&gt; Maybe (Type Symbol Ann) -&gt; Maybe (Type Symbol Ann)
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 </span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595552"><span class="hs-identifier hs-var">b</span></a></span><span>
-</span><span id="line-128"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Forall</span></span><span> </span><span id="local-6989586621679595551"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595551"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597365"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><span id="line-128"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Forall</span></span><span> </span><span id="local-6989586621679597364"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597364"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595551"><span class="hs-identifier hs-var">r</span></a></span><span>
-</span><span id="line-129"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Ann</span></span><span> </span><span id="local-6989586621679595550"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595550"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679595549"><span class="annot"><span class="annottext">Kind
-</span><a href="#local-6989586621679595549"><span class="hs-identifier hs-var">_kind</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597364"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><span id="line-129"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Ann</span></span><span> </span><span id="local-6989586621679597363"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597363"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679597362"><span class="annot"><span class="annottext">Kind
+</span><a href="#local-6989586621679597362"><span class="hs-identifier hs-var">_kind</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595550"><span class="hs-identifier hs-var">a</span></a></span><span>
-</span><span id="line-130"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Effects</span></span><span> </span><span id="local-6989586621679595548"><span class="annot"><span class="annottext">[Type Symbol Ann]
-</span><a href="#local-6989586621679595548"><span class="hs-identifier hs-var">es</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[Maybe (Type Symbol Ann)] -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597363"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-130"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Effects</span></span><span> </span><span id="local-6989586621679597361"><span class="annot"><span class="annottext">[Type Symbol Ann]
+</span><a href="#local-6989586621679597361"><span class="hs-identifier hs-var">es</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[Maybe (Type Symbol Ann)] -&gt; Maybe (Type Symbol Ann)
 forall (f :: * -&gt; *) (t :: * -&gt; *) a.
 (Alternative f, Foldable t) =&gt;
 t (f a) -&gt; f a
 </span><span class="hs-identifier hs-var">altSum</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">(Type Symbol Ann -&gt; Maybe (Type Symbol Ann))
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">(Type Symbol Ann -&gt; Maybe (Type Symbol Ann))
 -&gt; [Type Symbol Ann] -&gt; [Maybe (Type Symbol Ann)]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Type Symbol Ann]
-</span><a href="#local-6989586621679595548"><span class="hs-identifier hs-var">es</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-131"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.IntroOuter</span></span><span> </span><span id="local-6989586621679595547"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595547"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597361"><span class="hs-identifier hs-var">es</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-131"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.IntroOuter</span></span><span> </span><span id="local-6989586621679597360"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597360"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595547"><span class="hs-identifier hs-var">a</span></a></span><span>
-</span><span id="line-132"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Var</span></span><span> </span><span id="local-6989586621679595546"><span class="annot"><span class="annottext">Symbol
-</span><a href="#local-6989586621679595546"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597360"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-132"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Var</span></span><span> </span><span id="local-6989586621679597359"><span class="annot"><span class="annottext">Symbol
+</span><a href="#local-6989586621679597359"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595559"><span class="hs-identifier hs-var">typ</span></a></span><span>
-</span><span id="line-133"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Cycle</span></span><span> </span><span id="local-6989586621679595545"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595545"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597372"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-133"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Cycle</span></span><span> </span><span id="local-6989586621679597358"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597358"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595545"><span class="hs-identifier hs-var">r</span></a></span><span>
-</span><span id="line-134"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Abs</span></span><span> </span><span id="local-6989586621679595544"><span class="annot"><span class="annottext">Symbol
-</span><a href="#local-6989586621679595544"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span id="local-6989586621679595543"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595543"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597358"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><span id="line-134"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">ABT.Abs</span></span><span> </span><span id="local-6989586621679597357"><span class="annot"><span class="annottext">Symbol
+</span><a href="#local-6989586621679597357"><span class="hs-identifier hs-var">_v</span></a></span></span><span> </span><span id="local-6989586621679597356"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597356"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595560"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595543"><span class="hs-identifier hs-var">r</span></a></span><span>
+</span><a href="#local-6989586621679597373"><span class="hs-identifier hs-var">pos</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597356"><span class="hs-identifier hs-var">r</span></a></span><span>
 </span><span id="line-135"></span><span>
 </span><span id="line-136"></span><span class="hs-comment">-- | Returns the type reference the given position applies to within a Decl, if any.</span><span>
 </span><span id="line-137"></span><span class="hs-comment">--</span><span>
@@ -738,15 +738,15 @@ forall a. a -&gt; Maybe a
 </span><span id="line-139"></span><span class="hs-comment">-- request signature, that type reference will be returned.</span><span>
 </span><span id="line-140"></span><span class="annot"><a href="Unison.LSP.Queries.html#refInDecl"><span class="hs-identifier hs-type">refInDecl</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Pos</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DD.Decl</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Symbol</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">TypeReference</span></span><span>
 </span><span id="line-141"></span><span id="refInDecl"><span class="annot"><span class="annottext">refInDecl :: Pos -&gt; Decl Symbol Ann -&gt; Maybe Reference
-</span><a href="Unison.LSP.Queries.html#refInDecl"><span class="hs-identifier hs-var hs-var">refInDecl</span></a></span></span><span> </span><span id="local-6989586621679595542"><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595542"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Decl Symbol Ann -&gt; DataDeclaration Symbol Ann
+</span><a href="Unison.LSP.Queries.html#refInDecl"><span class="hs-identifier hs-var hs-var">refInDecl</span></a></span></span><span> </span><span id="local-6989586621679597355"><span class="annot"><span class="annottext">Pos
+</span><a href="#local-6989586621679597355"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Decl Symbol Ann -&gt; DataDeclaration Symbol Ann
 forall v a. Decl v a -&gt; DataDeclaration v a
-</span><span class="hs-identifier hs-var">DD.asDataDecl</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621679595540"><span class="annot"><span class="annottext">DataDeclaration Symbol Ann
-</span><a href="#local-6989586621679595540"><span class="hs-identifier hs-var">dd</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span class="hs-identifier hs-var">DD.asDataDecl</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span id="local-6989586621679597353"><span class="annot"><span class="annottext">DataDeclaration Symbol Ann
+</span><a href="#local-6989586621679597353"><span class="hs-identifier hs-var">dd</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-142"></span><span>  </span><span class="annot"><span class="annottext">DataDeclaration Symbol Ann -&gt; [(Ann, Symbol, Type Symbol Ann)]
 forall v a. DataDeclaration v a -&gt; [(a, v, Type v a)]
 </span><span class="hs-identifier hs-var hs-var">DD.constructors'</span></span><span> </span><span class="annot"><span class="annottext">DataDeclaration Symbol Ann
-</span><a href="#local-6989586621679595540"><span class="hs-identifier hs-var">dd</span></a></span><span>
+</span><a href="#local-6989586621679597353"><span class="hs-identifier hs-var">dd</span></a></span><span>
 </span><span id="line-143"></span><span>    </span><span class="annot"><span class="annottext">[(Ann, Symbol, Type Symbol Ann)]
 -&gt; ([(Ann, Symbol, Type Symbol Ann)] -&gt; Maybe Reference)
 -&gt; Maybe Reference
@@ -756,20 +756,20 @@ forall a b. a -&gt; (a -&gt; b) -&gt; b
 forall (f :: * -&gt; *) (t :: * -&gt; *) a b.
 (Alternative f, Foldable t) =&gt;
 (a -&gt; f b) -&gt; t a -&gt; f b
-</span><span class="hs-identifier hs-var">altMap</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679595536"><span class="annot"><span class="annottext">Ann
-</span><a href="#local-6989586621679595536"><span class="hs-identifier hs-var">_conNameAnn</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679595535"><span class="annot"><span class="annottext">Symbol
-</span><a href="#local-6989586621679595535"><span class="hs-identifier hs-var">_v</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679595534"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595534"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-144"></span><span>      </span><span id="local-6989586621679595533"><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595533"><span class="hs-identifier hs-var">typeNode</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
+</span><span class="hs-identifier hs-var">altMap</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679597349"><span class="annot"><span class="annottext">Ann
+</span><a href="#local-6989586621679597349"><span class="hs-identifier hs-var">_conNameAnn</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679597348"><span class="annot"><span class="annottext">Symbol
+</span><a href="#local-6989586621679597348"><span class="hs-identifier hs-var">_v</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679597347"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597347"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-144"></span><span>      </span><span id="local-6989586621679597346"><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597346"><span class="hs-identifier hs-var">typeNode</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Pos -&gt; Type Symbol Ann -&gt; Maybe (Type Symbol Ann)
 </span><a href="Unison.LSP.Queries.html#findSmallestEnclosingType"><span class="hs-identifier hs-var">findSmallestEnclosingType</span></a></span><span> </span><span class="annot"><span class="annottext">Pos
-</span><a href="#local-6989586621679595542"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595534"><span class="hs-identifier hs-var">typ</span></a></span><span>
-</span><span id="line-145"></span><span>      </span><span id="local-6989586621679595532"><span class="annot"><span class="annottext">Reference
-</span><a href="#local-6989586621679595532"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann -&gt; Maybe Reference
+</span><a href="#local-6989586621679597355"><span class="hs-identifier hs-var">p</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
+</span><a href="#local-6989586621679597347"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-145"></span><span>      </span><span id="local-6989586621679597345"><span class="annot"><span class="annottext">Reference
+</span><a href="#local-6989586621679597345"><span class="hs-identifier hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann -&gt; Maybe Reference
 forall v a. Type v a -&gt; Maybe Reference
 </span><a href="Unison.LSP.Queries.html#refInType"><span class="hs-identifier hs-var">refInType</span></a></span><span> </span><span class="annot"><span class="annottext">Type Symbol Ann
-</span><a href="#local-6989586621679595533"><span class="hs-identifier hs-var">typeNode</span></a></span><span>
+</span><a href="#local-6989586621679597346"><span class="hs-identifier hs-var">typeNode</span></a></span><span>
 </span><span id="line-146"></span><span>      </span><span class="hs-identifier">pure</span><span> </span><span class="annot"><span class="annottext">Reference
-</span><a href="#local-6989586621679595532"><span class="hs-identifier hs-var">ref</span></a></span><span>
+</span><a href="#local-6989586621679597345"><span class="hs-identifier hs-var">ref</span></a></span><span>
 </span><span id="line-147"></span></pre></body></html>
