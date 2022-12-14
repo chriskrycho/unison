@@ -436,10 +436,10 @@ instance GHC.Base.Monoid (Unison.Codebase.Editor.Output.BranchDiff.MetadataDiff 
 
 module Unison.Codebase.Editor.Output.DumpNamespace
 data DumpNamespace
-DumpNamespace :: Map Referent (Set NameSegment, Set Reference) -> Map Reference (Set NameSegment, Set Reference) -> Map NameSegment EditHash -> Map NameSegment CausalHash -> Set CausalHash -> DumpNamespace
+DumpNamespace :: Map Referent (Set NameSegment, Set Reference) -> Map Reference (Set NameSegment, Set Reference) -> Map NameSegment PatchHash -> Map NameSegment CausalHash -> Set CausalHash -> DumpNamespace
 [$sel:terms:DumpNamespace] :: DumpNamespace -> Map Referent (Set NameSegment, Set Reference)
 [$sel:types:DumpNamespace] :: DumpNamespace -> Map Reference (Set NameSegment, Set Reference)
-[$sel:patches:DumpNamespace] :: DumpNamespace -> Map NameSegment EditHash
+[$sel:patches:DumpNamespace] :: DumpNamespace -> Map NameSegment PatchHash
 [$sel:children:DumpNamespace] :: DumpNamespace -> Map NameSegment CausalHash
 [$sel:causalParents:DumpNamespace] :: DumpNamespace -> Set CausalHash
 instance GHC.Show.Show Unison.Codebase.Editor.Output.DumpNamespace.DumpNamespace

@@ -26,21 +26,12 @@ UnsafeMerge :: CausalHash -> HashFor e -> e -> Map CausalHash (m (Causal m e)) -
 [$sel:valueHash:UnsafeOne] :: Causal m e -> HashFor e
 [$sel:head:UnsafeOne] :: Causal m e -> e
 [$sel:tails:UnsafeOne] :: Causal m e -> Map CausalHash (m (Causal m e))
-
--- | Represents a hash of a causal containing values of the provided type.
-newtype CausalHash
-CausalHash :: Hash -> CausalHash
-[$sel:unCausalHash:CausalHash] :: CausalHash -> Hash
 pattern One :: CausalHash -> HashFor e -> e -> Causal m e
 pattern Cons :: CausalHash -> HashFor e -> e -> (CausalHash, m (Causal m e)) -> Causal m e
 pattern Merge :: CausalHash -> HashFor e -> e -> Map CausalHash (m (Causal m e)) -> Causal m e
 before :: Monad m => Causal m e -> Causal m e -> m Bool
 predecessors :: Causal m e -> Seq (m (Causal m e))
 lca :: Monad m => Causal m e -> Causal m e -> m (Maybe (Causal m e))
-instance GHC.Generics.Generic Unison.Codebase.Causal.Type.CausalHash
-instance GHC.Classes.Ord Unison.Codebase.Causal.Type.CausalHash
-instance GHC.Classes.Eq Unison.Codebase.Causal.Type.CausalHash
-instance GHC.Show.Show Unison.Codebase.Causal.Type.CausalHash
 instance GHC.Show.Show e => GHC.Show.Show (Unison.Codebase.Causal.Type.Causal m e)
 instance GHC.Classes.Eq (Unison.Codebase.Causal.Type.Causal m a)
 instance GHC.Classes.Ord (Unison.Codebase.Causal.Type.Causal m a)
@@ -1311,11 +1302,6 @@ module Unison.Codebase.Branch.Type
 
 -- | A Hash for a namespace itself, it doesn't incorporate any history.
 type NamespaceHash m = HashFor (Branch0 m)
-
--- | Represents a hash of a causal containing values of the provided type.
-newtype CausalHash
-CausalHash :: Hash -> CausalHash
-[$sel:unCausalHash:CausalHash] :: CausalHash -> Hash
 head :: Branch m -> Branch0 m
 headHash :: Branch m -> CausalHash
 namespaceHash :: Branch m -> NamespaceHash m
@@ -1335,14 +1321,14 @@ Branch :: UnwrappedBranch m -> Branch m
 --   The remaining fields are derived from the four above. Please don't set
 --   them manually; use Branch.empty0 or Branch.branch0 to construct them.
 data Branch0 m
-Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (EditHash, m Patch) -> Bool -> Relation Referent Name -> Relation Reference Name -> R4 Referent Name -> R4 Reference Name -> Set Path -> Map Name EditHash -> Branch0 m
+Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (PatchHash, m Patch) -> Bool -> Relation Referent Name -> Relation Reference Name -> R4 Referent Name -> R4 Reference Name -> Set Path -> Map Name PatchHash -> Branch0 m
 [$sel:_terms:Branch0] :: Branch0 m -> Star Referent NameSegment
 [$sel:_types:Branch0] :: Branch0 m -> Star Reference NameSegment
 
 -- | Note the <a>Branch</a> here, not <a>Branch0</a>. Every level in the
 --   tree has a history.
 [$sel:_children:Branch0] :: Branch0 m -> Map NameSegment (Branch m)
-[$sel:_edits:Branch0] :: Branch0 m -> Map NameSegment (EditHash, m Patch)
+[$sel:_edits:Branch0] :: Branch0 m -> Map NameSegment (PatchHash, m Patch)
 
 -- | True if a branch and its children have no definitions or edits in
 --   them. (Computed recursively, and small enough to justify storing here
@@ -1353,11 +1339,10 @@ Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSe
 [$sel:deepTermMetadata:Branch0] :: Branch0 m -> R4 Referent Name
 [$sel:deepTypeMetadata:Branch0] :: Branch0 m -> R4 Reference Name
 [$sel:deepPaths:Branch0] :: Branch0 m -> Set Path
-[$sel:deepEdits:Branch0] :: Branch0 m -> Map Name EditHash
+[$sel:deepEdits:Branch0] :: Branch0 m -> Map Name PatchHash
 history :: Iso' (Branch m) (UnwrappedBranch m)
-edits :: Lens' (Branch0 m) (Map NameSegment (EditHash, m Patch))
+edits :: Lens' (Branch0 m) (Map NameSegment (PatchHash, m Patch))
 type Star r n = Star r n
-type EditHash = Hash
 type UnwrappedBranch m = Causal m (Branch0 m)
 instance GHC.Classes.Ord (Unison.Codebase.Branch.Type.Branch m)
 instance GHC.Classes.Eq (Unison.Codebase.Branch.Type.Branch m)
@@ -1387,11 +1372,6 @@ data Causal m e
 pattern One :: CausalHash -> HashFor e -> e -> Causal m e
 pattern Cons :: CausalHash -> HashFor e -> e -> (CausalHash, m (Causal m e)) -> Causal m e
 pattern Merge :: CausalHash -> HashFor e -> e -> Map CausalHash (m (Causal m e)) -> Causal m e
-
--- | Represents a hash of a causal containing values of the provided type.
-newtype CausalHash
-CausalHash :: Hash -> CausalHash
-[$sel:unCausalHash:CausalHash] :: CausalHash -> Hash
 
 -- | Focus the current head, keeping the hash up to date.
 head_ :: Hashable e => Lens' (Causal m e) e
@@ -2011,9 +1991,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2Rnh loc_a2Rni. Lens' (Env v_a2Rnh loc_a2Rni) (TypeLookup v_a2Rnh loc_a2Rni)
-termsByShortname :: forall v_a2Rnh loc_a2Rni. Lens' (Env v_a2Rnh loc_a2Rni) (Map Name [NamedReference v_a2Rnh loc_a2Rni])
-ambientAbilities :: forall v_a2Rnh loc_a2Rni. Lens' (Env v_a2Rnh loc_a2Rni) [Type v_a2Rnh loc_a2Rni]
+typeLookup :: forall v_a2Ray loc_a2Raz. Lens' (Env v_a2Ray loc_a2Raz) (TypeLookup v_a2Ray loc_a2Raz)
+termsByShortname :: forall v_a2Ray loc_a2Raz. Lens' (Env v_a2Ray loc_a2Raz) (Map Name [NamedReference v_a2Ray loc_a2Raz])
+ambientAbilities :: forall v_a2Ray loc_a2Raz. Lens' (Env v_a2Ray loc_a2Raz) [Type v_a2Ray loc_a2Raz]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -2561,13 +2541,13 @@ source :: Text
 module Unison.Codebase.SqliteCodebase.Branch.Dependencies
 type Branches m = [(CausalHash, m (Branch m))]
 data Dependencies
-Dependencies :: Set EditHash -> Set Hash -> Set Hash -> Dependencies
-[$sel:patches:Dependencies] :: Dependencies -> Set EditHash
+Dependencies :: Set PatchHash -> Set Hash -> Set Hash -> Dependencies
+[$sel:patches:Dependencies] :: Dependencies -> Set PatchHash
 [$sel:terms:Dependencies] :: Dependencies -> Set Hash
 [$sel:decls:Dependencies] :: Dependencies -> Set Hash
 data Dependencies'
-Dependencies' :: [EditHash] -> [Hash] -> [Hash] -> Dependencies'
-[$sel:patches':Dependencies'] :: Dependencies' -> [EditHash]
+Dependencies' :: [PatchHash] -> [Hash] -> [Hash] -> Dependencies'
+[$sel:patches':Dependencies'] :: Dependencies' -> [PatchHash]
 [$sel:terms':Dependencies'] :: Dependencies' -> [Hash]
 [$sel:decls':Dependencies'] :: Dependencies' -> [Hash]
 to' :: Dependencies -> Dependencies'
@@ -2638,14 +2618,14 @@ type UnwrappedBranch m = Causal m (Branch0 m)
 --   The remaining fields are derived from the four above. Please don't set
 --   them manually; use Branch.empty0 or Branch.branch0 to construct them.
 data Branch0 m
-Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (EditHash, m Patch) -> Bool -> Relation Referent Name -> Relation Reference Name -> R4 Referent Name -> R4 Reference Name -> Set Path -> Map Name EditHash -> Branch0 m
+Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (PatchHash, m Patch) -> Bool -> Relation Referent Name -> Relation Reference Name -> R4 Referent Name -> R4 Reference Name -> Set Path -> Map Name PatchHash -> Branch0 m
 [$sel:_terms:Branch0] :: Branch0 m -> Star Referent NameSegment
 [$sel:_types:Branch0] :: Branch0 m -> Star Reference NameSegment
 
 -- | Note the <a>Branch</a> here, not <a>Branch0</a>. Every level in the
 --   tree has a history.
 [$sel:_children:Branch0] :: Branch0 m -> Map NameSegment (Branch m)
-[$sel:_edits:Branch0] :: Branch0 m -> Map NameSegment (EditHash, m Patch)
+[$sel:_edits:Branch0] :: Branch0 m -> Map NameSegment (PatchHash, m Patch)
 
 -- | True if a branch and its children have no definitions or edits in
 --   them. (Computed recursively, and small enough to justify storing here
@@ -2656,17 +2636,13 @@ Branch0 :: Star Referent NameSegment -> Star Reference NameSegment -> Map NameSe
 [$sel:deepTermMetadata:Branch0] :: Branch0 m -> R4 Referent Name
 [$sel:deepTypeMetadata:Branch0] :: Branch0 m -> R4 Reference Name
 [$sel:deepPaths:Branch0] :: Branch0 m -> Set Path
-[$sel:deepEdits:Branch0] :: Branch0 m -> Map Name EditHash
+[$sel:deepEdits:Branch0] :: Branch0 m -> Map Name PatchHash
 data Raw
 type Star r n = Star r n
 
 -- | A Hash for a namespace itself, it doesn't incorporate any history.
 type NamespaceHash m = HashFor (Branch0 m)
-
--- | Represents a hash of a causal containing values of the provided type.
-data CausalHash
-type EditHash = Hash
-branch0 :: forall m. Star Referent NameSegment -> Star TypeReference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (EditHash, m Patch) -> Branch0 m
+branch0 :: forall m. Star Referent NameSegment -> Star TypeReference NameSegment -> Map NameSegment (Branch m) -> Map NameSegment (PatchHash, m Patch) -> Branch0 m
 one :: Branch0 m -> Branch m
 cons :: Applicative m => Branch0 m -> Branch m -> Branch m
 uncons :: Applicative m => Branch m -> m (Maybe (Branch0 m, Branch m))
@@ -2693,7 +2669,7 @@ nonEmptyChildren :: Branch0 m -> Map NameSegment (Branch m)
 
 -- | a version of <a>$sel:deepEdits:Branch0</a> that returns the `m Patch`
 --   as well.
-deepEdits' :: Branch0 m -> Map Name (EditHash, m Patch)
+deepEdits' :: Branch0 m -> Map Name (PatchHash, m Patch)
 
 -- | what does this do? —AI
 toList0 :: Branch0 m -> [(Path, Branch0 m)]
@@ -2775,7 +2751,7 @@ modifyAtM :: forall n m. Functor n => Applicative m => Path -> (Branch m -> n (B
 children0 :: IndexedTraversal' NameSegment (Branch0 m) (Branch0 m)
 terms :: Lens' (Branch0 m) (Star Referent NameSegment)
 types :: Lens' (Branch0 m) (Star TypeReference NameSegment)
-edits :: Lens' (Branch0 m) (Map NameSegment (EditHash, m Patch))
+edits :: Lens' (Branch0 m) (Map NameSegment (PatchHash, m Patch))
 deepReferents :: Branch0 m -> Set Referent
 deepTypeReferences :: Branch0 m -> Set TypeReference
 
@@ -2958,7 +2934,6 @@ rreferenceid2to1 :: Hash -> Id' (Maybe Hash) -> Id
 rreferenceid1to2 :: Hash -> Id -> Id' (Maybe Hash)
 branchHash1to2 :: NamespaceHash m -> BranchHash
 branchHash2to1 :: forall m. BranchHash -> NamespaceHash m
-patchHash1to2 :: EditHash -> PatchHash
 reference2to1 :: Reference -> Reference
 reference1to2 :: Reference -> Reference
 referenceid1to2 :: Id -> Id
@@ -2970,8 +2945,6 @@ referent1to2 :: Referent -> Referent
 referentid2to1 :: Applicative m => (Reference -> m ConstructorType) -> Id -> m Id
 constructorType1to2 :: ConstructorType -> ConstructorType
 constructorType2to1 :: ConstructorType -> ConstructorType
-causalHash2to1 :: CausalHash -> CausalHash
-causalHash1to2 :: CausalHash -> CausalHash
 ttype2to1 :: Type Symbol -> Type Symbol Ann
 dtype2to1 :: Hash -> Type Symbol -> Type Symbol Ann
 type2to1' :: (r -> Reference) -> TypeR r Symbol -> Type Symbol Ann
@@ -2985,8 +2958,6 @@ causalbranch2to1' :: Monad m => BranchCache m -> (Reference -> m ConstructorType
 causalbranch1to2 :: forall m. Monad m => Branch m -> CausalBranch m
 patch2to1 :: Patch -> Patch
 patch1to2 :: Patch -> Patch
-edithash2to1 :: PatchHash -> EditHash
-edithash1to2 :: EditHash -> PatchHash
 namesegment2to1 :: NameSegment -> NameSegment
 namesegment1to2 :: NameSegment -> NameSegment
 branch2to1 :: Monad m => BranchCache m -> (Reference -> m ConstructorType) -> Branch m -> m (Branch0 m)
@@ -3181,15 +3152,15 @@ putBranch :: Branch Transaction -> Transaction ()
 
 -- | Check whether the given branch exists in the codebase.
 branchExists :: CausalHash -> Transaction Bool
-getPatch :: EditHash -> Transaction (Maybe Patch)
+getPatch :: PatchHash -> Transaction (Maybe Patch)
 
 -- | Put a patch into the codebase.
 --   
 --   Note that <a>putBranch</a> may also put patches.
-putPatch :: EditHash -> Patch -> Transaction ()
+putPatch :: PatchHash -> Patch -> Transaction ()
 
 -- | Check whether the given patch exists in the codebase.
-patchExists :: EditHash -> Transaction Bool
+patchExists :: PatchHash -> Transaction Bool
 dependentsImpl :: DependentsSelector -> Reference -> Transaction (Set Id)
 dependentsOfComponentImpl :: Hash -> Transaction (Set Id)
 
@@ -3233,7 +3204,6 @@ referentsByPrefix :: (Reference -> Transaction ConstructorType) -> ShortHash -> 
 
 -- | Get the set of branches whose hash matches the given prefix.
 causalHashesByPrefix :: ShortCausalHash -> Transaction (Set CausalHash)
-sqlLca :: CausalHash -> CausalHash -> Transaction (Maybe CausalHash)
 termExists :: Hash -> Transaction Bool
 declExists :: Hash -> Transaction Bool
 before :: CausalHash -> CausalHash -> Transaction Bool
@@ -3455,13 +3425,13 @@ expectRootCausalHash :: Transaction CausalHash
 namesAtPath :: Path -> Path -> Transaction ScopedNames
 
 -- | Check whether the given patch exists in the codebase.
-patchExists :: EditHash -> Transaction Bool
-getPatch :: EditHash -> Transaction (Maybe Patch)
+patchExists :: PatchHash -> Transaction Bool
+getPatch :: PatchHash -> Transaction (Maybe Patch)
 
 -- | Put a patch into the codebase.
 --   
 --   Note that <a>putBranch</a> may also put patches.
-putPatch :: EditHash -> Patch -> Transaction ()
+putPatch :: PatchHash -> Patch -> Transaction ()
 
 -- | <tt>getWatch k r</tt> returns watch result <tt>t</tt> that was
 --   previously put by <tt>putWatch k r t</tt>.

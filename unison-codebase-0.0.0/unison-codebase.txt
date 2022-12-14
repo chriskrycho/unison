@@ -15,38 +15,6 @@ Causal :: hc -> he -> Map hc (m (Causal m hc he e)) -> m e -> Causal m hc he e
 hoist :: Functor n => (forall x. m x -> n x) -> Causal m hc he e -> Causal n hc he e
 instance GHC.Base.Functor m => GHC.Base.Functor (U.Codebase.Causal.Causal m hc he)
 
-module U.Codebase.HashTags
-newtype BranchHash
-BranchHash :: Hash -> BranchHash
-[unBranchHash] :: BranchHash -> Hash
-newtype CausalHash
-CausalHash :: Hash -> CausalHash
-[unCausalHash] :: CausalHash -> Hash
-newtype EditHash
-EditHash :: Hash -> EditHash
-[unEditHash] :: EditHash -> Hash
-newtype PatchHash
-PatchHash :: Hash -> PatchHash
-[unPatchHash] :: PatchHash -> Hash
-newtype DefnHash
-DefnHash :: Hash -> DefnHash
-[unDefnHash] :: DefnHash -> Hash
-instance GHC.Classes.Ord U.Codebase.HashTags.BranchHash
-instance GHC.Classes.Eq U.Codebase.HashTags.BranchHash
-instance GHC.Classes.Ord U.Codebase.HashTags.CausalHash
-instance GHC.Classes.Eq U.Codebase.HashTags.CausalHash
-instance GHC.Classes.Ord U.Codebase.HashTags.EditHash
-instance GHC.Classes.Eq U.Codebase.HashTags.EditHash
-instance GHC.Classes.Ord U.Codebase.HashTags.PatchHash
-instance GHC.Classes.Eq U.Codebase.HashTags.PatchHash
-instance GHC.Classes.Ord U.Codebase.HashTags.DefnHash
-instance GHC.Classes.Eq U.Codebase.HashTags.DefnHash
-instance GHC.Show.Show U.Codebase.HashTags.DefnHash
-instance GHC.Show.Show U.Codebase.HashTags.PatchHash
-instance GHC.Show.Show U.Codebase.HashTags.EditHash
-instance GHC.Show.Show U.Codebase.HashTags.CausalHash
-instance GHC.Show.Show U.Codebase.HashTags.BranchHash
-
 module U.Codebase.Kind
 data Kind
 Star :: Kind
@@ -359,7 +327,6 @@ MdValues :: Map MetadataValue MetadataType -> MdValues
 newtype NameSegment
 NameSegment :: Text -> NameSegment
 [unNameSegment] :: NameSegment -> Text
-data CausalHash
 
 -- | Useful statistics about a namespace. All contained statistics should
 --   be <tt>static</tt>, i.e. they can be computed when a branch is first

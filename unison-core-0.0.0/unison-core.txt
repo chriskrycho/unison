@@ -5,6 +5,28 @@
 @package unison-core
 @version 0.0.0
 
+module U.Codebase.HashTags
+newtype BranchHash
+BranchHash :: Hash -> BranchHash
+[unBranchHash] :: BranchHash -> Hash
+
+-- | Represents a hash of a causal containing values of the provided type.
+newtype CausalHash
+CausalHash :: Hash -> CausalHash
+[unCausalHash] :: CausalHash -> Hash
+newtype PatchHash
+PatchHash :: Hash -> PatchHash
+[unPatchHash] :: PatchHash -> Hash
+instance GHC.Classes.Ord U.Codebase.HashTags.BranchHash
+instance GHC.Classes.Eq U.Codebase.HashTags.BranchHash
+instance GHC.Classes.Ord U.Codebase.HashTags.CausalHash
+instance GHC.Classes.Eq U.Codebase.HashTags.CausalHash
+instance GHC.Classes.Ord U.Codebase.HashTags.PatchHash
+instance GHC.Classes.Eq U.Codebase.HashTags.PatchHash
+instance GHC.Show.Show U.Codebase.HashTags.PatchHash
+instance GHC.Show.Show U.Codebase.HashTags.CausalHash
+instance GHC.Show.Show U.Codebase.HashTags.BranchHash
+
 module U.Core.ABT.Var
 
 -- | A class for avoiding accidental variable capture
