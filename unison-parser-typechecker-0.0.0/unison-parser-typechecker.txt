@@ -275,6 +275,13 @@ instance Unison.Name.Convert Unison.Codebase.Path.Path [Unison.NameSegment.NameS
 instance Unison.Name.Convert (path, Unison.NameSegment.NameSegment) (path, Unison.HashQualified'.HQSegment)
 instance Unison.Name.Convert path0 path1 => Unison.Name.Convert (path0, name) (path1, name)
 
+module U.Codebase.Projects
+libSegment :: NameSegment
+
+-- | Infers path to use for loading names. Currently this means finding the
+--   closest parent with a "lib" child.
+inferNamesRoot :: Path -> Branch Transaction -> Transaction (Maybe Path)
+
 module Unison.Codebase.Path.Parse
 parsePath' :: String -> Either String Path'
 parsePathImpl' :: String -> Either String (Path', String)
@@ -2004,9 +2011,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2RiI loc_a2RiJ. Lens' (Env v_a2RiI loc_a2RiJ) (TypeLookup v_a2RiI loc_a2RiJ)
-termsByShortname :: forall v_a2RiI loc_a2RiJ. Lens' (Env v_a2RiI loc_a2RiJ) (Map Name [NamedReference v_a2RiI loc_a2RiJ])
-ambientAbilities :: forall v_a2RiI loc_a2RiJ. Lens' (Env v_a2RiI loc_a2RiJ) [Type v_a2RiI loc_a2RiJ]
+typeLookup :: forall v_a2Rnh loc_a2Rni. Lens' (Env v_a2Rnh loc_a2Rni) (TypeLookup v_a2Rnh loc_a2Rni)
+termsByShortname :: forall v_a2Rnh loc_a2Rni. Lens' (Env v_a2Rnh loc_a2Rni) (Map Name [NamedReference v_a2Rnh loc_a2Rni])
+ambientAbilities :: forall v_a2Rnh loc_a2Rni. Lens' (Env v_a2Rnh loc_a2Rni) [Type v_a2Rnh loc_a2Rni]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3237,7 +3244,7 @@ before :: CausalHash -> CausalHash -> Transaction Bool
 --   NOTE: this method requires an up-to-date name lookup index, which is
 --   currently not kept up-to-date automatically (because it's slow to do
 --   so).
-namesAtPath :: Path -> Transaction ScopedNames
+namesAtPath :: Path -> Path -> Transaction ScopedNames
 
 -- | Update the root namespace names index which is used by the share
 --   server for serving api requests.
@@ -3445,7 +3452,7 @@ expectRootCausalHash :: Transaction CausalHash
 --   NOTE: this method requires an up-to-date name lookup index, which is
 --   currently not kept up-to-date automatically (because it's slow to do
 --   so).
-namesAtPath :: Path -> Transaction ScopedNames
+namesAtPath :: Path -> Path -> Transaction ScopedNames
 
 -- | Check whether the given patch exists in the codebase.
 patchExists :: EditHash -> Transaction Bool

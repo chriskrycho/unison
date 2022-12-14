@@ -1063,11 +1063,11 @@ removeTypeNames :: [NamedRef TextReference] -> Transaction ()
 
 -- | Get the list of a term names in the root namespace according to the
 --   name lookup index
-rootTermNamesByPath :: Maybe Text -> Transaction ([NamedRef (TextReferent, Maybe ConstructorType)], [NamedRef (TextReferent, Maybe ConstructorType)])
+rootTermNamesByPath :: Maybe Text -> Transaction [NamedRef (TextReferent, Maybe ConstructorType)]
 
 -- | Get the list of a type names in the root namespace according to the
 --   name lookup index
-rootTypeNamesByPath :: Maybe Text -> Transaction ([NamedRef TextReference], [NamedRef TextReference])
+rootTypeNamesByPath :: Maybe Text -> Transaction [NamedRef TextReference]
 
 -- | Gets the count of all definitions within the given namespace. NOTE:
 --   This requires a working name lookup index.
@@ -1294,11 +1294,9 @@ updateNameIndex :: ([NamedRef (Referent, Maybe ConstructorType)], [NamedRef Refe
 --   table.
 rootNamesByPath :: Maybe Text -> Transaction NamesByPath
 data NamesByPath
-NamesByPath :: [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef Reference] -> [NamedRef Reference] -> NamesByPath
+NamesByPath :: [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef Reference] -> NamesByPath
 [$sel:termNamesInPath:NamesByPath] :: NamesByPath -> [NamedRef (Referent, Maybe ConstructorType)]
-[$sel:termNamesExternalToPath:NamesByPath] :: NamesByPath -> [NamedRef (Referent, Maybe ConstructorType)]
 [$sel:typeNamesInPath:NamesByPath] :: NamesByPath -> [NamedRef Reference]
-[$sel:typeNamesExternalToPath:NamesByPath] :: NamesByPath -> [NamedRef Reference]
 
 -- | Gets the specified number of reflog entries in chronological order,
 --   most recent first.
