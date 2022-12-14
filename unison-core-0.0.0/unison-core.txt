@@ -110,3 +110,35 @@ instance GHC.Base.Functor f => GHC.Base.Functor (U.Core.ABT.Term f v)
 instance (Data.Foldable.Foldable f, GHC.Base.Functor f, forall a1. GHC.Classes.Eq a1 => GHC.Classes.Eq (f a1), U.Core.ABT.Var.Var v) => GHC.Classes.Eq (U.Core.ABT.Term f v a)
 instance (forall a1. GHC.Classes.Eq a1 => GHC.Classes.Eq (f a1), Data.Foldable.Foldable f, GHC.Base.Functor f, forall a1. GHC.Classes.Ord a1 => GHC.Classes.Ord (f a1), U.Core.ABT.Var.Var v) => GHC.Classes.Ord (U.Core.ABT.Term f v a)
 instance (forall a1. GHC.Show.Show a1 => GHC.Show.Show (f a1), GHC.Show.Show v) => GHC.Show.Show (U.Core.ABT.Term f v a)
+
+module Unison.Util.Alphabetical
+class Eq n => Alphabetical n
+compareAlphabetical :: Alphabetical n => n -> n -> Ordering
+newtype OrderAlphabetically a
+OrderAlphabetically :: a -> OrderAlphabetically a
+instance GHC.Classes.Eq a => GHC.Classes.Eq (Unison.Util.Alphabetical.OrderAlphabetically a)
+instance Data.Foldable.Foldable Unison.Util.Alphabetical.OrderAlphabetically
+instance Data.Traversable.Traversable Unison.Util.Alphabetical.OrderAlphabetically
+instance GHC.Base.Functor Unison.Util.Alphabetical.OrderAlphabetically
+instance (GHC.Classes.Eq a, Unison.Util.Alphabetical.Alphabetical a) => GHC.Classes.Ord (Unison.Util.Alphabetical.OrderAlphabetically a)
+instance Unison.Util.Alphabetical.Alphabetical a => Unison.Util.Alphabetical.Alphabetical [a]
+instance Unison.Util.Alphabetical.Alphabetical a => Unison.Util.Alphabetical.Alphabetical (GHC.Base.NonEmpty a)
+instance Unison.Util.Alphabetical.Alphabetical a => Unison.Util.Alphabetical.Alphabetical (GHC.Maybe.Maybe a)
+instance Unison.Util.Alphabetical.Alphabetical Data.Text.Internal.Text
+
+module Unison.NameSegment
+newtype NameSegment
+NameSegment :: Text -> NameSegment
+[toText] :: NameSegment -> Text
+segments' :: Text -> [Text]
+reverseSegments' :: Text -> [Text]
+isEmpty :: NameSegment -> Bool
+isPrefixOf :: NameSegment -> NameSegment -> Bool
+toString :: NameSegment -> String
+toTextBuilder :: NameSegment -> Builder
+instance GHC.Show.Show Unison.NameSegment.NameSegment
+instance GHC.Generics.Generic Unison.NameSegment.NameSegment
+instance GHC.Classes.Ord Unison.NameSegment.NameSegment
+instance GHC.Classes.Eq Unison.NameSegment.NameSegment
+instance Unison.Util.Alphabetical.Alphabetical Unison.NameSegment.NameSegment
+instance Data.String.IsString Unison.NameSegment.NameSegment

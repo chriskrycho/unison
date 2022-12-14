@@ -5,6 +5,66 @@
 @package unison-parser-typechecker
 @version 0.0.0
 
+module U.Codebase.Branch.Diff
+
+-- | A tree of local diffs. Each node of the tree contains the definition
+--   diffs at that path.
+newtype TreeDiff
+TreeDiff :: Cofree (Map NameSegment) DefinitionDiffs -> TreeDiff
+[$sel:unTreeDiff:TreeDiff] :: TreeDiff -> Cofree (Map NameSegment) DefinitionDiffs
+
+-- | A summary of a <a>TreeDiff</a>, containing all names added and
+--   removed. Note that there isn't a clear notion of a name "changing"
+--   since conflicts might muddy the notion by having multiple copies of
+--   both the from and to names, so we just talk about adds and removals
+--   instead.
+data NameChanges
+NameChanges :: [(Name, Referent)] -> [(Name, Referent)] -> [(Name, Reference)] -> [(Name, Reference)] -> NameChanges
+[$sel:termNameAdds:NameChanges] :: NameChanges -> [(Name, Referent)]
+[$sel:termNameRemovals:NameChanges] :: NameChanges -> [(Name, Referent)]
+[$sel:typeNameAdds:NameChanges] :: NameChanges -> [(Name, Reference)]
+[$sel:typeNameRemovals:NameChanges] :: NameChanges -> [(Name, Reference)]
+
+-- | Represents the changes to definitions at a given path, not including
+--   child paths.
+--   
+--   Note: doesn't yet include any info on metadata or patch diffs. Feel
+--   free to add it.
+data DefinitionDiffs
+DefinitionDiffs :: Map NameSegment (Diff Referent) -> Map NameSegment (Diff Reference) -> DefinitionDiffs
+[$sel:termDiffs:DefinitionDiffs] :: DefinitionDiffs -> Map NameSegment (Diff Referent)
+[$sel:typeDiffs:DefinitionDiffs] :: DefinitionDiffs -> Map NameSegment (Diff Reference)
+data Diff a
+Diff :: Set a -> Set a -> Diff a
+[$sel:adds:Diff] :: Diff a -> Set a
+[$sel:removals:Diff] :: Diff a -> Set a
+
+-- | Diff two Branches, returning a tree containing all of the changes
+diffBranches :: forall m. Monad m => Branch m -> Branch m -> m TreeDiff
+
+-- | Get a summary of all of the name adds and removals from a tree diff.
+--   
+--   The provided name will be prepended to all names in the output diff,
+--   and can be useful if diffing branches at a specific sub-tree, but you
+--   can pass <a>Nothing</a> if you're diffing from the root.
+nameChanges :: Maybe Name -> TreeDiff -> NameChanges
+instance GHC.Classes.Ord a => GHC.Classes.Ord (U.Codebase.Branch.Diff.Diff a)
+instance GHC.Classes.Eq a => GHC.Classes.Eq (U.Codebase.Branch.Diff.Diff a)
+instance GHC.Show.Show a => GHC.Show.Show (U.Codebase.Branch.Diff.Diff a)
+instance GHC.Classes.Ord U.Codebase.Branch.Diff.DefinitionDiffs
+instance GHC.Classes.Eq U.Codebase.Branch.Diff.DefinitionDiffs
+instance GHC.Show.Show U.Codebase.Branch.Diff.DefinitionDiffs
+instance GHC.Classes.Ord U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Classes.Eq U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Show.Show U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Base.Semigroup U.Codebase.Branch.Diff.NameChanges
+instance GHC.Base.Monoid U.Codebase.Branch.Diff.NameChanges
+instance GHC.Base.Semigroup U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Base.Monoid U.Codebase.Branch.Diff.TreeDiff
+instance Control.Lens.Empty.AsEmpty U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Base.Semigroup U.Codebase.Branch.Diff.DefinitionDiffs
+instance GHC.Base.Monoid U.Codebase.Branch.Diff.DefinitionDiffs
+
 module Unison.Codebase.BuiltinAnnotation
 class BuiltinAnnotation a
 builtinAnnotation :: BuiltinAnnotation a => a
@@ -1991,9 +2051,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2Ray loc_a2Raz. Lens' (Env v_a2Ray loc_a2Raz) (TypeLookup v_a2Ray loc_a2Raz)
-termsByShortname :: forall v_a2Ray loc_a2Raz. Lens' (Env v_a2Ray loc_a2Raz) (Map Name [NamedReference v_a2Ray loc_a2Raz])
-ambientAbilities :: forall v_a2Ray loc_a2Raz. Lens' (Env v_a2Ray loc_a2Raz) [Type v_a2Ray loc_a2Raz]
+typeLookup :: forall v_a2Up4 loc_a2Up5. Lens' (Env v_a2Up4 loc_a2Up5) (TypeLookup v_a2Up4 loc_a2Up5)
+termsByShortname :: forall v_a2Up4 loc_a2Up5. Lens' (Env v_a2Up4 loc_a2Up5) (Map Name [NamedReference v_a2Up4 loc_a2Up5])
+ambientAbilities :: forall v_a2Up4 loc_a2Up5. Lens' (Env v_a2Up4 loc_a2Up5) [Type v_a2Up4 loc_a2Up5]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -2958,8 +3018,6 @@ causalbranch2to1' :: Monad m => BranchCache m -> (Reference -> m ConstructorType
 causalbranch1to2 :: forall m. Monad m => Branch m -> CausalBranch m
 patch2to1 :: Patch -> Patch
 patch1to2 :: Patch -> Patch
-namesegment2to1 :: NameSegment -> NameSegment
-namesegment1to2 :: NameSegment -> NameSegment
 branch2to1 :: Monad m => BranchCache m -> (Reference -> m ConstructorType) -> Branch m -> m (Branch0 m)
 
 -- | Generates a v1 short hash from a v2 referent. Also shortens the hash
@@ -2971,66 +3029,6 @@ referent2toshorthash1 :: Maybe Int -> Referent -> ShortHash
 --   to the provided length. If <a>Nothing</a>, it will include the full
 --   length hash.
 reference2toshorthash1 :: Maybe Int -> Reference -> ShortHash
-
-module U.Codebase.Branch.Diff
-
--- | A tree of local diffs. Each node of the tree contains the definition
---   diffs at that path.
-newtype TreeDiff
-TreeDiff :: Cofree (Map NameSegment) DefinitionDiffs -> TreeDiff
-[$sel:unTreeDiff:TreeDiff] :: TreeDiff -> Cofree (Map NameSegment) DefinitionDiffs
-
--- | A summary of a <a>TreeDiff</a>, containing all names added and
---   removed. Note that there isn't a clear notion of a name "changing"
---   since conflicts might muddy the notion by having multiple copies of
---   both the from and to names, so we just talk about adds and removals
---   instead.
-data NameChanges
-NameChanges :: [(Name, Referent)] -> [(Name, Referent)] -> [(Name, Reference)] -> [(Name, Reference)] -> NameChanges
-[$sel:termNameAdds:NameChanges] :: NameChanges -> [(Name, Referent)]
-[$sel:termNameRemovals:NameChanges] :: NameChanges -> [(Name, Referent)]
-[$sel:typeNameAdds:NameChanges] :: NameChanges -> [(Name, Reference)]
-[$sel:typeNameRemovals:NameChanges] :: NameChanges -> [(Name, Reference)]
-
--- | Represents the changes to definitions at a given path, not including
---   child paths.
---   
---   Note: doesn't yet include any info on metadata or patch diffs. Feel
---   free to add it.
-data DefinitionDiffs
-DefinitionDiffs :: Map NameSegment (Diff Referent) -> Map NameSegment (Diff Reference) -> DefinitionDiffs
-[$sel:termDiffs:DefinitionDiffs] :: DefinitionDiffs -> Map NameSegment (Diff Referent)
-[$sel:typeDiffs:DefinitionDiffs] :: DefinitionDiffs -> Map NameSegment (Diff Reference)
-data Diff a
-Diff :: Set a -> Set a -> Diff a
-[$sel:adds:Diff] :: Diff a -> Set a
-[$sel:removals:Diff] :: Diff a -> Set a
-
--- | Diff two Branches, returning a tree containing all of the changes
-diffBranches :: forall m. Monad m => Branch m -> Branch m -> m TreeDiff
-
--- | Get a summary of all of the name adds and removals from a tree diff.
---   
---   The provided name will be prepended to all names in the output diff,
---   and can be useful if diffing branches at a specific sub-tree, but you
---   can pass <a>Nothing</a> if you're diffing from the root.
-nameChanges :: Maybe Name -> TreeDiff -> NameChanges
-instance GHC.Classes.Ord a => GHC.Classes.Ord (U.Codebase.Branch.Diff.Diff a)
-instance GHC.Classes.Eq a => GHC.Classes.Eq (U.Codebase.Branch.Diff.Diff a)
-instance GHC.Show.Show a => GHC.Show.Show (U.Codebase.Branch.Diff.Diff a)
-instance GHC.Classes.Ord U.Codebase.Branch.Diff.DefinitionDiffs
-instance GHC.Classes.Eq U.Codebase.Branch.Diff.DefinitionDiffs
-instance GHC.Show.Show U.Codebase.Branch.Diff.DefinitionDiffs
-instance GHC.Classes.Ord U.Codebase.Branch.Diff.TreeDiff
-instance GHC.Classes.Eq U.Codebase.Branch.Diff.TreeDiff
-instance GHC.Show.Show U.Codebase.Branch.Diff.TreeDiff
-instance GHC.Base.Semigroup U.Codebase.Branch.Diff.NameChanges
-instance GHC.Base.Monoid U.Codebase.Branch.Diff.NameChanges
-instance GHC.Base.Semigroup U.Codebase.Branch.Diff.TreeDiff
-instance GHC.Base.Monoid U.Codebase.Branch.Diff.TreeDiff
-instance Control.Lens.Empty.AsEmpty U.Codebase.Branch.Diff.TreeDiff
-instance GHC.Base.Semigroup U.Codebase.Branch.Diff.DefinitionDiffs
-instance GHC.Base.Monoid U.Codebase.Branch.Diff.DefinitionDiffs
 
 module Unison.Codebase.BranchUtil
 

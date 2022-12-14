@@ -324,9 +324,6 @@ type MetadataValue = Reference
 newtype MdValues
 MdValues :: Map MetadataValue MetadataType -> MdValues
 [unMdValues] :: MdValues -> Map MetadataValue MetadataType
-newtype NameSegment
-NameSegment :: Text -> NameSegment
-[unNameSegment] :: NameSegment -> Text
 
 -- | Useful statistics about a namespace. All contained statistics should
 --   be <tt>static</tt>, i.e. they can be computed when a branch is first
@@ -358,9 +355,6 @@ termMetadata :: Monad m => Branch m -> NameSegment -> Maybe Referent -> m [Map M
 --   that name.
 typeMetadata :: Monad m => Branch m -> NameSegment -> Maybe Reference -> m [Map MetadataValue MetadataType]
 empty :: Branch m
-instance GHC.Show.Show U.Codebase.Branch.Type.NameSegment
-instance GHC.Classes.Ord U.Codebase.Branch.Type.NameSegment
-instance GHC.Classes.Eq U.Codebase.Branch.Type.NameSegment
 instance GHC.Show.Show U.Codebase.Branch.Type.MdValues
 instance GHC.Classes.Ord U.Codebase.Branch.Type.MdValues
 instance GHC.Classes.Eq U.Codebase.Branch.Type.MdValues
