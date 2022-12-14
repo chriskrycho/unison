@@ -143,6 +143,25 @@ AuthorInfo :: (Id, Term v a, Type v a) -> AuthorInfo v a
 [$sel:guid:AuthorInfo, $sel:author:AuthorInfo, $sel:copyrightHolder:AuthorInfo] :: AuthorInfo v a -> (Id, Term v a, Type v a)
 createAuthorInfo :: forall m v a. MonadIO m => Var v => a -> Text -> m (AuthorInfo v a)
 
+module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
+
+-- | Check the dependencies of all types, terms, and metadata in the
+--   current namespace, returns a map of dependencies which do not have a
+--   name within the current namespace, alongside the names of all of that
+--   thing's dependents.
+--   
+--   This is non-transitive, i.e. only the first layer of external
+--   dependencies is returned.
+--   
+--   So if my namespace depends on .base.Bag.map; which depends on
+--   base.Map.mapKeys, only .base.Bag.map is returned unless some other
+--   definition inside my namespace depends on base.Map.mapKeys directly.
+--   
+--   Returns a Set of names rather than using the PPE since we already have
+--   the correct names in scope on this branch, and also want to list ALL
+--   names of dependents, including aliases.
+namespaceDependencies :: Codebase m Symbol a -> Branch0 m -> Transaction (Map LabeledDependency (Set Name))
+
 module Unison.Codebase.Editor.Input
 data Input
 ForkLocalBranchI :: Either ShortCausalHash Path' -> Path' -> Input
@@ -1744,25 +1763,6 @@ instance Control.Monad.IO.Class.MonadIO Unison.Cli.Monad.Cli
 instance Control.Monad.Reader.Class.MonadReader Unison.Cli.Monad.Env Unison.Cli.Monad.Cli
 instance Control.Monad.State.Class.MonadState Unison.Cli.Monad.LoopState Unison.Cli.Monad.Cli
 instance GHC.Base.Functor f => GHC.OverloadedLabels.IsLabel "currentPath" ((Unison.Codebase.Path.Absolute -> f Unison.Codebase.Path.Absolute) -> Unison.Cli.Monad.LoopState -> f Unison.Cli.Monad.LoopState)
-
-module Unison.Codebase.Editor.HandleInput.NamespaceDependencies
-
--- | Check the dependencies of all types, terms, and metadata in the
---   current namespace, returns a map of dependencies which do not have a
---   name within the current namespace, alongside the names of all of that
---   thing's dependents.
---   
---   This is non-transitive, i.e. only the first layer of external
---   dependencies is returned.
---   
---   So if my namespace depends on .base.Bag.map; which depends on
---   base.Map.mapKeys, only .base.Bag.map is returned unless some other
---   definition inside my namespace depends on base.Map.mapKeys directly.
---   
---   Returns a Set of names rather than using the PPE since we already have
---   the correct names in scope on this branch, and also want to list ALL
---   names of dependents, including aliases.
-namespaceDependencies :: Branch0 m -> Cli (Map LabeledDependency (Set Name))
 
 module Unison.Codebase.Editor.HandleInput.AuthLogin
 

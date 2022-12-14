@@ -2795,14 +2795,14 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> m (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> m (Branch m) -> (Text -> Branch m -> m ()) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> Id -> Transaction (Maybe (Term v a))) -> (Reference -> Transaction (Set Id)) -> (Reference -> Transaction (Set Id)) -> (ShortHash -> Transaction (Set Id)) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> Transaction (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> m (Branch m) -> (Text -> Branch m -> m ()) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> Id -> Transaction (Maybe (Term v a))) -> (Reference -> Transaction (Set Id)) -> (Reference -> Transaction (Set Id)) -> (ShortHash -> Transaction (Set Id)) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
 --   Note that it is possible to call <a>$sel:putTerm:Codebase</a>, then
 --   <a>$sel:getTerm:Codebase</a>, and receive <tt>Nothing</tt>, per the
 --   semantics of <a>$sel:putTerm:Codebase</a>.
-[$sel:getTerm:Codebase] :: Codebase m v a -> Id -> m (Maybe (Term v a))
+[$sel:getTerm:Codebase] :: Codebase m v a -> Id -> Transaction (Maybe (Term v a))
 
 -- | Get the type of a user-defined term.
 --   
@@ -3316,14 +3316,14 @@ data Codebase m v a
 --   Note that it is possible to call <a>$sel:putTerm:Codebase</a>, then
 --   <a>$sel:getTerm:Codebase</a>, and receive <tt>Nothing</tt>, per the
 --   semantics of <a>$sel:putTerm:Codebase</a>.
-($sel:getTerm:Codebase) :: Codebase m v a -> Id -> m (Maybe (Term v a))
+($sel:getTerm:Codebase) :: Codebase m v a -> Id -> Transaction (Maybe (Term v a))
 
 -- | Like <a>$sel:getTerm:Codebase</a>, for when the term is known to exist
 --   in the codebase.
-unsafeGetTerm :: (HasCallStack, Monad m) => Codebase m v a -> Id -> m (Term v a)
+unsafeGetTerm :: HasCallStack => Codebase m v a -> Id -> Transaction (Term v a)
 
 -- | Like <a>unsafeGetTerm</a>, but returns the type of the term, too.
-unsafeGetTermWithType :: (HasCallStack, MonadIO m) => Codebase m v a -> Id -> m (Term v a, Type v a)
+unsafeGetTermWithType :: HasCallStack => Codebase m v a -> Id -> Transaction (Term v a, Type v a)
 ($sel:getTermComponentWithTypes:Codebase) :: Codebase m v a -> Hash -> Transaction (Maybe [(Term v a, Type v a)])
 
 -- | Like <a>$sel:getTermComponentWithTypes:Codebase</a>, for when the term

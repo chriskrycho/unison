@@ -692,8 +692,8 @@ resolveRootBranchHashV2 :: Maybe ShortCausalHash -> Backend Transaction (CausalB
 data IncludeCycles
 IncludeCycles :: IncludeCycles
 DontIncludeCycles :: IncludeCycles
-definitionsBySuffixes :: forall m. MonadIO m => Codebase m Symbol Ann -> NameSearch -> IncludeCycles -> [HashQualified Name] -> m (DefinitionResults Symbol)
-displayTerm :: MonadIO m => Codebase m Symbol Ann -> Reference -> m (DisplayObject (Type Symbol Ann) (Term Symbol Ann))
+definitionsBySuffixes :: Codebase m Symbol Ann -> NameSearch -> IncludeCycles -> [HashQualified Name] -> Transaction (DefinitionResults Symbol)
+displayTerm :: Codebase m Symbol Ann -> Reference -> Transaction (DisplayObject (Type Symbol Ann) (Term Symbol Ann))
 displayType :: Codebase m Symbol Ann -> Reference -> Transaction (DisplayObject () (Decl Symbol Ann))
 termsToSyntax :: Var v => Ord a => Suffixify -> Width -> PrettyPrintEnvDecl -> Map Reference (DisplayObject (Type v a) (Term v a)) -> Map Reference (DisplayObject SyntaxText SyntaxText)
 typesToSyntax :: Var v => Ord a => Suffixify -> Width -> PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl v a)) -> Map Reference (DisplayObject SyntaxText SyntaxText)
