@@ -5,6 +5,13 @@
 @package unison-prelude
 @version 0.0.0
 
+module U.Util.Text
+
+-- | remove however many spaces prefix all of the lines of the input e.g.
+--   stripMargin [here| def foo: blah blah |] == [here| def foo: blah blah
+--   |]T
+stripMargin :: Text -> Text
+
 module Unison.Debug
 
 -- | Use for trace-style selective debugging. E.g. 1 + (debug Git "The
@@ -2280,6 +2287,15 @@ throwEitherMWith :: forall e e' m a. (MonadIO m, Exception e') => (e -> e') -> m
 throwExceptT :: (MonadIO m, Exception e) => ExceptT e m a -> m a
 throwExceptTWith :: (MonadIO m, Exception e') => (e -> e') -> ExceptT e m a -> m a
 
+module Unison.Util.Alternative
+whenM :: (Monad m, Alternative m) => m Bool -> a -> m a
+
+module Unison.Util.Lens
+type Field1' s a = Field1 s s a a
+type Field2' s a = Field2 s s a a
+type Field3' s a = Field3 s s a a
+type Field4' s a = Field4 s s a a
+
 
 -- | <tt>Map</tt> utilities.
 module Unison.Util.Map
@@ -2316,13 +2332,14 @@ upsert :: Ord k => (Maybe v -> v) -> k -> Map k v -> Map k v
 valuesVector :: Map k v -> Vector v
 
 module Unison.Util.Monoid
-intercalateMap :: (Foldable t, Monoid a) => a -> (b -> a) -> t b -> a
+foldMapM :: (Monad m, Foldable f, Monoid b) => (a -> m b) -> f a -> m b
 fromMaybe :: Monoid a => Maybe a -> a
-whenM :: Monoid a => Bool -> a -> a
-unlessM :: Monoid a => Bool -> a -> a
+intercalateMap :: (Foldable t, Monoid a) => a -> (b -> a) -> t b -> a
+intercalateMapM :: (Traversable t, Monad m, Monoid a) => a -> (b -> m a) -> t b -> m a
 isEmpty :: (Eq a, Monoid a) => a -> Bool
 nonEmpty :: (Eq a, Monoid a) => a -> Bool
-foldMapM :: (Monad m, Foldable f, Monoid b) => (a -> m b) -> f a -> m b
+unlessM :: Monoid a => Bool -> a -> a
+whenM :: Monoid a => Bool -> a -> a
 
 module Unison.Util.Set
 
@@ -2337,3 +2354,7 @@ symmetricDifference :: Ord a => Set a -> Set a -> Set a
 traverse :: (Applicative f, Ord b) => (a -> f b) -> Set a -> f (Set b)
 flatMap :: Ord b => (a -> Set b) -> Set a -> Set b
 filterM :: (Ord a, Monad m) => (a -> m Bool) -> Set a -> m (Set a)
+
+module Unison.Util.Timing
+time :: MonadIO m => String -> m a -> m a
+unsafeTime :: Monad m => String -> m a -> m a

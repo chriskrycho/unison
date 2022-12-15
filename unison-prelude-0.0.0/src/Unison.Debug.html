@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span id="%24maxtag_576OgkIefKp9vmzgoK8xco"><span id="%24tag2con_576OgkIefKp9vmzgoK8xco"><span id="%24con2tag_576OgkIefKp9vmzgoK8xco"></span></span></span><span class="hs-pragma">{-# LANGUAGE OverloadedStrings #-}</span><span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span id="%24maxtag_GRDOysizKPPDaA8B1bdI1K"><span id="%24tag2con_GRDOysizKPPDaA8B1bdI1K"><span id="%24con2tag_GRDOysizKPPDaA8B1bdI1K"></span></span></span><span class="hs-pragma">{-# LANGUAGE OverloadedStrings #-}</span><span>
 </span><span id="line-2"></span><span class="hs-comment">-- pTrace</span><span>
 </span><span id="line-3"></span><span class="hs-pragma">{-# OPTIONS_GHC -Wno-deprecations #-}</span><span>
 </span><span id="line-4"></span><span>
@@ -37,7 +37,7 @@
 </span><span id="line-37"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="hs-comment">-- | Useful for adding temporary debugging statements during development.</span><span>
 </span><span id="line-38"></span><span>    </span><span class="hs-comment">-- Remove uses of Debug.Temp before merging to keep things clean for the next person :)</span><span>
 </span><span id="line-39"></span><span>    </span><span id="Temp"><span class="annot"><a href="Unison.Debug.html#Temp"><span class="hs-identifier hs-var">Temp</span></a></span></span><span>
-</span><span id="line-40"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679099844"><span id="local-6989586621679099846"><span class="annot"><span class="annottext">DebugFlag -&gt; DebugFlag -&gt; Bool
+</span><span id="line-40"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679102096"><span id="local-6989586621679102098"><span class="annot"><span class="annottext">DebugFlag -&gt; DebugFlag -&gt; Bool
 (DebugFlag -&gt; DebugFlag -&gt; Bool)
 -&gt; (DebugFlag -&gt; DebugFlag -&gt; Bool) -&gt; Eq DebugFlag
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -45,7 +45,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: DebugFlag -&gt; DebugFlag -&gt; Bool
 == :: DebugFlag -&gt; DebugFlag -&gt; Bool
 $c== :: DebugFlag -&gt; DebugFlag -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679099828"><span id="local-6989586621679099830"><span id="local-6989586621679099832"><span id="local-6989586621679099834"><span id="local-6989586621679099836"><span id="local-6989586621679099838"><span id="local-6989586621679099840"><span class="annot"><span class="annottext">Eq DebugFlag
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679102080"><span id="local-6989586621679102082"><span id="local-6989586621679102084"><span id="local-6989586621679102086"><span id="local-6989586621679102088"><span id="local-6989586621679102090"><span id="local-6989586621679102092"><span class="annot"><span class="annottext">Eq DebugFlag
 Eq DebugFlag
 -&gt; (DebugFlag -&gt; DebugFlag -&gt; Ordering)
 -&gt; (DebugFlag -&gt; DebugFlag -&gt; Bool)
@@ -83,7 +83,7 @@ $c&lt; :: DebugFlag -&gt; DebugFlag -&gt; Bool
 compare :: DebugFlag -&gt; DebugFlag -&gt; Ordering
 $ccompare :: DebugFlag -&gt; DebugFlag -&gt; Ordering
 $cp1Ord :: Eq DebugFlag
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679099821"><span id="local-6989586621679099823"><span id="local-6989586621679099825"><span class="annot"><span class="annottext">Int -&gt; DebugFlag -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679102073"><span id="local-6989586621679102075"><span id="local-6989586621679102077"><span class="annot"><span class="annottext">Int -&gt; DebugFlag -&gt; ShowS
 [DebugFlag] -&gt; ShowS
 DebugFlag -&gt; String
 (Int -&gt; DebugFlag -&gt; ShowS)
@@ -98,14 +98,14 @@ show :: DebugFlag -&gt; String
 $cshow :: DebugFlag -&gt; String
 showsPrec :: Int -&gt; DebugFlag -&gt; ShowS
 $cshowsPrec :: Int -&gt; DebugFlag -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679099816"><span id="local-6989586621679099818"><span class="annot"><span class="annottext">DebugFlag
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679102068"><span id="local-6989586621679102070"><span class="annot"><span class="annottext">DebugFlag
 DebugFlag -&gt; DebugFlag -&gt; Bounded DebugFlag
 forall a. a -&gt; a -&gt; Bounded a
 maxBound :: DebugFlag
 $cmaxBound :: DebugFlag
 minBound :: DebugFlag
 $cminBound :: DebugFlag
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Bounded</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679099799"><span id="local-6989586621679099801"><span id="local-6989586621679099803"><span id="local-6989586621679099805"><span id="local-6989586621679099807"><span id="local-6989586621679099809"><span id="local-6989586621679099811"><span id="local-6989586621679099813"><span class="annot"><span class="annottext">Int -&gt; DebugFlag
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Bounded</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679102051"><span id="local-6989586621679102053"><span id="local-6989586621679102055"><span id="local-6989586621679102057"><span id="local-6989586621679102059"><span id="local-6989586621679102061"><span id="local-6989586621679102063"><span id="local-6989586621679102065"><span class="annot"><span class="annottext">Int -&gt; DebugFlag
 DebugFlag -&gt; Int
 DebugFlag -&gt; [DebugFlag]
 DebugFlag -&gt; DebugFlag
@@ -170,14 +170,14 @@ forall a. Bounded a =&gt; a
 </span><span class="hs-identifier hs-var">minBound</span></span><span> </span><span class="hs-glyph">..</span><span> </span><span class="annot"><span class="annottext">DebugFlag
 forall a. Bounded a =&gt; a
 </span><span class="hs-identifier hs-var">maxBound</span></span><span class="hs-special">]</span><span>
-</span><span id="line-48"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679099792"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099792"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[DebugFlag] -&gt; Set DebugFlag
+</span><span id="line-48"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679102044"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679102044"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[DebugFlag] -&gt; Set DebugFlag
 forall a. Ord a =&gt; [a] -&gt; Set a
 </span><span class="hs-identifier hs-var">Set.fromList</span></span><span> </span><span class="annot"><span class="annottext">([DebugFlag] -&gt; Set DebugFlag) -&gt; [DebugFlag] -&gt; Set DebugFlag
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-49"></span><span>    </span><span id="local-6989586621679099791"><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679099791"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; [Text]
+</span><span id="line-49"></span><span>    </span><span id="local-6989586621679102043"><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621679102043"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; [Text]
 </span><span class="hs-identifier hs-var">Text.splitOn</span></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;,&quot;</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; [Text]) -&gt; (String -&gt; Text) -&gt; String -&gt; [Text]
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
@@ -185,7 +185,7 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-identifier hs-var">Text.pack</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; [Text]) -&gt; String -&gt; [Text]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099792"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679102044"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-50"></span><span>    </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text
 </span><span class="hs-identifier hs-var">Text.toUpper</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Text) -&gt; (Text -&gt; Text) -&gt; Text -&gt; Text
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
@@ -193,7 +193,7 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-identifier hs-var">Text.strip</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Text) -&gt; Text -&gt; Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621679099791"><span class="hs-identifier hs-var">w</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679102043"><span class="hs-identifier hs-var">w</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-51"></span><span>      </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;AUTH&quot;</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">DebugFlag -&gt; [DebugFlag]
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
@@ -346,98 +346,98 @@ forall a. Ord a =&gt; a -&gt; Set a -&gt; Bool
 </span><span id="line-107"></span><span class="hs-comment">-- Or, use in pattern matching to view arguments.</span><span>
 </span><span id="line-108"></span><span class="hs-comment">-- E.g.</span><span>
 </span><span id="line-109"></span><span class="hs-comment">-- myFunc (debug Git &quot;argA&quot; -&gt; argA) = ...</span><span>
-</span><span id="line-110"></span><span id="local-6989586621679099774"><span class="annot"><a href="Unison.Debug.html#debug"><span class="hs-identifier hs-type">debug</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="#local-6989586621679099774"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099774"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099774"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-110"></span><span id="local-6989586621679102026"><span class="annot"><a href="Unison.Debug.html#debug"><span class="hs-identifier hs-type">debug</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="#local-6989586621679102026"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679102026"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679102026"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-111"></span><span id="debug"><span class="annot"><span class="annottext">debug :: DebugFlag -&gt; String -&gt; a -&gt; a
-</span><a href="Unison.Debug.html#debug"><span class="hs-identifier hs-var hs-var">debug</span></a></span></span><span> </span><span id="local-6989586621679099773"><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099773"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679099772"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099772"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span id="local-6989586621679099771"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679099771"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.Debug.html#debug"><span class="hs-identifier hs-var hs-var">debug</span></a></span></span><span> </span><span id="local-6989586621679102025"><span class="annot"><span class="annottext">DebugFlag
+</span><a href="#local-6989586621679102025"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679102024"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679102024"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span id="local-6989586621679102023"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679102023"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-112"></span><span>  </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">DebugFlag -&gt; Bool
 </span><a href="Unison.Debug.html#shouldDebug"><span class="hs-identifier hs-var">shouldDebug</span></a></span><span> </span><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099773"><span class="hs-identifier hs-var">flag</span></a></span><span>
+</span><a href="#local-6989586621679102025"><span class="hs-identifier hs-var">flag</span></a></span><span>
 </span><span id="line-113"></span><span>    </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">a -&gt; a
 forall a. Show a =&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">pTraceShowId</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; a -&gt; a
 forall a. String -&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">pTrace</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099772"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><a href="#local-6989586621679102024"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;:\n&quot;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679099771"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679102023"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-114"></span><span>    </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679099771"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><a href="#local-6989586621679102023"><span class="hs-identifier hs-var">a</span></a></span><span>
 </span><span id="line-115"></span><span>
 </span><span id="line-116"></span><span class="hs-comment">-- | Use for selective debug logging in monadic contexts.</span><span>
 </span><span id="line-117"></span><span class="hs-comment">-- E.g.</span><span>
 </span><span id="line-118"></span><span class="hs-comment">-- do</span><span>
 </span><span id="line-119"></span><span class="hs-comment">--   debugM Git &quot;source repo&quot; srcRepo</span><span>
 </span><span id="line-120"></span><span class="hs-comment">--   ...</span><span>
-</span><span id="line-121"></span><span id="local-6989586621679099769"><span id="local-6989586621679099770"><span class="annot"><a href="Unison.Debug.html#debugM"><span class="hs-identifier hs-type">debugM</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="#local-6989586621679099770"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621679099769"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099770"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099769"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span></span><span>
+</span><span id="line-121"></span><span id="local-6989586621679102021"><span id="local-6989586621679102022"><span class="annot"><a href="Unison.Debug.html#debugM"><span class="hs-identifier hs-type">debugM</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="#local-6989586621679102022"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621679102021"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679102022"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679102021"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span></span><span>
 </span><span id="line-122"></span><span id="debugM"><span class="annot"><span class="annottext">debugM :: DebugFlag -&gt; String -&gt; a -&gt; m ()
-</span><a href="Unison.Debug.html#debugM"><span class="hs-identifier hs-var hs-var">debugM</span></a></span></span><span> </span><span id="local-6989586621679099768"><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099768"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679099767"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099767"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span id="local-6989586621679099766"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679099766"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.Debug.html#debugM"><span class="hs-identifier hs-var hs-var">debugM</span></a></span></span><span> </span><span id="local-6989586621679102020"><span class="annot"><span class="annottext">DebugFlag
+</span><a href="#local-6989586621679102020"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679102019"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679102019"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span id="local-6989586621679102018"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679102018"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-123"></span><span>  </span><span class="annot"><span class="annottext">DebugFlag -&gt; m () -&gt; m ()
 forall (m :: * -&gt; *). Monad m =&gt; DebugFlag -&gt; m () -&gt; m ()
 </span><a href="Unison.Debug.html#whenDebug"><span class="hs-identifier hs-var">whenDebug</span></a></span><span> </span><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099768"><span class="hs-identifier hs-var">flag</span></a></span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="#local-6989586621679102020"><span class="hs-identifier hs-var">flag</span></a></span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-124"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; m ()
 forall (f :: * -&gt; *). Applicative f =&gt; String -&gt; f ()
 </span><span class="hs-identifier hs-var">pTraceM</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099767"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
+</span><a href="#local-6989586621679102019"><span class="hs-identifier hs-var">msg</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; ShowS
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;:\n&quot;</span></span><span class="hs-special">)</span><span>
 </span><span id="line-125"></span><span>    </span><span class="annot"><span class="annottext">a -&gt; m ()
 forall a (f :: * -&gt; *). (Show a, Applicative f) =&gt; a -&gt; f ()
 </span><span class="hs-identifier hs-var">pTraceShowM</span></span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679099766"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><a href="#local-6989586621679102018"><span class="hs-identifier hs-var">a</span></a></span><span>
 </span><span id="line-126"></span><span>
-</span><span id="line-127"></span><span id="local-6989586621679099765"><span class="annot"><a href="Unison.Debug.html#debugLog"><span class="hs-identifier hs-type">debugLog</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099765"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099765"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-127"></span><span id="local-6989586621679102017"><span class="annot"><a href="Unison.Debug.html#debugLog"><span class="hs-identifier hs-type">debugLog</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679102017"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679102017"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-128"></span><span id="debugLog"><span class="annot"><span class="annottext">debugLog :: DebugFlag -&gt; String -&gt; a -&gt; a
-</span><a href="Unison.Debug.html#debugLog"><span class="hs-identifier hs-var hs-var">debugLog</span></a></span></span><span> </span><span id="local-6989586621679099764"><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099764"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679099763"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099763"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.Debug.html#debugLog"><span class="hs-identifier hs-var hs-var">debugLog</span></a></span></span><span> </span><span id="local-6989586621679102016"><span class="annot"><span class="annottext">DebugFlag
+</span><a href="#local-6989586621679102016"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679102015"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679102015"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-129"></span><span>  </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">DebugFlag -&gt; Bool
 </span><a href="Unison.Debug.html#shouldDebug"><span class="hs-identifier hs-var">shouldDebug</span></a></span><span> </span><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099764"><span class="hs-identifier hs-var">flag</span></a></span><span>
+</span><a href="#local-6989586621679102016"><span class="hs-identifier hs-var">flag</span></a></span><span>
 </span><span id="line-130"></span><span>    </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">String -&gt; a -&gt; a
 forall a. String -&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">pTrace</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099763"><span class="hs-identifier hs-var">msg</span></a></span><span>
+</span><a href="#local-6989586621679102015"><span class="hs-identifier hs-var">msg</span></a></span><span>
 </span><span id="line-131"></span><span>    </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">a -&gt; a
 forall a. a -&gt; a
 </span><span class="hs-identifier hs-var">id</span></span><span>
 </span><span id="line-132"></span><span>
-</span><span id="line-133"></span><span id="local-6989586621679099761"><span class="annot"><a href="Unison.Debug.html#debugLogM"><span class="hs-identifier hs-type">debugLogM</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621679099761"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099761"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span><span>
+</span><span id="line-133"></span><span id="local-6989586621679102013"><span class="annot"><a href="Unison.Debug.html#debugLogM"><span class="hs-identifier hs-type">debugLogM</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621679102013"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679102013"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span><span>
 </span><span id="line-134"></span><span id="debugLogM"><span class="annot"><span class="annottext">debugLogM :: DebugFlag -&gt; String -&gt; m ()
-</span><a href="Unison.Debug.html#debugLogM"><span class="hs-identifier hs-var hs-var">debugLogM</span></a></span></span><span> </span><span id="local-6989586621679099760"><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099760"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679099759"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099759"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.Debug.html#debugLogM"><span class="hs-identifier hs-var hs-var">debugLogM</span></a></span></span><span> </span><span id="local-6989586621679102012"><span class="annot"><span class="annottext">DebugFlag
+</span><a href="#local-6989586621679102012"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679102011"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679102011"><span class="hs-identifier hs-var">msg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-135"></span><span>  </span><span class="annot"><span class="annottext">DebugFlag -&gt; m () -&gt; m ()
 forall (m :: * -&gt; *). Monad m =&gt; DebugFlag -&gt; m () -&gt; m ()
 </span><a href="Unison.Debug.html#whenDebug"><span class="hs-identifier hs-var">whenDebug</span></a></span><span> </span><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099760"><span class="hs-identifier hs-var">flag</span></a></span><span> </span><span class="annot"><span class="annottext">(m () -&gt; m ()) -&gt; m () -&gt; m ()
+</span><a href="#local-6989586621679102012"><span class="hs-identifier hs-var">flag</span></a></span><span> </span><span class="annot"><span class="annottext">(m () -&gt; m ()) -&gt; m () -&gt; m ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; m ()
 forall (f :: * -&gt; *). Applicative f =&gt; String -&gt; f ()
 </span><span class="hs-identifier hs-var">pTraceM</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679099759"><span class="hs-identifier hs-var">msg</span></a></span><span>
+</span><a href="#local-6989586621679102011"><span class="hs-identifier hs-var">msg</span></a></span><span>
 </span><span id="line-136"></span><span>
 </span><span id="line-137"></span><span class="hs-comment">-- | A 'when' block which is triggered if the given flag is being debugged.</span><span>
-</span><span id="line-138"></span><span id="local-6989586621679099883"><span class="annot"><a href="Unison.Debug.html#whenDebug"><span class="hs-identifier hs-type">whenDebug</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621679099883"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099883"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679099883"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span><span>
+</span><span id="line-138"></span><span id="local-6989586621679102135"><span class="annot"><a href="Unison.Debug.html#whenDebug"><span class="hs-identifier hs-type">whenDebug</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621679102135"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679102135"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679102135"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span><span>
 </span><span id="line-139"></span><span id="whenDebug"><span class="annot"><span class="annottext">whenDebug :: DebugFlag -&gt; m () -&gt; m ()
-</span><a href="Unison.Debug.html#whenDebug"><span class="hs-identifier hs-var hs-var">whenDebug</span></a></span></span><span> </span><span id="local-6989586621679099758"><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099758"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679099757"><span class="annot"><span class="annottext">m ()
-</span><a href="#local-6989586621679099757"><span class="hs-identifier hs-var">action</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="Unison.Debug.html#whenDebug"><span class="hs-identifier hs-var hs-var">whenDebug</span></a></span></span><span> </span><span id="local-6989586621679102010"><span class="annot"><span class="annottext">DebugFlag
+</span><a href="#local-6989586621679102010"><span class="hs-identifier hs-var">flag</span></a></span></span><span> </span><span id="local-6989586621679102009"><span class="annot"><span class="annottext">m ()
+</span><a href="#local-6989586621679102009"><span class="hs-identifier hs-var">action</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-140"></span><span>  </span><span class="annot"><span class="annottext">Bool -&gt; m () -&gt; m ()
 forall (f :: * -&gt; *). Applicative f =&gt; Bool -&gt; f () -&gt; f ()
 </span><span class="hs-identifier hs-var">when</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">DebugFlag -&gt; Bool
 </span><a href="Unison.Debug.html#shouldDebug"><span class="hs-identifier hs-var">shouldDebug</span></a></span><span> </span><span class="annot"><span class="annottext">DebugFlag
-</span><a href="#local-6989586621679099758"><span class="hs-identifier hs-var">flag</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">m ()
-</span><a href="#local-6989586621679099757"><span class="hs-identifier hs-var">action</span></a></span><span>
+</span><a href="#local-6989586621679102010"><span class="hs-identifier hs-var">flag</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">m ()
+</span><a href="#local-6989586621679102009"><span class="hs-identifier hs-var">action</span></a></span><span>
 </span><span id="line-141"></span><span>
 </span><span id="line-142"></span><span class="annot"><a href="Unison.Debug.html#shouldDebug"><span class="hs-identifier hs-type">shouldDebug</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Debug.html#DebugFlag"><span class="hs-identifier hs-type">DebugFlag</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
 </span><span id="line-143"></span><span id="shouldDebug"><span class="annot"><span class="annottext">shouldDebug :: DebugFlag -&gt; Bool
