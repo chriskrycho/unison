@@ -1563,6 +1563,9 @@ _Request :: Prism' (F tv ta pa a) ConstructorReference
 _Ann :: Prism' (F tv ta pa a) (a, Term F tv ta)
 _TermLink :: Prism' (F tv ta pa a) Referent
 _TypeLink :: Prism' (F tv ta pa a) Reference
+
+-- | Returns the top-level type annotation for a term if it has one.
+getTypeAnnotation :: Term v a -> Maybe (Type v a)
 type IsTop = Bool
 
 -- | Like `Term v`, but with an annotation of type <tt>a</tt> at every
