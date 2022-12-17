@@ -1687,6 +1687,9 @@ respondNumbered :: NumberedOutput -> Cli ()
 time :: String -> Cli a -> Cli a
 runTransaction :: Transaction a -> Cli a
 
+-- | Return early if a transaction returns Left.
+runEitherTransaction :: Transaction (Either Output a) -> Cli a
+
 -- | The result of calling <a>$sel:loadSource:Env</a>.
 data LoadSourceResult
 InvalidSourceNameError :: LoadSourceResult
@@ -1901,10 +1904,16 @@ resolveSplit' :: (Path', a) -> Cli (Absolute, a)
 --   branches by path are OK - the empty branch will be returned).
 resolveAbsBranchId :: AbsBranchId -> Cli (Branch IO)
 
+-- | V2 version of <tt>resolveAbsBranchId2</tt>.
+resolveAbsBranchIdV2 :: AbsBranchId -> Transaction (Either Output (Branch Transaction))
+
 -- | Resolve a <tt>BranchId</tt> to the corresponding <tt>Branch IO</tt>,
 --   or fail if no such branch hash is found. (Non-existent branches by
 --   path are OK - the empty branch will be returned).
 resolveBranchId :: BranchId -> Cli (Branch IO)
+
+-- | Resolve a <tt>BranchId</tt> to an <tt>AbsBranchId</tt>.
+resolveBranchIdToAbsBranchId :: BranchId -> Cli AbsBranchId
 
 -- | Resolve a <tt>ShortCausalHash</tt> to the corresponding <tt>Branch
 --   IO</tt>, or fail if no such branch hash is found.

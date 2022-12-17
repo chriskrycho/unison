@@ -39,6 +39,19 @@ Diff :: Set a -> Set a -> Diff a
 [$sel:adds:Diff] :: Diff a -> Set a
 [$sel:removals:Diff] :: Diff a -> Set a
 
+-- | A name-based diff for namespaces <tt>N1</tt> and <tt>N2</tt> is (for
+--   both terms and types) a relation between references, where `a R b` if:
+--   
+--   <ol>
+--   <li><tt>a</tt> has name <tt>n</tt> in <tt>N1</tt>, and <tt>b</tt> has
+--   the same name <tt>n</tt> in <tt>N2</tt></li>
+--   <li><tt>a</tt> != <tt>b</tt></li>
+--   </ol>
+data NameBasedDiff
+NameBasedDiff :: Relation Reference Reference -> Relation Reference Reference -> NameBasedDiff
+[$sel:terms:NameBasedDiff] :: NameBasedDiff -> Relation Reference Reference
+[$sel:types:NameBasedDiff] :: NameBasedDiff -> Relation Reference Reference
+
 -- | Diff two Branches, returning a tree containing all of the changes
 diffBranches :: forall m. Monad m => Branch m -> Branch m -> m TreeDiff
 
@@ -48,6 +61,9 @@ diffBranches :: forall m. Monad m => Branch m -> Branch m -> m TreeDiff
 --   and can be useful if diffing branches at a specific sub-tree, but you
 --   can pass <a>Nothing</a> if you're diffing from the root.
 nameChanges :: Maybe Name -> TreeDiff -> NameChanges
+
+-- | Get a <a>NameBasedDiff</a> from a <a>TreeDiff</a>.
+nameBasedDiff :: TreeDiff -> NameBasedDiff
 instance GHC.Classes.Ord a => GHC.Classes.Ord (U.Codebase.Branch.Diff.Diff a)
 instance GHC.Classes.Eq a => GHC.Classes.Eq (U.Codebase.Branch.Diff.Diff a)
 instance GHC.Show.Show a => GHC.Show.Show (U.Codebase.Branch.Diff.Diff a)
@@ -57,6 +73,10 @@ instance GHC.Show.Show U.Codebase.Branch.Diff.DefinitionDiffs
 instance GHC.Classes.Ord U.Codebase.Branch.Diff.TreeDiff
 instance GHC.Classes.Eq U.Codebase.Branch.Diff.TreeDiff
 instance GHC.Show.Show U.Codebase.Branch.Diff.TreeDiff
+instance GHC.Show.Show U.Codebase.Branch.Diff.NameBasedDiff
+instance GHC.Generics.Generic U.Codebase.Branch.Diff.NameBasedDiff
+instance GHC.Base.Monoid U.Codebase.Branch.Diff.NameBasedDiff
+instance GHC.Base.Semigroup U.Codebase.Branch.Diff.NameBasedDiff
 instance GHC.Base.Semigroup U.Codebase.Branch.Diff.NameChanges
 instance GHC.Base.Monoid U.Codebase.Branch.Diff.NameChanges
 instance GHC.Base.Semigroup U.Codebase.Branch.Diff.TreeDiff
@@ -2051,9 +2071,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2UoS loc_a2UoT. Lens' (Env v_a2UoS loc_a2UoT) (TypeLookup v_a2UoS loc_a2UoT)
-termsByShortname :: forall v_a2UoS loc_a2UoT. Lens' (Env v_a2UoS loc_a2UoT) (Map Name [NamedReference v_a2UoS loc_a2UoT])
-ambientAbilities :: forall v_a2UoS loc_a2UoT. Lens' (Env v_a2UoS loc_a2UoT) [Type v_a2UoS loc_a2UoT]
+typeLookup :: forall v_a2V51 loc_a2V52. Lens' (Env v_a2V51 loc_a2V52) (TypeLookup v_a2V51 loc_a2V52)
+termsByShortname :: forall v_a2V51 loc_a2V52. Lens' (Env v_a2V51 loc_a2V52) (Map Name [NamedReference v_a2V51 loc_a2V52])
+ambientAbilities :: forall v_a2V51 loc_a2V52. Lens' (Env v_a2V51 loc_a2V52) [Type v_a2V51 loc_a2V52]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.

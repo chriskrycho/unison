@@ -176,6 +176,7 @@ termRef_ :: Traversal (Referent' typeRef termRef) (Referent' typeRef termRef') t
 _Ref :: Prism (Referent' tmr tyr) (Referent' tmr' tyr) tmr tmr'
 _Con :: Prism (Referent' tmr tyr) (Referent' tmr tyr') (tyr, ConstructorId) (tyr', ConstructorId)
 toReference :: Referent -> Reference
+toTermReference :: Referent' termRef typeRef -> Maybe termRef
 type Id = Id' Hash Hash
 data Id' hTm hTp
 RefId :: Id' hTm -> Id' hTm hTp
