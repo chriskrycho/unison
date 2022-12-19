@@ -523,11 +523,16 @@ Term :: Set v -> ABT f v -> Term f v
 pattern TAbs :: Var v => v -> Term f v -> Term f v
 pattern TTm :: (Var v, Bifoldable f) => f v (Term f v) -> Term f v
 pattern TAbss :: Var v => [v] -> Term f v -> Term f v
+class (Bifoldable f, Bifunctor f) => Align f
+align :: (Align f, Applicative g) => (vl -> vr -> g vs) -> (el -> er -> g es) -> f vl el -> f vr er -> Maybe (g (f vs es))
+alpha :: Align f => Var v => Map v v -> Term f v -> Term f v -> Either (Term f v, Term f v) ()
 renames :: (Var v, Ord v, Bifunctor f, Bifoldable f) => Map v Int -> Map v v -> Term f v -> Term f v
 rename :: (Var v, Ord v, Bifunctor f, Bifoldable f) => v -> v -> Term f v -> Term f v
 transform :: (Var v, Bifunctor g, Bifoldable f, Bifoldable g) => (forall a b. f a b -> g a b) -> Term f v -> Term g v
 instance (forall a b. (GHC.Show.Show a, GHC.Show.Show b) => GHC.Show.Show (f a b), GHC.Show.Show v) => GHC.Show.Show (Unison.ABT.Normalized.ABT f v)
 instance (forall a b. (GHC.Show.Show a, GHC.Show.Show b) => GHC.Show.Show (f a b), GHC.Show.Show v) => GHC.Show.Show (Unison.ABT.Normalized.Term f v)
+instance (forall a b. (GHC.Classes.Eq a, GHC.Classes.Eq b) => GHC.Classes.Eq (f a b), Data.Bifunctor.Bifunctor f, Data.Bifoldable.Bifoldable f, U.Core.ABT.Var.Var v) => GHC.Classes.Eq (Unison.ABT.Normalized.ABT f v)
+instance (forall a b. (GHC.Classes.Eq a, GHC.Classes.Eq b) => GHC.Classes.Eq (f a b), Data.Bifunctor.Bifunctor f, Data.Bifoldable.Bifoldable f, U.Core.ABT.Var.Var v) => GHC.Classes.Eq (Unison.ABT.Normalized.Term f v)
 
 module Unison.Util.List
 multimap :: Foldable f => Ord k => f (k, v) -> Map k [v]
