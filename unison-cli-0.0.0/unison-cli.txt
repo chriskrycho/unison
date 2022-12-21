@@ -940,28 +940,6 @@ CheckAndSetPushErrorHashMismatch :: HashMismatch -> CheckAndSetPushError
 CheckAndSetPushErrorNoWritePermission :: Path -> CheckAndSetPushError
 CheckAndSetPushErrorServerMissingDependencies :: NESet Hash32 -> CheckAndSetPushError
 
--- | An error occurred while fast-forward pushing code to Unison Share.
-data FastForwardPushError
-FastForwardPushErrorNoHistory :: Path -> FastForwardPushError
-FastForwardPushErrorNoReadPermission :: Path -> FastForwardPushError
-FastForwardPushErrorNotFastForward :: Path -> FastForwardPushError
-FastForwardPushErrorNoWritePermission :: Path -> FastForwardPushError
-FastForwardPushErrorServerMissingDependencies :: NESet Hash32 -> FastForwardPushError
-FastForwardPushInvalidParentage :: Hash32 -> Hash32 -> FastForwardPushError
-
--- | An error occurred while pulling code from Unison Share.
-data PullError
-
--- | An error occurred while resolving a repo+path to a causal hash.
-PullErrorGetCausalHashByPath :: GetCausalHashByPathError -> PullError
-PullErrorNoHistoryAtPath :: Path -> PullError
-
--- | An error occurred when getting causal hash by path.
-data GetCausalHashByPathError
-
--- | The user does not have permission to read this path.
-GetCausalHashByPathErrorNoReadPermission :: Path -> GetCausalHashByPathError
-
 -- | Generic Codeserver transport errors
 data CodeserverTransportError
 DecodeFailure :: Text -> Response -> CodeserverTransportError
@@ -971,15 +949,36 @@ Timeout :: CodeserverTransportError
 Unauthenticated :: BaseUrl -> CodeserverTransportError
 UnexpectedResponse :: Response -> CodeserverTransportError
 UnreachableCodeserver :: BaseUrl -> CodeserverTransportError
+
+-- | An error occurred while fast-forward pushing code to Unison Share.
+data FastForwardPushError
+FastForwardPushErrorNoHistory :: Path -> FastForwardPushError
+FastForwardPushErrorNoReadPermission :: Path -> FastForwardPushError
+FastForwardPushErrorNotFastForward :: Path -> FastForwardPushError
+FastForwardPushErrorNoWritePermission :: Path -> FastForwardPushError
+FastForwardPushErrorServerMissingDependencies :: NESet Hash32 -> FastForwardPushError
+FastForwardPushInvalidParentage :: Hash32 -> Hash32 -> FastForwardPushError
+
+-- | An error occurred when getting causal hash by path.
+data GetCausalHashByPathError
+
+-- | The user does not have permission to read this path.
+GetCausalHashByPathErrorNoReadPermission :: Path -> GetCausalHashByPathError
+
+-- | An error occurred while pulling code from Unison Share.
+data PullError
+PullErrorNoHistoryAtPath :: Path -> PullError
+PullErrorNoReadPermission :: Path -> PullError
 data SyncError e
 TransportError :: CodeserverTransportError -> SyncError e
 SyncError :: e -> SyncError e
 instance GHC.Show.Show Unison.Share.Sync.Types.CheckAndSetPushError
 instance GHC.Show.Show Unison.Share.Sync.Types.FastForwardPushError
-instance GHC.Show.Show Unison.Share.Sync.Types.GetCausalHashByPathError
 instance GHC.Show.Show Unison.Share.Sync.Types.PullError
+instance GHC.Show.Show Unison.Share.Sync.Types.GetCausalHashByPathError
 instance GHC.Exception.Type.Exception Unison.Share.Sync.Types.CodeserverTransportError
 instance GHC.Show.Show Unison.Share.Sync.Types.CodeserverTransportError
+instance GHC.Base.Functor Unison.Share.Sync.Types.SyncError
 
 module Unison.Util.HTTP
 addRequestMiddleware :: (Request -> IO Request) -> ManagerSettings -> ManagerSettings
@@ -995,57 +994,6 @@ newAuthenticatedHTTPClient :: MonadIO m => TokenProvider -> UCMVersion -> m Auth
 -- | Newtype to delineate HTTP Managers with access-token logic.
 newtype AuthenticatedHttpClient
 AuthenticatedHttpClient :: Manager -> AuthenticatedHttpClient
-
-module Unison.Share.Sync
-
--- | Get the causal hash of a path hosted on Unison Share.
-getCausalHashByPath :: AuthenticatedHttpClient -> BaseUrl -> Path -> IO (Either GetCausalHashByPathError (Maybe HashJWT))
-
--- | An error occurred when getting causal hash by path.
-data GetCausalHashByPathError
-
--- | The user does not have permission to read this path.
-GetCausalHashByPathErrorNoReadPermission :: Path -> GetCausalHashByPathError
-
--- | Perform a check-and-set push (initially of just a causal hash, but
---   ultimately all of its dependencies that the server is missing, too) to
---   Unison Share.
---   
---   This flavor of push takes the expected state of the server, and the
---   desired state we want to set; if our expectation is off, we won't
---   proceed with the push.
-checkAndSetPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> Maybe Hash32 -> CausalHash -> (Int -> IO ()) -> IO (Either (SyncError CheckAndSetPushError) ())
-
--- | Error used by the client when pushing code to Unison Share.
-data CheckAndSetPushError
-CheckAndSetPushErrorHashMismatch :: HashMismatch -> CheckAndSetPushError
-CheckAndSetPushErrorNoWritePermission :: Path -> CheckAndSetPushError
-CheckAndSetPushErrorServerMissingDependencies :: NESet Hash32 -> CheckAndSetPushError
-
--- | Perform a fast-forward push (initially of just a causal hash, but
---   ultimately all of its dependencies that the server is missing, too) to
---   Unison Share.
---   
---   This flavor of push provides the server with a chain of causal hashes
---   leading from its current state to our desired state.
-fastForwardPush :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> CausalHash -> (Int -> IO ()) -> IO (Either (SyncError FastForwardPushError) ())
-
--- | An error occurred while fast-forward pushing code to Unison Share.
-data FastForwardPushError
-FastForwardPushErrorNoHistory :: Path -> FastForwardPushError
-FastForwardPushErrorNoReadPermission :: Path -> FastForwardPushError
-FastForwardPushErrorNotFastForward :: Path -> FastForwardPushError
-FastForwardPushErrorNoWritePermission :: Path -> FastForwardPushError
-FastForwardPushErrorServerMissingDependencies :: NESet Hash32 -> FastForwardPushError
-FastForwardPushInvalidParentage :: Hash32 -> Hash32 -> FastForwardPushError
-pull :: AuthenticatedHttpClient -> BaseUrl -> (forall a. (Connection -> IO a) -> IO a) -> Path -> (Int -> IO ()) -> IO (Either (SyncError PullError) CausalHash)
-
--- | An error occurred while pulling code from Unison Share.
-data PullError
-
--- | An error occurred while resolving a repo+path to a causal hash.
-PullErrorGetCausalHashByPath :: GetCausalHashByPathError -> PullError
-PullErrorNoHistoryAtPath :: Path -> PullError
 
 module Unison.CommandLine.InputPattern
 data InputPattern
@@ -1110,7 +1058,10 @@ PrintMessage :: Pretty ColorText -> Output
 InvalidSourceName :: String -> Output
 SourceLoadFailed :: String -> Output
 NoMainFunction :: String -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
-BadMainFunction :: String -> Type Symbol Ann -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
+
+-- | Function found, but has improper type Note: the constructor name is
+--   misleading here; we weren't necessarily looking for a "main".
+BadMainFunction :: String -> String -> Type Symbol Ann -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
 BranchEmpty :: Either ShortCausalHash Path' -> Output
 BranchNotEmpty :: Path' -> Output
 LoadPullRequest :: ReadRemoteNamespace -> ReadRemoteNamespace -> Path' -> Path' -> Path' -> Path' -> Output
@@ -1484,91 +1435,6 @@ explainRemote :: PushPull -> Pretty ColorText
 showErrorFancy :: ShowErrorComponent e => ErrorFancy e -> String
 showErrorItem :: ErrorItem (Token Text) -> String
 
-module Unison.CommandLine.OutputMessages
-type Pretty = Pretty ColorText
-shortenDirectory :: FilePath -> IO FilePath
-renderFileName :: FilePath -> IO Pretty
-notifyNumbered :: NumberedOutput -> (Pretty, NumberedArgs)
-undoTip :: Pretty ColorText
-showListEdits :: Patch -> PrettyPrintEnv -> (Pretty ColorText, NumberedArgs)
-prettyURI :: URI -> Pretty
-prettyReadRemoteNamespace :: ReadRemoteNamespace -> Pretty
-prettyWriteRemotePath :: WriteRemotePath -> Pretty
-notifyUser :: FilePath -> Output -> IO Pretty
-shareOrigin :: Text
-prettyShareLink :: WriteShareRemotePath -> Pretty
-prettyFilePath :: FilePath -> Pretty
-prettyPath' :: Path' -> Pretty
-prettyBranchId :: AbsBranchId -> Pretty
-prettyRelative :: Relative -> Pretty
-prettyAbsolute :: Absolute -> Pretty
-prettySCH :: IsString s => ShortCausalHash -> Pretty s
-prettyCausalHash :: IsString s => CausalHash -> Pretty s
-prettyBase32Hex :: IsString s => Base32Hex -> Pretty s
-prettyBase32Hex# :: IsString s => Base32Hex -> Pretty s
-prettyHash :: IsString s => Hash -> Pretty s
-prettyHash32 :: IsString s => Hash32 -> Pretty s
-formatMissingStuff :: (Show tm, Show typ) => [(HashQualified Name, tm)] -> [(HashQualified Name, typ)] -> Pretty
-displayDefinitions' :: Var v => Ord a1 => PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl v a1)) -> Map Reference (DisplayObject (Type v a1) (Term v a1)) -> Pretty
-displayRendered :: Maybe FilePath -> Pretty -> IO Pretty
-displayDefinitions :: DisplayDefinitionsOutput -> IO Pretty
-displayTestResults :: Bool -> PrettyPrintEnv -> [(Reference, Text)] -> [(Reference, Text)] -> Pretty
-unsafePrettyTermResultSig' :: Var v => PrettyPrintEnv -> TermResult' v a -> Pretty
-unsafePrettyTermResultSigFull' :: Var v => PrettyPrintEnv -> TermResult' v a -> Pretty
-prettyTypeResultHeader' :: Var v => TypeResult' v a -> Pretty
-prettyTypeResultHeaderFull' :: Var v => TypeResult' v a -> Pretty
-prettyDeclTriple :: Var v => (HashQualified Name, Reference, DisplayObject () (Decl v a)) -> Pretty
-prettyDeclPair :: Var v => PrettyPrintEnv -> (Reference, DisplayObject () (Decl v a)) -> Pretty
-renderNameConflicts :: PrettyPrintEnv -> Names -> Numbered Pretty
-renderEditConflicts :: PrettyPrintEnv -> Patch -> Numbered Pretty
-type Numbered = State (Int, Seq String)
-addNumberedArg :: String -> Numbered Int
-formatNum :: Int -> Pretty
-runNumbered :: Numbered a -> (a, NumberedArgs)
-todoOutput :: Var v => PrettyPrintEnvDecl -> TodoOutput v a -> (Pretty, NumberedArgs)
-listOfDefinitions :: Var v => FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' v a] -> IO Pretty
-listOfLinks :: Var v => PrettyPrintEnv -> [(HashQualified Name, Maybe (Type v a))] -> IO Pretty
-data ShowNumbers
-ShowNumbers :: ShowNumbers
-HideNumbers :: ShowNumbers
-
--- | <tt>ppe</tt> is just for rendering type signatures `oldPath, newPath
---   :: Path.Absolute` are just for producing fully-qualified numbered args
-showDiffNamespace :: forall v. Var v => ShowNumbers -> PrettyPrintEnv -> AbsBranchId -> AbsBranchId -> BranchDiffOutput v Ann -> (Pretty, NumberedArgs)
-noResults :: FindScope -> Pretty
-listOfDefinitions' :: Var v => FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' v a] -> Pretty
-watchPrinter :: Var v => Text -> PrettyPrintEnv -> Ann -> WatchKind -> Term v () -> IsCacheHit -> Pretty
-filestatusTip :: Pretty
-prettyDiff :: Diff -> Pretty
-prettyTermName :: PrettyPrintEnv -> Referent -> Pretty
-prettyTypeName :: PrettyPrintEnv -> Reference -> Pretty
-prettyReadGitRepo :: ReadGitRepo -> Pretty
-prettyWriteGitRepo :: WriteGitRepo -> Pretty
-isTestOk :: Term v Ann -> Bool
-
--- | Get the list of numbered args corresponding to an endangerment map,
---   which is used by a few outputs. See <a>endangeredDependentsTable</a>.
-numberedArgsForEndangerments :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> NumberedArgs
-
--- | Format and render all dependents which are endangered by references
---   going extinct.
-endangeredDependentsTable :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> Pretty ColorText
-
--- | Displays a full, non-truncated Branch.CausalHash to a string, e.g.
---   #abcdef
-displayBranchHash :: CausalHash -> String
-prettyHumanReadableTime :: UTCTime -> UTCTime -> Pretty
-
-module Unison.CommandLine.DisplayValues
-type Pretty = Pretty ColorText
-displayTerm :: Monad m => PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term Symbol ()))) -> (Referent -> m (Maybe (Type Symbol ()))) -> (Term Symbol () -> m (Maybe (Term Symbol ()))) -> (Reference -> m (Maybe (Decl Symbol ()))) -> Term Symbol () -> m Pretty
-type ElideUnit = Bool
-displayTerm' :: Monad m => ElideUnit -> PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term Symbol ()))) -> (Referent -> m (Maybe (Type Symbol ()))) -> (Term Symbol () -> m (Maybe (Term Symbol ()))) -> (Reference -> m (Maybe (Decl Symbol ()))) -> Term Symbol () -> m Pretty
-displayPretty :: forall m. Monad m => PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term Symbol ()))) -> (Referent -> m (Maybe (Type Symbol ()))) -> (Term Symbol () -> m (Maybe (Term Symbol ()))) -> (Reference -> m (Maybe (Decl Symbol ()))) -> Term Symbol () -> m Pretty
-displayDoc :: forall v m. (Var v, Monad m) => PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term v ()))) -> (Referent -> m (Maybe (Type v ()))) -> (Term v () -> m (Maybe (Term v ()))) -> (Reference -> m (Maybe (Decl v ()))) -> Term v () -> m Pretty
-termName :: PrettyPrintEnv -> Referent -> Pretty
-typeName :: PrettyPrintEnv -> Reference -> Pretty
-
 
 -- | The main CLI monad.
 module Unison.Cli.Monad
@@ -1715,6 +1581,140 @@ instance Control.Monad.IO.Class.MonadIO Unison.Cli.Monad.Cli
 instance Control.Monad.Reader.Class.MonadReader Unison.Cli.Monad.Env Unison.Cli.Monad.Cli
 instance Control.Monad.State.Class.MonadState Unison.Cli.Monad.LoopState Unison.Cli.Monad.Cli
 instance GHC.Base.Functor f => GHC.OverloadedLabels.IsLabel "currentPath" ((Unison.Codebase.Path.Absolute -> f Unison.Codebase.Path.Absolute) -> Unison.Cli.Monad.LoopState -> f Unison.Cli.Monad.LoopState)
+
+module Unison.Share.Sync
+
+-- | Get the causal hash of a path hosted on Unison Share.
+getCausalHashByPath :: BaseUrl -> Path -> Cli (Either (SyncError GetCausalHashByPathError) (Maybe HashJWT))
+
+-- | An error occurred when getting causal hash by path.
+data GetCausalHashByPathError
+
+-- | The user does not have permission to read this path.
+GetCausalHashByPathErrorNoReadPermission :: Path -> GetCausalHashByPathError
+
+-- | Perform a check-and-set push (initially of just a causal hash, but
+--   ultimately all of its dependencies that the server is missing, too) to
+--   Unison Share.
+--   
+--   This flavor of push takes the expected state of the server, and the
+--   desired state we want to set; if our expectation is off, we won't
+--   proceed with the push.
+checkAndSetPush :: BaseUrl -> Path -> Maybe Hash32 -> CausalHash -> (Int -> IO ()) -> Cli (Either (SyncError CheckAndSetPushError) ())
+
+-- | Error used by the client when pushing code to Unison Share.
+data CheckAndSetPushError
+CheckAndSetPushErrorHashMismatch :: HashMismatch -> CheckAndSetPushError
+CheckAndSetPushErrorNoWritePermission :: Path -> CheckAndSetPushError
+CheckAndSetPushErrorServerMissingDependencies :: NESet Hash32 -> CheckAndSetPushError
+
+-- | Perform a fast-forward push (initially of just a causal hash, but
+--   ultimately all of its dependencies that the server is missing, too) to
+--   Unison Share.
+--   
+--   This flavor of push provides the server with a chain of causal hashes
+--   leading from its current state to our desired state.
+fastForwardPush :: BaseUrl -> Path -> CausalHash -> (Int -> IO ()) -> Cli (Either (SyncError FastForwardPushError) ())
+
+-- | An error occurred while fast-forward pushing code to Unison Share.
+data FastForwardPushError
+FastForwardPushErrorNoHistory :: Path -> FastForwardPushError
+FastForwardPushErrorNoReadPermission :: Path -> FastForwardPushError
+FastForwardPushErrorNotFastForward :: Path -> FastForwardPushError
+FastForwardPushErrorNoWritePermission :: Path -> FastForwardPushError
+FastForwardPushErrorServerMissingDependencies :: NESet Hash32 -> FastForwardPushError
+FastForwardPushInvalidParentage :: Hash32 -> Hash32 -> FastForwardPushError
+pull :: BaseUrl -> Path -> (Int -> IO ()) -> Cli (Either (SyncError PullError) CausalHash)
+
+-- | An error occurred while pulling code from Unison Share.
+data PullError
+PullErrorNoHistoryAtPath :: Path -> PullError
+PullErrorNoReadPermission :: Path -> PullError
+
+module Unison.CommandLine.OutputMessages
+type Pretty = Pretty ColorText
+shortenDirectory :: FilePath -> IO FilePath
+renderFileName :: FilePath -> IO Pretty
+notifyNumbered :: NumberedOutput -> (Pretty, NumberedArgs)
+undoTip :: Pretty ColorText
+showListEdits :: Patch -> PrettyPrintEnv -> (Pretty ColorText, NumberedArgs)
+prettyURI :: URI -> Pretty
+prettyReadRemoteNamespace :: ReadRemoteNamespace -> Pretty
+prettyWriteRemotePath :: WriteRemotePath -> Pretty
+notifyUser :: FilePath -> Output -> IO Pretty
+shareOrigin :: Text
+prettyShareLink :: WriteShareRemotePath -> Pretty
+prettyFilePath :: FilePath -> Pretty
+prettyPath' :: Path' -> Pretty
+prettyBranchId :: AbsBranchId -> Pretty
+prettyRelative :: Relative -> Pretty
+prettyAbsolute :: Absolute -> Pretty
+prettySCH :: IsString s => ShortCausalHash -> Pretty s
+prettyCausalHash :: IsString s => CausalHash -> Pretty s
+prettyBase32Hex :: IsString s => Base32Hex -> Pretty s
+prettyBase32Hex# :: IsString s => Base32Hex -> Pretty s
+prettyHash :: IsString s => Hash -> Pretty s
+prettyHash32 :: IsString s => Hash32 -> Pretty s
+formatMissingStuff :: (Show tm, Show typ) => [(HashQualified Name, tm)] -> [(HashQualified Name, typ)] -> Pretty
+displayDefinitions' :: Var v => Ord a1 => PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl v a1)) -> Map Reference (DisplayObject (Type v a1) (Term v a1)) -> Pretty
+displayRendered :: Maybe FilePath -> Pretty -> IO Pretty
+displayDefinitions :: DisplayDefinitionsOutput -> IO Pretty
+displayTestResults :: Bool -> PrettyPrintEnv -> [(Reference, Text)] -> [(Reference, Text)] -> Pretty
+unsafePrettyTermResultSig' :: Var v => PrettyPrintEnv -> TermResult' v a -> Pretty
+unsafePrettyTermResultSigFull' :: Var v => PrettyPrintEnv -> TermResult' v a -> Pretty
+prettyTypeResultHeader' :: Var v => TypeResult' v a -> Pretty
+prettyTypeResultHeaderFull' :: Var v => TypeResult' v a -> Pretty
+prettyDeclTriple :: Var v => (HashQualified Name, Reference, DisplayObject () (Decl v a)) -> Pretty
+prettyDeclPair :: Var v => PrettyPrintEnv -> (Reference, DisplayObject () (Decl v a)) -> Pretty
+renderNameConflicts :: PrettyPrintEnv -> Names -> Numbered Pretty
+renderEditConflicts :: PrettyPrintEnv -> Patch -> Numbered Pretty
+type Numbered = State (Int, Seq String)
+addNumberedArg :: String -> Numbered Int
+formatNum :: Int -> Pretty
+runNumbered :: Numbered a -> (a, NumberedArgs)
+todoOutput :: Var v => PrettyPrintEnvDecl -> TodoOutput v a -> (Pretty, NumberedArgs)
+listOfDefinitions :: Var v => FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' v a] -> IO Pretty
+listOfLinks :: Var v => PrettyPrintEnv -> [(HashQualified Name, Maybe (Type v a))] -> IO Pretty
+data ShowNumbers
+ShowNumbers :: ShowNumbers
+HideNumbers :: ShowNumbers
+
+-- | <tt>ppe</tt> is just for rendering type signatures `oldPath, newPath
+--   :: Path.Absolute` are just for producing fully-qualified numbered args
+showDiffNamespace :: forall v. Var v => ShowNumbers -> PrettyPrintEnv -> AbsBranchId -> AbsBranchId -> BranchDiffOutput v Ann -> (Pretty, NumberedArgs)
+noResults :: FindScope -> Pretty
+listOfDefinitions' :: Var v => FindScope -> PrettyPrintEnv -> ListDetailed -> [SearchResult' v a] -> Pretty
+watchPrinter :: Var v => Text -> PrettyPrintEnv -> Ann -> WatchKind -> Term v () -> IsCacheHit -> Pretty
+filestatusTip :: Pretty
+prettyDiff :: Diff -> Pretty
+prettyTermName :: PrettyPrintEnv -> Referent -> Pretty
+prettyTypeName :: PrettyPrintEnv -> Reference -> Pretty
+prettyReadGitRepo :: ReadGitRepo -> Pretty
+prettyWriteGitRepo :: WriteGitRepo -> Pretty
+isTestOk :: Term v Ann -> Bool
+
+-- | Get the list of numbered args corresponding to an endangerment map,
+--   which is used by a few outputs. See <a>endangeredDependentsTable</a>.
+numberedArgsForEndangerments :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> NumberedArgs
+
+-- | Format and render all dependents which are endangered by references
+--   going extinct.
+endangeredDependentsTable :: PrettyPrintEnvDecl -> Map LabeledDependency (NESet LabeledDependency) -> Pretty ColorText
+
+-- | Displays a full, non-truncated Branch.CausalHash to a string, e.g.
+--   #abcdef
+displayBranchHash :: CausalHash -> String
+prettyHumanReadableTime :: UTCTime -> UTCTime -> Pretty
+
+module Unison.CommandLine.DisplayValues
+type Pretty = Pretty ColorText
+displayTerm :: Monad m => PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term Symbol ()))) -> (Referent -> m (Maybe (Type Symbol ()))) -> (Term Symbol () -> m (Maybe (Term Symbol ()))) -> (Reference -> m (Maybe (Decl Symbol ()))) -> Term Symbol () -> m Pretty
+type ElideUnit = Bool
+displayTerm' :: Monad m => ElideUnit -> PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term Symbol ()))) -> (Referent -> m (Maybe (Type Symbol ()))) -> (Term Symbol () -> m (Maybe (Term Symbol ()))) -> (Reference -> m (Maybe (Decl Symbol ()))) -> Term Symbol () -> m Pretty
+displayPretty :: forall m. Monad m => PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term Symbol ()))) -> (Referent -> m (Maybe (Type Symbol ()))) -> (Term Symbol () -> m (Maybe (Term Symbol ()))) -> (Reference -> m (Maybe (Decl Symbol ()))) -> Term Symbol () -> m Pretty
+displayDoc :: forall v m. (Var v, Monad m) => PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term v ()))) -> (Referent -> m (Maybe (Type v ()))) -> (Term v () -> m (Maybe (Term v ()))) -> (Reference -> m (Maybe (Decl v ()))) -> Term v () -> m Pretty
+termName :: PrettyPrintEnv -> Referent -> Pretty
+typeName :: PrettyPrintEnv -> Reference -> Pretty
 
 module Unison.Codebase.Editor.HandleInput.AuthLogin
 
