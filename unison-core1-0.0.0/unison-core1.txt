@@ -1005,7 +1005,12 @@ mapNames :: (Name -> Name) -> Names -> Names
 --   Precondition: every name in <tt>ns</tt> is relative.
 prefix0 :: Name -> Names -> Names
 restrictReferences :: Set Reference -> Names -> Names
+
+-- | Get all terms with a specific name.
 refTermsNamed :: Names -> Name -> Set TermReference
+
+-- | Get all terms with a specific hash-qualified name.
+refTermsHQNamed :: Names -> HashQualified Name -> Set TermReference
 termReferences :: Names -> Set TermReference
 termReferents :: Names -> Set Referent
 typeReferences :: Names -> Set TypeReference
