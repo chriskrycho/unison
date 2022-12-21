@@ -1164,7 +1164,7 @@ Evaluated :: SourceFileContents -> PrettyPrintEnv -> [(Symbol, Term Symbol ())] 
 RunResult :: PrettyPrintEnv -> Term Symbol () -> Output
 Typechecked :: SourceName -> PrettyPrintEnv -> SlurpResult -> TypecheckedUnisonFile Symbol Ann -> Output
 DisplayRendered :: Maybe FilePath -> Pretty ColorText -> Output
-DisplayDefinitions :: Maybe FilePath -> PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl Symbol Ann)) -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann)) -> Output
+DisplayDefinitions :: DisplayDefinitionsOutput -> Output
 TestIncrementalOutputStart :: PrettyPrintEnv -> (Int, Int) -> Reference -> Term Symbol Ann -> Output
 TestIncrementalOutputEnd :: PrettyPrintEnv -> (Int, Int) -> Reference -> Term Symbol Ann -> Output
 TestResults :: TestReportStats -> PrettyPrintEnv -> ShowSuccesses -> ShowFailures -> [(Reference, Text)] -> [(Reference, Text)] -> Output
@@ -1229,6 +1229,13 @@ PrintVersion :: Text -> Output
 IntegrityCheck :: IntegrityResult -> Output
 DisplayDebugNameDiff :: NameChanges -> Output
 DisplayDebugCompletions :: [Completion] -> Output
+data DisplayDefinitionsOutput
+DisplayDefinitionsOutput :: (TermReference -> Bool) -> Maybe FilePath -> PrettyPrintEnvDecl -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann)) -> Map Reference (DisplayObject () (Decl Symbol Ann)) -> DisplayDefinitionsOutput
+[$sel:isTest:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> TermReference -> Bool
+[$sel:outputFile:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> Maybe FilePath
+[$sel:prettyPrintEnv:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> PrettyPrintEnvDecl
+[$sel:terms:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann))
+[$sel:types:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> Map Reference (DisplayObject () (Decl Symbol Ann))
 data NumberedOutput
 ShowDiffNamespace :: AbsBranchId -> AbsBranchId -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
 ShowDiffAfterUndo :: PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
@@ -1504,7 +1511,7 @@ prettyHash32 :: IsString s => Hash32 -> Pretty s
 formatMissingStuff :: (Show tm, Show typ) => [(HashQualified Name, tm)] -> [(HashQualified Name, typ)] -> Pretty
 displayDefinitions' :: Var v => Ord a1 => PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl v a1)) -> Map Reference (DisplayObject (Type v a1) (Term v a1)) -> Pretty
 displayRendered :: Maybe FilePath -> Pretty -> IO Pretty
-displayDefinitions :: Var v => Ord a1 => Maybe FilePath -> PrettyPrintEnvDecl -> Map Reference (DisplayObject () (Decl v a1)) -> Map Reference (DisplayObject (Type v a1) (Term v a1)) -> IO Pretty
+displayDefinitions :: DisplayDefinitionsOutput -> IO Pretty
 displayTestResults :: Bool -> PrettyPrintEnv -> [(Reference, Text)] -> [(Reference, Text)] -> Pretty
 unsafePrettyTermResultSig' :: Var v => PrettyPrintEnv -> TermResult' v a -> Pretty
 unsafePrettyTermResultSigFull' :: Var v => PrettyPrintEnv -> TermResult' v a -> Pretty

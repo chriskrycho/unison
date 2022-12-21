@@ -275,6 +275,7 @@ mapD2 :: (Ord a, Ord b, Ord b', Ord c) => (b -> b') -> Relation3 a b c -> Relati
 --   <tt>compare x y == compare (f x) (f y)</tt>.
 mapD2Monotonic :: (Ord a, Ord b, Ord b', Ord c) => (b -> b') -> Relation3 a b c -> Relation3 a b' c
 member :: (Ord a, Ord b, Ord c) => a -> b -> c -> Relation3 a b c -> Bool
+memberD2 :: Ord b => b -> Relation3 a b c -> Bool
 lookupD1 :: (Ord a, Ord b, Ord c) => a -> Relation3 a b c -> Relation b c
 lookupD2 :: (Ord a, Ord b, Ord c) => b -> Relation3 a b c -> Relation a c
 lookupD3 :: (Ord a, Ord b, Ord c) => c -> Relation3 a b c -> Relation a b
@@ -317,6 +318,7 @@ empty :: (Ord a, Ord b, Ord c, Ord d) => Relation4 a b c d
 null :: Relation4 a b c d -> Bool
 fromList :: (Ord a, Ord b, Ord c, Ord d) => [(a, b, c, d)] -> Relation4 a b c d
 filter :: (Ord a, Ord b, Ord c, Ord d) => ((a, b, c, d) -> Bool) -> Relation4 a b c d -> Relation4 a b c d
+memberD13 :: (Ord a, Ord c) => a -> c -> Relation4 a b c d -> Bool
 selectD3 :: (Ord a, Ord b, Ord c, Ord d) => c -> Relation4 a b c d -> Relation4 a b c d
 selectD34 :: (Ord a, Ord b, Ord c, Ord d) => c -> d -> Relation4 a b c d -> Relation4 a b c d
 restrict34d12 :: (Ord a, Ord b, Ord c, Ord d) => (c, d) -> Relation4 a b c d -> Relation a b

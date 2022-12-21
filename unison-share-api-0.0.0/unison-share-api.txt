@@ -635,11 +635,11 @@ makeNameSearch :: Int -> NamesWithHistory -> NameSearch
 -- | Interpret a <a>Search</a> as a function from name to search results.
 applySearch :: Show r => Search r -> HashQualified Name -> [SearchResult]
 hqNameQuery :: Codebase m v Ann -> NameSearch -> [HashQualified Name] -> Transaction QueryResult
-data DefinitionResults v
-DefinitionResults :: Map Reference (DisplayObject (Type v Ann) (Term v Ann)) -> Map Reference (DisplayObject () (Decl v Ann)) -> [HashQualified Name] -> DefinitionResults v
-[$sel:termResults:DefinitionResults] :: DefinitionResults v -> Map Reference (DisplayObject (Type v Ann) (Term v Ann))
-[$sel:typeResults:DefinitionResults] :: DefinitionResults v -> Map Reference (DisplayObject () (Decl v Ann))
-[$sel:noResults:DefinitionResults] :: DefinitionResults v -> [HashQualified Name]
+data DefinitionResults
+DefinitionResults :: Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann)) -> Map Reference (DisplayObject () (Decl Symbol Ann)) -> [HashQualified Name] -> DefinitionResults
+[$sel:termResults:DefinitionResults] :: DefinitionResults -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann))
+[$sel:typeResults:DefinitionResults] :: DefinitionResults -> Map Reference (DisplayObject () (Decl Symbol Ann))
+[$sel:noResults:DefinitionResults] :: DefinitionResults -> [HashQualified Name]
 expandShortCausalHash :: ShortCausalHash -> Backend Transaction CausalHash
 
 -- | Efficiently resolve a root hash and path to a shallow branch's causal.
@@ -692,7 +692,7 @@ resolveRootBranchHashV2 :: Maybe ShortCausalHash -> Backend Transaction (CausalB
 data IncludeCycles
 IncludeCycles :: IncludeCycles
 DontIncludeCycles :: IncludeCycles
-definitionsBySuffixes :: Codebase m Symbol Ann -> NameSearch -> IncludeCycles -> [HashQualified Name] -> Transaction (DefinitionResults Symbol)
+definitionsBySuffixes :: Codebase m Symbol Ann -> NameSearch -> IncludeCycles -> [HashQualified Name] -> Transaction DefinitionResults
 displayTerm :: Codebase m Symbol Ann -> Reference -> Transaction (DisplayObject (Type Symbol Ann) (Term Symbol Ann))
 displayType :: Codebase m Symbol Ann -> Reference -> Transaction (DisplayObject () (Decl Symbol Ann))
 termsToSyntax :: Var v => Ord a => Suffixify -> Width -> PrettyPrintEnvDecl -> Map Reference (DisplayObject (Type v a) (Term v a)) -> Map Reference (DisplayObject SyntaxText SyntaxText)
