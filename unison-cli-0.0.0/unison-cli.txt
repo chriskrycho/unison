@@ -1058,10 +1058,7 @@ PrintMessage :: Pretty ColorText -> Output
 InvalidSourceName :: String -> Output
 SourceLoadFailed :: String -> Output
 NoMainFunction :: String -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
-
--- | Function found, but has improper type Note: the constructor name is
---   misleading here; we weren't necessarily looking for a "main".
-BadMainFunction :: String -> String -> Type Symbol Ann -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
+BadMainFunction :: String -> Type Symbol Ann -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
 BranchEmpty :: Either ShortCausalHash Path' -> Output
 BranchNotEmpty :: Path' -> Output
 LoadPullRequest :: ReadRemoteNamespace -> ReadRemoteNamespace -> Path' -> Path' -> Path' -> Path' -> Output
