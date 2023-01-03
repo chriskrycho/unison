@@ -190,6 +190,7 @@ DeleteI :: DeleteTarget -> Input
 ResolveTermNameI :: HQSplit' -> Input
 ResolveTypeNameI :: HQSplit' -> Input
 LoadI :: Maybe FilePath -> Input
+ClearI :: Input
 AddI :: Set Name -> Input
 PreviewAddI :: Set Name -> Input
 UpdateI :: OptionalPatch -> Set Name -> Input
@@ -1180,6 +1181,7 @@ PrintVersion :: Text -> Output
 IntegrityCheck :: IntegrityResult -> Output
 DisplayDebugNameDiff :: NameChanges -> Output
 DisplayDebugCompletions :: [Completion] -> Output
+ClearScreen :: Output
 data DisplayDefinitionsOutput
 DisplayDefinitionsOutput :: (TermReference -> Bool) -> Maybe FilePath -> PrettyPrintEnvDecl -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann)) -> Map Reference (DisplayObject () (Decl Symbol Ann)) -> DisplayDefinitionsOutput
 [$sel:isTest:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> TermReference -> Bool
@@ -1291,6 +1293,7 @@ mergeIOBuiltins :: InputPattern
 updateBuiltins :: InputPattern
 todo :: InputPattern
 load :: InputPattern
+clear :: InputPattern
 add :: InputPattern
 previewAdd :: InputPattern
 updateNoPatch :: InputPattern
