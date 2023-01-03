@@ -1350,10 +1350,10 @@ renameBranch :: InputPattern
 history :: InputPattern
 forkLocal :: InputPattern
 resetRoot :: InputPattern
-pullSilent :: InputPattern
 pull :: InputPattern
+pullVerbose :: InputPattern
 pullWithoutHistory :: InputPattern
-pullImpl :: String -> Verbosity -> PullMode -> Pretty ColorText -> InputPattern
+pullImpl :: String -> [String] -> Verbosity -> PullMode -> Pretty ColorText -> InputPattern
 pullExhaustive :: InputPattern
 debugTabCompletion :: InputPattern
 push :: InputPattern
