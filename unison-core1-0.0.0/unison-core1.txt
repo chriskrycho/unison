@@ -1422,6 +1422,7 @@ generalize :: Ord v => [v] -> Type v a -> Type v a
 unforall :: Type v a -> Type v a
 unforall' :: Type v a -> ([v], Type v a)
 dependencies :: Ord v => Type v a -> Set Reference
+labeledDependencies :: Ord v => Type v a -> Set LabeledDependency
 updateDependencies :: Ord v => Map Reference Reference -> Type v a -> Type v a
 usesEffects :: Ord v => Type v a -> Bool
 freeEffectVars :: Ord v => Type v a -> Set v
@@ -1808,8 +1809,10 @@ constructorVars :: DataDeclaration v a -> [v]
 constructorIds :: DataDeclaration v a -> [ConstructorId]
 declConstructorReferents :: Id -> Decl v a -> [Id]
 declDependencies :: Ord v => Decl v a -> Set Reference
+labeledDeclDependencies :: Ord v => Decl v a -> Set LabeledDependency
 declFields :: Var v => Decl v a -> Either [Int] [Int]
 dependencies :: Ord v => DataDeclaration v a -> Set Reference
+labeledDependencies :: Ord v => DataDeclaration v a -> Set LabeledDependency
 generateRecordAccessors :: (Semigroup a, Var v) => [(v, a)] -> v -> Reference -> [(v, Term v a)]
 
 -- | This converts <a>Reference</a>s it finds that are in the input

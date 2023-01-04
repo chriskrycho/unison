@@ -228,35 +228,45 @@ instance Data.OpenApi.Internal.Schema.ToSchema r => Data.OpenApi.Internal.Schema
 module Unison.Server.Doc
 type Nat = Word64
 type SSyntaxText = SyntaxText' Reference
-data Doc
-Word :: Text -> Doc
-Code :: Doc -> Doc
-CodeBlock :: Text -> Doc -> Doc
-Bold :: Doc -> Doc
-Italic :: Doc -> Doc
-Strikethrough :: Doc -> Doc
-Style :: Text -> Doc -> Doc
-Anchor :: Text -> Doc -> Doc
-Blockquote :: Doc -> Doc
-Blankline :: Doc
-Linebreak :: Doc
-SectionBreak :: Doc
-Tooltip :: Doc -> Doc -> Doc
-Aside :: Doc -> Doc
-Callout :: Maybe Doc -> Doc -> Doc
-Table :: [[Doc]] -> Doc
-Folded :: Bool -> Doc -> Doc -> Doc
-Paragraph :: [Doc] -> Doc
-BulletedList :: [Doc] -> Doc
-NumberedList :: Nat -> [Doc] -> Doc
-Section :: Doc -> [Doc] -> Doc
-NamedLink :: Doc -> Doc -> Doc
-Image :: Doc -> Doc -> Maybe Doc -> Doc
-Special :: SpecialForm -> Doc
-Join :: [Doc] -> Doc
-UntitledSection :: [Doc] -> Doc
-Column :: [Doc] -> Doc
-Group :: Doc -> Doc
+
+-- | A doc rendered down to SyntaxText.
+type Doc = DocG RenderedSpecialForm
+
+-- | A doc which has been evaluated and includes all information necessary
+--   to be rendered.
+type EvaluatedDoc v = DocG (EvaluatedSpecialForm v)
+type SrcRefs = Ref (UnisonHash, DisplayObject SyntaxText Src)
+
+-- | A doc parameterized by its special forms.
+data DocG specialForm
+Word :: Text -> DocG specialForm
+Code :: DocG specialForm -> DocG specialForm
+CodeBlock :: Text -> DocG specialForm -> DocG specialForm
+Bold :: DocG specialForm -> DocG specialForm
+Italic :: DocG specialForm -> DocG specialForm
+Strikethrough :: DocG specialForm -> DocG specialForm
+Style :: Text -> DocG specialForm -> DocG specialForm
+Anchor :: Text -> DocG specialForm -> DocG specialForm
+Blockquote :: DocG specialForm -> DocG specialForm
+Blankline :: DocG specialForm
+Linebreak :: DocG specialForm
+SectionBreak :: DocG specialForm
+Tooltip :: DocG specialForm -> DocG specialForm -> DocG specialForm
+Aside :: DocG specialForm -> DocG specialForm
+Callout :: Maybe (DocG specialForm) -> DocG specialForm -> DocG specialForm
+Table :: [[DocG specialForm]] -> DocG specialForm
+Folded :: Bool -> DocG specialForm -> DocG specialForm -> DocG specialForm
+Paragraph :: [DocG specialForm] -> DocG specialForm
+BulletedList :: [DocG specialForm] -> DocG specialForm
+NumberedList :: Nat -> [DocG specialForm] -> DocG specialForm
+Section :: DocG specialForm -> [DocG specialForm] -> DocG specialForm
+NamedLink :: DocG specialForm -> DocG specialForm -> DocG specialForm
+Image :: DocG specialForm -> DocG specialForm -> Maybe (DocG specialForm) -> DocG specialForm
+Special :: specialForm -> DocG specialForm
+Join :: [DocG specialForm] -> DocG specialForm
+UntitledSection :: [DocG specialForm] -> DocG specialForm
+Column :: [DocG specialForm] -> DocG specialForm
+Group :: DocG specialForm -> DocG specialForm
 type UnisonHash = Text
 data Ref a
 Term :: a -> Ref a
@@ -265,23 +275,73 @@ data MediaSource
 MediaSource :: Text -> Maybe Text -> MediaSource
 [$sel:mediaSourceUrl:MediaSource] :: MediaSource -> Text
 [$sel:mediaSourceMimeType:MediaSource] :: MediaSource -> Maybe Text
-data SpecialForm
-Source :: [Ref (UnisonHash, DisplayObject SyntaxText Src)] -> SpecialForm
-FoldedSource :: [Ref (UnisonHash, DisplayObject SyntaxText Src)] -> SpecialForm
-Example :: SyntaxText -> SpecialForm
-ExampleBlock :: SyntaxText -> SpecialForm
-Link :: SyntaxText -> SpecialForm
-Signature :: [SyntaxText] -> SpecialForm
-SignatureInline :: SyntaxText -> SpecialForm
-Eval :: SyntaxText -> SyntaxText -> SpecialForm
-EvalInline :: SyntaxText -> SyntaxText -> SpecialForm
-Embed :: SyntaxText -> SpecialForm
-EmbedInline :: SyntaxText -> SpecialForm
-Video :: [MediaSource] -> Map Text Text -> SpecialForm
-FrontMatter :: Map Text [Text] -> SpecialForm
+data RenderedSpecialForm
+Source :: [SrcRefs] -> RenderedSpecialForm
+FoldedSource :: [SrcRefs] -> RenderedSpecialForm
+Example :: SyntaxText -> RenderedSpecialForm
+ExampleBlock :: SyntaxText -> RenderedSpecialForm
+Link :: SyntaxText -> RenderedSpecialForm
+Signature :: [SyntaxText] -> RenderedSpecialForm
+SignatureInline :: SyntaxText -> RenderedSpecialForm
+Eval :: SyntaxText -> SyntaxText -> RenderedSpecialForm
+EvalInline :: SyntaxText -> SyntaxText -> RenderedSpecialForm
+Embed :: SyntaxText -> RenderedSpecialForm
+EmbedInline :: SyntaxText -> RenderedSpecialForm
+Video :: [MediaSource] -> Map Text Text -> RenderedSpecialForm
+FrontMatter :: Map Text [Text] -> RenderedSpecialForm
+RenderError :: RenderError SyntaxText -> RenderedSpecialForm
+data EvaluatedSpecialForm v
+ESource :: [EvaluatedSrc v] -> EvaluatedSpecialForm v
+EFoldedSource :: [EvaluatedSrc v] -> EvaluatedSpecialForm v
+EExample :: Term v () -> EvaluatedSpecialForm v
+EExampleBlock :: Term v () -> EvaluatedSpecialForm v
+ELink :: Either (Term v ()) LabeledDependency -> EvaluatedSpecialForm v
+ESignature :: [(Referent, Type v ())] -> EvaluatedSpecialForm v
+ESignatureInline :: (Referent, Type v ()) -> EvaluatedSpecialForm v
+EEval :: Term v () -> Maybe (Term v ()) -> EvaluatedSpecialForm v
+EEvalInline :: Term v () -> Maybe (Term v ()) -> EvaluatedSpecialForm v
+EEmbed :: Term v () -> EvaluatedSpecialForm v
+EEmbedInline :: Term v () -> EvaluatedSpecialForm v
+EVideo :: [MediaSource] -> Map Text Text -> EvaluatedSpecialForm v
+EFrontMatter :: Map Text [Text] -> EvaluatedSpecialForm v
+ERenderError :: RenderError (Term v ()) -> EvaluatedSpecialForm v
 data Src
 Src :: SyntaxText -> SyntaxText -> Src
-renderDoc :: forall v m. (Var v, Monad m) => PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term v ()))) -> (Referent -> m (Maybe (Type v ()))) -> (Term v () -> m (Maybe (Term v ()))) -> (Reference -> m (Maybe (Decl v ()))) -> Term v () -> m Doc
+
+-- | Evaluate the doc, then render it.
+evalAndRenderDoc :: forall v m. (Var v, Monad m) => PrettyPrintEnvDecl -> (Reference -> m (Maybe (Term v ()))) -> (Referent -> m (Maybe (Type v ()))) -> (Term v () -> m (Maybe (Term v ()))) -> (Reference -> m (Maybe (Decl v ()))) -> Term v () -> m Doc
+
+-- | Renders the given doc, which must have been evaluated using
+--   <a>evalDoc</a>
+renderDoc :: forall v. Var v => PrettyPrintEnvDecl -> EvaluatedDoc v -> Doc
+
+-- | Evaluates the given doc, expanding transclusions, expressions, etc.
+evalDoc :: forall v m. (Var v, Monad m) => (Reference -> m (Maybe (Term v ()))) -> (Referent -> m (Maybe (Type v ()))) -> (Term v () -> m (Maybe (Term v ()))) -> (Reference -> m (Maybe (Decl v ()))) -> Term v () -> m (EvaluatedDoc v)
+data RenderError trm
+InvalidTerm :: trm -> RenderError trm
+data EvaluatedSrc v
+EvaluatedSrcDecl :: EvaluatedDecl v -> EvaluatedSrc v
+EvaluatedSrcTerm :: EvaluatedTerm v -> EvaluatedSrc v
+data EvaluatedDecl v
+MissingDecl :: Reference -> EvaluatedDecl v
+BuiltinDecl :: Reference -> EvaluatedDecl v
+FoundDecl :: Reference -> Decl v () -> EvaluatedDecl v
+data EvaluatedTerm v
+MissingTerm :: Reference -> EvaluatedTerm v
+BuiltinTypeSig :: Reference -> Type v () -> EvaluatedTerm v
+MissingBuiltinTypeSig :: Reference -> EvaluatedTerm v
+FoundTerm :: Reference -> Type v () -> Term v () -> EvaluatedTerm v
+dependencies :: Ord v => EvaluatedDoc v -> Set LabeledDependency
+
+-- | Determines all dependencies of a special form
+dependenciesSpecial :: forall v. Ord v => EvaluatedSpecialForm v -> Set LabeledDependency
+instance Data.Aeson.Types.ToJSON.ToJSON specialForm => Data.Aeson.Types.ToJSON.ToJSON (Unison.Server.Doc.DocG specialForm)
+instance Data.Traversable.Traversable Unison.Server.Doc.DocG
+instance Data.Foldable.Foldable Unison.Server.Doc.DocG
+instance GHC.Base.Functor Unison.Server.Doc.DocG
+instance GHC.Generics.Generic (Unison.Server.Doc.DocG specialForm)
+instance GHC.Show.Show specialForm => GHC.Show.Show (Unison.Server.Doc.DocG specialForm)
+instance GHC.Classes.Eq specialForm => GHC.Classes.Eq (Unison.Server.Doc.DocG specialForm)
 instance Data.Aeson.Types.ToJSON.ToJSON a => Data.Aeson.Types.ToJSON.ToJSON (Unison.Server.Doc.Ref a)
 instance Data.Traversable.Traversable Unison.Server.Doc.Ref
 instance Data.Foldable.Foldable Unison.Server.Doc.Ref
@@ -299,16 +359,29 @@ instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Doc.Src
 instance GHC.Generics.Generic Unison.Server.Doc.Src
 instance GHC.Show.Show Unison.Server.Doc.Src
 instance GHC.Classes.Eq Unison.Server.Doc.Src
-instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Doc.SpecialForm
-instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Doc.SpecialForm
-instance GHC.Generics.Generic Unison.Server.Doc.SpecialForm
-instance GHC.Show.Show Unison.Server.Doc.SpecialForm
-instance GHC.Classes.Eq Unison.Server.Doc.SpecialForm
-instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Doc.Doc
-instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Doc.Doc
-instance GHC.Generics.Generic Unison.Server.Doc.Doc
-instance GHC.Show.Show Unison.Server.Doc.Doc
-instance GHC.Classes.Eq Unison.Server.Doc.Doc
+instance Data.Aeson.Types.ToJSON.ToJSON trm => Data.Aeson.Types.ToJSON.ToJSON (Unison.Server.Doc.RenderError trm)
+instance GHC.Generics.Generic (Unison.Server.Doc.RenderError trm)
+instance GHC.Show.Show trm => GHC.Show.Show (Unison.Server.Doc.RenderError trm)
+instance GHC.Classes.Eq trm => GHC.Classes.Eq (Unison.Server.Doc.RenderError trm)
+instance Data.OpenApi.Internal.Schema.ToSchema Unison.Server.Doc.RenderedSpecialForm
+instance Data.Aeson.Types.ToJSON.ToJSON Unison.Server.Doc.RenderedSpecialForm
+instance GHC.Generics.Generic Unison.Server.Doc.RenderedSpecialForm
+instance GHC.Show.Show Unison.Server.Doc.RenderedSpecialForm
+instance GHC.Classes.Eq Unison.Server.Doc.RenderedSpecialForm
+instance GHC.Generics.Generic (Unison.Server.Doc.EvaluatedDecl v)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Server.Doc.EvaluatedDecl v)
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Server.Doc.EvaluatedDecl v)
+instance GHC.Generics.Generic (Unison.Server.Doc.EvaluatedTerm v)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Server.Doc.EvaluatedTerm v)
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Server.Doc.EvaluatedTerm v)
+instance GHC.Generics.Generic (Unison.Server.Doc.EvaluatedSrc v)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Server.Doc.EvaluatedSrc v)
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Server.Doc.EvaluatedSrc v)
+instance GHC.Generics.Generic (Unison.Server.Doc.EvaluatedSpecialForm v)
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Server.Doc.EvaluatedSpecialForm v)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Server.Doc.EvaluatedSpecialForm v)
+instance Data.OpenApi.Internal.Schema.ToSchema specialForm => Data.OpenApi.Internal.Schema.ToSchema (Unison.Server.Doc.DocG specialForm)
+instance Data.OpenApi.Internal.Schema.ToSchema trm => Data.OpenApi.Internal.Schema.ToSchema (Unison.Server.Doc.RenderError trm)
 instance Data.OpenApi.Internal.Schema.ToSchema a => Data.OpenApi.Internal.Schema.ToSchema (Unison.Server.Doc.Ref a)
 
 
