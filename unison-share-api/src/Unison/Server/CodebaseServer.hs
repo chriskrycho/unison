@@ -30,6 +30,7 @@ import GHC.Generics ()
 import Network.HTTP.Media ((//), (/:))
 import Network.HTTP.Types (HeaderName)
 import Network.HTTP.Types.Status (ok200)
+import Network.URI.Encode as UriEncode
 import qualified Network.URI.Encode as URI
 import Network.Wai (responseLBS)
 import Network.Wai.Handler.Warp
@@ -146,16 +147,72 @@ data BaseUrl = BaseUrl
     urlPort :: Port
   }
 
-data BaseUrlPath = UI | Api
+data NameOrHashRef = Name [Text] | Hash Text
+
+data DefinitionReference
+  = TermReference NameOrHashRef
+  | TypeReference NameOrHashRef
+  | AbilityConstructorReference NameOrHashRef
+  | DataConstructorReference NameOrHashRef
+
+data BaseUrlPath
+  = UI
+      { namespace :: Maybe [Text],
+        definition :: Maybe DefinitionReference
+      }
+  | Api
 
 instance Show BaseUrl where
   show url = urlHost url <> ":" <> show (urlPort url) <> "/" <> (URI.encode . unpack . urlToken $ url)
 
 urlFor :: BaseUrlPath -> BaseUrl -> String
-urlFor path baseUrl =
-  case path of
-    UI -> show baseUrl <> "/ui"
+urlFor baseUrlPath baseUrl =
+  case baseUrlPath of
+    UI ns def ->
+      show baseUrl <> "/ui" <> Text.unpack (path ns def)
     Api -> show baseUrl <> "/api"
+  where
+    path :: Maybe [Text] -> Maybe DefinitionReference -> Text
+    path ns def =
+      case (namespacePath ns, definitionPath def) of
+        (Just nsPath, Just defPath) -> "/latest" <> nsPath <> ";" <> defPath
+        (Just nsPath, Nothing) -> "/latest" <> nsPath
+        (Nothing, Just defPath) -> "/latest" <> defPath
+        (Nothing, Nothing) -> ""
+
+    namespacePath :: Maybe [Text] -> Maybe Text
+    namespacePath ns =
+      fmap (("/namespaces/" <>) . toPath) ns
+
+    definitionPath :: Maybe DefinitionReference -> Maybe Text
+    definitionPath def =
+      toDefinitionPath <$> def
+
+    toPath :: [Text] -> Text
+    toPath parts =
+      parts
+        & fmap UriEncode.encodeText
+        & Text.intercalate "/"
+
+    refToUrlText :: NameOrHashRef -> Text
+    refToUrlText r =
+      case r of
+        Name segments ->
+          toPath segments
+        Hash h ->
+          "@" <> UriEncode.encodeText h
+
+    toDefinitionPath :: DefinitionReference -> Text
+    toDefinitionPath d =
+      case d of
+        TermReference r ->
+          "/terms/" <> refToUrlText r
+        TypeReference r ->
+          "/types/" <> refToUrlText r
+        AbilityConstructorReference r ->
+          "/ability-constructors/" <> refToUrlText r
+        DataConstructorReference r ->
+          "/data-constructors/" <> refToUrlText r
 
 handleAuth :: Strict.ByteString -> Text -> Handler ()
 handleAuth expectedToken gotToken =
