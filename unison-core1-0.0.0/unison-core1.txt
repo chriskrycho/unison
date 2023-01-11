@@ -169,7 +169,7 @@ type TermReferenceId = Id
 -- | A type declaration reference.
 type TypeReference = Reference
 type TypeReferenceId = Id
-derivedBase32Hex :: Text -> Pos -> Reference
+derivedBase32Hex :: Text -> Pos -> Maybe Reference
 component :: Hash -> [k] -> [(k, Id)]
 components :: [(Hash, [k])] -> [(k, Id)]
 groupByComponent :: [(k, Reference)] -> [[(k, Reference)]]
@@ -186,11 +186,16 @@ fromShortHash :: ShortHash -> Maybe Reference
 --   builtins don’t have cycles &gt;&gt;&gt; fromText "##Text.take" Right
 --   ##Text.take
 --   
---   derived, no cycle &gt;&gt;&gt; fromText "#2tWjVAuc7"
---   Reference.derivedBase32Hex Nothing
+--   derived, no cycle &gt;&gt;&gt; fromText
+--   "#dqp2oi4iderlrgp2h11sgkff6drk92omo4c84dncfhg9o0jn21cli4lhga72vlchmrb2jk0b3bdc2gie1l06sqdli8ego4q0akm3au8"
+--   Right #dqp2o
 --   
---   derived, part of cycle &gt;&gt;&gt; fromText "#y9ycWkiC1.12345"
---   Reference.derivedBase32Hex Nothing
+--   derived, part of cycle &gt;&gt;&gt; fromText
+--   "#dqp2oi4iderlrgp2h11sgkff6drk92omo4c84dncfhg9o0jn21cli4lhga72vlchmrb2jk0b3bdc2gie1l06sqdli8ego4q0akm3au8.12345"
+--   Right #dqp2o.12345
+--   
+--   Errors with <a>Left</a> on invalid hashes &gt;&gt;&gt; fromText
+--   "#invalid_hash.12345" Left "Invalid hash: "invalid_hash""
 fromText :: Text -> Either String Reference
 readSuffix :: Text -> Either String Pos
 showShort :: Int -> Reference -> Text
