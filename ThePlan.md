@@ -118,31 +118,14 @@ without rowid;
 create table project_branch_default_push ...
 ```
 
-### `project_mapping` / `project_branch_mapping`
+### `project_branch_mapping`
 
-An association between local and remote projects and branches. Each local project is associated with at most 1 remote project on each host (e.g. `share.unison-lang.org`); separately, each local branch is associated with at most 1 remote branch on each host.
+An association between local and remote project branches. Each local branch project is associated with at most 1 remote
+branch on each host.
 
-This association exists only to streamline workflows that fit the common case of having a single associated remote project/branch. Ultimately this association will be editable by the user, in case our heuristics (like associating a local project to a remote project on first pull or first push) aren't what they want.
-
-Note: it would be unusual, but also fine, for a local project and a branch of that project to be associated with two different remote projects.
-
-```sql
-create table project_mapping (
-  local_project_id uuid not null references project (id),
-
-  -- The remote project
-  remote_project_id text not null,
-  remote_host text not null,
-
-  -- A local project can only be associated with one remote project per host
-  primary key (local_project_id, remote_host)
-
-  foreign key (remote_project_id, remote_host)
-    references remote_project (id, host)
-    on delete cascade
-)
-without rowid;
-```
+This association exists only to streamline workflows that fit the common case of having a single associated remote
+branch. Ultimately this association will be editable by the user, in case our heuristics (like associating a local
+branch to a remote project on first pull or first push) aren't what they want.
 
 ```sql
 create table project_branch_mapping (
