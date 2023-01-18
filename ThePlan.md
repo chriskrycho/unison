@@ -57,45 +57,9 @@ create table project_branch_parent (
 without rowid;
 ```
 
-### `project_default_pull` / `project_default_push` / `project_branch_default_pull` / `project_branch_default_push`
+### `project_branch_default_pull` / `project_branch_default_push`
 
 Defaults for where to push/pull when not specified.
-
-Each branch can have separate push/pull defaults; projects themselves have push/pull defaults, too, which are used whenever branch defaults are missing (e.g. when a pushing a local branch for the first time).
-
-```sql
-create table project_default_pull (
-  local_project_id uuid primary key references project (id),
-
-  -- Sum type: either we pull from a named alias (e.g. "origin"), or an unnamed remote project.
-  named_remote_name text null,
-  --
-  unnamed_remote_project_id text null,
-  unnamed_remote_host text null,
-
-  constraint valid_sum check
-    ( (named_remote_name is not null
-      and unnamed_remote_project_id is null
-      and unnamed_remote_host is null)
-    or
-      (named_remote_name is null
-      and unnamed_remote_project_id is not null
-      and unnamed_remote_host is not null)
-    ),
-
-  foreign key (local_project_id, named_remote_name)
-    references project_remote_alias (local_project_id, remote_name)
-    on delete cascade,
-
-  foreign key (unnamed_remote_project_id, unnamed_remote_host)
-    references remote_project (id, host)
-    on delete cascade
-)
-without rowid;
-
--- Same as above
-create table project_default_push ...
-```
 
 ```sql
 create table project_branch_default_pull (
@@ -528,6 +492,7 @@ Possible states:
 
   -- default pull is where you just pulled from, and it
   -- gets the remote_name 'origin' by default
+  -- FIXME this is old
   INSERT INTO project_default_pull (project_id, remote_name)
   VALUES (<local-project-id>, 'origin');
 
