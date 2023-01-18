@@ -89,7 +89,8 @@ create table project_branch_default_pull (
     ),
 
   -- This is for integrity purposes. TODO better comment
-  remote_branch_id text not null,
+  -- TODO comment why nullable. hint to self: metadata for topic2 after pushing topic1
+  remote_branch_id text null,
 
   primary key (local_project_id, local_branch_id),
 
