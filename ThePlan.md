@@ -1,4 +1,7 @@
-* Todo: `project_branch_default_{pull,push}` require some attention when a remote is updated. For example, if "origin" is edited to point to another project id then the default push and pull rows that reference "origin" should be updated. Unfortunately, the default push/pull tables have a foreign key reference on `project_remote_alias` that includes the remote project id and remote host in order to ensure they agree.
+* Todo: `project_branch_default_{pull,push}` require some attention when a remote is updated. For example, if "origin"
+is edited to point to another project id then the default push and pull rows that reference "origin" should be updated.
+Unfortunately, the default push/pull tables have a foreign key reference on `project_remote_alias` that includes the
+remote project id and remote host in order to ensure they agree.
 
 # Sql tables / queries
 
@@ -18,7 +21,8 @@ without rowid;
 
 ### `project_branch`
 
-The project branch table. Each row corresponds to a different local branch of a local project (either created locally, or pulled from somewhere).
+The project branch table. Each row corresponds to a different local branch of a local project (either created locally,
+or pulled from somewhere).
 
 ```sql
 create table project_branch (
@@ -119,7 +123,7 @@ without rowid;
 create table project_branch_default_push ...
 ```
 
-### `project_branch_mapping`
+### `project_branch_remote_mapping`
 
 An association between local and remote project branches. Each local branch project is associated with at most 1 remote
 branch on each host.
@@ -129,7 +133,7 @@ branch. Ultimately this association will be editable by the user, in case our he
 branch to a remote project on first pull or first push) aren't what they want.
 
 ```sql
-create table project_branch_mapping (
+create table project_branch_remote_mapping (
   local_project_id uuid not null references project (id),
   local_branch_id uuid not null,
 
@@ -228,36 +232,8 @@ without rowid;
 ```
 
 ---
+
 Below this line is a mess
-
----
-
-### Notes from 23/01/11
-
-Q: how do we maintain association between contributor branches (a copy of @unison/base:main) and the original repo, so that we can have a nice low friction way to open pull requests?
-
-Q: On Share, we need to be able to separately list contributor branches and branches that you own. (Like a fork of @unison/base:main vs being the owner of @unison/base). How do we do that?
-
-* On Share, do we have some schema or PostgreSQL to support this? Seems like yes: ucm will not treat contributor branches as special, but on Share, it'll do something.
-* On ucm side, there'll something that happens when creating a branch locally which is intended to be a contributor branch?
-
-Q: when I create a contributor branch of @unison/base:main, and I push that to Share, does it use the same project_id for that contributor branch, or does it make up a new one?
-
-  1. Option 1: just use the same project id.
-  2. Option 2: just make up a new one.
-
-  If we do 2), then Share needs to maintain a mapping so it can suggest a good default PR target.
-
-  Regardless of the choice, we need an extra bit of information to identify contributor branches,
-  so that when you're viewing your homepage, you don't see a fork of base when you've just forked
-  one of its branches. We don't want the GitHub experience of having all these random project forks
-  in your homepage just because you wanted to do a PR one time. And the current UI supports this,
-  putting contributor branches in a separate spot.
-
-  Related Q: do we make up a new remote branch_id?
-  A: Yes. The fork of the branch gets a new identity.
-
-Q: what additional information is passed to push/pull to support projects?
 
 ---
 
@@ -269,46 +245,18 @@ Projects and their branches will be stored in the root namespace:
 .__projects.<local-project-id>.branches.<local-branch-id>
 ```
 
-## Conceptual plumbing commands
+## API calls
 
-### create-project
+### create-branch
 
-Create a new local project.
-
-```elm
-create-project :
-  { name : String
-  }
-  -> LocalProjectId
-```
-
-Example:
+Create a new project branch on a server with an optional merge target.
 
 ```elm
-create-project
-  { name = "parser"
-  }
-
-"2ea56758"
-```
-
-```sql
--- Leaving null:
---   default_remote_pull
---   default_remote_push
-INSERT INTO projects (id, name)
-VALUES ('2ea56758', 'parser');
-```
-
-### create-remote-branch
-
-Create a new project branch on a server, optionally associated with a parent branch on that server.
-
-```elm
-create-remote-branch :
+create-branch :
   { server : Url
   , project-id : RemoteProjectId
-  , parent :
+  , branch-name : String
+  , merge-target :
       Maybe
         { project-id : RemoteProjectId
         , branch-id : RemoteBranchId
@@ -320,10 +268,11 @@ create-remote-branch :
 Example:
 
 ```elm
-create-remote-branch
+create-branch
   { server = "https://share.unison-lang.org"
   , project-id = "de4644ac"
-  , parent =
+  , branch-name = "topic"
+  , merge-target =
       Just
         { project-id = "bf070d5e"
         , branch-id = "76228b2c"
@@ -333,13 +282,13 @@ create-remote-branch
 "2183b77f"
 ```
 
-### create-remote-project
+### create-project
 
 Create a new project on a server.
 
 ```elm
-create-remote-project :
-  { server : User
+create-project :
+  { server : Url
   , name : String
   }
   -> RemoteProjectId
@@ -348,7 +297,7 @@ create-remote-project :
 Example:
 
 ```elm
-create-remote-project
+create-project
   { server = "https://share.unison-lang.org"
   , name = "@arya/lens"
   }
@@ -356,13 +305,14 @@ create-remote-project
 "2183b77f"
 ```
 
-### get-branch-causal-hash
+### get-project-branch-causal-hash
 
-Ask a server for a branch's causal hash.
+Ask a server for a project branch's causal hash.
 
 ```elm
-get-branch-causal-hash :
+get-project-branch-causal-hash :
   { server : Url
+  , project-id : RemoteProjectId
   , branch-id : RemoteBranchId
   }
   -> CausalHash
@@ -371,23 +321,24 @@ get-branch-causal-hash :
 Example:
 
 ```elm
-get-branch-causal-hash
+get-project-branch-causal-hash
   { server = "https://share.unison-lang.org"
+  , project-id = "10f43936"
   , branch-id = "4d6e8803"
   }
 
 "dd2781f4"
 ```
 
-### get-branch-id
+### get-project-branch-id
 
 Ask a server to resolve a branch name to remote branch id.
 
 ```elm
-get-branch-id :
+get-projectbranch-id :
   { server : Url
   , project-id : RemoteProjectId
-  , branch : String
+  , branch-name : String
   }
   -> RemoteBranchId
 ```
@@ -395,10 +346,10 @@ get-branch-id :
 Example:
 
 ```elm
-get-branch-id
+get-project-branch-id
   { server = "https://share.unison-lang.org"
   , project-id = "10f43936"
-  , branch = "main"
+  , branch-name = "main"
   }
 
 "4d6e8803"
@@ -426,6 +377,12 @@ get-project-id
 
 "10f43936"
 ```
+
+---
+
+Old chicken scratch of questionable utility
+
+---
 
 # User-facing commands
 
@@ -633,7 +590,8 @@ No branches or anything being created. Nothing fancy.
 
 This _is_ creating projects and/or branches remotely, so Share needs to know:
 
-a) Are you the owner of this project or are you pushing a contributor branch? (Share needs this so the UI can show your contributor branches in a separate location than projects/branches that you "own")
+a) Are you the owner of this project or are you pushing a contributor branch? (Share needs this so the UI can show your
+contributor branches in a separate location than projects/branches that you "own")
 b) If a contributor branch, what's the default merge target? (Shares needs this to present a nice UI)
 
 All branches have a project_id.
@@ -642,9 +600,12 @@ Some branches have a parent (project_id, branch_id)
 A contributor branch is one whose parent project_id
 differs from its project id.
 
-In creating the remote branch, we will do a lookup in the branch_parent table, join this with the project_branch_id_mappings (to see if there's a corresponding remote branch), and if so, include this parent information in the request sent to Share.
+In creating the remote branch, we will do a lookup in the branch_parent table, join this with the
+project_branch_id_mappings (to see if there's a corresponding remote branch), and if so, include this parent
+information in the request sent to Share.
 
-This way, when creating a branch on Share, the Share API is told (optionally) of a parent branch, which is used to select a default merge target and to determine if the branch is a contributor branch or not.
+This way, when creating a branch on Share, the Share API is told (optionally) of a parent branch, which is used to
+select a default merge target and to determine if the branch is a contributor branch or not.
 
 After that, it's just a normal push.
 
@@ -653,10 +614,6 @@ After that, it's just a normal push.
 This is the same as now.
 
 We're not using `pull` to checkout new projects. Use `project.switch` for that.
-
-# Random historical Q&A that seems resolved?
-
-What happens when I push a project branch? (You don't "push a project", you create the project, then push individual branches. The user can if they want push multiple branches, but no special command needed for now.)
 
 ---
 
@@ -671,81 +628,15 @@ Question: when I create a contributor branch, does it get a new project_id and b
 Seems like either could work, but we decided to go with 2) for now, unless something comes up
 later that makes us seriously reconsider.
 
--# Unresolved questions
+# Some questions
 
 ### How can we support undeleting a branch?
 
 ---
 
-Default merge target location? (at level of project, and also overrideable for individual branches). Specify somehow in SQL.
-- Do we add that as a column to projects table?
-
-Default push location? (at level of project, and also overrideable for individual branches). Specify somehow
-
-(local id, remote id, server name) relation
-
-
-____
-
-1. on a plane, create a project within ucm (so you don't create the project on Share then pull it down)
-
-> project.create lens
-
-3. maybe do some work
-4. push it to share
-
-`.__projects.<origguid>.branches.main> push`
-
-How do I work on this project now?
-
-5. Is it: project.switch lens
-
-    Answer 1: it's just the same as `cd .__projects.<origguid>.branches.main`
-
-   Is it: project.switch @arya/lens
-
-    Answer 1: ask share for @arya/lens and save it to `.__projects.<otherguid>`
-
 ### What about UUIDs we generate that begin with a number? Is it ok to make child namespaces out of those?
 
 Example: `.__projects.12345.branches.67890`
 
-
-----
-Scenario 1:
-
-> project.create lens
-> project.switch lens
-...lens...> push //creates @arya/lens?
-> project.switch @arya/lens
-
-Q: I have two projects, "lens" and "@arya/lens" that are totally independent?
-
-Scenario 2:
-
-I create @arya/lens on the website
-> project.switch @arya/lens
-
-Q: I just have one project locally?
-
-----
-
-
-
-----
-
-Consequences of single uuid vs local and remote uuids
-
-If we want local projects to eventually support multiple remotes, then we will eventually have a many-to-many relationship between local projects and remote projects.
-
-If there is a single global uuid for a project then what happens if someone clones an open-source project and creates a private remote? The open-source project has some uuid that is supposed to globally identify it, but we don't want the new private project to share this identifier, it is meant to be a new distinct project.
-
-    If the open and closed projects share the same UUID, that doesn't work because they're meant to be distinct.
-    If they have different UUIDs, then they (we presume) can't both be remotes for a given local project.
-
-"What if they could?" "That is the purpose of the mapping."
-
-----
-
-Suppose we have a mapping from local uuids and remote uuids.
-(localuuid, remoteuuid, server)
+Answer: could prefix UUIDs with an underscore
+Answer: could relax namespace parsing
