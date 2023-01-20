@@ -261,6 +261,7 @@ create-branch :
         { project-id : RemoteProjectId
         , branch-id : RemoteBranchId
         }
+  , causal-hash : CausalHash
   }
   -> RemoteBranchId
 ```
@@ -277,6 +278,7 @@ create-branch
         { project-id = "bf070d5e"
         , branch-id = "76228b2c"
         }
+  , causal-hash = "whatever"
   }
 
 "2183b77f"
@@ -285,6 +287,8 @@ create-branch
 ### create-project
 
 Create a new project on a server.
+
+Fixme: there's already an API up, adjust this to match.
 
 ```elm
 create-project :
@@ -308,6 +312,8 @@ create-project
 ### get-project-branch-causal-hash
 
 Ask a server for a project branch's causal hash.
+
+FIXME: rework this into get-branch-by-id/get-branch-by-name that return more info (like branch name)
 
 ```elm
 get-project-branch-causal-hash :
@@ -359,6 +365,8 @@ get-project-branch-id
 
 Ask a server to resolve a project name to remote project id.
 
+FIXME: similarly, rework as get-project-by-id / get-project-by-name
+
 ```elm
 get-project-id :
   { server : Url
@@ -377,6 +385,16 @@ get-project-id
 
 "10f43936"
 ```
+
+### push-project-branch
+
+FIXME
+
+- project id
+- branch name
+- next head (already pushed)
+- <Optional> expected head hash (if provided, do a “force-push-with-lease” style compare-and-swap)
+- Don’t support paths, always update the root of the branch.
 
 ---
 
