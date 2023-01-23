@@ -3279,6 +3279,10 @@ doc2VideoRef :: Reference
 pattern Doc2VideoRef :: Reference
 doc2FrontMatterRef :: Reference
 pattern Doc2FrontMatterRef :: Reference
+doc2LaTeXInlineRef :: Reference
+pattern Doc2LaTeXInlineRef :: Reference
+doc2SvgRef :: Reference
+pattern Doc2SvgRef :: Reference
 pattern Doc2Word :: Text -> Term (F typeVar typeAnn patternAnn) v a
 pattern Doc2Code :: Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a
 pattern Doc2CodeBlock :: Text -> Term2 typeVar typeAnn patternAnn v a -> Term2 typeVar typeAnn patternAnn v a
@@ -3333,6 +3337,8 @@ pattern Doc2SpecialFormEmbedInline :: Term (F typeVar typeAnn patternAnn) v a ->
 pattern Doc2MediaSource :: Term2 typeVar typeAnn patternAnn v a -> Term2 typeVar typeAnn patternAnn v a -> Term2 typeVar typeAnn patternAnn v a
 pattern Doc2SpecialFormEmbedVideo :: [Term (F typeVar typeAnn patternAnn) v a] -> [Term (F typeVar typeAnn patternAnn) v a] -> Term (F typeVar typeAnn patternAnn) v a
 pattern Doc2SpecialFormEmbedFrontMatter :: [Term (F typeVar typeAnn patternAnn) v a] -> Term (F typeVar typeAnn patternAnn) v a
+pattern Doc2SpecialFormEmbedLaTeXInline :: Text -> Term (F typeVar typeAnn patternAnn) v a
+pattern Doc2SpecialFormEmbedSvg :: Text -> Term (F typeVar typeAnn patternAnn) v a
 pattern Doc2Example :: forall vt at ap v a. [v] -> Term2 vt at ap v a -> Term (F vt at ap) v a
 pattern Doc2Term :: Term (F typeVar typeAnn patternAnn) v a -> Term (F typeVar typeAnn patternAnn) v a
 pattern Doc2TermRef :: Reference

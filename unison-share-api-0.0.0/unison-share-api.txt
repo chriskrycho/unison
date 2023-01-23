@@ -289,6 +289,8 @@ Embed :: SyntaxText -> RenderedSpecialForm
 EmbedInline :: SyntaxText -> RenderedSpecialForm
 Video :: [MediaSource] -> Map Text Text -> RenderedSpecialForm
 FrontMatter :: Map Text [Text] -> RenderedSpecialForm
+LaTeXInline :: Text -> RenderedSpecialForm
+Svg :: Text -> RenderedSpecialForm
 RenderError :: RenderError SyntaxText -> RenderedSpecialForm
 data EvaluatedSpecialForm v
 ESource :: [EvaluatedSrc v] -> EvaluatedSpecialForm v
@@ -304,6 +306,8 @@ EEmbed :: Term v () -> EvaluatedSpecialForm v
 EEmbedInline :: Term v () -> EvaluatedSpecialForm v
 EVideo :: [MediaSource] -> Map Text Text -> EvaluatedSpecialForm v
 EFrontMatter :: Map Text [Text] -> EvaluatedSpecialForm v
+ELaTeXInline :: Text -> EvaluatedSpecialForm v
+ESvg :: Text -> EvaluatedSpecialForm v
 ERenderError :: RenderError (Term v ()) -> EvaluatedSpecialForm v
 data Src
 Src :: SyntaxText -> SyntaxText -> Src
