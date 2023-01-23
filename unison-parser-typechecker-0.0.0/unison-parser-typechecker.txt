@@ -4737,6 +4737,7 @@ TLTT :: POp
 PRNT :: POp
 INFO :: POp
 TRCE :: POp
+DBTX :: POp
 ATOM :: POp
 TFRC :: POp
 type FOp = Word64
@@ -5062,6 +5063,7 @@ LOAD :: BPrim1
 CVLD :: BPrim1
 VALU :: BPrim1
 TLTT :: BPrim1
+DBTX :: BPrim1
 data BPrim2
 EQLU :: BPrim2
 CMPU :: BPrim2
@@ -5611,11 +5613,15 @@ module Unison.Runtime.Machine
 type ActiveThreads = Maybe (IORef (Set ThreadId))
 type Tag = Word64
 type DEnv = EnumMap Word64 Closure
+data Tracer
+NoTrace :: Tracer
+MsgTrace :: String -> String -> Tracer
+SimpleTrace :: String -> Tracer
 data CCache
-CCache :: EnumMap Word64 ForeignFunc -> Bool -> (Text -> Closure -> IO ()) -> TVar (EnumMap Word64 Combs) -> TVar (EnumMap Word64 Reference) -> TVar (EnumMap Word64 Reference) -> TVar Word64 -> TVar Word64 -> TVar (Map Reference (SuperGroup Symbol)) -> TVar (Map Reference Word64) -> TVar (Map Reference Word64) -> TVar (Map Reference (Set Reference)) -> CCache
+CCache :: EnumMap Word64 ForeignFunc -> Bool -> (Bool -> Closure -> Tracer) -> TVar (EnumMap Word64 Combs) -> TVar (EnumMap Word64 Reference) -> TVar (EnumMap Word64 Reference) -> TVar Word64 -> TVar Word64 -> TVar (Map Reference (SuperGroup Symbol)) -> TVar (Map Reference Word64) -> TVar (Map Reference Word64) -> TVar (Map Reference (Set Reference)) -> CCache
 [$sel:foreignFuncs:CCache] :: CCache -> EnumMap Word64 ForeignFunc
 [$sel:sandboxed:CCache] :: CCache -> Bool
-[$sel:tracer:CCache] :: CCache -> Text -> Closure -> IO ()
+[$sel:tracer:CCache] :: CCache -> Bool -> Closure -> Tracer
 [$sel:combs:CCache] :: CCache -> TVar (EnumMap Word64 Combs)
 [$sel:combRefs:CCache] :: CCache -> TVar (EnumMap Word64 Reference)
 [$sel:tagRefs:CCache] :: CCache -> TVar (EnumMap Word64 Reference)
