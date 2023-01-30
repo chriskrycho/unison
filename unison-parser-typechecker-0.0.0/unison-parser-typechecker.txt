@@ -3842,15 +3842,6 @@ getTypeMetadataAt :: (Path, a) -> Reference -> Branch0 m -> Metadata
 getTermMetadataHQNamed :: (Path, HQSegment) -> Branch0 m -> R4 Referent NameSegment
 getTypeMetadataHQNamed :: (Path, HQSegment) -> Branch0 m -> R4 Reference NameSegment
 makeSetBranch :: Split -> Branch m -> (Path, Branch0 m -> Branch0 m)
-
--- | "delete"s a branch by cons'ing an empty Branch0 onto the history at
---   that location. See also <a>makeObliterateBranch</a>.
-makeDeleteBranch :: Applicative m => Split -> (Path, Branch0 m -> Branch0 m)
-
--- | Erase a branch and its history See also <a>makeDeleteBranch</a>. Note
---   that this requires a AllowRewritingHistory update strategy to behave
---   correctly.
-makeObliterateBranch :: Split -> (Path, Branch0 m -> Branch0 m)
 makeAddTypeName :: Split -> Reference -> Metadata -> (Path, Branch0 m -> Branch0 m)
 makeDeleteTypeName :: Split -> Reference -> (Path, Branch0 m -> Branch0 m)
 makeAddTermName :: Split -> Referent -> Metadata -> (Path, Branch0 m -> Branch0 m)
