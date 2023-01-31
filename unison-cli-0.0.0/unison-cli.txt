@@ -1063,7 +1063,7 @@ NoMainFunction :: String -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
 -- | Function found, but has improper type Note: the constructor name is
 --   misleading here; we weren't necessarily looking for a "main".
 BadMainFunction :: String -> String -> Type Symbol Ann -> PrettyPrintEnv -> [Type Symbol Ann] -> Output
-BranchEmpty :: Either ShortCausalHash Path' -> Output
+BranchEmpty :: WhichBranchEmpty -> Output
 BranchNotEmpty :: Path' -> Output
 LoadPullRequest :: ReadRemoteNamespace -> ReadRemoteNamespace -> Path' -> Path' -> Path' -> Path' -> Output
 CreatedNewBranch :: Absolute -> Output
@@ -1182,6 +1182,7 @@ IntegrityCheck :: IntegrityResult -> Output
 DisplayDebugNameDiff :: NameChanges -> Output
 DisplayDebugCompletions :: [Completion] -> Output
 ClearScreen :: Output
+PulledEmptyBranch :: ReadRemoteNamespace -> Output
 data DisplayDefinitionsOutput
 DisplayDefinitionsOutput :: (TermReference -> Bool) -> Maybe FilePath -> PrettyPrintEnvDecl -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann)) -> Map Reference (DisplayObject () (Decl Symbol Ann)) -> DisplayDefinitionsOutput
 [$sel:isTest:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> TermReference -> Bool
@@ -1189,6 +1190,11 @@ DisplayDefinitionsOutput :: (TermReference -> Bool) -> Maybe FilePath -> PrettyP
 [$sel:prettyPrintEnv:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> PrettyPrintEnvDecl
 [$sel:terms:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> Map Reference (DisplayObject (Type Symbol Ann) (Term Symbol Ann))
 [$sel:types:DisplayDefinitionsOutput] :: DisplayDefinitionsOutput -> Map Reference (DisplayObject () (Decl Symbol Ann))
+
+-- | A branch was empty. But how do we refer to that branch?
+data WhichBranchEmpty
+WhichBranchEmptyHash :: ShortCausalHash -> WhichBranchEmpty
+WhichBranchEmptyPath :: Path' -> WhichBranchEmpty
 data NumberedOutput
 ShowDiffNamespace :: AbsBranchId -> AbsBranchId -> PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
 ShowDiffAfterUndo :: PrettyPrintEnv -> BranchDiffOutput Symbol Ann -> NumberedOutput
@@ -1694,6 +1700,9 @@ prettyTermName :: PrettyPrintEnv -> Referent -> Pretty
 prettyTypeName :: PrettyPrintEnv -> Reference -> Pretty
 prettyReadGitRepo :: ReadGitRepo -> Pretty
 prettyWriteGitRepo :: WriteGitRepo -> Pretty
+
+-- | Pretty-print a <a>WhichBranchEmpty</a>.
+prettyWhichBranchEmpty :: WhichBranchEmpty -> Pretty
 isTestOk :: Term v Ann -> Bool
 
 -- | Get the list of numbered args corresponding to an endangerment map,
