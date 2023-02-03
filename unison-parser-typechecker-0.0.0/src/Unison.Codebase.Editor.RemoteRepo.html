@@ -16,7 +16,7 @@
 </span><span id="line-16"></span><span class="hs-keyword">data</span><span> </span><span id="ReadRepo"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRepo"><span class="hs-identifier hs-var">ReadRepo</span></a></span></span><span>
 </span><span id="line-17"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="ReadRepoGit"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRepoGit"><span class="hs-identifier hs-var">ReadRepoGit</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRepo"><span class="hs-identifier hs-type">ReadGitRepo</span></a></span><span>
 </span><span id="line-18"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ReadRepoShare"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRepoShare"><span class="hs-identifier hs-var">ReadRepoShare</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ShareCodeserver"><span class="hs-identifier hs-type">ShareCodeserver</span></a></span><span>
-</span><span id="line-19"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606584"><span id="local-6989586621680606586"><span class="annot"><span class="annottext">ReadRepo -&gt; ReadRepo -&gt; Bool
+</span><span id="line-19"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606604"><span id="local-6989586621680606606"><span class="annot"><span class="annottext">ReadRepo -&gt; ReadRepo -&gt; Bool
 (ReadRepo -&gt; ReadRepo -&gt; Bool)
 -&gt; (ReadRepo -&gt; ReadRepo -&gt; Bool) -&gt; Eq ReadRepo
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -24,7 +24,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: ReadRepo -&gt; ReadRepo -&gt; Bool
 == :: ReadRepo -&gt; ReadRepo -&gt; Bool
 $c== :: ReadRepo -&gt; ReadRepo -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606568"><span id="local-6989586621680606570"><span id="local-6989586621680606572"><span id="local-6989586621680606574"><span id="local-6989586621680606576"><span id="local-6989586621680606578"><span id="local-6989586621680606580"><span class="annot"><span class="annottext">Eq ReadRepo
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606588"><span id="local-6989586621680606590"><span id="local-6989586621680606592"><span id="local-6989586621680606594"><span id="local-6989586621680606596"><span id="local-6989586621680606598"><span id="local-6989586621680606600"><span class="annot"><span class="annottext">Eq ReadRepo
 Eq ReadRepo
 -&gt; (ReadRepo -&gt; ReadRepo -&gt; Ordering)
 -&gt; (ReadRepo -&gt; ReadRepo -&gt; Bool)
@@ -62,7 +62,7 @@ $c&lt; :: ReadRepo -&gt; ReadRepo -&gt; Bool
 compare :: ReadRepo -&gt; ReadRepo -&gt; Ordering
 $ccompare :: ReadRepo -&gt; ReadRepo -&gt; Ordering
 $cp1Ord :: Eq ReadRepo
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606561"><span id="local-6989586621680606563"><span id="local-6989586621680606565"><span class="annot"><span class="annottext">Int -&gt; ReadRepo -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606581"><span id="local-6989586621680606583"><span id="local-6989586621680606585"><span class="annot"><span class="annottext">Int -&gt; ReadRepo -&gt; ShowS
 [ReadRepo] -&gt; ShowS
 ReadRepo -&gt; String
 (Int -&gt; ReadRepo -&gt; ShowS)
@@ -80,7 +80,7 @@ $cshowsPrec :: Int -&gt; ReadRepo -&gt; ShowS
 </span><span id="line-21"></span><span class="hs-keyword">data</span><span> </span><span id="ShareCodeserver"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ShareCodeserver"><span class="hs-identifier hs-var">ShareCodeserver</span></a></span></span><span>
 </span><span id="line-22"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="DefaultCodeserver"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#DefaultCodeserver"><span class="hs-identifier hs-var">DefaultCodeserver</span></a></span></span><span>
 </span><span id="line-23"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="CustomCodeserver"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#CustomCodeserver"><span class="hs-identifier hs-var">CustomCodeserver</span></a></span></span><span> </span><span class="annot"><a href="Unison.Share.Types.html#CodeserverURI"><span class="hs-identifier hs-type">CodeserverURI</span></a></span><span>
-</span><span id="line-24"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606554"><span id="local-6989586621680606556"><span class="annot"><span class="annottext">ShareCodeserver -&gt; ShareCodeserver -&gt; Bool
+</span><span id="line-24"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606574"><span id="local-6989586621680606576"><span class="annot"><span class="annottext">ShareCodeserver -&gt; ShareCodeserver -&gt; Bool
 (ShareCodeserver -&gt; ShareCodeserver -&gt; Bool)
 -&gt; (ShareCodeserver -&gt; ShareCodeserver -&gt; Bool)
 -&gt; Eq ShareCodeserver
@@ -89,7 +89,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: ShareCodeserver -&gt; ShareCodeserver -&gt; Bool
 == :: ShareCodeserver -&gt; ShareCodeserver -&gt; Bool
 $c== :: ShareCodeserver -&gt; ShareCodeserver -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606539"><span id="local-6989586621680606541"><span id="local-6989586621680606543"><span id="local-6989586621680606545"><span id="local-6989586621680606547"><span id="local-6989586621680606549"><span id="local-6989586621680606551"><span class="annot"><span class="annottext">Eq ShareCodeserver
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606559"><span id="local-6989586621680606561"><span id="local-6989586621680606563"><span id="local-6989586621680606565"><span id="local-6989586621680606567"><span id="local-6989586621680606569"><span id="local-6989586621680606571"><span class="annot"><span class="annottext">Eq ShareCodeserver
 Eq ShareCodeserver
 -&gt; (ShareCodeserver -&gt; ShareCodeserver -&gt; Ordering)
 -&gt; (ShareCodeserver -&gt; ShareCodeserver -&gt; Bool)
@@ -127,7 +127,7 @@ $c&lt; :: ShareCodeserver -&gt; ShareCodeserver -&gt; Bool
 compare :: ShareCodeserver -&gt; ShareCodeserver -&gt; Ordering
 $ccompare :: ShareCodeserver -&gt; ShareCodeserver -&gt; Ordering
 $cp1Ord :: Eq ShareCodeserver
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606533"><span id="local-6989586621680606535"><span id="local-6989586621680606537"><span class="annot"><span class="annottext">Int -&gt; ShareCodeserver -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606553"><span id="local-6989586621680606555"><span id="local-6989586621680606557"><span class="annot"><span class="annottext">Int -&gt; ShareCodeserver -&gt; ShowS
 [ShareCodeserver] -&gt; ShowS
 ShareCodeserver -&gt; String
 (Int -&gt; ShareCodeserver -&gt; ShowS)
@@ -146,7 +146,7 @@ $cshowsPrec :: Int -&gt; ShareCodeserver -&gt; ShowS
 </span><span id="line-25"></span><span>
 </span><span id="line-26"></span><span class="hs-keyword">newtype</span><span> </span><span id="ShareUserHandle"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ShareUserHandle"><span class="hs-identifier hs-var">ShareUserHandle</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ShareUserHandle"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ShareUserHandle"><span class="hs-identifier hs-var">ShareUserHandle</span></a></span></span><span> </span><span class="hs-special">{</span><span id="%24sel%3AshareUserHandleToText%3AShareUserHandle"><span class="annot"><span class="annottext">ShareUserHandle -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3AshareUserHandleToText%3AShareUserHandle"><span class="hs-identifier hs-var hs-var">shareUserHandleToText</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">}</span><span>
-</span><span id="line-27"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606527"><span id="local-6989586621680606529"><span class="annot"><span class="annottext">ShareUserHandle -&gt; ShareUserHandle -&gt; Bool
+</span><span id="line-27"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606547"><span id="local-6989586621680606549"><span class="annot"><span class="annottext">ShareUserHandle -&gt; ShareUserHandle -&gt; Bool
 (ShareUserHandle -&gt; ShareUserHandle -&gt; Bool)
 -&gt; (ShareUserHandle -&gt; ShareUserHandle -&gt; Bool)
 -&gt; Eq ShareUserHandle
@@ -155,7 +155,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: ShareUserHandle -&gt; ShareUserHandle -&gt; Bool
 == :: ShareUserHandle -&gt; ShareUserHandle -&gt; Bool
 $c== :: ShareUserHandle -&gt; ShareUserHandle -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606512"><span id="local-6989586621680606514"><span id="local-6989586621680606516"><span id="local-6989586621680606518"><span id="local-6989586621680606520"><span id="local-6989586621680606522"><span id="local-6989586621680606524"><span class="annot"><span class="annottext">Eq ShareUserHandle
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606532"><span id="local-6989586621680606534"><span id="local-6989586621680606536"><span id="local-6989586621680606538"><span id="local-6989586621680606540"><span id="local-6989586621680606542"><span id="local-6989586621680606544"><span class="annot"><span class="annottext">Eq ShareUserHandle
 Eq ShareUserHandle
 -&gt; (ShareUserHandle -&gt; ShareUserHandle -&gt; Ordering)
 -&gt; (ShareUserHandle -&gt; ShareUserHandle -&gt; Bool)
@@ -193,7 +193,7 @@ $c&lt; :: ShareUserHandle -&gt; ShareUserHandle -&gt; Bool
 compare :: ShareUserHandle -&gt; ShareUserHandle -&gt; Ordering
 $ccompare :: ShareUserHandle -&gt; ShareUserHandle -&gt; Ordering
 $cp1Ord :: Eq ShareUserHandle
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606506"><span id="local-6989586621680606508"><span id="local-6989586621680606510"><span class="annot"><span class="annottext">Int -&gt; ShareUserHandle -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606526"><span id="local-6989586621680606528"><span id="local-6989586621680606530"><span class="annot"><span class="annottext">Int -&gt; ShareUserHandle -&gt; ShowS
 [ShareUserHandle] -&gt; ShowS
 ShareUserHandle -&gt; String
 (Int -&gt; ShareUserHandle -&gt; ShowS)
@@ -222,42 +222,42 @@ $cshowsPrec :: Int -&gt; ShareUserHandle -&gt; ShowS
 </span><span id="line-38"></span><span class="hs-comment">-- &quot;share(https://share-next.unison-lang.org:443/api).unison.base.List&quot;</span><span>
 </span><span id="line-39"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#displayShareCodeserver"><span class="hs-identifier hs-type">displayShareCodeserver</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ShareCodeserver"><span class="hs-identifier hs-type">ShareCodeserver</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ShareUserHandle"><span class="hs-identifier hs-type">ShareUserHandle</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.Codebase.Path.html#Path"><span class="hs-identifier hs-type">Path</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
 </span><span id="line-40"></span><span id="displayShareCodeserver"><span class="annot"><span class="annottext">displayShareCodeserver :: ShareCodeserver -&gt; ShareUserHandle -&gt; Path -&gt; Text
-</span><a href="Unison.Codebase.Editor.RemoteRepo.html#displayShareCodeserver"><span class="hs-identifier hs-var hs-var">displayShareCodeserver</span></a></span></span><span> </span><span id="local-6989586621680606504"><span class="annot"><span class="annottext">ShareCodeserver
-</span><a href="#local-6989586621680606504"><span class="hs-identifier hs-var">cs</span></a></span></span><span> </span><span id="local-6989586621680606503"><span class="annot"><span class="annottext">ShareUserHandle
-</span><a href="#local-6989586621680606503"><span class="hs-identifier hs-var">shareUser</span></a></span></span><span> </span><span id="local-6989586621680606502"><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606502"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-41"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680606501"><span class="annot"><span class="annottext">shareServer :: Text
-</span><a href="#local-6989586621680606501"><span class="hs-identifier hs-var hs-var">shareServer</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">ShareCodeserver
-</span><a href="#local-6989586621680606504"><span class="hs-identifier hs-var">cs</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="Unison.Codebase.Editor.RemoteRepo.html#displayShareCodeserver"><span class="hs-identifier hs-var hs-var">displayShareCodeserver</span></a></span></span><span> </span><span id="local-6989586621680606524"><span class="annot"><span class="annottext">ShareCodeserver
+</span><a href="#local-6989586621680606524"><span class="hs-identifier hs-var">cs</span></a></span></span><span> </span><span id="local-6989586621680606523"><span class="annot"><span class="annottext">ShareUserHandle
+</span><a href="#local-6989586621680606523"><span class="hs-identifier hs-var">shareUser</span></a></span></span><span> </span><span id="local-6989586621680606522"><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606522"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-41"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680606521"><span class="annot"><span class="annottext">shareServer :: Text
+</span><a href="#local-6989586621680606521"><span class="hs-identifier hs-var hs-var">shareServer</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">ShareCodeserver
+</span><a href="#local-6989586621680606524"><span class="hs-identifier hs-var">cs</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-42"></span><span>        </span><span class="annot"><span class="annottext">ShareCodeserver
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#DefaultCodeserver"><span class="hs-identifier hs-var">DefaultCodeserver</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&quot;</span></span><span>
-</span><span id="line-43"></span><span>        </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#CustomCodeserver"><span class="hs-identifier hs-type">CustomCodeserver</span></a></span><span> </span><span id="local-6989586621680606500"><span class="annot"><span class="annottext">CodeserverURI
-</span><a href="#local-6989586621680606500"><span class="hs-identifier hs-var">cu</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text
+</span><span id="line-43"></span><span>        </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#CustomCodeserver"><span class="hs-identifier hs-type">CustomCodeserver</span></a></span><span> </span><span id="local-6989586621680606520"><span class="annot"><span class="annottext">CodeserverURI
+</span><a href="#local-6989586621680606520"><span class="hs-identifier hs-var">cu</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;share(&quot;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">CodeserverURI -&gt; Text
 forall a. Show a =&gt; a -&gt; Text
 </span><span class="hs-identifier hs-var">tShow</span></span><span> </span><span class="annot"><span class="annottext">CodeserverURI
-</span><a href="#local-6989586621680606500"><span class="hs-identifier hs-var">cu</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606520"><span class="hs-identifier hs-var">cu</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;).&quot;</span></span><span>
 </span><span id="line-44"></span><span>   </span><span class="hs-keyword">in</span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621680606501"><span class="hs-identifier hs-var">shareServer</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606521"><span class="hs-identifier hs-var">shareServer</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ShareUserHandle -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3AshareUserHandleToText%3AShareUserHandle"><span class="hs-identifier hs-var hs-var">shareUserHandleToText</span></a></span><span> </span><span class="annot"><span class="annottext">ShareUserHandle
-</span><a href="#local-6989586621680606503"><span class="hs-identifier hs-var">shareUser</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606523"><span class="hs-identifier hs-var">shareUser</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Path -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#maybePrintPath"><span class="hs-identifier hs-var">maybePrintPath</span></a></span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606502"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><a href="#local-6989586621680606522"><span class="hs-identifier hs-var">path</span></a></span><span>
 </span><span id="line-45"></span><span>
 </span><span id="line-46"></span><span class="hs-keyword">data</span><span> </span><span id="ReadGitRepo"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRepo"><span class="hs-identifier hs-var">ReadGitRepo</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ReadGitRepo"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRepo"><span class="hs-identifier hs-var">ReadGitRepo</span></a></span></span><span> </span><span class="hs-special">{</span><span id="%24sel%3Aurl%3AReadGitRepo"><span class="annot"><span class="annottext">ReadGitRepo -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Aurl%3AReadGitRepo"><span class="hs-identifier hs-var hs-var">url</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span id="%24sel%3Aref%3AReadGitRepo"><span class="annot"><span class="annottext">ReadGitRepo -&gt; Maybe Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Aref%3AReadGitRepo"><span class="hs-identifier hs-var hs-var">ref</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">}</span><span>
-</span><span id="line-47"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606491"><span id="local-6989586621680606493"><span class="annot"><span class="annottext">ReadGitRepo -&gt; ReadGitRepo -&gt; Bool
+</span><span id="line-47"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606511"><span id="local-6989586621680606513"><span class="annot"><span class="annottext">ReadGitRepo -&gt; ReadGitRepo -&gt; Bool
 (ReadGitRepo -&gt; ReadGitRepo -&gt; Bool)
 -&gt; (ReadGitRepo -&gt; ReadGitRepo -&gt; Bool) -&gt; Eq ReadGitRepo
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -265,7 +265,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: ReadGitRepo -&gt; ReadGitRepo -&gt; Bool
 == :: ReadGitRepo -&gt; ReadGitRepo -&gt; Bool
 $c== :: ReadGitRepo -&gt; ReadGitRepo -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606476"><span id="local-6989586621680606478"><span id="local-6989586621680606480"><span id="local-6989586621680606482"><span id="local-6989586621680606484"><span id="local-6989586621680606486"><span id="local-6989586621680606488"><span class="annot"><span class="annottext">Eq ReadGitRepo
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606496"><span id="local-6989586621680606498"><span id="local-6989586621680606500"><span id="local-6989586621680606502"><span id="local-6989586621680606504"><span id="local-6989586621680606506"><span id="local-6989586621680606508"><span class="annot"><span class="annottext">Eq ReadGitRepo
 Eq ReadGitRepo
 -&gt; (ReadGitRepo -&gt; ReadGitRepo -&gt; Ordering)
 -&gt; (ReadGitRepo -&gt; ReadGitRepo -&gt; Bool)
@@ -303,7 +303,7 @@ $c&lt; :: ReadGitRepo -&gt; ReadGitRepo -&gt; Bool
 compare :: ReadGitRepo -&gt; ReadGitRepo -&gt; Ordering
 $ccompare :: ReadGitRepo -&gt; ReadGitRepo -&gt; Ordering
 $cp1Ord :: Eq ReadGitRepo
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606470"><span id="local-6989586621680606472"><span id="local-6989586621680606474"><span class="annot"><span class="annottext">Int -&gt; ReadGitRepo -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606490"><span id="local-6989586621680606492"><span id="local-6989586621680606494"><span class="annot"><span class="annottext">Int -&gt; ReadGitRepo -&gt; ShowS
 [ReadGitRepo] -&gt; ShowS
 ReadGitRepo -&gt; String
 (Int -&gt; ReadGitRepo -&gt; ShowS)
@@ -323,7 +323,7 @@ $cshowsPrec :: Int -&gt; ReadGitRepo -&gt; ShowS
 </span><span id="line-49"></span><span class="hs-keyword">data</span><span> </span><span id="WriteRepo"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRepo"><span class="hs-identifier hs-var">WriteRepo</span></a></span></span><span>
 </span><span id="line-50"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="WriteRepoGit"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRepoGit"><span class="hs-identifier hs-var">WriteRepoGit</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRepo"><span class="hs-identifier hs-type">WriteGitRepo</span></a></span><span>
 </span><span id="line-51"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="WriteRepoShare"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRepoShare"><span class="hs-identifier hs-var">WriteRepoShare</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ShareCodeserver"><span class="hs-identifier hs-type">ShareCodeserver</span></a></span><span>
-</span><span id="line-52"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606464"><span id="local-6989586621680606466"><span class="annot"><span class="annottext">WriteRepo -&gt; WriteRepo -&gt; Bool
+</span><span id="line-52"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606484"><span id="local-6989586621680606486"><span class="annot"><span class="annottext">WriteRepo -&gt; WriteRepo -&gt; Bool
 (WriteRepo -&gt; WriteRepo -&gt; Bool)
 -&gt; (WriteRepo -&gt; WriteRepo -&gt; Bool) -&gt; Eq WriteRepo
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -331,7 +331,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: WriteRepo -&gt; WriteRepo -&gt; Bool
 == :: WriteRepo -&gt; WriteRepo -&gt; Bool
 $c== :: WriteRepo -&gt; WriteRepo -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606449"><span id="local-6989586621680606451"><span id="local-6989586621680606453"><span id="local-6989586621680606455"><span id="local-6989586621680606457"><span id="local-6989586621680606459"><span id="local-6989586621680606461"><span class="annot"><span class="annottext">Eq WriteRepo
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606469"><span id="local-6989586621680606471"><span id="local-6989586621680606473"><span id="local-6989586621680606475"><span id="local-6989586621680606477"><span id="local-6989586621680606479"><span id="local-6989586621680606481"><span class="annot"><span class="annottext">Eq WriteRepo
 Eq WriteRepo
 -&gt; (WriteRepo -&gt; WriteRepo -&gt; Ordering)
 -&gt; (WriteRepo -&gt; WriteRepo -&gt; Bool)
@@ -369,7 +369,7 @@ $c&lt; :: WriteRepo -&gt; WriteRepo -&gt; Bool
 compare :: WriteRepo -&gt; WriteRepo -&gt; Ordering
 $ccompare :: WriteRepo -&gt; WriteRepo -&gt; Ordering
 $cp1Ord :: Eq WriteRepo
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606443"><span id="local-6989586621680606445"><span id="local-6989586621680606447"><span class="annot"><span class="annottext">Int -&gt; WriteRepo -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606463"><span id="local-6989586621680606465"><span id="local-6989586621680606467"><span class="annot"><span class="annottext">Int -&gt; WriteRepo -&gt; ShowS
 [WriteRepo] -&gt; ShowS
 WriteRepo -&gt; String
 (Int -&gt; WriteRepo -&gt; ShowS)
@@ -389,7 +389,7 @@ $cshowsPrec :: Int -&gt; WriteRepo -&gt; ShowS
 </span><span id="line-54"></span><span class="hs-keyword">data</span><span> </span><span id="WriteGitRepo"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRepo"><span class="hs-identifier hs-var">WriteGitRepo</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="WriteGitRepo"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRepo"><span class="hs-identifier hs-var">WriteGitRepo</span></a></span></span><span> </span><span class="hs-special">{</span><span id="%24sel%3Aurl%3AWriteGitRepo"><span class="annot"><span class="annottext">WriteGitRepo -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Aurl%3AWriteGitRepo"><span class="hs-identifier hs-var hs-var">url</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span id="%24sel%3Abranch%3AWriteGitRepo"><span class="annot"><span class="annottext">WriteGitRepo -&gt; Maybe Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Abranch%3AWriteGitRepo"><span class="hs-identifier hs-var hs-var">branch</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">}</span><span>
-</span><span id="line-55"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606436"><span id="local-6989586621680606438"><span class="annot"><span class="annottext">WriteGitRepo -&gt; WriteGitRepo -&gt; Bool
+</span><span id="line-55"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606456"><span id="local-6989586621680606458"><span class="annot"><span class="annottext">WriteGitRepo -&gt; WriteGitRepo -&gt; Bool
 (WriteGitRepo -&gt; WriteGitRepo -&gt; Bool)
 -&gt; (WriteGitRepo -&gt; WriteGitRepo -&gt; Bool) -&gt; Eq WriteGitRepo
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -397,7 +397,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: WriteGitRepo -&gt; WriteGitRepo -&gt; Bool
 == :: WriteGitRepo -&gt; WriteGitRepo -&gt; Bool
 $c== :: WriteGitRepo -&gt; WriteGitRepo -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606421"><span id="local-6989586621680606423"><span id="local-6989586621680606425"><span id="local-6989586621680606427"><span id="local-6989586621680606429"><span id="local-6989586621680606431"><span id="local-6989586621680606433"><span class="annot"><span class="annottext">Eq WriteGitRepo
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606441"><span id="local-6989586621680606443"><span id="local-6989586621680606445"><span id="local-6989586621680606447"><span id="local-6989586621680606449"><span id="local-6989586621680606451"><span id="local-6989586621680606453"><span class="annot"><span class="annottext">Eq WriteGitRepo
 Eq WriteGitRepo
 -&gt; (WriteGitRepo -&gt; WriteGitRepo -&gt; Ordering)
 -&gt; (WriteGitRepo -&gt; WriteGitRepo -&gt; Bool)
@@ -435,7 +435,7 @@ $c&lt; :: WriteGitRepo -&gt; WriteGitRepo -&gt; Bool
 compare :: WriteGitRepo -&gt; WriteGitRepo -&gt; Ordering
 $ccompare :: WriteGitRepo -&gt; WriteGitRepo -&gt; Ordering
 $cp1Ord :: Eq WriteGitRepo
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606415"><span id="local-6989586621680606417"><span id="local-6989586621680606419"><span class="annot"><span class="annottext">Int -&gt; WriteGitRepo -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606435"><span id="local-6989586621680606437"><span id="local-6989586621680606439"><span class="annot"><span class="annottext">Int -&gt; WriteGitRepo -&gt; ShowS
 [WriteGitRepo] -&gt; ShowS
 WriteGitRepo -&gt; String
 (Int -&gt; WriteGitRepo -&gt; ShowS)
@@ -455,39 +455,39 @@ $cshowsPrec :: Int -&gt; WriteGitRepo -&gt; ShowS
 </span><span id="line-57"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#writeToRead"><span class="hs-identifier hs-type">writeToRead</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRepo"><span class="hs-identifier hs-type">WriteRepo</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRepo"><span class="hs-identifier hs-type">ReadRepo</span></a></span><span>
 </span><span id="line-58"></span><span id="writeToRead"><span class="annot"><span class="annottext">writeToRead :: WriteRepo -&gt; ReadRepo
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#writeToRead"><span class="hs-identifier hs-var hs-var">writeToRead</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-59"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRepoGit"><span class="hs-identifier hs-type">WriteRepoGit</span></a></span><span> </span><span id="local-6989586621680606413"><span class="annot"><span class="annottext">WriteGitRepo
-</span><a href="#local-6989586621680606413"><span class="hs-identifier hs-var">repo</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">ReadGitRepo -&gt; ReadRepo
+</span><span id="line-59"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRepoGit"><span class="hs-identifier hs-type">WriteRepoGit</span></a></span><span> </span><span id="local-6989586621680606433"><span class="annot"><span class="annottext">WriteGitRepo
+</span><a href="#local-6989586621680606433"><span class="hs-identifier hs-var">repo</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">ReadGitRepo -&gt; ReadRepo
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRepoGit"><span class="hs-identifier hs-var">ReadRepoGit</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">WriteGitRepo -&gt; ReadGitRepo
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#writeToReadGit"><span class="hs-identifier hs-var">writeToReadGit</span></a></span><span> </span><span class="annot"><span class="annottext">WriteGitRepo
-</span><a href="#local-6989586621680606413"><span class="hs-identifier hs-var">repo</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-60"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRepoShare"><span class="hs-identifier hs-type">WriteRepoShare</span></a></span><span> </span><span id="local-6989586621680606411"><span class="annot"><span class="annottext">ShareCodeserver
-</span><a href="#local-6989586621680606411"><span class="hs-identifier hs-var">repo</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">ShareCodeserver -&gt; ReadRepo
+</span><a href="#local-6989586621680606433"><span class="hs-identifier hs-var">repo</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-60"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRepoShare"><span class="hs-identifier hs-type">WriteRepoShare</span></a></span><span> </span><span id="local-6989586621680606431"><span class="annot"><span class="annottext">ShareCodeserver
+</span><a href="#local-6989586621680606431"><span class="hs-identifier hs-var">repo</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">ShareCodeserver -&gt; ReadRepo
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRepoShare"><span class="hs-identifier hs-var">ReadRepoShare</span></a></span><span> </span><span class="annot"><span class="annottext">ShareCodeserver
-</span><a href="#local-6989586621680606411"><span class="hs-identifier hs-var">repo</span></a></span><span>
+</span><a href="#local-6989586621680606431"><span class="hs-identifier hs-var">repo</span></a></span><span>
 </span><span id="line-61"></span><span>
 </span><span id="line-62"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#writeToReadGit"><span class="hs-identifier hs-type">writeToReadGit</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRepo"><span class="hs-identifier hs-type">WriteGitRepo</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRepo"><span class="hs-identifier hs-type">ReadGitRepo</span></a></span><span>
 </span><span id="line-63"></span><span id="writeToReadGit"><span class="annot"><span class="annottext">writeToReadGit :: WriteGitRepo -&gt; ReadGitRepo
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#writeToReadGit"><span class="hs-identifier hs-var hs-var">writeToReadGit</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-64"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRepo"><span class="hs-identifier hs-type">WriteGitRepo</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606410"><span class="annot"><span class="annottext">Text
+</span><span id="line-64"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRepo"><span class="hs-identifier hs-type">WriteGitRepo</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606430"><span class="annot"><span class="annottext">Text
 url :: Text
 $sel:url:WriteGitRepo :: WriteGitRepo -&gt; Text
-</span><a href="#local-6989586621680606410"><span class="hs-identifier hs-var hs-var">url</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606409"><span class="annot"><span class="annottext">Maybe Text
+</span><a href="#local-6989586621680606430"><span class="hs-identifier hs-var hs-var">url</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606429"><span class="annot"><span class="annottext">Maybe Text
 branch :: Maybe Text
 $sel:branch:WriteGitRepo :: WriteGitRepo -&gt; Maybe Text
-</span><a href="#local-6989586621680606409"><span class="hs-identifier hs-var hs-var">branch</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">ReadGitRepo :: Text -&gt; Maybe Text -&gt; ReadGitRepo
+</span><a href="#local-6989586621680606429"><span class="hs-identifier hs-var hs-var">branch</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">ReadGitRepo :: Text -&gt; Maybe Text -&gt; ReadGitRepo
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRepo"><span class="hs-identifier hs-type">ReadGitRepo</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:url:ReadGitRepo :: Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Aurl%3AReadGitRepo"><span class="hs-identifier hs-var">url</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621680606410"><span class="hs-identifier hs-var">url</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:ref:ReadGitRepo :: Maybe Text
+</span><a href="#local-6989586621680606430"><span class="hs-identifier hs-var">url</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:ref:ReadGitRepo :: Maybe Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Aref%3AReadGitRepo"><span class="hs-identifier hs-var">ref</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe Text
-</span><a href="#local-6989586621680606409"><span class="hs-identifier hs-var">branch</span></a></span><span class="hs-special">}</span><span>
+</span><a href="#local-6989586621680606429"><span class="hs-identifier hs-var">branch</span></a></span><span class="hs-special">}</span><span>
 </span><span id="line-65"></span><span>
 </span><span id="line-66"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#writePathToRead"><span class="hs-identifier hs-type">writePathToRead</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePath"><span class="hs-identifier hs-type">WriteRemotePath</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRemoteNamespace"><span class="hs-identifier hs-type">ReadRemoteNamespace</span></a></span><span>
 </span><span id="line-67"></span><span id="writePathToRead"><span class="annot"><span class="annottext">writePathToRead :: WriteRemotePath -&gt; ReadRemoteNamespace
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#writePathToRead"><span class="hs-identifier hs-var hs-var">writePathToRead</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-68"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathGit"><span class="hs-identifier hs-type">WriteRemotePathGit</span></a></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-type">WriteGitRemotePath</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606405"><span class="annot"><span class="annottext">WriteGitRepo
+</span><span id="line-68"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathGit"><span class="hs-identifier hs-type">WriteRemotePathGit</span></a></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-type">WriteGitRemotePath</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606425"><span class="annot"><span class="annottext">WriteGitRepo
 $sel:repo:WriteGitRemotePath :: WriteGitRemotePath -&gt; WriteGitRepo
 repo :: WriteGitRepo
-</span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Arepo%3AWriteGitRemotePath"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606403"><span class="annot"><span class="annottext">Path
+</span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Arepo%3AWriteGitRemotePath"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606423"><span class="annot"><span class="annottext">Path
 $sel:path:WriteGitRemotePath :: WriteGitRemotePath -&gt; Path
 path :: Path
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Apath%3AWriteGitRemotePath"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span>
@@ -497,20 +497,20 @@ path :: Path
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRemoteNamespace"><span class="hs-identifier hs-type">ReadGitRemoteNamespace</span></a></span><span> </span><span class="hs-special">{</span><span class="annot"><span class="annottext">$sel:repo:ReadGitRemoteNamespace :: ReadGitRepo
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Arepo%3AReadGitRemoteNamespace"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">WriteGitRepo -&gt; ReadGitRepo
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#writeToReadGit"><span class="hs-identifier hs-var">writeToReadGit</span></a></span><span> </span><span class="annot"><span class="annottext">WriteGitRepo
-</span><a href="#local-6989586621680606405"><span class="hs-identifier hs-var">repo</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:sch:ReadGitRemoteNamespace :: Maybe ShortCausalHash
+</span><a href="#local-6989586621680606425"><span class="hs-identifier hs-var">repo</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">$sel:sch:ReadGitRemoteNamespace :: Maybe ShortCausalHash
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Asch%3AReadGitRemoteNamespace"><span class="hs-identifier hs-var">sch</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe ShortCausalHash
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Path
 $sel:path:ReadGitRemoteNamespace :: Path
 path :: Path
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Apath%3AReadGitRemoteNamespace"><span class="hs-identifier hs-var hs-var">path</span></a></span><span class="hs-special">}</span><span>
-</span><span id="line-70"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathShare"><span class="hs-identifier hs-type">WriteRemotePathShare</span></a></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteShareRemotePath"><span class="hs-identifier hs-type">WriteShareRemotePath</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606394"><span class="annot"><span class="annottext">ShareCodeserver
+</span><span id="line-70"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathShare"><span class="hs-identifier hs-type">WriteRemotePathShare</span></a></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteShareRemotePath"><span class="hs-identifier hs-type">WriteShareRemotePath</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606414"><span class="annot"><span class="annottext">ShareCodeserver
 $sel:server:WriteShareRemotePath :: WriteShareRemotePath -&gt; ShareCodeserver
 server :: ShareCodeserver
-</span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Aserver%3AWriteShareRemotePath"><span class="hs-identifier hs-var hs-var">server</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606392"><span class="annot"><span class="annottext">ShareUserHandle
+</span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Aserver%3AWriteShareRemotePath"><span class="hs-identifier hs-var hs-var">server</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606412"><span class="annot"><span class="annottext">ShareUserHandle
 $sel:repo:WriteShareRemotePath :: WriteShareRemotePath -&gt; ShareUserHandle
 repo :: ShareUserHandle
-</span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Arepo%3AWriteShareRemotePath"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606390"><span class="annot"><span class="annottext">Path
+</span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Arepo%3AWriteShareRemotePath"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606410"><span class="annot"><span class="annottext">Path
 $sel:path:WriteShareRemotePath :: WriteShareRemotePath -&gt; Path
 path :: Path
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Apath%3AWriteShareRemotePath"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span>
@@ -530,18 +530,18 @@ path :: Path
 </span><span id="line-72"></span><span>
 </span><span id="line-73"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#printReadGitRepo"><span class="hs-identifier hs-type">printReadGitRepo</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRepo"><span class="hs-identifier hs-type">ReadGitRepo</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
 </span><span id="line-74"></span><span id="printReadGitRepo"><span class="annot"><span class="annottext">printReadGitRepo :: ReadGitRepo -&gt; Text
-</span><a href="Unison.Codebase.Editor.RemoteRepo.html#printReadGitRepo"><span class="hs-identifier hs-var hs-var">printReadGitRepo</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRepo"><span class="hs-identifier hs-type">ReadGitRepo</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606382"><span class="annot"><span class="annottext">Text
+</span><a href="Unison.Codebase.Editor.RemoteRepo.html#printReadGitRepo"><span class="hs-identifier hs-var hs-var">printReadGitRepo</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRepo"><span class="hs-identifier hs-type">ReadGitRepo</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606402"><span class="annot"><span class="annottext">Text
 url :: Text
 $sel:url:ReadGitRepo :: ReadGitRepo -&gt; Text
-</span><a href="#local-6989586621680606382"><span class="hs-identifier hs-var hs-var">url</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606381"><span class="annot"><span class="annottext">Maybe Text
+</span><a href="#local-6989586621680606402"><span class="hs-identifier hs-var hs-var">url</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606401"><span class="annot"><span class="annottext">Maybe Text
 ref :: Maybe Text
 $sel:ref:ReadGitRepo :: ReadGitRepo -&gt; Maybe Text
-</span><a href="#local-6989586621680606381"><span class="hs-identifier hs-var hs-var">ref</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621680606401"><span class="hs-identifier hs-var hs-var">ref</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-75"></span><span>  </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;git(&quot;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621680606382"><span class="hs-identifier hs-var">url</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606402"><span class="hs-identifier hs-var">url</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Maybe Text -&gt; Text
 forall a. Monoid a =&gt; Maybe a -&gt; a
@@ -550,24 +550,24 @@ forall a. Monoid a =&gt; Maybe a -&gt; a
 </span><span class="hs-char">':'</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Text) -&gt; Maybe Text -&gt; Maybe Text
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Maybe Text
-</span><a href="#local-6989586621680606381"><span class="hs-identifier hs-var">ref</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606401"><span class="hs-identifier hs-var">ref</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;)&quot;</span></span><span>
 </span><span id="line-76"></span><span>
 </span><span id="line-77"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#printWriteGitRepo"><span class="hs-identifier hs-type">printWriteGitRepo</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRepo"><span class="hs-identifier hs-type">WriteGitRepo</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
 </span><span id="line-78"></span><span id="printWriteGitRepo"><span class="annot"><span class="annottext">printWriteGitRepo :: WriteGitRepo -&gt; Text
-</span><a href="Unison.Codebase.Editor.RemoteRepo.html#printWriteGitRepo"><span class="hs-identifier hs-var hs-var">printWriteGitRepo</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRepo"><span class="hs-identifier hs-type">WriteGitRepo</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606376"><span class="annot"><span class="annottext">Text
+</span><a href="Unison.Codebase.Editor.RemoteRepo.html#printWriteGitRepo"><span class="hs-identifier hs-var hs-var">printWriteGitRepo</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRepo"><span class="hs-identifier hs-type">WriteGitRepo</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606396"><span class="annot"><span class="annottext">Text
 url :: Text
 $sel:url:WriteGitRepo :: WriteGitRepo -&gt; Text
-</span><a href="#local-6989586621680606376"><span class="hs-identifier hs-var hs-var">url</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606375"><span class="annot"><span class="annottext">Maybe Text
+</span><a href="#local-6989586621680606396"><span class="hs-identifier hs-var hs-var">url</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606395"><span class="annot"><span class="annottext">Maybe Text
 branch :: Maybe Text
 $sel:branch:WriteGitRepo :: WriteGitRepo -&gt; Maybe Text
-</span><a href="#local-6989586621680606375"><span class="hs-identifier hs-var hs-var">branch</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
+</span><a href="#local-6989586621680606395"><span class="hs-identifier hs-var hs-var">branch</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;git(&quot;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text
-</span><a href="#local-6989586621680606376"><span class="hs-identifier hs-var">url</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606396"><span class="hs-identifier hs-var">url</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Maybe Text -&gt; Text
 forall a. Monoid a =&gt; Maybe a -&gt; a
@@ -576,7 +576,7 @@ forall a. Monoid a =&gt; Maybe a -&gt; a
 </span><span class="hs-char">':'</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Text) -&gt; Maybe Text -&gt; Maybe Text
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Maybe Text
-</span><a href="#local-6989586621680606375"><span class="hs-identifier hs-var">branch</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606395"><span class="hs-identifier hs-var">branch</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;)&quot;</span></span><span>
@@ -585,97 +585,97 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span id="line-81"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#printNamespace"><span class="hs-identifier hs-type">printNamespace</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRemoteNamespace"><span class="hs-identifier hs-type">ReadRemoteNamespace</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
 </span><span id="line-82"></span><span id="printNamespace"><span class="annot"><span class="annottext">printNamespace :: ReadRemoteNamespace -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#printNamespace"><span class="hs-identifier hs-var hs-var">printNamespace</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-83"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRemoteNamespaceGit"><span class="hs-identifier hs-type">ReadRemoteNamespaceGit</span></a></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRemoteNamespace"><span class="hs-identifier hs-type">ReadGitRemoteNamespace</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606373"><span class="annot"><span class="annottext">ReadGitRepo
+</span><span id="line-83"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRemoteNamespaceGit"><span class="hs-identifier hs-type">ReadRemoteNamespaceGit</span></a></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRemoteNamespace"><span class="hs-identifier hs-type">ReadGitRemoteNamespace</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606393"><span class="annot"><span class="annottext">ReadGitRepo
 repo :: ReadGitRepo
 $sel:repo:ReadGitRemoteNamespace :: ReadGitRemoteNamespace -&gt; ReadGitRepo
-</span><a href="#local-6989586621680606373"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606372"><span class="annot"><span class="annottext">Maybe ShortCausalHash
+</span><a href="#local-6989586621680606393"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606392"><span class="annot"><span class="annottext">Maybe ShortCausalHash
 sch :: Maybe ShortCausalHash
 $sel:sch:ReadGitRemoteNamespace :: ReadGitRemoteNamespace -&gt; Maybe ShortCausalHash
-</span><a href="#local-6989586621680606372"><span class="hs-identifier hs-var hs-var">sch</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606371"><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606392"><span class="hs-identifier hs-var hs-var">sch</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606391"><span class="annot"><span class="annottext">Path
 path :: Path
 $sel:path:ReadGitRemoteNamespace :: ReadGitRemoteNamespace -&gt; Path
-</span><a href="#local-6989586621680606371"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a href="#local-6989586621680606391"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-84"></span><span>    </span><span class="annot"><span class="annottext">ReadGitRepo -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#printReadGitRepo"><span class="hs-identifier hs-var">printReadGitRepo</span></a></span><span> </span><span class="annot"><span class="annottext">ReadGitRepo
-</span><a href="#local-6989586621680606373"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606393"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Maybe ShortCausalHash -&gt; Text
-</span><a href="#local-6989586621680606370"><span class="hs-identifier hs-var">maybePrintSCH</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe ShortCausalHash
-</span><a href="#local-6989586621680606372"><span class="hs-identifier hs-var">sch</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606390"><span class="hs-identifier hs-var">maybePrintSCH</span></a></span><span> </span><span class="annot"><span class="annottext">Maybe ShortCausalHash
+</span><a href="#local-6989586621680606392"><span class="hs-identifier hs-var">sch</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Path -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#maybePrintPath"><span class="hs-identifier hs-var">maybePrintPath</span></a></span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606371"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><a href="#local-6989586621680606391"><span class="hs-identifier hs-var">path</span></a></span><span>
 </span><span id="line-85"></span><span>    </span><span class="hs-keyword">where</span><span>
-</span><span id="line-86"></span><span>      </span><span id="local-6989586621680606370"><span class="annot"><span class="annottext">maybePrintSCH :: Maybe ShortCausalHash -&gt; Text
-</span><a href="#local-6989586621680606370"><span class="hs-identifier hs-var hs-var">maybePrintSCH</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
+</span><span id="line-86"></span><span>      </span><span id="local-6989586621680606390"><span class="annot"><span class="annottext">maybePrintSCH :: Maybe ShortCausalHash -&gt; Text
+</span><a href="#local-6989586621680606390"><span class="hs-identifier hs-var hs-var">maybePrintSCH</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
 </span><span id="line-87"></span><span>        </span><span class="annot"><span class="annottext">Maybe ShortCausalHash
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text
 forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span>
-</span><span id="line-88"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621680606369"><span class="annot"><span class="annottext">ShortCausalHash
-</span><a href="#local-6989586621680606369"><span class="hs-identifier hs-var">sch</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text
+</span><span id="line-88"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621680606389"><span class="annot"><span class="annottext">ShortCausalHash
+</span><a href="#local-6989586621680606389"><span class="hs-identifier hs-var">sch</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;#&quot;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ShortCausalHash -&gt; Text
 </span><a href="Unison.Codebase.ShortCausalHash.html#%24sel%3AtoText%3AShortCausalHash"><span class="hs-identifier hs-var hs-var">SCH.toText</span></a></span><span> </span><span class="annot"><span class="annottext">ShortCausalHash
-</span><a href="#local-6989586621680606369"><span class="hs-identifier hs-var">sch</span></a></span><span>
-</span><span id="line-89"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRemoteNamespaceShare"><span class="hs-identifier hs-type">ReadRemoteNamespaceShare</span></a></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadShareRemoteNamespace"><span class="hs-identifier hs-type">ReadShareRemoteNamespace</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606367"><span class="annot"><span class="annottext">ShareCodeserver
+</span><a href="#local-6989586621680606389"><span class="hs-identifier hs-var">sch</span></a></span><span>
+</span><span id="line-89"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRemoteNamespaceShare"><span class="hs-identifier hs-type">ReadRemoteNamespaceShare</span></a></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadShareRemoteNamespace"><span class="hs-identifier hs-type">ReadShareRemoteNamespace</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606387"><span class="annot"><span class="annottext">ShareCodeserver
 server :: ShareCodeserver
 $sel:server:ReadShareRemoteNamespace :: ReadShareRemoteNamespace -&gt; ShareCodeserver
-</span><a href="#local-6989586621680606367"><span class="hs-identifier hs-var hs-var">server</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606366"><span class="annot"><span class="annottext">ShareUserHandle
+</span><a href="#local-6989586621680606387"><span class="hs-identifier hs-var hs-var">server</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606386"><span class="annot"><span class="annottext">ShareUserHandle
 repo :: ShareUserHandle
 $sel:repo:ReadShareRemoteNamespace :: ReadShareRemoteNamespace -&gt; ShareUserHandle
-</span><a href="#local-6989586621680606366"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606365"><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606386"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606385"><span class="annot"><span class="annottext">Path
 path :: Path
 $sel:path:ReadShareRemoteNamespace :: ReadShareRemoteNamespace -&gt; Path
-</span><a href="#local-6989586621680606365"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a href="#local-6989586621680606385"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-90"></span><span>    </span><span class="annot"><span class="annottext">ShareCodeserver -&gt; ShareUserHandle -&gt; Path -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#displayShareCodeserver"><span class="hs-identifier hs-var">displayShareCodeserver</span></a></span><span> </span><span class="annot"><span class="annottext">ShareCodeserver
-</span><a href="#local-6989586621680606367"><span class="hs-identifier hs-var">server</span></a></span><span> </span><span class="annot"><span class="annottext">ShareUserHandle
-</span><a href="#local-6989586621680606366"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606365"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><a href="#local-6989586621680606387"><span class="hs-identifier hs-var">server</span></a></span><span> </span><span class="annot"><span class="annottext">ShareUserHandle
+</span><a href="#local-6989586621680606386"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606385"><span class="hs-identifier hs-var">path</span></a></span><span>
 </span><span id="line-91"></span><span>
 </span><span id="line-92"></span><span class="hs-comment">-- | Render a 'WriteRemotePath' as text.</span><span>
 </span><span id="line-93"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#printWriteRemotePath"><span class="hs-identifier hs-type">printWriteRemotePath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePath"><span class="hs-identifier hs-type">WriteRemotePath</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
 </span><span id="line-94"></span><span id="printWriteRemotePath"><span class="annot"><span class="annottext">printWriteRemotePath :: WriteRemotePath -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#printWriteRemotePath"><span class="hs-identifier hs-var hs-var">printWriteRemotePath</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-95"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathGit"><span class="hs-identifier hs-type">WriteRemotePathGit</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-type">WriteGitRemotePath</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606363"><span class="annot"><span class="annottext">WriteGitRepo
+</span><span id="line-95"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathGit"><span class="hs-identifier hs-type">WriteRemotePathGit</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-type">WriteGitRemotePath</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606383"><span class="annot"><span class="annottext">WriteGitRepo
 repo :: WriteGitRepo
 $sel:repo:WriteGitRemotePath :: WriteGitRemotePath -&gt; WriteGitRepo
-</span><a href="#local-6989586621680606363"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606362"><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606383"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606382"><span class="annot"><span class="annottext">Path
 path :: Path
 $sel:path:WriteGitRemotePath :: WriteGitRemotePath -&gt; Path
-</span><a href="#local-6989586621680606362"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a href="#local-6989586621680606382"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-96"></span><span>    </span><span class="annot"><span class="annottext">WriteGitRepo -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#printWriteGitRepo"><span class="hs-identifier hs-var">printWriteGitRepo</span></a></span><span> </span><span class="annot"><span class="annottext">WriteGitRepo
-</span><a href="#local-6989586621680606363"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
+</span><a href="#local-6989586621680606383"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Path -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#maybePrintPath"><span class="hs-identifier hs-var">maybePrintPath</span></a></span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606362"><span class="hs-identifier hs-var">path</span></a></span><span>
-</span><span id="line-97"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathShare"><span class="hs-identifier hs-type">WriteRemotePathShare</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteShareRemotePath"><span class="hs-identifier hs-type">WriteShareRemotePath</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606361"><span class="annot"><span class="annottext">ShareCodeserver
+</span><a href="#local-6989586621680606382"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><span id="line-97"></span><span>  </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathShare"><span class="hs-identifier hs-type">WriteRemotePathShare</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteShareRemotePath"><span class="hs-identifier hs-type">WriteShareRemotePath</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606381"><span class="annot"><span class="annottext">ShareCodeserver
 server :: ShareCodeserver
 $sel:server:WriteShareRemotePath :: WriteShareRemotePath -&gt; ShareCodeserver
-</span><a href="#local-6989586621680606361"><span class="hs-identifier hs-var hs-var">server</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606360"><span class="annot"><span class="annottext">ShareUserHandle
+</span><a href="#local-6989586621680606381"><span class="hs-identifier hs-var hs-var">server</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606380"><span class="annot"><span class="annottext">ShareUserHandle
 repo :: ShareUserHandle
 $sel:repo:WriteShareRemotePath :: WriteShareRemotePath -&gt; ShareUserHandle
-</span><a href="#local-6989586621680606360"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606359"><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606380"><span class="hs-identifier hs-var hs-var">repo</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606379"><span class="annot"><span class="annottext">Path
 path :: Path
 $sel:path:WriteShareRemotePath :: WriteShareRemotePath -&gt; Path
-</span><a href="#local-6989586621680606359"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a href="#local-6989586621680606379"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-98"></span><span>    </span><span class="annot"><span class="annottext">ShareCodeserver -&gt; ShareUserHandle -&gt; Path -&gt; Text
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#displayShareCodeserver"><span class="hs-identifier hs-var">displayShareCodeserver</span></a></span><span> </span><span class="annot"><span class="annottext">ShareCodeserver
-</span><a href="#local-6989586621680606361"><span class="hs-identifier hs-var">server</span></a></span><span> </span><span class="annot"><span class="annottext">ShareUserHandle
-</span><a href="#local-6989586621680606360"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606359"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><a href="#local-6989586621680606381"><span class="hs-identifier hs-var">server</span></a></span><span> </span><span class="annot"><span class="annottext">ShareUserHandle
+</span><a href="#local-6989586621680606380"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606379"><span class="hs-identifier hs-var">path</span></a></span><span>
 </span><span id="line-99"></span><span>
 </span><span id="line-100"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#maybePrintPath"><span class="hs-identifier hs-type">maybePrintPath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Path.html#Path"><span class="hs-identifier hs-type">Path</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
 </span><span id="line-101"></span><span id="maybePrintPath"><span class="annot"><span class="annottext">maybePrintPath :: Path -&gt; Text
-</span><a href="Unison.Codebase.Editor.RemoteRepo.html#maybePrintPath"><span class="hs-identifier hs-var hs-var">maybePrintPath</span></a></span></span><span> </span><span id="local-6989586621680606358"><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606358"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Unison.Codebase.Editor.RemoteRepo.html#maybePrintPath"><span class="hs-identifier hs-var hs-var">maybePrintPath</span></a></span></span><span> </span><span id="local-6989586621680606378"><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606378"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-102"></span><span>  </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606358"><span class="hs-identifier hs-var">path</span></a></span><span> </span><span class="annot"><span class="annottext">Path -&gt; Path -&gt; Bool
+</span><a href="#local-6989586621680606378"><span class="hs-identifier hs-var">path</span></a></span><span> </span><span class="annot"><span class="annottext">Path -&gt; Path -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Path
 </span><a href="Unison.Codebase.Path.html#empty"><span class="hs-identifier hs-var">Path.empty</span></a></span><span>
@@ -687,12 +687,12 @@ forall a. Monoid a =&gt; a
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Path -&gt; Text
 </span><a href="Unison.Codebase.Path.html#toText"><span class="hs-identifier hs-var">Path.toText</span></a></span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606358"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><a href="#local-6989586621680606378"><span class="hs-identifier hs-var">path</span></a></span><span>
 </span><span id="line-105"></span><span>
 </span><span id="line-106"></span><span class="hs-keyword">data</span><span> </span><span id="ReadRemoteNamespace"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRemoteNamespace"><span class="hs-identifier hs-var">ReadRemoteNamespace</span></a></span></span><span>
 </span><span id="line-107"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="ReadRemoteNamespaceGit"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRemoteNamespaceGit"><span class="hs-identifier hs-var">ReadRemoteNamespaceGit</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadGitRemoteNamespace"><span class="hs-identifier hs-type">ReadGitRemoteNamespace</span></a></span><span>
 </span><span id="line-108"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="ReadRemoteNamespaceShare"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadRemoteNamespaceShare"><span class="hs-identifier hs-var">ReadRemoteNamespaceShare</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadShareRemoteNamespace"><span class="hs-identifier hs-type">ReadShareRemoteNamespace</span></a></span><span>
-</span><span id="line-109"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606352"><span id="local-6989586621680606354"><span class="annot"><span class="annottext">ReadRemoteNamespace -&gt; ReadRemoteNamespace -&gt; Bool
+</span><span id="line-109"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606372"><span id="local-6989586621680606374"><span class="annot"><span class="annottext">ReadRemoteNamespace -&gt; ReadRemoteNamespace -&gt; Bool
 (ReadRemoteNamespace -&gt; ReadRemoteNamespace -&gt; Bool)
 -&gt; (ReadRemoteNamespace -&gt; ReadRemoteNamespace -&gt; Bool)
 -&gt; Eq ReadRemoteNamespace
@@ -701,7 +701,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: ReadRemoteNamespace -&gt; ReadRemoteNamespace -&gt; Bool
 == :: ReadRemoteNamespace -&gt; ReadRemoteNamespace -&gt; Bool
 $c== :: ReadRemoteNamespace -&gt; ReadRemoteNamespace -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606346"><span id="local-6989586621680606348"><span id="local-6989586621680606350"><span class="annot"><span class="annottext">Int -&gt; ReadRemoteNamespace -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606366"><span id="local-6989586621680606368"><span id="local-6989586621680606370"><span class="annot"><span class="annottext">Int -&gt; ReadRemoteNamespace -&gt; ShowS
 [ReadRemoteNamespace] -&gt; ShowS
 ReadRemoteNamespace -&gt; String
 (Int -&gt; ReadRemoteNamespace -&gt; ShowS)
@@ -726,7 +726,7 @@ $cshowsPrec :: Int -&gt; ReadRemoteNamespace -&gt; ShowS
 </span><span id="line-114"></span><span>    </span><span id="%24sel%3Apath%3AReadGitRemoteNamespace"><span class="annot"><span class="annottext">ReadGitRemoteNamespace -&gt; Path
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Apath%3AReadGitRemoteNamespace"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Path.html#Path"><span class="hs-identifier hs-type">Path</span></a></span><span>
 </span><span id="line-115"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-116"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606342"><span id="local-6989586621680606344"><span class="annot"><span class="annottext">ReadGitRemoteNamespace -&gt; ReadGitRemoteNamespace -&gt; Bool
+</span><span id="line-116"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606362"><span id="local-6989586621680606364"><span class="annot"><span class="annottext">ReadGitRemoteNamespace -&gt; ReadGitRemoteNamespace -&gt; Bool
 (ReadGitRemoteNamespace -&gt; ReadGitRemoteNamespace -&gt; Bool)
 -&gt; (ReadGitRemoteNamespace -&gt; ReadGitRemoteNamespace -&gt; Bool)
 -&gt; Eq ReadGitRemoteNamespace
@@ -735,7 +735,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: ReadGitRemoteNamespace -&gt; ReadGitRemoteNamespace -&gt; Bool
 == :: ReadGitRemoteNamespace -&gt; ReadGitRemoteNamespace -&gt; Bool
 $c== :: ReadGitRemoteNamespace -&gt; ReadGitRemoteNamespace -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606336"><span id="local-6989586621680606338"><span id="local-6989586621680606340"><span class="annot"><span class="annottext">Int -&gt; ReadGitRemoteNamespace -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606356"><span id="local-6989586621680606358"><span id="local-6989586621680606360"><span class="annot"><span class="annottext">Int -&gt; ReadGitRemoteNamespace -&gt; ShowS
 [ReadGitRemoteNamespace] -&gt; ShowS
 ReadGitRemoteNamespace -&gt; String
 (Int -&gt; ReadGitRemoteNamespace -&gt; ShowS)
@@ -761,7 +761,7 @@ $cshowsPrec :: Int -&gt; ReadGitRemoteNamespace -&gt; ShowS
 </span><span id="line-122"></span><span>    </span><span id="%24sel%3Apath%3AReadShareRemoteNamespace"><span class="annot"><span class="annottext">ReadShareRemoteNamespace -&gt; Path
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Apath%3AReadShareRemoteNamespace"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Path.html#Path"><span class="hs-identifier hs-type">Path</span></a></span><span>
 </span><span id="line-123"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-124"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606332"><span id="local-6989586621680606334"><span class="annot"><span class="annottext">ReadShareRemoteNamespace -&gt; ReadShareRemoteNamespace -&gt; Bool
+</span><span id="line-124"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606352"><span id="local-6989586621680606354"><span class="annot"><span class="annottext">ReadShareRemoteNamespace -&gt; ReadShareRemoteNamespace -&gt; Bool
 (ReadShareRemoteNamespace -&gt; ReadShareRemoteNamespace -&gt; Bool)
 -&gt; (ReadShareRemoteNamespace -&gt; ReadShareRemoteNamespace -&gt; Bool)
 -&gt; Eq ReadShareRemoteNamespace
@@ -770,7 +770,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: ReadShareRemoteNamespace -&gt; ReadShareRemoteNamespace -&gt; Bool
 == :: ReadShareRemoteNamespace -&gt; ReadShareRemoteNamespace -&gt; Bool
 $c== :: ReadShareRemoteNamespace -&gt; ReadShareRemoteNamespace -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606326"><span id="local-6989586621680606328"><span id="local-6989586621680606330"><span class="annot"><span class="annottext">Int -&gt; ReadShareRemoteNamespace -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606346"><span id="local-6989586621680606348"><span id="local-6989586621680606350"><span class="annot"><span class="annottext">Int -&gt; ReadShareRemoteNamespace -&gt; ShowS
 [ReadShareRemoteNamespace] -&gt; ShowS
 ReadShareRemoteNamespace -&gt; String
 (Int -&gt; ReadShareRemoteNamespace -&gt; ShowS)
@@ -789,12 +789,12 @@ $cshowsPrec :: Int -&gt; ReadShareRemoteNamespace -&gt; ShowS
 </span><span id="line-125"></span><span>
 </span><span id="line-126"></span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#isPublic"><span class="hs-identifier hs-type">isPublic</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadShareRemoteNamespace"><span class="hs-identifier hs-type">ReadShareRemoteNamespace</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
 </span><span id="line-127"></span><span id="isPublic"><span class="annot"><span class="annottext">isPublic :: ReadShareRemoteNamespace -&gt; Bool
-</span><a href="Unison.Codebase.Editor.RemoteRepo.html#isPublic"><span class="hs-identifier hs-var hs-var">isPublic</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadShareRemoteNamespace"><span class="hs-identifier hs-type">ReadShareRemoteNamespace</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606324"><span class="annot"><span class="annottext">Path
+</span><a href="Unison.Codebase.Editor.RemoteRepo.html#isPublic"><span class="hs-identifier hs-var hs-var">isPublic</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#ReadShareRemoteNamespace"><span class="hs-identifier hs-type">ReadShareRemoteNamespace</span></a></span><span> </span><span class="hs-special">{</span><span id="local-6989586621680606344"><span class="annot"><span class="annottext">Path
 path :: Path
 $sel:path:ReadShareRemoteNamespace :: ReadShareRemoteNamespace -&gt; Path
-</span><a href="#local-6989586621680606324"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621680606344"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-128"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606324"><span class="hs-identifier hs-var">path</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621680606344"><span class="hs-identifier hs-var">path</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-129"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="annottext">NameSegment
 </span><span class="hs-string">&quot;public&quot;</span></span><span> </span><span class="annot"><span class="hs-operator hs-type">Path.:&lt;</span></span><span> </span><span class="annot"><span class="annottext">Path
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
@@ -806,7 +806,7 @@ $sel:path:ReadShareRemoteNamespace :: ReadShareRemoteNamespace -&gt; Path
 </span><span id="line-132"></span><span class="hs-keyword">data</span><span> </span><span id="WriteRemotePath"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePath"><span class="hs-identifier hs-var">WriteRemotePath</span></a></span></span><span>
 </span><span id="line-133"></span><span>  </span><span class="hs-glyph">=</span><span> </span><span id="WriteRemotePathGit"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathGit"><span class="hs-identifier hs-var">WriteRemotePathGit</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-type">WriteGitRemotePath</span></a></span><span>
 </span><span id="line-134"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span id="WriteRemotePathShare"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathShare"><span class="hs-identifier hs-var">WriteRemotePathShare</span></a></span></span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteShareRemotePath"><span class="hs-identifier hs-type">WriteShareRemotePath</span></a></span><span>
-</span><span id="line-135"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606319"><span id="local-6989586621680606321"><span class="annot"><span class="annottext">WriteRemotePath -&gt; WriteRemotePath -&gt; Bool
+</span><span id="line-135"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606339"><span id="local-6989586621680606341"><span class="annot"><span class="annottext">WriteRemotePath -&gt; WriteRemotePath -&gt; Bool
 (WriteRemotePath -&gt; WriteRemotePath -&gt; Bool)
 -&gt; (WriteRemotePath -&gt; WriteRemotePath -&gt; Bool)
 -&gt; Eq WriteRemotePath
@@ -815,7 +815,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: WriteRemotePath -&gt; WriteRemotePath -&gt; Bool
 == :: WriteRemotePath -&gt; WriteRemotePath -&gt; Bool
 $c== :: WriteRemotePath -&gt; WriteRemotePath -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606313"><span id="local-6989586621680606315"><span id="local-6989586621680606317"><span class="annot"><span class="annottext">Int -&gt; WriteRemotePath -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606333"><span id="local-6989586621680606335"><span id="local-6989586621680606337"><span class="annot"><span class="annottext">Int -&gt; WriteRemotePath -&gt; ShowS
 [WriteRemotePath] -&gt; ShowS
 WriteRemotePath -&gt; String
 (Int -&gt; WriteRemotePath -&gt; ShowS)
@@ -840,47 +840,47 @@ $cshowsPrec :: Int -&gt; WriteRemotePath -&gt; ShowS
 -&gt; Lens WriteRemotePath WriteRemotePath Path Path
 forall s a b t. (s -&gt; a) -&gt; (s -&gt; b -&gt; t) -&gt; Lens s t a b
 </span><span class="hs-identifier hs-var">Lens.lens</span></span><span> </span><span class="annot"><span class="annottext">WriteRemotePath -&gt; Path
-</span><a href="#local-6989586621680606310"><span class="hs-identifier hs-var">getter</span></a></span><span> </span><span class="annot"><span class="annottext">WriteRemotePath -&gt; Path -&gt; WriteRemotePath
-</span><a href="#local-6989586621680606309"><span class="hs-identifier hs-var">setter</span></a></span><span>
+</span><a href="#local-6989586621680606330"><span class="hs-identifier hs-var">getter</span></a></span><span> </span><span class="annot"><span class="annottext">WriteRemotePath -&gt; Path -&gt; WriteRemotePath
+</span><a href="#local-6989586621680606329"><span class="hs-identifier hs-var">setter</span></a></span><span>
 </span><span id="line-140"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-141"></span><span>    </span><span id="local-6989586621680606310"><span class="annot"><span class="annottext">getter :: WriteRemotePath -&gt; Path
-</span><a href="#local-6989586621680606310"><span class="hs-identifier hs-var hs-var">getter</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
+</span><span id="line-141"></span><span>    </span><span id="local-6989586621680606330"><span class="annot"><span class="annottext">getter :: WriteRemotePath -&gt; Path
+</span><a href="#local-6989586621680606330"><span class="hs-identifier hs-var hs-var">getter</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
 </span><span id="line-142"></span><span>      </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathGit"><span class="hs-identifier hs-type">WriteRemotePathGit</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-type">WriteGitRemotePath</span></a></span><span> </span><span class="annot"><span class="annottext">WriteGitRepo
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621680606308"><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606308"><span class="hs-identifier hs-var">path</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606308"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621680606328"><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606328"><span class="hs-identifier hs-var">path</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606328"><span class="hs-identifier hs-var">path</span></a></span><span>
 </span><span id="line-143"></span><span>      </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathShare"><span class="hs-identifier hs-type">WriteRemotePathShare</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteShareRemotePath"><span class="hs-identifier hs-type">WriteShareRemotePath</span></a></span><span> </span><span class="annot"><span class="annottext">ShareCodeserver
 </span><span class="hs-identifier">_</span></span><span> </span><span class="annot"><span class="annottext">ShareUserHandle
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621680606307"><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606307"><span class="hs-identifier hs-var">path</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606307"><span class="hs-identifier hs-var">path</span></a></span><span>
-</span><span id="line-144"></span><span>    </span><span id="local-6989586621680606309"><span class="annot"><span class="annottext">setter :: WriteRemotePath -&gt; Path -&gt; WriteRemotePath
-</span><a href="#local-6989586621680606309"><span class="hs-identifier hs-var hs-var">setter</span></a></span></span><span> </span><span id="local-6989586621680606306"><span class="annot"><span class="annottext">WriteRemotePath
-</span><a href="#local-6989586621680606306"><span class="hs-identifier hs-var">remote</span></a></span></span><span> </span><span id="local-6989586621680606305"><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606305"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">WriteRemotePath
-</span><a href="#local-6989586621680606306"><span class="hs-identifier hs-var">remote</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-145"></span><span>      </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathGit"><span class="hs-identifier hs-type">WriteRemotePathGit</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-type">WriteGitRemotePath</span></a></span><span> </span><span id="local-6989586621680606304"><span class="annot"><span class="annottext">WriteGitRepo
-</span><a href="#local-6989586621680606304"><span class="hs-identifier hs-var">repo</span></a></span></span><span> </span><span class="annot"><span class="annottext">Path
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621680606327"><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606327"><span class="hs-identifier hs-var">path</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606327"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><span id="line-144"></span><span>    </span><span id="local-6989586621680606329"><span class="annot"><span class="annottext">setter :: WriteRemotePath -&gt; Path -&gt; WriteRemotePath
+</span><a href="#local-6989586621680606329"><span class="hs-identifier hs-var hs-var">setter</span></a></span></span><span> </span><span id="local-6989586621680606326"><span class="annot"><span class="annottext">WriteRemotePath
+</span><a href="#local-6989586621680606326"><span class="hs-identifier hs-var">remote</span></a></span></span><span> </span><span id="local-6989586621680606325"><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606325"><span class="hs-identifier hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">WriteRemotePath
+</span><a href="#local-6989586621680606326"><span class="hs-identifier hs-var">remote</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-145"></span><span>      </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathGit"><span class="hs-identifier hs-type">WriteRemotePathGit</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-type">WriteGitRemotePath</span></a></span><span> </span><span id="local-6989586621680606324"><span class="annot"><span class="annottext">WriteGitRepo
+</span><a href="#local-6989586621680606324"><span class="hs-identifier hs-var">repo</span></a></span></span><span> </span><span class="annot"><span class="annottext">Path
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">WriteGitRemotePath -&gt; WriteRemotePath
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathGit"><span class="hs-identifier hs-var">WriteRemotePathGit</span></a></span><span> </span><span class="annot"><span class="annottext">(WriteGitRemotePath -&gt; WriteRemotePath)
 -&gt; WriteGitRemotePath -&gt; WriteRemotePath
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">WriteGitRepo -&gt; Path -&gt; WriteGitRemotePath
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-var">WriteGitRemotePath</span></a></span><span> </span><span class="annot"><span class="annottext">WriteGitRepo
-</span><a href="#local-6989586621680606304"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606305"><span class="hs-identifier hs-var">path</span></a></span><span>
-</span><span id="line-146"></span><span>      </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathShare"><span class="hs-identifier hs-type">WriteRemotePathShare</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteShareRemotePath"><span class="hs-identifier hs-type">WriteShareRemotePath</span></a></span><span> </span><span id="local-6989586621680606303"><span class="annot"><span class="annottext">ShareCodeserver
-</span><a href="#local-6989586621680606303"><span class="hs-identifier hs-var">server</span></a></span></span><span> </span><span id="local-6989586621680606302"><span class="annot"><span class="annottext">ShareUserHandle
-</span><a href="#local-6989586621680606302"><span class="hs-identifier hs-var">repo</span></a></span></span><span> </span><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606324"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606325"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><span id="line-146"></span><span>      </span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathShare"><span class="hs-identifier hs-type">WriteRemotePathShare</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteShareRemotePath"><span class="hs-identifier hs-type">WriteShareRemotePath</span></a></span><span> </span><span id="local-6989586621680606323"><span class="annot"><span class="annottext">ShareCodeserver
+</span><a href="#local-6989586621680606323"><span class="hs-identifier hs-var">server</span></a></span></span><span> </span><span id="local-6989586621680606322"><span class="annot"><span class="annottext">ShareUserHandle
+</span><a href="#local-6989586621680606322"><span class="hs-identifier hs-var">repo</span></a></span></span><span> </span><span class="annot"><span class="annottext">Path
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">WriteShareRemotePath -&gt; WriteRemotePath
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteRemotePathShare"><span class="hs-identifier hs-var">WriteRemotePathShare</span></a></span><span> </span><span class="annot"><span class="annottext">(WriteShareRemotePath -&gt; WriteRemotePath)
 -&gt; WriteShareRemotePath -&gt; WriteRemotePath
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ShareCodeserver -&gt; ShareUserHandle -&gt; Path -&gt; WriteShareRemotePath
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteShareRemotePath"><span class="hs-identifier hs-var">WriteShareRemotePath</span></a></span><span> </span><span class="annot"><span class="annottext">ShareCodeserver
-</span><a href="#local-6989586621680606303"><span class="hs-identifier hs-var">server</span></a></span><span> </span><span class="annot"><span class="annottext">ShareUserHandle
-</span><a href="#local-6989586621680606302"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Path
-</span><a href="#local-6989586621680606305"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><a href="#local-6989586621680606323"><span class="hs-identifier hs-var">server</span></a></span><span> </span><span class="annot"><span class="annottext">ShareUserHandle
+</span><a href="#local-6989586621680606322"><span class="hs-identifier hs-var">repo</span></a></span><span> </span><span class="annot"><span class="annottext">Path
+</span><a href="#local-6989586621680606325"><span class="hs-identifier hs-var">path</span></a></span><span>
 </span><span id="line-147"></span><span>
 </span><span id="line-148"></span><span class="hs-keyword">data</span><span> </span><span id="WriteGitRemotePath"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-var">WriteGitRemotePath</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="WriteGitRemotePath"><span class="annot"><a href="Unison.Codebase.Editor.RemoteRepo.html#WriteGitRemotePath"><span class="hs-identifier hs-var">WriteGitRemotePath</span></a></span></span><span>
 </span><span id="line-149"></span><span>  </span><span class="hs-special">{</span><span> </span><span id="%24sel%3Arepo%3AWriteGitRemotePath"><span class="annot"><span class="annottext">WriteGitRemotePath -&gt; WriteGitRepo
@@ -888,7 +888,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span id="line-150"></span><span>    </span><span id="%24sel%3Apath%3AWriteGitRemotePath"><span class="annot"><span class="annottext">WriteGitRemotePath -&gt; Path
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Apath%3AWriteGitRemotePath"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Path.html#Path"><span class="hs-identifier hs-type">Path</span></a></span><span>
 </span><span id="line-151"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-152"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606298"><span id="local-6989586621680606300"><span class="annot"><span class="annottext">WriteGitRemotePath -&gt; WriteGitRemotePath -&gt; Bool
+</span><span id="line-152"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606318"><span id="local-6989586621680606320"><span class="annot"><span class="annottext">WriteGitRemotePath -&gt; WriteGitRemotePath -&gt; Bool
 (WriteGitRemotePath -&gt; WriteGitRemotePath -&gt; Bool)
 -&gt; (WriteGitRemotePath -&gt; WriteGitRemotePath -&gt; Bool)
 -&gt; Eq WriteGitRemotePath
@@ -897,7 +897,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: WriteGitRemotePath -&gt; WriteGitRemotePath -&gt; Bool
 == :: WriteGitRemotePath -&gt; WriteGitRemotePath -&gt; Bool
 $c== :: WriteGitRemotePath -&gt; WriteGitRemotePath -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606292"><span id="local-6989586621680606294"><span id="local-6989586621680606296"><span class="annot"><span class="annottext">Int -&gt; WriteGitRemotePath -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606312"><span id="local-6989586621680606314"><span id="local-6989586621680606316"><span class="annot"><span class="annottext">Int -&gt; WriteGitRemotePath -&gt; ShowS
 [WriteGitRemotePath] -&gt; ShowS
 WriteGitRemotePath -&gt; String
 (Int -&gt; WriteGitRemotePath -&gt; ShowS)
@@ -922,7 +922,7 @@ $cshowsPrec :: Int -&gt; WriteGitRemotePath -&gt; ShowS
 </span><span id="line-157"></span><span>    </span><span id="%24sel%3Apath%3AWriteShareRemotePath"><span class="annot"><span class="annottext">WriteShareRemotePath -&gt; Path
 </span><a href="Unison.Codebase.Editor.RemoteRepo.html#%24sel%3Apath%3AWriteShareRemotePath"><span class="hs-identifier hs-var hs-var">path</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Path.html#Path"><span class="hs-identifier hs-type">Path</span></a></span><span>
 </span><span id="line-158"></span><span>  </span><span class="hs-special">}</span><span>
-</span><span id="line-159"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606288"><span id="local-6989586621680606290"><span class="annot"><span class="annottext">WriteShareRemotePath -&gt; WriteShareRemotePath -&gt; Bool
+</span><span id="line-159"></span><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="annot"><span class="hs-keyword">stock</span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621680606308"><span id="local-6989586621680606310"><span class="annot"><span class="annottext">WriteShareRemotePath -&gt; WriteShareRemotePath -&gt; Bool
 (WriteShareRemotePath -&gt; WriteShareRemotePath -&gt; Bool)
 -&gt; (WriteShareRemotePath -&gt; WriteShareRemotePath -&gt; Bool)
 -&gt; Eq WriteShareRemotePath
@@ -931,7 +931,7 @@ forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c/= :: WriteShareRemotePath -&gt; WriteShareRemotePath -&gt; Bool
 == :: WriteShareRemotePath -&gt; WriteShareRemotePath -&gt; Bool
 $c== :: WriteShareRemotePath -&gt; WriteShareRemotePath -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606282"><span id="local-6989586621680606284"><span id="local-6989586621680606286"><span class="annot"><span class="annottext">Int -&gt; WriteShareRemotePath -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680606302"><span id="local-6989586621680606304"><span id="local-6989586621680606306"><span class="annot"><span class="annottext">Int -&gt; WriteShareRemotePath -&gt; ShowS
 [WriteShareRemotePath] -&gt; ShowS
 WriteShareRemotePath -&gt; String
 (Int -&gt; WriteShareRemotePath -&gt; ShowS)

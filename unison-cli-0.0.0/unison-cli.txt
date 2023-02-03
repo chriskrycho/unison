@@ -736,7 +736,9 @@ instance Language.LSP.Types.Lens.HasUri Language.LSP.Types.Uri.NormalizedUri Lan
 
 module Unison.LSP.Conversions
 rangeToInterval :: Range -> Interval Position
+annToInterval :: Ann -> Maybe (Interval Position)
 uToLspPos :: Pos -> Position
+lspToUPos :: Position -> Pos
 uToLspRange :: Range -> Range
 annToRange :: Ann -> Maybe Range
 
@@ -781,10 +783,11 @@ CompletionTree :: Cofree (Map NameSegment) (Set (Name, LabeledDependency)) -> Co
 type FileVersion = Int32
 type LexedSource = (Text, [Token Lexeme])
 data FileAnalysis
-FileAnalysis :: Uri -> FileVersion -> LexedSource -> Maybe (UnisonFile Symbol Ann) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Seq (Note Symbol Ann) -> IntervalMap Position [Diagnostic] -> IntervalMap Position [CodeAction] -> Maybe FileSummary -> FileAnalysis
+FileAnalysis :: Uri -> FileVersion -> LexedSource -> IntervalMap Position Lexeme -> Maybe (UnisonFile Symbol Ann) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Seq (Note Symbol Ann) -> IntervalMap Position [Diagnostic] -> IntervalMap Position [CodeAction] -> Maybe FileSummary -> FileAnalysis
 [$sel:fileUri:FileAnalysis] :: FileAnalysis -> Uri
 [$sel:fileVersion:FileAnalysis] :: FileAnalysis -> FileVersion
 [$sel:lexedSource:FileAnalysis] :: FileAnalysis -> LexedSource
+[$sel:tokenMap:FileAnalysis] :: FileAnalysis -> IntervalMap Position Lexeme
 [$sel:parsedFile:FileAnalysis] :: FileAnalysis -> Maybe (UnisonFile Symbol Ann)
 [$sel:typecheckedFile:FileAnalysis] :: FileAnalysis -> Maybe (TypecheckedUnisonFile Symbol Ann)
 [$sel:notes:FileAnalysis] :: FileAnalysis -> Seq (Note Symbol Ann)
@@ -905,25 +908,18 @@ markAllFilesDirty :: Lsp ()
 
 -- | Returns the name or symbol which the provided position is contained
 --   in.
-identifierAtPosition :: (HasPosition p Position, HasTextDocument p TextDocumentIdentifier) => p -> MaybeT Lsp Text
+identifierAtPosition :: Uri -> Position -> MaybeT Lsp Text
 
 -- | Returns the prefix and suffix of the symbol which the provided
 --   position is contained in.
-identifierSplitAtPosition :: (HasPosition p Position, HasTextDocument p docId, HasUri docId Uri) => p -> MaybeT Lsp (Text, Text)
+identifierSplitAtPosition :: Uri -> Position -> MaybeT Lsp (Text, Text)
 
 -- | Returns the prefix of the symbol at the provided location, and the
 --   range that prefix spans.
-completionPrefix :: (HasPosition p Position, HasTextDocument p docId, HasUri docId Uri) => p -> MaybeT Lsp (Range, Text)
+completionPrefix :: Uri -> Position -> MaybeT Lsp (Range, Text)
 lspOpenFile :: NotificationMessage 'TextDocumentDidOpen -> Lsp ()
 lspCloseFile :: NotificationMessage 'TextDocumentDidClose -> Lsp ()
 lspChangeFile :: NotificationMessage 'TextDocumentDidChange -> Lsp ()
-
-module Unison.LSP.Hover
-
--- | Rudimentary hover handler
---   
---   TODO: Add docs, use FileAnalysis to select hover target.
-hoverHandler :: RequestMessage 'TextDocumentHover -> (Either ResponseError (ResponseResult 'TextDocumentHover) -> Lsp ()) -> Lsp ()
 
 module Unison.Share.Codeserver
 
@@ -1758,6 +1754,7 @@ assertUserSym :: Symbol -> Maybe Symbol
 mkFileSummary :: Maybe (UnisonFile Symbol Ann) -> Maybe (TypecheckedUnisonFile Symbol Ann) -> Maybe FileSummary
 fileAnalysisWorker :: Lsp ()
 analyseFile :: Foldable f => Uri -> Text -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
+getTokenMap :: [Token Lexeme] -> IntervalMap Position Lexeme
 analyseNotes :: Foldable f => Uri -> PrettyPrintEnv -> String -> f (Note Symbol Ann) -> Lsp ([Diagnostic], [RangedCodeAction])
 toRangeMap :: Foldable f => f (Range, a) -> IntervalMap Position [a]
 getFileAnalysis :: Uri -> Lsp (Maybe FileAnalysis)
@@ -1770,13 +1767,28 @@ ppedForFileHelper :: Maybe (UnisonFile Symbol a) -> Maybe (TypecheckedUnisonFile
 --   for info first.
 module Unison.LSP.Queries
 
+-- | Gets the type of a reference from either the parsed file or the
+--   codebase.
+getTypeOfReferent :: Uri -> Referent -> MaybeT Lsp (Type Symbol Ann)
+
+-- | Gets a decl from either the parsed file or the codebase.
+getTypeDeclaration :: Uri -> Id -> MaybeT Lsp (Decl Symbol Ann)
+
+-- | Returns a reference to whatever the symbol at the given position
+--   refers to.
+refAtPosition :: Uri -> Position -> MaybeT Lsp LabeledDependency
+
+-- | Returns the ABT node at the provided position. Does not return Decl
+--   nodes.
+nodeAtPosition :: Uri -> Position -> MaybeT Lsp (SourceNode Ann)
+
 -- | Returns the reference a given term node refers to, if any.
 refInTerm :: Term v a -> Maybe LabeledDependency
 refInType :: Type v a -> Maybe TypeReference
 
 -- | Find the the node in a term which contains the specified position, but
 --   none of its children contain that position.
-findSmallestEnclosingNode :: Pos -> Term Symbol Ann -> Maybe (Either (Term Symbol Ann) (Type Symbol Ann))
+findSmallestEnclosingNode :: Pos -> Term Symbol Ann -> Maybe (SourceNode Ann)
 
 -- | Find the the node in a type which contains the specified position, but
 --   none of its children contain that position. This is helpful for
@@ -1791,13 +1803,25 @@ findSmallestEnclosingType :: Pos -> Type Symbol Ann -> Maybe (Type Symbol Ann)
 --   signature or ability request signature, that type reference will be
 --   returned.
 refInDecl :: Pos -> Decl Symbol Ann -> Maybe TypeReference
+data SourceNode a
+TermNode :: Term Symbol a -> SourceNode a
+TypeNode :: Type Symbol a -> SourceNode a
+PatternNode :: Pattern a -> SourceNode a
+instance GHC.Show.Show (Unison.LSP.Queries.SourceNode a)
+instance GHC.Classes.Eq a => GHC.Classes.Eq (Unison.LSP.Queries.SourceNode a)
+instance GHC.Base.Functor Unison.LSP.Queries.SourceNode
 
--- | Gets the type of a reference from either the parsed file or the
---   codebase.
-getTypeOfReferent :: Uri -> Referent -> MaybeT Lsp (Type Symbol Ann)
+module Unison.LSP.Hover
 
--- | Gets a decl from either the parsed file or the codebase.
-getTypeDeclaration :: Uri -> Id -> MaybeT Lsp (Decl Symbol Ann)
+-- | Hover help handler
+--   
+--   TODO: * Add docs * Resolve fqn on hover
+hoverHandler :: RequestMessage 'TextDocumentHover -> (Either ResponseError (ResponseResult 'TextDocumentHover) -> Lsp ()) -> Lsp ()
+hoverInfo :: Uri -> Position -> MaybeT Lsp Text
+
+-- | Get the type for term literals.
+builtinTypeForTermLiterals :: Term Symbol Ann -> Maybe Text
+builtinTypeForPatternLiterals :: Pattern Ann -> Maybe Text
 
 module Unison.LSP.FoldingRange
 foldingRangeRequest :: RequestMessage 'TextDocumentFoldingRange -> (Either ResponseError (ResponseResult 'TextDocumentFoldingRange) -> Lsp ()) -> Lsp ()
