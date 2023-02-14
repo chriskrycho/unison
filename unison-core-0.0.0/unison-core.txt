@@ -35,7 +35,7 @@ module U.Core.ABT.Var
 --   <li>`Set.notMember (freshIn vs v) vs`: <a>freshIn</a> returns a
 --   variable not used in the <a>Set</a></li>
 --   </ul>
-class Ord v => Var v
+class (Ord v) => Var v
 freshIn :: Var v => Set v -> v -> v
 
 module U.Core.ABT
@@ -112,7 +112,7 @@ instance (forall a1. GHC.Classes.Eq a1 => GHC.Classes.Eq (f a1), Data.Foldable.F
 instance (forall a1. GHC.Show.Show a1 => GHC.Show.Show (f a1), GHC.Show.Show v) => GHC.Show.Show (U.Core.ABT.Term f v a)
 
 module Unison.Util.Alphabetical
-class Eq n => Alphabetical n
+class (Eq n) => Alphabetical n
 compareAlphabetical :: Alphabetical n => n -> n -> Ordering
 newtype OrderAlphabetically a
 OrderAlphabetically :: a -> OrderAlphabetically a

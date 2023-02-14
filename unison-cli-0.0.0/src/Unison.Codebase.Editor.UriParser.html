@@ -1376,13 +1376,14 @@ String -&gt; m a -&gt; m a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span>
 </span><span id="line-312"></span><span>        </span><span class="annot"><span class="annottext">Text -&gt; Maybe Text -&gt; HostInfo
-</span><a href="Unison.Codebase.Editor.UriParser.html#HostInfo"><span class="hs-identifier hs-var">HostInfo</span></a></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Maybe Text -&gt; HostInfo)
+</span><a href="Unison.Codebase.Editor.UriParser.html#HostInfo"><span class="hs-identifier hs-var">HostInfo</span></a></span><span>
+</span><span id="line-313"></span><span>          </span><span class="annot"><span class="annottext">(Text -&gt; Maybe Text -&gt; HostInfo)
 -&gt; ParsecT Void Text Identity Text
 -&gt; ParsecT Void Text Identity (Maybe Text -&gt; HostInfo)
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Text
 </span><a href="#local-6989586621679629043"><span class="hs-identifier hs-var">parseHost</span></a></span><span>
-</span><span id="line-313"></span><span>          </span><span class="annot"><span class="annottext">ParsecT Void Text Identity (Maybe Text -&gt; HostInfo)
+</span><span id="line-314"></span><span>          </span><span class="annot"><span class="annottext">ParsecT Void Text Identity (Maybe Text -&gt; HostInfo)
 -&gt; ParsecT Void Text Identity (Maybe Text)
 -&gt; ParsecT Void Text Identity HostInfo
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
@@ -1395,7 +1396,7 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f (Maybe a)
 -&gt; ParsecT Void Text Identity (Maybe Text)
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-314"></span><span>                  </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
+</span><span id="line-315"></span><span>                  </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
 forall (f :: * -&gt; *) a. Functor f =&gt; f a -&gt; f ()
 </span><span class="hs-identifier hs-var">void</span></span><span> </span><span class="annot"><span class="annottext">(ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ())
 -&gt; ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
@@ -1407,7 +1408,7 @@ Token s -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">C.char</span></span><span> </span><span class="annot"><span class="annottext">Char
 Token Text
 </span><span class="hs-char">':'</span></span><span>
-</span><span id="line-315"></span><span>                  </span><span class="annot"><span class="annottext">Maybe String
+</span><span id="line-316"></span><span>                  </span><span class="annot"><span class="annottext">Maybe String
 -&gt; (Token Text -&gt; Bool) -&gt; ParsecT Void Text Identity (Tokens Text)
 forall e s (m :: * -&gt; *).
 MonadParsec e s m =&gt;
@@ -1418,9 +1419,9 @@ forall a. a -&gt; Maybe a
 </span><span class="hs-string">&quot;digits&quot;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
 Token Text -&gt; Bool
 </span><span class="hs-identifier hs-var">isDigit</span></span><span>
-</span><span id="line-316"></span><span>              </span><span class="hs-special">)</span><span>
-</span><span id="line-317"></span><span>
-</span><span id="line-318"></span><span>    </span><span id="local-6989586621679629043"><span class="annot"><span class="annottext">parseHost :: ParsecT Void Text Identity Text
+</span><span id="line-317"></span><span>              </span><span class="hs-special">)</span><span>
+</span><span id="line-318"></span><span>
+</span><span id="line-319"></span><span>    </span><span id="local-6989586621679629043"><span class="annot"><span class="annottext">parseHost :: ParsecT Void Text Identity Text
 </span><a href="#local-6989586621679629043"><span class="hs-identifier hs-var hs-var">parseHost</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 -&gt; ParsecT Void Text Identity Text
 -&gt; ParsecT Void Text Identity Text
@@ -1441,20 +1442,20 @@ ParsecT Void Text Identity (Tokens Text)
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 </span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Text
 </span><a href="#local-6989586621679629039"><span class="hs-identifier hs-var">ipv4</span></a></span><span> </span><span class="hs-comment">-- &lt;|&gt; ipv6</span><span>
-</span><span id="line-319"></span><span>      </span><span class="hs-keyword">where</span><span>
-</span><span id="line-320"></span><span>        </span><span id="local-6989586621679629040"><span class="annot"><span class="annottext">hostname :: ParsecT Void Text Identity (Tokens Text)
+</span><span id="line-320"></span><span>      </span><span class="hs-keyword">where</span><span>
+</span><span id="line-321"></span><span>        </span><span id="local-6989586621679629040"><span class="annot"><span class="annottext">hostname :: ParsecT Void Text Identity (Tokens Text)
 </span><a href="#local-6989586621679629040"><span class="hs-identifier hs-var hs-var">hostname</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-321"></span><span>          </span><span class="annot"><span class="annottext">Maybe String
+</span><span id="line-322"></span><span>          </span><span class="annot"><span class="annottext">Maybe String
 -&gt; (Token Text -&gt; Bool) -&gt; ParsecT Void Text Identity (Tokens Text)
 forall e s (m :: * -&gt; *).
 MonadParsec e s m =&gt;
 Maybe String -&gt; (Token s -&gt; Bool) -&gt; m (Tokens s)
 </span><span class="hs-identifier hs-var">P.takeWhile1P</span></span><span>
-</span><span id="line-322"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Maybe String
+</span><span id="line-323"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Maybe String
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;hostname character&quot;</span></span><span class="hs-special">)</span><span>
-</span><span id="line-323"></span><span>            </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679629038"><span class="annot"><span class="annottext">Token Text
+</span><span id="line-324"></span><span>            </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679629038"><span class="annot"><span class="annottext">Token Text
 </span><a href="#local-6989586621679629038"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
 </span><span class="hs-identifier hs-var">isAlphaNum</span></span><span> </span><span class="annot"><span class="annottext">Char
 Token Text
@@ -1471,7 +1472,7 @@ Token Text
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Char
 </span><span class="hs-char">'-'</span></span><span class="hs-special">)</span><span>
-</span><span id="line-324"></span><span>        </span><span id="local-6989586621679629039"><span class="annot"><span class="annottext">ipv4 :: ParsecT Void Text Identity Text
+</span><span id="line-325"></span><span>        </span><span id="local-6989586621679629039"><span class="annot"><span class="annottext">ipv4 :: ParsecT Void Text Identity Text
 </span><a href="#local-6989586621679629039"><span class="hs-identifier hs-var hs-var">ipv4</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 -&gt; ParsecT Void Text Identity Text
 -&gt; ParsecT Void Text Identity Text
@@ -1485,10 +1486,10 @@ String -&gt; m a -&gt; m a
 -&gt; ParsecT Void Text Identity Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-325"></span><span>          </span><span id="local-6989586621679629037"><span class="annot"><span class="annottext">String
+</span><span id="line-326"></span><span>          </span><span id="local-6989586621679629037"><span class="annot"><span class="annottext">String
 </span><a href="#local-6989586621679629037"><span class="hs-identifier hs-var">o1</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity String
 </span><a href="#local-6989586621679629036"><span class="hs-identifier hs-var">decOctet</span></a></span><span>
-</span><span id="line-326"></span><span>          </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
+</span><span id="line-327"></span><span>          </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
 forall (f :: * -&gt; *) a. Functor f =&gt; f a -&gt; f ()
 </span><span class="hs-identifier hs-var">void</span></span><span> </span><span class="annot"><span class="annottext">(ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ())
 -&gt; ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
@@ -1500,10 +1501,10 @@ Token s -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">C.char</span></span><span> </span><span class="annot"><span class="annottext">Char
 Token Text
 </span><span class="hs-char">'.'</span></span><span>
-</span><span id="line-327"></span><span>          </span><span id="local-6989586621679629035"><span class="annot"><span class="annottext">String
+</span><span id="line-328"></span><span>          </span><span id="local-6989586621679629035"><span class="annot"><span class="annottext">String
 </span><a href="#local-6989586621679629035"><span class="hs-identifier hs-var">o2</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity String
 </span><a href="#local-6989586621679629036"><span class="hs-identifier hs-var">decOctet</span></a></span><span>
-</span><span id="line-328"></span><span>          </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
+</span><span id="line-329"></span><span>          </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
 forall (f :: * -&gt; *) a. Functor f =&gt; f a -&gt; f ()
 </span><span class="hs-identifier hs-var">void</span></span><span> </span><span class="annot"><span class="annottext">(ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ())
 -&gt; ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
@@ -1515,10 +1516,10 @@ Token s -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">C.char</span></span><span> </span><span class="annot"><span class="annottext">Char
 Token Text
 </span><span class="hs-char">'.'</span></span><span>
-</span><span id="line-329"></span><span>          </span><span id="local-6989586621679629034"><span class="annot"><span class="annottext">String
+</span><span id="line-330"></span><span>          </span><span id="local-6989586621679629034"><span class="annot"><span class="annottext">String
 </span><a href="#local-6989586621679629034"><span class="hs-identifier hs-var">o3</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity String
 </span><a href="#local-6989586621679629036"><span class="hs-identifier hs-var">decOctet</span></a></span><span>
-</span><span id="line-330"></span><span>          </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
+</span><span id="line-331"></span><span>          </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
 forall (f :: * -&gt; *) a. Functor f =&gt; f a -&gt; f ()
 </span><span class="hs-identifier hs-var">void</span></span><span> </span><span class="annot"><span class="annottext">(ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ())
 -&gt; ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
@@ -1530,10 +1531,10 @@ Token s -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">C.char</span></span><span> </span><span class="annot"><span class="annottext">Char
 Token Text
 </span><span class="hs-char">'.'</span></span><span>
-</span><span id="line-331"></span><span>          </span><span id="local-6989586621679629033"><span class="annot"><span class="annottext">String
+</span><span id="line-332"></span><span>          </span><span id="local-6989586621679629033"><span class="annot"><span class="annottext">String
 </span><a href="#local-6989586621679629033"><span class="hs-identifier hs-var">o4</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity String
 </span><a href="#local-6989586621679629036"><span class="hs-identifier hs-var">decOctet</span></a></span><span>
-</span><span id="line-332"></span><span>          </span><span class="hs-identifier">pure</span><span> </span><span class="hs-operator">$</span><span> </span><span class="annot"><span class="annottext">String -&gt; Text
+</span><span id="line-333"></span><span>          </span><span class="hs-identifier">pure</span><span> </span><span class="hs-operator">$</span><span> </span><span class="annot"><span class="annottext">String -&gt; Text
 </span><span class="hs-identifier hs-var">Text.pack</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Text) -&gt; String -&gt; Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String
@@ -1556,7 +1557,7 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="#local-6989586621679629033"><span class="hs-identifier hs-var">o4</span></a></span><span>
-</span><span id="line-333"></span><span>        </span><span id="local-6989586621679629036"><span class="annot"><span class="annottext">decOctet :: ParsecT Void Text Identity String
+</span><span id="line-334"></span><span>        </span><span id="local-6989586621679629036"><span class="annot"><span class="annottext">decOctet :: ParsecT Void Text Identity String
 </span><a href="#local-6989586621679629036"><span class="hs-identifier hs-var hs-var">decOctet</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int
 -&gt; Int
 -&gt; ParsecT Void Text Identity Char
@@ -1569,52 +1570,52 @@ forall e s (m :: * -&gt; *).
 (MonadParsec e s m, Token s ~ Char) =&gt;
 m (Token s)
 </span><span class="hs-identifier hs-var">C.digitChar</span></span><span>
-</span><span id="line-334"></span><span>
-</span><span id="line-335"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;#nshashabc.path.foo.bar&quot;</span><span>
-</span><span id="line-336"></span><span class="hs-comment">-- Just (Just #nshashabc,path.foo.bar)</span><span>
-</span><span id="line-337"></span><span class="hs-comment">--</span><span>
-</span><span id="line-338"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;.path.foo.bar&quot;</span><span>
-</span><span id="line-339"></span><span class="hs-comment">-- Just (Nothing,path.foo.bar)</span><span>
-</span><span id="line-340"></span><span class="hs-comment">--</span><span>
-</span><span id="line-341"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;#nshashabc&quot;</span><span>
-</span><span id="line-342"></span><span class="hs-comment">-- Just (Just #nshashabc,)</span><span>
-</span><span id="line-343"></span><span class="hs-comment">--</span><span>
-</span><span id="line-344"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;#nshashabc.&quot;</span><span>
-</span><span id="line-345"></span><span class="hs-comment">-- Just (Just #nshashabc,)</span><span>
-</span><span id="line-346"></span><span class="hs-comment">--</span><span>
-</span><span id="line-347"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;.&quot;</span><span>
-</span><span id="line-348"></span><span class="hs-comment">-- Just (Nothing,)</span><span>
-</span><span id="line-349"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#namespaceHashPath"><span class="hs-identifier hs-type">namespaceHashPath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">ShortCausalHash</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Path</span></span><span class="hs-special">)</span><span>
-</span><span id="line-350"></span><span id="namespaceHashPath"><span class="annot"><span class="annottext">namespaceHashPath :: ParsecT Void Text Identity (Maybe ShortCausalHash, Path)
+</span><span id="line-335"></span><span>
+</span><span id="line-336"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;#nshashabc.path.foo.bar&quot;</span><span>
+</span><span id="line-337"></span><span class="hs-comment">-- Just (Just #nshashabc,path.foo.bar)</span><span>
+</span><span id="line-338"></span><span class="hs-comment">--</span><span>
+</span><span id="line-339"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;.path.foo.bar&quot;</span><span>
+</span><span id="line-340"></span><span class="hs-comment">-- Just (Nothing,path.foo.bar)</span><span>
+</span><span id="line-341"></span><span class="hs-comment">--</span><span>
+</span><span id="line-342"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;#nshashabc&quot;</span><span>
+</span><span id="line-343"></span><span class="hs-comment">-- Just (Just #nshashabc,)</span><span>
+</span><span id="line-344"></span><span class="hs-comment">--</span><span>
+</span><span id="line-345"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;#nshashabc.&quot;</span><span>
+</span><span id="line-346"></span><span class="hs-comment">-- Just (Just #nshashabc,)</span><span>
+</span><span id="line-347"></span><span class="hs-comment">--</span><span>
+</span><span id="line-348"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe namespaceHashPath &quot;.&quot;</span><span>
+</span><span id="line-349"></span><span class="hs-comment">-- Just (Nothing,)</span><span>
+</span><span id="line-350"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#namespaceHashPath"><span class="hs-identifier hs-type">namespaceHashPath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">ShortCausalHash</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Path</span></span><span class="hs-special">)</span><span>
+</span><span id="line-351"></span><span id="namespaceHashPath"><span class="annot"><span class="annottext">namespaceHashPath :: ParsecT Void Text Identity (Maybe ShortCausalHash, Path)
 </span><a href="Unison.Codebase.Editor.UriParser.html#namespaceHashPath"><span class="hs-identifier hs-var hs-var">namespaceHashPath</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-351"></span><span>  </span><span id="local-6989586621679629030"><span class="annot"><span class="annottext">Maybe ShortCausalHash
+</span><span id="line-352"></span><span>  </span><span id="local-6989586621679629030"><span class="annot"><span class="annottext">Maybe ShortCausalHash
 </span><a href="#local-6989586621679629030"><span class="hs-identifier hs-var">sch</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity ShortCausalHash
 -&gt; ParsecT Void Text Identity (Maybe ShortCausalHash)
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f (Maybe a)
 </span><span class="hs-identifier hs-var">P.optional</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity ShortCausalHash
 </span><a href="Unison.Codebase.Editor.UriParser.html#shortCausalHash"><span class="hs-identifier hs-var">shortCausalHash</span></a></span><span>
-</span><span id="line-352"></span><span>  </span><span id="local-6989586621679629028"><span class="annot"><span class="annottext">Maybe Path
+</span><span id="line-353"></span><span>  </span><span id="local-6989586621679629028"><span class="annot"><span class="annottext">Maybe Path
 </span><a href="#local-6989586621679629028"><span class="hs-identifier hs-var">p</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Path
 -&gt; ParsecT Void Text Identity (Maybe Path)
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f (Maybe a)
 </span><span class="hs-identifier hs-var">P.optional</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Path
 </span><a href="Unison.Codebase.Editor.UriParser.html#absolutePath"><span class="hs-identifier hs-var">absolutePath</span></a></span><span>
-</span><span id="line-353"></span><span>  </span><span class="hs-identifier">pure</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Maybe ShortCausalHash
+</span><span id="line-354"></span><span>  </span><span class="hs-identifier">pure</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Maybe ShortCausalHash
 </span><a href="#local-6989586621679629030"><span class="hs-identifier hs-var">sch</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Path -&gt; Maybe Path -&gt; Path
 forall a. a -&gt; Maybe a -&gt; a
 </span><span class="hs-identifier hs-var">fromMaybe</span></span><span> </span><span class="annot"><span class="annottext">Path
 </span><span class="hs-identifier hs-var">Path.empty</span></span><span> </span><span class="annot"><span class="annottext">Maybe Path
 </span><a href="#local-6989586621679629028"><span class="hs-identifier hs-var">p</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-354"></span><span>
-</span><span id="line-355"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe absolutePath &quot;.&quot;</span><span>
-</span><span id="line-356"></span><span class="hs-comment">-- Just</span><span>
-</span><span id="line-357"></span><span class="hs-comment">--</span><span>
-</span><span id="line-358"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe absolutePath &quot;.path.foo.bar&quot;</span><span>
-</span><span id="line-359"></span><span class="hs-comment">-- Just path.foo.bar</span><span>
-</span><span id="line-360"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#absolutePath"><span class="hs-identifier hs-type">absolutePath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Path</span></span><span>
-</span><span id="line-361"></span><span id="absolutePath"><span class="annot"><span class="annottext">absolutePath :: ParsecT Void Text Identity Path
+</span><span id="line-355"></span><span>
+</span><span id="line-356"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe absolutePath &quot;.&quot;</span><span>
+</span><span id="line-357"></span><span class="hs-comment">-- Just</span><span>
+</span><span id="line-358"></span><span class="hs-comment">--</span><span>
+</span><span id="line-359"></span><span class="hs-comment">-- &gt;&gt;&gt; P.parseMaybe absolutePath &quot;.path.foo.bar&quot;</span><span>
+</span><span id="line-360"></span><span class="hs-comment">-- Just path.foo.bar</span><span>
+</span><span id="line-361"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#absolutePath"><span class="hs-identifier hs-type">absolutePath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Path</span></span><span>
+</span><span id="line-362"></span><span id="absolutePath"><span class="annot"><span class="annottext">absolutePath :: ParsecT Void Text Identity Path
 </span><a href="Unison.Codebase.Editor.UriParser.html#absolutePath"><span class="hs-identifier hs-var hs-var">absolutePath</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-362"></span><span>  </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
+</span><span id="line-363"></span><span>  </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
 forall (f :: * -&gt; *) a. Functor f =&gt; f a -&gt; f ()
 </span><span class="hs-identifier hs-var">void</span></span><span> </span><span class="annot"><span class="annottext">(ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ())
 -&gt; ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
@@ -1626,7 +1627,7 @@ Token s -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">C.char</span></span><span> </span><span class="annot"><span class="annottext">Char
 Token Text
 </span><span class="hs-char">'.'</span></span><span>
-</span><span id="line-363"></span><span>  </span><span class="annot"><span class="annottext">Seq NameSegment -&gt; Path
+</span><span id="line-364"></span><span>  </span><span class="annot"><span class="annottext">Seq NameSegment -&gt; Path
 </span><span class="hs-identifier hs-var">Path</span></span><span> </span><span class="annot"><span class="annottext">(Seq NameSegment -&gt; Path)
 -&gt; ([NameSegment] -&gt; Seq NameSegment) -&gt; [NameSegment] -&gt; Path
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
@@ -1648,20 +1649,21 @@ Token s -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">C.char</span></span><span> </span><span class="annot"><span class="annottext">Char
 Token Text
 </span><span class="hs-char">'.'</span></span><span class="hs-special">)</span><span>
-</span><span id="line-364"></span><span>
-</span><span id="line-365"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#nameSegment"><span class="hs-identifier hs-type">nameSegment</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span>
-</span><span id="line-366"></span><span id="nameSegment"><span class="annot"><span class="annottext">nameSegment :: ParsecT Void Text Identity NameSegment
+</span><span id="line-365"></span><span>
+</span><span id="line-366"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#nameSegment"><span class="hs-identifier hs-type">nameSegment</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span>
+</span><span id="line-367"></span><span id="nameSegment"><span class="annot"><span class="annottext">nameSegment :: ParsecT Void Text Identity NameSegment
 </span><a href="Unison.Codebase.Editor.UriParser.html#nameSegment"><span class="hs-identifier hs-var hs-var">nameSegment</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-367"></span><span>  </span><span class="annot"><span class="annottext">Text -&gt; NameSegment
+</span><span id="line-368"></span><span>  </span><span class="annot"><span class="annottext">Text -&gt; NameSegment
 </span><span class="hs-identifier hs-var">NameSegment</span></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; NameSegment) -&gt; (String -&gt; Text) -&gt; String -&gt; NameSegment
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Text
 </span><span class="hs-identifier hs-var">Text.pack</span></span><span>
-</span><span id="line-368"></span><span>    </span><span class="annot"><span class="annottext">(String -&gt; NameSegment)
+</span><span id="line-369"></span><span>    </span><span class="annot"><span class="annottext">(String -&gt; NameSegment)
 -&gt; ParsecT Void Text Identity String
 -&gt; ParsecT Void Text Identity NameSegment
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
-</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="hs-special">(</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">:</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Char -&gt; ShowS)
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="hs-special">(</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">:</span><span class="hs-special">)</span><span>
+</span><span id="line-370"></span><span>            </span><span class="annot"><span class="annottext">(Char -&gt; ShowS)
 -&gt; ParsecT Void Text Identity Char
 -&gt; ParsecT Void Text Identity ShowS
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
@@ -1672,7 +1674,7 @@ MonadParsec e s m =&gt;
 </span><span class="hs-identifier hs-var">P.satisfy</span></span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
 Token Text -&gt; Bool
 </span><span class="hs-identifier hs-var">Unison.Syntax.Lexer.wordyIdStartChar</span></span><span>
-</span><span id="line-369"></span><span>            </span><span class="annot"><span class="annottext">ParsecT Void Text Identity ShowS
+</span><span id="line-371"></span><span>            </span><span class="annot"><span class="annottext">ParsecT Void Text Identity ShowS
 -&gt; ParsecT Void Text Identity String
 -&gt; ParsecT Void Text Identity String
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
@@ -1686,10 +1688,10 @@ MonadParsec e s m =&gt;
 </span><span class="hs-identifier hs-var">P.satisfy</span></span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
 Token Text -&gt; Bool
 </span><span class="hs-identifier hs-var">Unison.Syntax.Lexer.wordyIdChar</span></span><span class="hs-special">)</span><span>
-</span><span id="line-370"></span><span>        </span><span class="hs-special">)</span><span>
-</span><span id="line-371"></span><span>
-</span><span id="line-372"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#gitTreeishSuffix"><span class="hs-identifier hs-type">gitTreeishSuffix</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
-</span><span id="line-373"></span><span id="gitTreeishSuffix"><span class="annot"><span class="annottext">gitTreeishSuffix :: ParsecT Void Text Identity Text
+</span><span id="line-372"></span><span>        </span><span class="hs-special">)</span><span>
+</span><span id="line-373"></span><span>
+</span><span id="line-374"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#gitTreeishSuffix"><span class="hs-identifier hs-type">gitTreeishSuffix</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span>
+</span><span id="line-375"></span><span id="gitTreeishSuffix"><span class="annot"><span class="annottext">gitTreeishSuffix :: ParsecT Void Text Identity Text
 </span><a href="Unison.Codebase.Editor.UriParser.html#gitTreeishSuffix"><span class="hs-identifier hs-var hs-var">gitTreeishSuffix</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 -&gt; ParsecT Void Text Identity Text
 -&gt; ParsecT Void Text Identity Text
@@ -1712,7 +1714,7 @@ forall e s (m :: * -&gt; *) a. MonadParsec e s m =&gt; m a -&gt; m a
 -&gt; ParsecT Void Text Identity Text
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-374"></span><span>  </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
+</span><span id="line-376"></span><span>  </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
 forall (f :: * -&gt; *) a. Functor f =&gt; f a -&gt; f ()
 </span><span class="hs-identifier hs-var">void</span></span><span> </span><span class="annot"><span class="annottext">(ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ())
 -&gt; ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
@@ -1724,7 +1726,7 @@ Token s -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">C.char</span></span><span> </span><span class="annot"><span class="annottext">Char
 Token Text
 </span><span class="hs-char">':'</span></span><span>
-</span><span id="line-375"></span><span>  </span><span class="annot"><span class="annottext">Maybe String
+</span><span id="line-377"></span><span>  </span><span class="annot"><span class="annottext">Maybe String
 -&gt; (Token Text -&gt; Bool) -&gt; ParsecT Void Text Identity (Tokens Text)
 forall e s (m :: * -&gt; *).
 MonadParsec e s m =&gt;
@@ -1736,9 +1738,9 @@ forall a. a -&gt; Maybe a
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">/=</span></span><span> </span><span class="annot"><span class="annottext">Char
 </span><span class="hs-char">')'</span></span><span class="hs-special">)</span><span>
-</span><span id="line-376"></span><span>
-</span><span id="line-377"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#shortCausalHash"><span class="hs-identifier hs-type">shortCausalHash</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">ShortCausalHash</span></span><span>
-</span><span id="line-378"></span><span id="shortCausalHash"><span class="annot"><span class="annottext">shortCausalHash :: ParsecT Void Text Identity ShortCausalHash
+</span><span id="line-378"></span><span>
+</span><span id="line-379"></span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#shortCausalHash"><span class="hs-identifier hs-type">shortCausalHash</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Unison.Codebase.Editor.UriParser.html#P"><span class="hs-identifier hs-type">P</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">ShortCausalHash</span></span><span>
+</span><span id="line-380"></span><span id="shortCausalHash"><span class="annot"><span class="annottext">shortCausalHash :: ParsecT Void Text Identity ShortCausalHash
 </span><a href="Unison.Codebase.Editor.UriParser.html#shortCausalHash"><span class="hs-identifier hs-var hs-var">shortCausalHash</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
 -&gt; ParsecT Void Text Identity ShortCausalHash
 -&gt; ParsecT Void Text Identity ShortCausalHash
@@ -1752,7 +1754,7 @@ String -&gt; m a -&gt; m a
 -&gt; ParsecT Void Text Identity ShortCausalHash
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-379"></span><span>  </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
+</span><span id="line-381"></span><span>  </span><span class="annot"><span class="annottext">ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
 forall (f :: * -&gt; *) a. Functor f =&gt; f a -&gt; f ()
 </span><span class="hs-identifier hs-var">void</span></span><span> </span><span class="annot"><span class="annottext">(ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ())
 -&gt; ParsecT Void Text Identity Char -&gt; ParsecT Void Text Identity ()
@@ -1764,9 +1766,9 @@ Token s -&gt; m (Token s)
 </span><span class="hs-identifier hs-var">C.char</span></span><span> </span><span class="annot"><span class="annottext">Char
 Token Text
 </span><span class="hs-char">'#'</span></span><span>
-</span><span id="line-380"></span><span>  </span><span class="annot"><span class="annottext">Text -&gt; ShortCausalHash
+</span><span id="line-382"></span><span>  </span><span class="annot"><span class="annottext">Text -&gt; ShortCausalHash
 </span><span class="hs-identifier hs-var">ShortCausalHash</span></span><span>
-</span><span id="line-381"></span><span>    </span><span class="annot"><span class="annottext">(Text -&gt; ShortCausalHash)
+</span><span id="line-383"></span><span>    </span><span class="annot"><span class="annottext">(Text -&gt; ShortCausalHash)
 -&gt; ParsecT Void Text Identity Text
 -&gt; ParsecT Void Text Identity ShortCausalHash
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
@@ -1782,4 +1784,4 @@ forall a. a -&gt; Maybe a
 forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
 </span><span class="hs-operator hs-var">`elem`</span></span><span> </span><span class="annot"><span class="annottext">Set Char
 </span><span class="hs-identifier hs-var">Base32Hex.validChars</span></span><span class="hs-special">)</span><span>
-</span><span id="line-382"></span></pre></body></html>
+</span><span id="line-384"></span></pre></body></html>

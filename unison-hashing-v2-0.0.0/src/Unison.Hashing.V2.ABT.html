@@ -375,23 +375,24 @@ forall a. HasCallStack =&gt; [Char] -&gt; a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span>
 </span><span id="line-108"></span><span>          </span><span class="annot"><span class="annottext">[Char]
-</span><span class="hs-string">&quot;unknown var in environment: &quot;</span></span><span> </span><span class="annot"><span class="annottext">[Char] -&gt; [Char] -&gt; [Char]
+</span><span class="hs-string">&quot;unknown var in environment: &quot;</span></span><span>
+</span><span id="line-109"></span><span>            </span><span class="annot"><span class="annottext">[Char] -&gt; [Char] -&gt; [Char]
 forall a. [a] -&gt; [a] -&gt; [a]
 </span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">v -&gt; [Char]
 forall a. Show a =&gt; a -&gt; [Char]
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">v
 </span><a href="#local-6989586621679145532"><span class="hs-identifier hs-var">v</span></a></span><span>
-</span><span id="line-109"></span><span>            </span><span class="annot"><span class="annottext">[Char] -&gt; [Char] -&gt; [Char]
+</span><span id="line-110"></span><span>            </span><span class="annot"><span class="annottext">[Char] -&gt; [Char] -&gt; [Char]
 forall a. [a] -&gt; [a] -&gt; [a]
 </span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">[Char]
 </span><span class="hs-string">&quot; environment = &quot;</span></span><span>
-</span><span id="line-110"></span><span>            </span><span class="annot"><span class="annottext">[Char] -&gt; [Char] -&gt; [Char]
+</span><span id="line-111"></span><span>            </span><span class="annot"><span class="annottext">[Char] -&gt; [Char] -&gt; [Char]
 forall a. [a] -&gt; [a] -&gt; [a]
 </span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">[Either [v] v] -&gt; [Char]
 forall a. Show a =&gt; a -&gt; [Char]
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145534"><span class="hs-identifier hs-var">env</span></a></span><span>
-</span><span id="line-111"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Cycle'</span></span><span> </span><span id="local-6989586621679145519"><span class="annot"><span class="annottext">[v]
+</span><span id="line-112"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Cycle'</span></span><span> </span><span id="local-6989586621679145519"><span class="annot"><span class="annottext">[v]
 </span><a href="#local-6989586621679145519"><span class="hs-identifier hs-var">vs</span></a></span></span><span> </span><span id="local-6989586621679145518"><span class="annot"><span class="annottext">f (Term f v a)
 </span><a href="#local-6989586621679145518"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">([Term f v a] -&gt; ([Hash], Term f v a -&gt; Hash))
 -&gt; (Term f v a -&gt; Hash) -&gt; f (Term f v a) -&gt; Hash
@@ -406,7 +407,7 @@ Hashable1 f =&gt;
 forall a. HasCallStack =&gt; a
 </span><span class="hs-identifier hs-var">undefined</span></span><span> </span><span class="annot"><span class="annottext">f (Term f v a)
 </span><a href="#local-6989586621679145518"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-112"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Abs''</span></span><span> </span><span id="local-6989586621679145514"><span class="annot"><span class="annottext">v
+</span><span id="line-113"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Abs''</span></span><span> </span><span id="local-6989586621679145514"><span class="annot"><span class="annottext">v
 </span><a href="#local-6989586621679145514"><span class="hs-identifier hs-var">v</span></a></span></span><span> </span><span id="local-6989586621679145513"><span class="annot"><span class="annottext">Term f v a
 </span><a href="#local-6989586621679145513"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[Either [v] v] -&gt; Term f v a -&gt; Hash
 forall (f :: * -&gt; *) v a.
@@ -420,7 +421,7 @@ forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145534"><span class="hs-identifier hs-var">env</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Term f v a
 </span><a href="#local-6989586621679145513"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-113"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Tm'</span></span><span> </span><span id="local-6989586621679145511"><span class="annot"><span class="annottext">f (Term f v a)
+</span><span id="line-114"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Tm'</span></span><span> </span><span id="local-6989586621679145511"><span class="annot"><span class="annottext">f (Term f v a)
 </span><a href="#local-6989586621679145511"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">([Term f v a] -&gt; ([Hash], Term f v a -&gt; Hash))
 -&gt; (Term f v a -&gt; Hash) -&gt; f (Term f v a) -&gt; Hash
 forall (f :: * -&gt; *) a.
@@ -449,15 +450,15 @@ forall (f :: * -&gt; *) v a.
 </span><a href="Unison.Hashing.V2.ABT.html#hash%27"><span class="hs-identifier hs-var">hash'</span></a></span><span> </span><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145534"><span class="hs-identifier hs-var">env</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">f (Term f v a)
 </span><a href="#local-6989586621679145511"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-114"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-115"></span><span>    </span><span class="annot"><a href="#local-6989586621679145517"><span class="hs-identifier hs-type">hashCycle</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621679145699"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145697"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hash</span></span><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621679145699"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145697"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Hash</span></span><span class="hs-special">)</span><span>
-</span><span id="line-116"></span><span>    </span><span id="local-6989586621679145517"><span class="annot"><span class="annottext">hashCycle :: [v]
+</span><span id="line-115"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-116"></span><span>    </span><span class="annot"><a href="#local-6989586621679145517"><span class="hs-identifier hs-type">hashCycle</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621679145699"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145697"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hash</span></span><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621679145699"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145698"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145697"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Hash</span></span><span class="hs-special">)</span><span>
+</span><span id="line-117"></span><span>    </span><span id="local-6989586621679145517"><span class="annot"><span class="annottext">hashCycle :: [v]
 -&gt; [Either [v] v] -&gt; [Term f v a] -&gt; ([Hash], Term f v a -&gt; Hash)
 </span><a href="#local-6989586621679145517"><span class="hs-identifier hs-var hs-var">hashCycle</span></a></span></span><span> </span><span id="local-6989586621679145509"><span class="annot"><span class="annottext">[v]
 </span><a href="#local-6989586621679145509"><span class="hs-identifier hs-var">cycle</span></a></span></span><span> </span><span id="local-6989586621679145508"><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145508"><span class="hs-identifier hs-var">env</span></a></span></span><span> </span><span id="local-6989586621679145507"><span class="annot"><span class="annottext">[Term f v a]
 </span><a href="#local-6989586621679145507"><span class="hs-identifier hs-var">ts</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-117"></span><span>      </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679145506"><span class="annot"><span class="annottext">[Hash]
+</span><span id="line-118"></span><span>      </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679145506"><span class="annot"><span class="annottext">[Hash]
 </span><a href="#local-6989586621679145506"><span class="hs-identifier hs-var">ts'</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679145505"><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145505"><span class="hs-identifier hs-var">env'</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Either [v] v] -&gt; [(v, Term f v a)] -&gt; ([Hash], [Either [v] v])
 forall a (f :: * -&gt; *) v.
@@ -469,27 +470,27 @@ forall a b. [a] -&gt; [b] -&gt; [(a, b)]
 </span><span class="hs-identifier hs-var">zip</span></span><span> </span><span class="annot"><span class="annottext">[v]
 </span><a href="#local-6989586621679145509"><span class="hs-identifier hs-var">cycle</span></a></span><span> </span><span class="annot"><span class="annottext">[Term f v a]
 </span><a href="#local-6989586621679145507"><span class="hs-identifier hs-var">ts</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-118"></span><span>       </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Hash]
+</span><span id="line-119"></span><span>       </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Hash]
 </span><a href="#local-6989586621679145506"><span class="hs-identifier hs-var">ts'</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[Either [v] v] -&gt; Term f v a -&gt; Hash
 forall (f :: * -&gt; *) v a.
 (Functor f, Hashable1 f, Eq v, Show v) =&gt;
 [Either [v] v] -&gt; Term f v a -&gt; Hash
 </span><a href="Unison.Hashing.V2.ABT.html#hash%27"><span class="hs-identifier hs-var">hash'</span></a></span><span> </span><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145505"><span class="hs-identifier hs-var">env'</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-119"></span><span>
-</span><span id="line-120"></span><span class="hs-comment">-- | @doHashCycle env terms@ hashes cycle @terms@ in environment @env@, and returns the canonical ordering of the hashes</span><span>
-</span><span id="line-121"></span><span class="hs-comment">-- of those terms, as well as an updated environment with each of the terms' bindings in the canonical ordering.</span><span>
-</span><span id="line-122"></span><span class="annot"><a href="Unison.Hashing.V2.ABT.html#doHashCycle"><span class="hs-identifier hs-type">doHashCycle</span></a></span><span> </span><span class="hs-glyph">::</span><span>
-</span><span id="line-123"></span><span>  </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679145705"><span class="annot"><a href="#local-6989586621679145705"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span id="local-6989586621679145707"><span class="annot"><a href="#local-6989586621679145707"><span class="hs-identifier hs-type">f</span></a></span></span><span> </span><span id="local-6989586621679145708"><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span></span><span class="hs-operator">.</span><span>
-</span><span id="line-124"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Eq</span></span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Functor</span></span><span> </span><span class="annot"><a href="#local-6989586621679145707"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.Hashing.V2.Tokenizable.html#Hashable1"><span class="hs-identifier hs-type">Hashable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145707"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span>
-</span><span id="line-125"></span><span>  </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-126"></span><span>  </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621679145707"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145705"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-127"></span><span>  </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hash</span></span><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span>
-</span><span id="line-128"></span><span id="doHashCycle"><span class="annot"><span class="annottext">doHashCycle :: [Either [v] v] -&gt; [(v, Term f v a)] -&gt; ([Hash], [Either [v] v])
+</span><span id="line-120"></span><span>
+</span><span id="line-121"></span><span class="hs-comment">-- | @doHashCycle env terms@ hashes cycle @terms@ in environment @env@, and returns the canonical ordering of the hashes</span><span>
+</span><span id="line-122"></span><span class="hs-comment">-- of those terms, as well as an updated environment with each of the terms' bindings in the canonical ordering.</span><span>
+</span><span id="line-123"></span><span class="annot"><a href="Unison.Hashing.V2.ABT.html#doHashCycle"><span class="hs-identifier hs-type">doHashCycle</span></a></span><span> </span><span class="hs-glyph">::</span><span>
+</span><span id="line-124"></span><span>  </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679145705"><span class="annot"><a href="#local-6989586621679145705"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span id="local-6989586621679145707"><span class="annot"><a href="#local-6989586621679145707"><span class="hs-identifier hs-type">f</span></a></span></span><span> </span><span id="local-6989586621679145708"><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span></span><span class="hs-operator">.</span><span>
+</span><span id="line-125"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Eq</span></span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Functor</span></span><span> </span><span class="annot"><a href="#local-6989586621679145707"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.Hashing.V2.Tokenizable.html#Hashable1"><span class="hs-identifier hs-type">Hashable1</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145707"><span class="hs-identifier hs-type">f</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Show</span></span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span>
+</span><span id="line-126"></span><span>  </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-127"></span><span>  </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621679145707"><span class="hs-identifier hs-type">f</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679145705"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-128"></span><span>  </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hash</span></span><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="annot"><a href="#local-6989586621679145708"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span class="hs-special">)</span><span>
+</span><span id="line-129"></span><span id="doHashCycle"><span class="annot"><span class="annottext">doHashCycle :: [Either [v] v] -&gt; [(v, Term f v a)] -&gt; ([Hash], [Either [v] v])
 </span><a href="Unison.Hashing.V2.ABT.html#doHashCycle"><span class="hs-identifier hs-var hs-var">doHashCycle</span></a></span></span><span> </span><span id="local-6989586621679145504"><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145504"><span class="hs-identifier hs-var">env</span></a></span></span><span> </span><span id="local-6989586621679145503"><span class="annot"><span class="annottext">[(v, Term f v a)]
 </span><a href="#local-6989586621679145503"><span class="hs-identifier hs-var">namedTerms</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-129"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(Term f v a -&gt; Hash) -&gt; [Term f v a] -&gt; [Hash]
+</span><span id="line-130"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(Term f v a -&gt; Hash) -&gt; [Term f v a] -&gt; [Hash]
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 </span><span class="hs-identifier hs-var">map</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Either [v] v] -&gt; Term f v a -&gt; Hash
 forall (f :: * -&gt; *) v a.
@@ -499,16 +500,16 @@ forall (f :: * -&gt; *) v a.
 </span><a href="#local-6989586621679145502"><span class="hs-identifier hs-var">newEnv</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Term f v a]
 </span><a href="#local-6989586621679145501"><span class="hs-identifier hs-var">permutedTerms</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145502"><span class="hs-identifier hs-var">newEnv</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-130"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-131"></span><span>    </span><span id="local-6989586621679145500"><span class="annot"><span class="annottext">names :: [v]
+</span><span id="line-131"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-132"></span><span>    </span><span id="local-6989586621679145500"><span class="annot"><span class="annottext">names :: [v]
 </span><a href="#local-6989586621679145500"><span class="hs-identifier hs-var hs-var">names</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">((v, Term f v a) -&gt; v) -&gt; [(v, Term f v a)] -&gt; [v]
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 </span><span class="hs-identifier hs-var">map</span></span><span> </span><span class="annot"><span class="annottext">(v, Term f v a) -&gt; v
 forall a b. (a, b) -&gt; a
 </span><span class="hs-identifier hs-var">fst</span></span><span> </span><span class="annot"><span class="annottext">[(v, Term f v a)]
 </span><a href="#local-6989586621679145503"><span class="hs-identifier hs-var">namedTerms</span></a></span><span>
-</span><span id="line-132"></span><span>    </span><span class="hs-comment">-- The environment in which we compute the canonical permutation of terms</span><span>
-</span><span id="line-133"></span><span>    </span><span id="local-6989586621679145499"><span class="annot"><span class="annottext">permutationEnv :: [Either [v] v]
+</span><span id="line-133"></span><span>    </span><span class="hs-comment">-- The environment in which we compute the canonical permutation of terms</span><span>
+</span><span id="line-134"></span><span>    </span><span id="local-6989586621679145499"><span class="annot"><span class="annottext">permutationEnv :: [Either [v] v]
 </span><a href="#local-6989586621679145499"><span class="hs-identifier hs-var hs-var">permutationEnv</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[v] -&gt; Either [v] v
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">[v]
@@ -516,12 +517,12 @@ forall a b. a -&gt; Either a b
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145504"><span class="hs-identifier hs-var">env</span></a></span><span>
-</span><span id="line-134"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679145498"><span class="annot"><span class="annottext">[v]
+</span><span id="line-135"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679145498"><span class="annot"><span class="annottext">[v]
 </span><a href="#local-6989586621679145498"><span class="hs-identifier hs-var">permutedNames</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679145501"><span class="annot"><span class="annottext">[Term f v a]
 </span><a href="#local-6989586621679145501"><span class="hs-identifier hs-var">permutedTerms</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-135"></span><span>      </span><span class="annot"><span class="annottext">[(v, Term f v a)]
+</span><span id="line-136"></span><span>      </span><span class="annot"><span class="annottext">[(v, Term f v a)]
 </span><a href="#local-6989586621679145503"><span class="hs-identifier hs-var">namedTerms</span></a></span><span>
-</span><span id="line-136"></span><span>        </span><span class="annot"><span class="annottext">[(v, Term f v a)]
+</span><span id="line-137"></span><span>        </span><span class="annot"><span class="annottext">[(v, Term f v a)]
 -&gt; ([(v, Term f v a)] -&gt; [(v, Term f v a)]) -&gt; [(v, Term f v a)]
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">((v, Term f v a) -&gt; Hash) -&gt; [(v, Term f v a)] -&gt; [(v, Term f v a)]
@@ -537,16 +538,16 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(v, Term f v a) -&gt; Term f v a
 forall a b. (a, b) -&gt; b
 </span><span class="hs-identifier hs-var">snd</span></span><span class="hs-special">)</span><span>
-</span><span id="line-137"></span><span>        </span><span class="annot"><span class="annottext">[(v, Term f v a)]
+</span><span id="line-138"></span><span>        </span><span class="annot"><span class="annottext">[(v, Term f v a)]
 -&gt; ([(v, Term f v a)] -&gt; ([v], [Term f v a]))
 -&gt; ([v], [Term f v a])
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">[(v, Term f v a)] -&gt; ([v], [Term f v a])
 forall a b. [(a, b)] -&gt; ([a], [b])
 </span><span class="hs-identifier hs-var">unzip</span></span><span>
-</span><span id="line-138"></span><span>    </span><span class="hs-comment">-- The new environment, which includes the names of all of the terms in the cycle, now that we have computed their</span><span>
-</span><span id="line-139"></span><span>    </span><span class="hs-comment">-- canonical ordering</span><span>
-</span><span id="line-140"></span><span>    </span><span id="local-6989586621679145502"><span class="annot"><span class="annottext">newEnv :: [Either [v] v]
+</span><span id="line-139"></span><span>    </span><span class="hs-comment">-- The new environment, which includes the names of all of the terms in the cycle, now that we have computed their</span><span>
+</span><span id="line-140"></span><span>    </span><span class="hs-comment">-- canonical ordering</span><span>
+</span><span id="line-141"></span><span>    </span><span id="local-6989586621679145502"><span class="annot"><span class="annottext">newEnv :: [Either [v] v]
 </span><a href="#local-6989586621679145502"><span class="hs-identifier hs-var hs-var">newEnv</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(v -&gt; Either [v] v) -&gt; [v] -&gt; [Either [v] v]
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 </span><span class="hs-identifier hs-var">map</span></span><span> </span><span class="annot"><span class="annottext">v -&gt; Either [v] v
@@ -556,4 +557,4 @@ forall a b. b -&gt; Either a b
 forall a. [a] -&gt; [a] -&gt; [a]
 </span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">[Either [v] v]
 </span><a href="#local-6989586621679145504"><span class="hs-identifier hs-var">env</span></a></span><span>
-</span><span id="line-141"></span></pre></body></html>
+</span><span id="line-142"></span></pre></body></html>

@@ -380,8 +380,8 @@ instance GHC.Show.Show Unison.Codebase.PushBehavior.PushBehavior
 instance GHC.Classes.Eq Unison.Codebase.PushBehavior.PushBehavior
 
 module Unison.Codebase.Serialization
-type Get a = forall m. MonadGet m => m a
-type Put a = forall m. MonadPut m => a -> m ()
+type Get a = forall m. (MonadGet m) => m a
+type Put a = forall m. (MonadPut m) => a -> m ()
 data Format a
 Format :: Get a -> Put a -> Format a
 [$sel:get:Format] :: Format a -> Get a

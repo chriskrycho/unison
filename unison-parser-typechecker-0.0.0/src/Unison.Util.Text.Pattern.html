@@ -692,11 +692,11 @@ forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><a href="#local-6989586621680646674"><span class="hs-identifier hs-var">t</span></a></span><span>
 </span><span id="line-165"></span><span>              </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-166"></span><span>                </span><span class="hs-comment">-- moving the remainder to the root of the tree is much more efficient</span><span>
-</span><span id="line-167"></span><span>                </span><span class="hs-comment">-- since the next uncons will be O(1) rather than O(log n)</span><span>
-</span><span id="line-168"></span><span>                </span><span class="hs-comment">-- this can't unbalance the tree too badly since these promoted chunks</span><span>
-</span><span id="line-169"></span><span>                </span><span class="hs-comment">-- are being consumed and will get removed by a subsequent uncons</span><span>
-</span><span id="line-170"></span><span>                </span><span class="annot"><span class="annottext">Stack -&gt; Text -&gt; r
+</span><span id="line-166"></span><span>                  </span><span class="hs-comment">-- moving the remainder to the root of the tree is much more efficient</span><span>
+</span><span id="line-167"></span><span>                  </span><span class="hs-comment">-- since the next uncons will be O(1) rather than O(log n)</span><span>
+</span><span id="line-168"></span><span>                  </span><span class="hs-comment">-- this can't unbalance the tree too badly since these promoted chunks</span><span>
+</span><span id="line-169"></span><span>                  </span><span class="hs-comment">-- are being consumed and will get removed by a subsequent uncons</span><span>
+</span><span id="line-170"></span><span>                  </span><span class="annot"><span class="annottext">Stack -&gt; Text -&gt; r
 </span><a href="#local-6989586621680646690"><span class="hs-identifier hs-var">success</span></a></span><span> </span><span class="annot"><span class="annottext">Stack
 </span><a href="#local-6989586621680646679"><span class="hs-identifier hs-var">acc</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Text -&gt; Text
 </span><a href="Unison.Util.Text.html#appendUnbalanced"><span class="hs-identifier hs-var">Text.appendUnbalanced</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; Text

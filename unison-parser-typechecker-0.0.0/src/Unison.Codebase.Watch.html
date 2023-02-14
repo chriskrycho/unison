@@ -35,7 +35,7 @@
 </span><span id="line-35"></span><span>  </span><span class="hs-special">)</span><span>
 </span><span id="line-36"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">UnliftIO.STM</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">atomically</span></span><span class="hs-special">)</span><span>
 </span><span id="line-37"></span><span>
-</span><span id="line-38"></span><span id="local-6989586621680639931"><span id="local-6989586621680639932"><span class="annot"><a href="Unison.Codebase.Watch.html#untilJust"><span class="hs-identifier hs-type">untilJust</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621680639932"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621680639932"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="#local-6989586621680639931"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621680639932"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680639931"><span class="hs-identifier hs-type">a</span></a></span></span></span><span>
+</span><span id="line-38"></span><span id="local-6989586621680639931"><span id="local-6989586621680639932"><span class="annot"><a href="Unison.Codebase.Watch.html#untilJust"><span class="hs-identifier hs-type">untilJust</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621680639932"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621680639932"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><a href="#local-6989586621680639931"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621680639932"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680639931"><span class="hs-identifier hs-type">a</span></a></span></span></span><span>
 </span><span id="line-39"></span><span id="untilJust"><span class="annot"><span class="annottext">untilJust :: m (Maybe a) -&gt; m a
 </span><a href="Unison.Codebase.Watch.html#untilJust"><span class="hs-identifier hs-var hs-var">untilJust</span></a></span></span><span> </span><span id="local-6989586621680639818"><span class="annot"><span class="annottext">m (Maybe a)
 </span><a href="#local-6989586621680639818"><span class="hs-identifier hs-var">act</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">m (Maybe a)
@@ -51,7 +51,7 @@ forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span>
 </span><span id="line-40"></span><span>
 </span><span id="line-41"></span><span class="annot"><a href="Unison.Codebase.Watch.html#watchDirectory%27"><span class="hs-identifier hs-type">watchDirectory'</span></a></span><span> </span><span class="hs-glyph">::</span><span>
-</span><span id="line-42"></span><span>  </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680639868"><span class="annot"><a href="#local-6989586621680639868"><span class="hs-identifier hs-type">m</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">MonadIO</span></span><span> </span><span class="annot"><a href="#local-6989586621680639868"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621680639868"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">UTCTime</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-42"></span><span>  </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680639868"><span class="annot"><a href="#local-6989586621680639868"><span class="hs-identifier hs-type">m</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">MonadIO</span></span><span> </span><span class="annot"><a href="#local-6989586621680639868"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621680639868"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">UTCTime</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-43"></span><span id="watchDirectory%27"><span class="annot"><span class="annottext">watchDirectory' :: FilePath -&gt; m (IO (), IO (FilePath, UTCTime))
 </span><a href="Unison.Codebase.Watch.html#watchDirectory%27"><span class="hs-identifier hs-var hs-var">watchDirectory'</span></a></span></span><span> </span><span id="local-6989586621680639815"><span class="annot"><span class="annottext">FilePath
 </span><a href="#local-6989586621680639815"><span class="hs-identifier hs-var">d</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
@@ -246,7 +246,7 @@ forall a. TQueue a -&gt; STM [a]
 </span><span id="line-85"></span><span>
 </span><span id="line-86"></span><span class="annot"><a href="Unison.Codebase.Watch.html#watchDirectory"><span class="hs-identifier hs-type">watchDirectory</span></a></span><span> </span><span class="hs-glyph">::</span><span>
 </span><span id="line-87"></span><span>  </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680639777"><span class="annot"><a href="#local-6989586621680639777"><span class="hs-identifier hs-type">m</span></a></span></span><span class="hs-operator">.</span><span>
-</span><span id="line-88"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">MonadIO</span></span><span> </span><span class="annot"><a href="#local-6989586621680639777"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span>
+</span><span id="line-88"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">MonadIO</span></span><span> </span><span class="annot"><a href="#local-6989586621680639777"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span>
 </span><span id="line-89"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-90"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-91"></span><span>  </span><span class="annot"><a href="#local-6989586621680639777"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
@@ -423,25 +423,26 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 forall a. STM a -&gt; IO a
 </span><span class="hs-identifier hs-var">STM.atomically</span></span><span> </span><span class="annot"><span class="annottext">(STM () -&gt; IO ()) -&gt; STM () -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">TQueue (FilePath, UTCTime) -&gt; (FilePath, UTCTime) -&gt; STM ()
+</span><span class="hs-operator hs-var">$</span></span><span>
+</span><span id="line-130"></span><span>          </span><span class="annot"><span class="annottext">TQueue (FilePath, UTCTime) -&gt; (FilePath, UTCTime) -&gt; STM ()
 forall a. TQueue a -&gt; a -&gt; STM ()
 </span><a href="Unison.Util.TQueue.html#enqueue"><span class="hs-identifier hs-var">TQueue.enqueue</span></a></span><span> </span><span class="annot"><span class="annottext">TQueue (FilePath, UTCTime)
 </span><a href="#local-6989586621680639753"><span class="hs-identifier hs-var">queue</span></a></span><span> </span><span class="annot"><span class="annottext">(FilePath, UTCTime)
 </span><a href="#local-6989586621680639749"><span class="hs-identifier hs-var">event</span></a></span><span>
-</span><span id="line-130"></span><span>  </span><span id="local-6989586621680639744"><span class="annot"><span class="annottext">IORef [(FilePath, UTCTime)]
+</span><span id="line-131"></span><span>  </span><span id="local-6989586621680639744"><span class="annot"><span class="annottext">IORef [(FilePath, UTCTime)]
 </span><a href="#local-6989586621680639744"><span class="hs-identifier hs-var">pending</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(FilePath, UTCTime)] -&gt; m (IORef [(FilePath, UTCTime)])
 forall (m :: * -&gt; *) a. MonadIO m =&gt; a -&gt; m (IORef a)
 </span><span class="hs-identifier hs-var">newIORef</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-131"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><a href="#local-6989586621680639743"><span class="hs-identifier hs-type">await</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">)</span><span>
-</span><span id="line-132"></span><span>      </span><span id="local-6989586621680639743"><span class="annot"><span class="annottext">await :: IO (FilePath, Text)
+</span><span id="line-132"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><a href="#local-6989586621680639743"><span class="hs-identifier hs-type">await</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">)</span><span>
+</span><span id="line-133"></span><span>      </span><span id="local-6989586621680639743"><span class="annot"><span class="annottext">await :: IO (FilePath, Text)
 </span><a href="#local-6989586621680639743"><span class="hs-identifier hs-var hs-var">await</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-133"></span><span>        </span><span class="annot"><span class="annottext">IO (Maybe (FilePath, Text)) -&gt; IO (FilePath, Text)
+</span><span id="line-134"></span><span>        </span><span class="annot"><span class="annottext">IO (Maybe (FilePath, Text)) -&gt; IO (FilePath, Text)
 forall (m :: * -&gt; *) a. Monad m =&gt; m (Maybe a) -&gt; m a
 </span><a href="Unison.Codebase.Watch.html#untilJust"><span class="hs-identifier hs-var">untilJust</span></a></span><span> </span><span class="annot"><span class="annottext">(IO (Maybe (FilePath, Text)) -&gt; IO (FilePath, Text))
 -&gt; IO (Maybe (FilePath, Text)) -&gt; IO (FilePath, Text)
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span>
-</span><span id="line-134"></span><span>          </span><span class="annot"><span class="annottext">IORef [(FilePath, UTCTime)] -&gt; IO [(FilePath, UTCTime)]
+</span><span id="line-135"></span><span>          </span><span class="annot"><span class="annottext">IORef [(FilePath, UTCTime)] -&gt; IO [(FilePath, UTCTime)]
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IORef a -&gt; m a
 </span><span class="hs-identifier hs-var">readIORef</span></span><span> </span><span class="annot"><span class="annottext">IORef [(FilePath, UTCTime)]
 </span><a href="#local-6989586621680639744"><span class="hs-identifier hs-var">pending</span></a></span><span> </span><span class="annot"><span class="annottext">IO [(FilePath, UTCTime)]
@@ -449,32 +450,32 @@ forall (m :: * -&gt; *) a. MonadIO m =&gt; IORef a -&gt; m a
 -&gt; IO (Maybe (FilePath, Text))
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-135"></span><span>            </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-136"></span><span>              </span><span class="hs-comment">-- open the gate</span><span>
-</span><span id="line-137"></span><span>              </span><span class="annot"><span class="annottext">MVar () -&gt; () -&gt; IO Bool
+</span><span id="line-136"></span><span>            </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-137"></span><span>              </span><span class="hs-comment">-- open the gate</span><span>
+</span><span id="line-138"></span><span>              </span><span class="annot"><span class="annottext">MVar () -&gt; () -&gt; IO Bool
 forall (m :: * -&gt; *) a. MonadIO m =&gt; MVar a -&gt; a -&gt; m Bool
 </span><span class="hs-identifier hs-var">tryPutMVar</span></span><span> </span><span class="annot"><span class="annottext">MVar ()
 </span><a href="#local-6989586621680639751"><span class="hs-identifier hs-var">gate</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
-</span><span id="line-138"></span><span>              </span><span class="hs-comment">-- this debounces the events, waits for 50ms pause</span><span>
-</span><span id="line-139"></span><span>              </span><span class="hs-comment">-- in file change events</span><span>
-</span><span id="line-140"></span><span>              </span><span id="local-6989586621680639742"><span class="annot"><span class="annottext">[(FilePath, UTCTime)]
+</span><span id="line-139"></span><span>              </span><span class="hs-comment">-- this debounces the events, waits for 50ms pause</span><span>
+</span><span id="line-140"></span><span>              </span><span class="hs-comment">-- in file change events</span><span>
+</span><span id="line-141"></span><span>              </span><span id="local-6989586621680639742"><span class="annot"><span class="annottext">[(FilePath, UTCTime)]
 </span><a href="#local-6989586621680639742"><span class="hs-identifier hs-var">events</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">TQueue (FilePath, UTCTime) -&gt; Int -&gt; IO [(FilePath, UTCTime)]
 forall a. TQueue a -&gt; Int -&gt; IO [a]
 </span><a href="Unison.Codebase.Watch.html#collectUntilPause"><span class="hs-identifier hs-var">collectUntilPause</span></a></span><span> </span><span class="annot"><span class="annottext">TQueue (FilePath, UTCTime)
 </span><a href="#local-6989586621680639753"><span class="hs-identifier hs-var">queue</span></a></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">50000</span></span><span>
-</span><span id="line-141"></span><span>              </span><span class="hs-comment">-- traceM $ &quot;Collected file change events&quot; &lt;&gt; show events</span><span>
-</span><span id="line-142"></span><span>              </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">[(FilePath, UTCTime)]
+</span><span id="line-142"></span><span>              </span><span class="hs-comment">-- traceM $ &quot;Collected file change events&quot; &lt;&gt; show events</span><span>
+</span><span id="line-143"></span><span>              </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">[(FilePath, UTCTime)]
 </span><a href="#local-6989586621680639742"><span class="hs-identifier hs-var">events</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-143"></span><span>                </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe (FilePath, Text) -&gt; IO (Maybe (FilePath, Text))
+</span><span id="line-144"></span><span>                </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Maybe (FilePath, Text) -&gt; IO (Maybe (FilePath, Text))
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">Maybe (FilePath, Text)
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-144"></span><span>                </span><span class="hs-comment">-- we pick the last of the events within the 50ms window</span><span>
-</span><span id="line-145"></span><span>                </span><span class="hs-comment">-- TODO: consider enqueing other events if there are</span><span>
-</span><span id="line-146"></span><span>                </span><span class="hs-comment">-- multiple events for different files</span><span>
-</span><span id="line-147"></span><span>                </span><span class="annot"><span class="annottext">[(FilePath, UTCTime)]
+</span><span id="line-145"></span><span>                </span><span class="hs-comment">-- we pick the last of the events within the 50ms window</span><span>
+</span><span id="line-146"></span><span>                </span><span class="hs-comment">-- TODO: consider enqueing other events if there are</span><span>
+</span><span id="line-147"></span><span>                </span><span class="hs-comment">-- multiple events for different files</span><span>
+</span><span id="line-148"></span><span>                </span><span class="annot"><span class="annottext">[(FilePath, UTCTime)]
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(FilePath -&gt; UTCTime -&gt; IO (Maybe (FilePath, Text)))
 -&gt; (FilePath, UTCTime) -&gt; IO (Maybe (FilePath, Text))
 forall a b c. (a -&gt; b -&gt; c) -&gt; (a, b) -&gt; c
@@ -486,29 +487,29 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 forall a. [a] -&gt; a
 </span><span class="hs-identifier hs-var">last</span></span><span> </span><span class="annot"><span class="annottext">[(FilePath, UTCTime)]
 </span><a href="#local-6989586621680639742"><span class="hs-identifier hs-var">events</span></a></span><span>
-</span><span id="line-148"></span><span>            </span><span class="hs-special">(</span><span class="hs-special">(</span><span id="local-6989586621680639739"><span class="annot"><span class="annottext">FilePath
+</span><span id="line-149"></span><span>            </span><span class="hs-special">(</span><span class="hs-special">(</span><span id="local-6989586621680639739"><span class="annot"><span class="annottext">FilePath
 </span><a href="#local-6989586621680639739"><span class="hs-identifier hs-var">file</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680639738"><span class="annot"><span class="annottext">UTCTime
 </span><a href="#local-6989586621680639738"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621680639737"><span class="annot"><span class="annottext">[(FilePath, UTCTime)]
 </span><a href="#local-6989586621680639737"><span class="hs-identifier hs-var">rest</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-149"></span><span>              </span><span class="annot"><span class="annottext">IORef [(FilePath, UTCTime)] -&gt; [(FilePath, UTCTime)] -&gt; IO ()
+</span><span id="line-150"></span><span>              </span><span class="annot"><span class="annottext">IORef [(FilePath, UTCTime)] -&gt; [(FilePath, UTCTime)] -&gt; IO ()
 forall (m :: * -&gt; *) a. MonadIO m =&gt; IORef a -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">writeIORef</span></span><span> </span><span class="annot"><span class="annottext">IORef [(FilePath, UTCTime)]
 </span><a href="#local-6989586621680639744"><span class="hs-identifier hs-var">pending</span></a></span><span> </span><span class="annot"><span class="annottext">[(FilePath, UTCTime)]
 </span><a href="#local-6989586621680639737"><span class="hs-identifier hs-var">rest</span></a></span><span>
-</span><span id="line-150"></span><span>              </span><span class="annot"><span class="annottext">FilePath -&gt; UTCTime -&gt; IO (Maybe (FilePath, Text))
+</span><span id="line-151"></span><span>              </span><span class="annot"><span class="annottext">FilePath -&gt; UTCTime -&gt; IO (Maybe (FilePath, Text))
 </span><a href="#local-6989586621680639770"><span class="hs-identifier hs-var">process</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
 </span><a href="#local-6989586621680639739"><span class="hs-identifier hs-var">file</span></a></span><span> </span><span class="annot"><span class="annottext">UTCTime
 </span><a href="#local-6989586621680639738"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-151"></span><span>      </span><span id="local-6989586621680639736"><span class="annot"><span class="annottext">cancel :: IO ()
+</span><span id="line-152"></span><span>      </span><span id="local-6989586621680639736"><span class="annot"><span class="annottext">cancel :: IO ()
 </span><a href="#local-6989586621680639736"><span class="hs-identifier hs-var hs-var">cancel</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO ()
 </span><a href="#local-6989586621680639772"><span class="hs-identifier hs-var">cancelWatch</span></a></span><span> </span><span class="annot"><span class="annottext">IO () -&gt; IO () -&gt; IO ()
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; m b -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">ThreadId -&gt; IO ()
 </span><span class="hs-identifier hs-var">killThread</span></span><span> </span><span class="annot"><span class="annottext">ThreadId
 </span><a href="#local-6989586621680639750"><span class="hs-identifier hs-var">enqueuer</span></a></span><span>
-</span><span id="line-152"></span><span>  </span><span class="annot"><span class="annottext">(IO (), IO (FilePath, Text)) -&gt; m (IO (), IO (FilePath, Text))
+</span><span id="line-153"></span><span>  </span><span class="annot"><span class="annottext">(IO (), IO (FilePath, Text)) -&gt; m (IO (), IO (FilePath, Text))
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IO ()
 </span><a href="#local-6989586621680639736"><span class="hs-identifier hs-var">cancel</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">IO (FilePath, Text)
 </span><a href="#local-6989586621680639743"><span class="hs-identifier hs-var">await</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-153"></span></pre></body></html>
+</span><span id="line-154"></span></pre></body></html>

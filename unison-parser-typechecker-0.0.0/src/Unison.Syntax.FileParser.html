@@ -34,7 +34,7 @@
 </span><span id="line-34"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Unison.WatchKind</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">UF</span></span><span>
 </span><span id="line-35"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">readFile</span></span><span class="hs-special">)</span><span>
 </span><span id="line-36"></span><span>
-</span><span id="line-37"></span><span id="local-6989586621680627398"><span id="local-6989586621680627399"><span class="annot"><a href="Unison.Syntax.FileParser.html#resolutionFailures"><span class="hs-identifier hs-type">resolutionFailures</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621680627399"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Names.ResolutionFailure</span></span><span> </span><span class="annot"><a href="#local-6989586621680627399"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627399"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627398"><span class="hs-identifier hs-type">x</span></a></span></span></span><span>
+</span><span id="line-37"></span><span id="local-6989586621680627398"><span id="local-6989586621680627399"><span class="annot"><a href="Unison.Syntax.FileParser.html#resolutionFailures"><span class="hs-identifier hs-type">resolutionFailures</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621680627399"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Names.ResolutionFailure</span></span><span> </span><span class="annot"><a href="#local-6989586621680627399"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627399"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627398"><span class="hs-identifier hs-type">x</span></a></span></span></span><span>
 </span><span id="line-38"></span><span id="resolutionFailures"><span class="annot"><span class="annottext">resolutionFailures :: [ResolutionFailure v Ann] -&gt; P v x
 </span><a href="Unison.Syntax.FileParser.html#resolutionFailures"><span class="hs-identifier hs-var hs-var">resolutionFailures</span></a></span></span><span> </span><span id="local-6989586621680627057"><span class="annot"><span class="annottext">[ResolutionFailure v Ann]
 </span><a href="#local-6989586621680627057"><span class="hs-identifier hs-var">es</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Error v -&gt; P v x
@@ -44,7 +44,7 @@ forall v. [ResolutionFailure v Ann] -&gt; Error v
 </span><span class="hs-identifier hs-var">ResolutionFailures</span></span><span> </span><span class="annot"><span class="annottext">[ResolutionFailure v Ann]
 </span><a href="#local-6989586621680627057"><span class="hs-identifier hs-var">es</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-39"></span><span>
-</span><span id="line-40"></span><span class="annot"><a href="Unison.Syntax.FileParser.html#file"><span class="hs-identifier hs-type">file</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680627053"><span class="annot"><a href="#local-6989586621680627053"><span class="hs-identifier hs-type">v</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627053"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627053"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.UnisonFile.Type.html#UnisonFile"><span class="hs-identifier hs-type">UnisonFile</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627053"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span>
+</span><span id="line-40"></span><span class="annot"><a href="Unison.Syntax.FileParser.html#file"><span class="hs-identifier hs-type">file</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680627053"><span class="annot"><a href="#local-6989586621680627053"><span class="hs-identifier hs-type">v</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627053"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627053"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.UnisonFile.Type.html#UnisonFile"><span class="hs-identifier hs-type">UnisonFile</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627053"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span>
 </span><span id="line-41"></span><span id="file"><span class="annot"><span class="annottext">file :: P v (UnisonFile v Ann)
 </span><a href="Unison.Syntax.FileParser.html#file"><span class="hs-identifier hs-var hs-var">file</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-42"></span><span>  </span><span class="annot"><span class="annottext">Token String
@@ -594,7 +594,7 @@ forall v. Var v =&gt; UnisonFile v Ann -&gt; P v ()
 </span><a href="#local-6989586621680626946"><span class="hs-identifier hs-var">uf</span></a></span><span>
 </span><span id="line-132"></span><span>
 </span><span id="line-133"></span><span class="hs-comment">-- | Final validations and sanity checks to perform before finishing parsing.</span><span>
-</span><span id="line-134"></span><span class="annot"><a href="Unison.Syntax.FileParser.html#validateUnisonFile"><span class="hs-identifier hs-type">validateUnisonFile</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680627295"><span class="annot"><a href="#local-6989586621680627295"><span class="hs-identifier hs-type">v</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627295"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.UnisonFile.Type.html#UnisonFile"><span class="hs-identifier hs-type">UnisonFile</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627295"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627295"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-134"></span><span class="annot"><a href="Unison.Syntax.FileParser.html#validateUnisonFile"><span class="hs-identifier hs-type">validateUnisonFile</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680627295"><span class="annot"><a href="#local-6989586621680627295"><span class="hs-identifier hs-type">v</span></a></span></span><span class="hs-operator">.</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627295"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.UnisonFile.Type.html#UnisonFile"><span class="hs-identifier hs-type">UnisonFile</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627295"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627295"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-135"></span><span id="validateUnisonFile"><span class="annot"><span class="annottext">validateUnisonFile :: UnisonFile v Ann -&gt; P v ()
 </span><a href="Unison.Syntax.FileParser.html#validateUnisonFile"><span class="hs-identifier hs-var hs-var">validateUnisonFile</span></a></span></span><span> </span><span id="local-6989586621680626941"><span class="annot"><span class="annottext">UnisonFile v Ann
 </span><a href="#local-6989586621680626941"><span class="hs-identifier hs-var">uf</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
@@ -1005,7 +1005,7 @@ fmap :: (a -&gt; b) -&gt; Stanza v a -&gt; Stanza v b
 $cfmap :: forall v a b. (a -&gt; b) -&gt; Stanza v a -&gt; Stanza v b
 </span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Functor</span></span></span></span><span class="hs-special">)</span><span>
 </span><span id="line-191"></span><span>
-</span><span id="line-192"></span><span id="local-6989586621680627352"><span id="local-6989586621680627353"><span class="annot"><a href="Unison.Syntax.FileParser.html#getVars"><span class="hs-identifier hs-type">getVars</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627353"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Syntax.FileParser.html#Stanza"><span class="hs-identifier hs-type">Stanza</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627353"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627352"><span class="hs-identifier hs-type">term</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621680627353"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span></span></span><span>
+</span><span id="line-192"></span><span id="local-6989586621680627352"><span id="local-6989586621680627353"><span class="annot"><a href="Unison.Syntax.FileParser.html#getVars"><span class="hs-identifier hs-type">getVars</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627353"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Unison.Syntax.FileParser.html#Stanza"><span class="hs-identifier hs-type">Stanza</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627353"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627352"><span class="hs-identifier hs-type">term</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621680627353"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span></span></span><span>
 </span><span id="line-193"></span><span id="getVars"><span class="annot"><span class="annottext">getVars :: Stanza v term -&gt; [v]
 </span><a href="Unison.Syntax.FileParser.html#getVars"><span class="hs-identifier hs-var hs-var">getVars</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
 </span><span id="line-194"></span><span>  </span><span class="annot"><a href="Unison.Syntax.FileParser.html#WatchBinding"><span class="hs-identifier hs-type">WatchBinding</span></a></span><span> </span><span class="annot"><span class="annottext">String
@@ -1036,7 +1036,7 @@ forall v. Var v =&gt; Text -&gt; v
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[((Ann, v), term)]
 </span><a href="#local-6989586621680626851"><span class="hs-identifier hs-var">bs</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-198"></span><span>
-</span><span id="line-199"></span><span id="local-6989586621680627379"><span class="annot"><a href="Unison.Syntax.FileParser.html#stanza"><span class="hs-identifier hs-type">stanza</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627379"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627379"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Syntax.FileParser.html#Stanza"><span class="hs-identifier hs-type">Stanza</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627379"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621680627379"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">)</span></span><span>
+</span><span id="line-199"></span><span id="local-6989586621680627379"><span class="annot"><a href="Unison.Syntax.FileParser.html#stanza"><span class="hs-identifier hs-type">stanza</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627379"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627379"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Unison.Syntax.FileParser.html#Stanza"><span class="hs-identifier hs-type">Stanza</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627379"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Term</span></span><span> </span><span class="annot"><a href="#local-6989586621680627379"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">)</span></span><span>
 </span><span id="line-200"></span><span id="stanza"><span class="annot"><span class="annottext">stanza :: P v (Stanza v (Term v Ann))
 </span><a href="Unison.Syntax.FileParser.html#stanza"><span class="hs-identifier hs-var hs-var">stanza</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">P v (Stanza v (Term v Ann))
 </span><a href="#local-6989586621680626849"><span class="hs-identifier hs-var">watchExpression</span></a></span><span> </span><span class="annot"><span class="annottext">P v (Stanza v (Term v Ann))
@@ -1217,7 +1217,7 @@ forall v. Var v =&gt; Text -&gt; v
 </span><a href="#local-6989586621680626821"><span class="hs-identifier hs-var">doc</span></a></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">((Ann, v), Term v Ann)
 </span><a href="#local-6989586621680626823"><span class="hs-identifier hs-var">binding</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-231"></span><span>
-</span><span id="line-232"></span><span id="local-6989586621680627188"><span class="annot"><a href="Unison.Syntax.FileParser.html#watched"><span class="hs-identifier hs-type">watched</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627188"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627188"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">UF.WatchKind</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span></span><span>
+</span><span id="line-232"></span><span id="local-6989586621680627188"><span class="annot"><a href="Unison.Syntax.FileParser.html#watched"><span class="hs-identifier hs-type">watched</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627188"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627188"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">UF.WatchKind</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span></span><span>
 </span><span id="line-233"></span><span id="watched"><span class="annot"><span class="annottext">watched :: P v (String, Text, Ann)
 </span><a href="Unison.Syntax.FileParser.html#watched"><span class="hs-identifier hs-var hs-var">watched</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">P v (String, Text, Ann) -&gt; P v (String, Text, Ann)
 forall e s (m :: * -&gt; *) a. MonadParsec e s m =&gt; m a -&gt; m a
@@ -1311,7 +1311,7 @@ forall a. Annotated a =&gt; a -&gt; Ann
 </span><span id="line-248"></span><span class="hs-keyword">type</span><span> </span><span id="Accessors"><span class="annot"><a href="Unison.Syntax.FileParser.html#Accessors"><span class="hs-identifier hs-var">Accessors</span></a></span></span><span> </span><span id="local-6989586621680626808"><span class="annot"><a href="#local-6989586621680626808"><span class="hs-identifier hs-type">v</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><a href="#local-6989586621680626808"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><a href="#local-6989586621680626808"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><a href="#local-6989586621680626808"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">)</span><span class="hs-special">]</span><span>
 </span><span id="line-249"></span><span>
 </span><span id="line-250"></span><span id="local-6989586621680627411"><span class="annot"><a href="Unison.Syntax.FileParser.html#declarations"><span class="hs-identifier hs-type">declarations</span></a></span><span> </span><span class="hs-glyph">::</span><span>
-</span><span id="line-251"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627411"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span>
+</span><span id="line-251"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627411"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span>
 </span><span id="line-252"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span>
 </span><span id="line-253"></span><span>    </span><span class="annot"><a href="#local-6989586621680627411"><span class="hs-identifier hs-type">v</span></a></span><span>
 </span><span id="line-254"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="#local-6989586621680627411"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">DataDeclaration</span></span><span> </span><span class="annot"><a href="#local-6989586621680627411"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span class="hs-special">,</span><span>
@@ -1424,7 +1424,7 @@ forall a b. [Either a b] -&gt; ([a], [b])
 </span><a href="#local-6989586621680626799"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Accessors v
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(v, DataDeclaration v Ann, Accessors v)]
 </span><a href="#local-6989586621680626804"><span class="hs-identifier hs-var">dataDecls0</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-262"></span><span>      </span><span id="local-6989586621680627151"><span id="local-6989586621680627152"><span class="annot"><a href="#local-6989586621680626798"><span class="hs-identifier hs-type">multimap</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621680627152"><span class="hs-identifier hs-type">k</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621680627152"><span class="hs-identifier hs-type">k</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621680627151"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="#local-6989586621680627152"><span class="hs-identifier hs-type">k</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621680627151"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span></span></span><span>
+</span><span id="line-262"></span><span>      </span><span id="local-6989586621680627151"><span id="local-6989586621680627152"><span class="annot"><a href="#local-6989586621680626798"><span class="hs-identifier hs-type">multimap</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621680627152"><span class="hs-identifier hs-type">k</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621680627152"><span class="hs-identifier hs-type">k</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621680627151"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="#local-6989586621680627152"><span class="hs-identifier hs-type">k</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621680627151"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span></span></span><span>
 </span><span id="line-263"></span><span>      </span><span id="local-6989586621680626798"><span class="annot"><span class="annottext">multimap :: [(k, v)] -&gt; Map k [v]
 </span><a href="#local-6989586621680626798"><span class="hs-identifier hs-var hs-var">multimap</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Map k [v] -&gt; (k, v) -&gt; Map k [v])
 -&gt; Map k [v] -&gt; [(k, v)] -&gt; Map k [v]
@@ -1596,7 +1596,7 @@ forall k a. Map k a -&gt; [(k, a)]
 </span><a href="#local-6989586621680626786"><span class="hs-identifier hs-var">mesBad</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-280"></span><span>
 </span><span id="line-281"></span><span class="hs-comment">-- unique[someguid] type Blah = ...</span><span>
-</span><span id="line-282"></span><span id="local-6989586621680627125"><span class="annot"><a href="Unison.Syntax.FileParser.html#modifier"><span class="hs-identifier hs-type">modifier</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627125"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627125"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">DD.Modifier</span></span><span class="hs-special">)</span><span class="hs-special">)</span></span><span>
+</span><span id="line-282"></span><span id="local-6989586621680627125"><span class="annot"><a href="Unison.Syntax.FileParser.html#modifier"><span class="hs-identifier hs-type">modifier</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627125"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627125"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">DD.Modifier</span></span><span class="hs-special">)</span><span class="hs-special">)</span></span><span>
 </span><span id="line-283"></span><span id="modifier"><span class="annot"><span class="annottext">modifier :: P v (Maybe (Token Modifier))
 </span><a href="Unison.Syntax.FileParser.html#modifier"><span class="hs-identifier hs-var hs-var">modifier</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-284"></span><span>  </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token Modifier)
@@ -1680,7 +1680,7 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><a href="#local-6989586621680626763"><span class="hs-identifier hs-var">tok</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-297"></span><span>
 </span><span id="line-298"></span><span id="local-6989586621680627163"><span class="annot"><a href="Unison.Syntax.FileParser.html#declaration"><span class="hs-identifier hs-type">declaration</span></a></span><span> </span><span class="hs-glyph">::</span><span>
-</span><span id="line-299"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627163"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span>
+</span><span id="line-299"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627163"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span>
 </span><span id="line-300"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span>
 </span><span id="line-301"></span><span>    </span><span class="annot"><a href="#local-6989586621680627163"><span class="hs-identifier hs-type">v</span></a></span><span>
 </span><span id="line-302"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span>
@@ -1766,7 +1766,7 @@ Maybe (Token Modifier)
 </span><span id="line-309"></span><span>
 </span><span id="line-310"></span><span class="annot"><a href="Unison.Syntax.FileParser.html#dataDeclaration"><span class="hs-identifier hs-type">dataDeclaration</span></a></span><span> </span><span class="hs-glyph">::</span><span>
 </span><span id="line-311"></span><span>  </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621680627121"><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span></span><span class="hs-operator">.</span><span>
-</span><span id="line-312"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span>
+</span><span id="line-312"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span>
 </span><span id="line-313"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">DD.Modifier</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-314"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">DataDeclaration</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.Syntax.FileParser.html#Accessors"><span class="hs-identifier hs-type">Accessors</span></a></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-315"></span><span id="dataDeclaration"><span class="annot"><span class="annottext">dataDeclaration :: Maybe (Token Modifier)
@@ -1794,7 +1794,8 @@ forall v. Ord v =&gt; String -&gt; P v (Token ())
 </span><span id="line-317"></span><span>  </span><span class="hs-special">(</span><span id="local-6989586621680626754"><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626754"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680626753"><span class="annot"><span class="annottext">[Token v]
 </span><a href="#local-6989586621680626753"><span class="hs-identifier hs-var">typeArgs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span>
-</span><span id="line-318"></span><span>    </span><span class="hs-special">(</span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">(Token v -&gt; [Token v] -&gt; (Token v, [Token v]))
+</span><span id="line-318"></span><span>    </span><span class="hs-special">(</span><span class="hs-special">,</span><span class="hs-special">)</span><span>
+</span><span id="line-319"></span><span>      </span><span class="annot"><span class="annottext">(Token v -&gt; [Token v] -&gt; (Token v, [Token v]))
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 -&gt; ParsecT
      (Error v)
@@ -1808,7 +1809,7 @@ forall v. Var v =&gt; P v (Token v) -&gt; P v (Token v)
 </span><a href="Unison.Syntax.TermParser.html#verifyRelativeVarName"><span class="hs-identifier hs-var">TermParser.verifyRelativeVarName</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 forall v. Var v =&gt; P v (Token v)
 </span><span class="hs-identifier hs-var">prefixDefinitionName</span></span><span>
-</span><span id="line-319"></span><span>      </span><span class="annot"><span class="annottext">ParsecT
+</span><span id="line-320"></span><span>      </span><span class="annot"><span class="annottext">ParsecT
   (Error v)
   Input
   ((-&gt;) ParsingEnv)
@@ -1825,26 +1826,26 @@ forall v. Var v =&gt; P v (Token v) -&gt; P v (Token v)
 </span><a href="Unison.Syntax.TermParser.html#verifyRelativeVarName"><span class="hs-identifier hs-var">TermParser.verifyRelativeVarName</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 forall v. Var v =&gt; P v (Token v)
 </span><span class="hs-identifier hs-var">prefixDefinitionName</span></span><span class="hs-special">)</span><span>
-</span><span id="line-320"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626750"><span class="annot"><span class="annottext">typeArgVs :: [v]
+</span><span id="line-321"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626750"><span class="annot"><span class="annottext">typeArgVs :: [v]
 </span><a href="#local-6989586621680626750"><span class="hs-identifier hs-var hs-var">typeArgVs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; v
 forall a. Token a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">L.payload</span></span><span> </span><span class="annot"><span class="annottext">(Token v -&gt; v) -&gt; [Token v] -&gt; [v]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Token v]
 </span><a href="#local-6989586621680626753"><span class="hs-identifier hs-var">typeArgs</span></a></span><span>
-</span><span id="line-321"></span><span>  </span><span id="local-6989586621680626749"><span class="annot"><span class="annottext">Token String
+</span><span id="line-322"></span><span>  </span><span id="local-6989586621680626749"><span class="annot"><span class="annottext">Token String
 </span><a href="#local-6989586621680626749"><span class="hs-identifier hs-var">eq</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token String)
 forall v. Ord v =&gt; String -&gt; P v (Token String)
 </span><span class="hs-identifier hs-var">reserved</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;=&quot;</span></span><span>
-</span><span id="line-322"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-comment">-- go gives the type of the constructor, given the types of</span><span>
-</span><span id="line-323"></span><span>      </span><span class="hs-comment">-- the constructor arguments, e.g. Cons becomes forall a . a -&gt; List a -&gt; List a</span><span>
-</span><span id="line-324"></span><span>      </span><span class="annot"><a href="#local-6989586621680626748"><span class="hs-identifier hs-type">go</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span>
-</span><span id="line-325"></span><span>      </span><span id="local-6989586621680626748"><span class="annot"><span class="annottext">go :: Token v -&gt; [Type v Ann] -&gt; (Ann, v, Type v Ann)
+</span><span id="line-323"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-comment">-- go gives the type of the constructor, given the types of</span><span>
+</span><span id="line-324"></span><span>      </span><span class="hs-comment">-- the constructor arguments, e.g. Cons becomes forall a . a -&gt; List a -&gt; List a</span><span>
+</span><span id="line-325"></span><span>      </span><span class="annot"><a href="#local-6989586621680626748"><span class="hs-identifier hs-type">go</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><a href="#local-6989586621680627121"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span><span>
+</span><span id="line-326"></span><span>      </span><span id="local-6989586621680626748"><span class="annot"><span class="annottext">go :: Token v -&gt; [Type v Ann] -&gt; (Ann, v, Type v Ann)
 </span><a href="#local-6989586621680626748"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span id="local-6989586621680626747"><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626747"><span class="hs-identifier hs-var">ctorName</span></a></span></span><span> </span><span id="local-6989586621680626746"><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626746"><span class="hs-identifier hs-var">ctorArgs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-326"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626745"><span class="annot"><span class="annottext">arrow :: Term F v Ann -&gt; Term F v Ann -&gt; Term F v Ann
+</span><span id="line-327"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626745"><span class="annot"><span class="annottext">arrow :: Term F v Ann -&gt; Term F v Ann -&gt; Term F v Ann
 </span><a href="#local-6989586621680626745"><span class="hs-identifier hs-var hs-var">arrow</span></a></span></span><span> </span><span id="local-6989586621680626744"><span class="annot"><span class="annottext">Term F v Ann
 </span><a href="#local-6989586621680626744"><span class="hs-identifier hs-var">i</span></a></span></span><span> </span><span id="local-6989586621680626743"><span class="annot"><span class="annottext">Term F v Ann
 </span><a href="#local-6989586621680626743"><span class="hs-identifier hs-var">o</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; Term F v Ann -&gt; Term F v Ann -&gt; Term F v Ann
@@ -1860,7 +1861,7 @@ forall a. Annotated a =&gt; a -&gt; Ann
 </span><a href="#local-6989586621680626743"><span class="hs-identifier hs-var">o</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Term F v Ann
 </span><a href="#local-6989586621680626744"><span class="hs-identifier hs-var">i</span></a></span><span> </span><span class="annot"><span class="annottext">Term F v Ann
 </span><a href="#local-6989586621680626743"><span class="hs-identifier hs-var">o</span></a></span><span>
-</span><span id="line-327"></span><span>            </span><span id="local-6989586621680626741"><span class="annot"><span class="annottext">app :: Term F v Ann -&gt; Term F v Ann -&gt; Term F v Ann
+</span><span id="line-328"></span><span>            </span><span id="local-6989586621680626741"><span class="annot"><span class="annottext">app :: Term F v Ann -&gt; Term F v Ann -&gt; Term F v Ann
 </span><a href="#local-6989586621680626741"><span class="hs-identifier hs-var hs-var">app</span></a></span></span><span> </span><span id="local-6989586621680626740"><span class="annot"><span class="annottext">Term F v Ann
 </span><a href="#local-6989586621680626740"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621680626739"><span class="annot"><span class="annottext">Term F v Ann
 </span><a href="#local-6989586621680626739"><span class="hs-identifier hs-var">arg</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; Term F v Ann -&gt; Term F v Ann -&gt; Term F v Ann
@@ -1876,8 +1877,8 @@ forall a. Annotated a =&gt; a -&gt; Ann
 </span><a href="#local-6989586621680626739"><span class="hs-identifier hs-var">arg</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Term F v Ann
 </span><a href="#local-6989586621680626740"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Term F v Ann
 </span><a href="#local-6989586621680626739"><span class="hs-identifier hs-var">arg</span></a></span><span>
-</span><span id="line-328"></span><span>            </span><span class="hs-comment">-- ctorReturnType e.g. `Optional a`</span><span>
-</span><span id="line-329"></span><span>            </span><span id="local-6989586621680626737"><span class="annot"><span class="annottext">ctorReturnType :: Type v Ann
+</span><span id="line-329"></span><span>            </span><span class="hs-comment">-- ctorReturnType e.g. `Optional a`</span><span>
+</span><span id="line-330"></span><span>            </span><span id="local-6989586621680626737"><span class="annot"><span class="annottext">ctorReturnType :: Type v Ann
 </span><a href="#local-6989586621680626737"><span class="hs-identifier hs-var hs-var">ctorReturnType</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Type v Ann -&gt; Type v Ann)
 -&gt; Type v Ann -&gt; [Type v Ann] -&gt; Type v Ann
 forall (t :: * -&gt; *) b a.
@@ -1898,9 +1899,9 @@ forall v a. Ord v =&gt; a -&gt; v -&gt; Type v a
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Token v]
 </span><a href="#local-6989586621680626753"><span class="hs-identifier hs-var">typeArgs</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-330"></span><span>            </span><span class="hs-comment">-- ctorType e.g. `a -&gt; Optional a`</span><span>
-</span><span id="line-331"></span><span>            </span><span class="hs-comment">--    or just `Optional a` in the case of `None`</span><span>
-</span><span id="line-332"></span><span>            </span><span id="local-6989586621680626734"><span class="annot"><span class="annottext">ctorType :: Type v Ann
+</span><span id="line-331"></span><span>            </span><span class="hs-comment">-- ctorType e.g. `a -&gt; Optional a`</span><span>
+</span><span id="line-332"></span><span>            </span><span class="hs-comment">--    or just `Optional a` in the case of `None`</span><span>
+</span><span id="line-333"></span><span>            </span><span id="local-6989586621680626734"><span class="annot"><span class="annottext">ctorType :: Type v Ann
 </span><a href="#local-6989586621680626734"><span class="hs-identifier hs-var hs-var">ctorType</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Type v Ann -&gt; Type v Ann)
 -&gt; Type v Ann -&gt; [Type v Ann] -&gt; Type v Ann
 forall (t :: * -&gt; *) a b.
@@ -1911,7 +1912,7 @@ forall v. Ord v =&gt; Term F v Ann -&gt; Term F v Ann -&gt; Term F v Ann
 </span><a href="#local-6989586621680626745"><span class="hs-identifier hs-var">arrow</span></a></span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626737"><span class="hs-identifier hs-var">ctorReturnType</span></a></span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626746"><span class="hs-identifier hs-var">ctorArgs</span></a></span><span>
-</span><span id="line-333"></span><span>            </span><span id="local-6989586621680626732"><span class="annot"><span class="annottext">ctorAnn :: Ann
+</span><span id="line-334"></span><span>            </span><span id="local-6989586621680626732"><span class="annot"><span class="annottext">ctorAnn :: Ann
 </span><a href="#local-6989586621680626732"><span class="hs-identifier hs-var hs-var">ctorAnn</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; Ann
 forall a. Annotated a =&gt; a -&gt; Ann
 </span><span class="hs-identifier hs-var">ann</span></span><span> </span><span class="annot"><span class="annottext">Token v
@@ -1928,11 +1929,11 @@ forall a. Annotated a =&gt; a -&gt; Ann
 forall a. [a] -&gt; Maybe a
 </span><span class="hs-identifier hs-var">lastMay</span></span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626746"><span class="hs-identifier hs-var">ctorArgs</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-334"></span><span>         </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; Ann
+</span><span id="line-335"></span><span>         </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; Ann
 forall a. Annotated a =&gt; a -&gt; Ann
 </span><span class="hs-identifier hs-var">ann</span></span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626747"><span class="hs-identifier hs-var">ctorName</span></a></span><span class="hs-special">,</span><span>
-</span><span id="line-335"></span><span>              </span><span class="annot"><span class="annottext">[v] -&gt; v
+</span><span id="line-336"></span><span>              </span><span class="annot"><span class="annottext">[v] -&gt; v
 forall v. Var v =&gt; [v] -&gt; v
 </span><span class="hs-identifier hs-var">Var.namespaced</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Token v -&gt; v
 forall a. Token a -&gt; a
@@ -1941,21 +1942,21 @@ forall a. Token a -&gt; a
 forall a. Token a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">L.payload</span></span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626747"><span class="hs-identifier hs-var">ctorName</span></a></span><span class="hs-special">]</span><span class="hs-special">,</span><span>
-</span><span id="line-336"></span><span>              </span><span class="annot"><span class="annottext">Ann -&gt; [v] -&gt; Type v Ann -&gt; Type v Ann
+</span><span id="line-337"></span><span>              </span><span class="annot"><span class="annottext">Ann -&gt; [v] -&gt; Type v Ann -&gt; Type v Ann
 forall v a. Ord v =&gt; a -&gt; [v] -&gt; Type v a -&gt; Type v a
 </span><span class="hs-identifier hs-var">Type.foralls</span></span><span> </span><span class="annot"><span class="annottext">Ann
 </span><a href="#local-6989586621680626732"><span class="hs-identifier hs-var">ctorAnn</span></a></span><span> </span><span class="annot"><span class="annottext">[v]
 </span><a href="#local-6989586621680626750"><span class="hs-identifier hs-var">typeArgVs</span></a></span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626734"><span class="hs-identifier hs-var">ctorType</span></a></span><span>
-</span><span id="line-337"></span><span>            </span><span class="hs-special">)</span><span>
-</span><span id="line-338"></span><span>      </span><span id="local-6989586621680626728"><span class="annot"><span class="annottext">prefixVar :: ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
+</span><span id="line-338"></span><span>            </span><span class="hs-special">)</span><span>
+</span><span id="line-339"></span><span>      </span><span id="local-6989586621680626728"><span class="annot"><span class="annottext">prefixVar :: ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 </span><a href="#local-6989586621680626728"><span class="hs-identifier hs-var hs-var">prefixVar</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 forall v. Var v =&gt; P v (Token v) -&gt; P v (Token v)
 </span><a href="Unison.Syntax.TermParser.html#verifyRelativeVarName"><span class="hs-identifier hs-var">TermParser.verifyRelativeVarName</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 forall v. Var v =&gt; P v (Token v)
 </span><span class="hs-identifier hs-var">prefixDefinitionName</span></span><span>
-</span><span id="line-339"></span><span>      </span><span id="local-6989586621680626727"><span class="annot"><span class="annottext">dataConstructor :: ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Ann, v, Type v Ann)
+</span><span id="line-340"></span><span>      </span><span id="local-6989586621680626727"><span class="annot"><span class="annottext">dataConstructor :: ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Ann, v, Type v Ann)
 </span><a href="#local-6989586621680626727"><span class="hs-identifier hs-var hs-var">dataConstructor</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; [Type v Ann] -&gt; (Ann, v, Type v Ann)
 </span><a href="#local-6989586621680626748"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">(Token v -&gt; [Type v Ann] -&gt; (Ann, v, Type v Ann))
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
@@ -1980,20 +1981,20 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f [a]
 </span><span class="hs-identifier hs-var">many</span></span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Type v Ann)
 forall v. Var v =&gt; TypeP v
 </span><a href="Unison.Syntax.TypeParser.html#valueTypeLeaf"><span class="hs-identifier hs-var">TypeParser.valueTypeLeaf</span></a></span><span>
-</span><span id="line-340"></span><span>      </span><span id="local-6989586621680626725"><span class="annot"><span class="annottext">record :: ParsecT
+</span><span id="line-341"></span><span>      </span><span id="local-6989586621680626725"><span class="annot"><span class="annottext">record :: ParsecT
   (Error v)
   Input
   ((-&gt;) ParsingEnv)
   ([(Ann, v, Type v Ann)], Accessors v)
 </span><a href="#local-6989586621680626725"><span class="hs-identifier hs-var hs-var">record</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-341"></span><span>        </span><span class="annot"><span class="annottext">Token ()
+</span><span id="line-342"></span><span>        </span><span class="annot"><span class="annottext">Token ()
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token ())
 forall v. Ord v =&gt; String -&gt; P v (Token ())
 </span><span class="hs-identifier hs-var">openBlockWith</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;{&quot;</span></span><span>
-</span><span id="line-342"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626724"><span class="annot"><span class="annottext">field :: ParsecT (Error v) Input ((-&gt;) ParsingEnv) [(Token v, Type v Ann)]
+</span><span id="line-343"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626724"><span class="annot"><span class="annottext">field :: ParsecT (Error v) Input ((-&gt;) ParsingEnv) [(Token v, Type v Ann)]
 </span><a href="#local-6989586621680626724"><span class="hs-identifier hs-var hs-var">field</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-343"></span><span>              </span><span id="local-6989586621680626723"><span class="annot"><span class="annottext">(Token v, Type v Ann)
+</span><span id="line-344"></span><span>              </span><span id="local-6989586621680626723"><span class="annot"><span class="annottext">(Token v, Type v Ann)
 </span><a href="#local-6989586621680626723"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Token v -&gt; Type v Ann -&gt; (Token v, Type v Ann))
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Type v Ann)
@@ -2012,14 +2013,14 @@ forall v. Ord v =&gt; String -&gt; P v (Token String)
 </span><span class="hs-string">&quot;:&quot;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Type v Ann)
 forall v. Var v =&gt; TypeP v
 </span><a href="Unison.Syntax.TypeParser.html#valueType"><span class="hs-identifier hs-var">TypeParser.valueType</span></a></span><span>
-</span><span id="line-344"></span><span>              </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token String)
+</span><span id="line-345"></span><span>              </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token String)
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Maybe (Token String))
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f (Maybe a)
 </span><span class="hs-identifier hs-var">optional</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token String)
 forall v. Ord v =&gt; String -&gt; P v (Token String)
 </span><span class="hs-identifier hs-var">reserved</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;,&quot;</span></span><span class="hs-special">)</span><span>
-</span><span id="line-345"></span><span>                </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Maybe (Token String))
+</span><span id="line-346"></span><span>                </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Maybe (Token String))
 -&gt; (Maybe (Token String)
     -&gt; ParsecT
          (Error v) Input ((-&gt;) ParsingEnv) [(Token v, Type v Ann)])
@@ -2027,14 +2028,14 @@ forall v. Ord v =&gt; String -&gt; P v (Token String)
      (Error v) Input ((-&gt;) ParsingEnv) [(Token v, Type v Ann)]
 forall (m :: * -&gt; *) a b. Monad m =&gt; m a -&gt; (a -&gt; m b) -&gt; m b
 </span><span class="hs-operator hs-var">&gt;&gt;=</span></span><span> </span><span class="hs-special">(</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-346"></span><span>                        </span><span class="annot"><span class="annottext">Maybe (Token String)
+</span><span id="line-347"></span><span>                        </span><span class="annot"><span class="annottext">Maybe (Token String)
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(Token v, Type v Ann)]
 -&gt; ParsecT
      (Error v) Input ((-&gt;) ParsingEnv) [(Token v, Type v Ann)]
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">(Token v, Type v Ann)
 </span><a href="#local-6989586621680626723"><span class="hs-identifier hs-var">f</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-347"></span><span>                        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="annot"><span class="annottext">Token String
+</span><span id="line-348"></span><span>                        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="annot"><span class="annottext">Token String
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(Token v, Type v Ann)]
 -&gt; ([(Token v, Type v Ann)] -&gt; [(Token v, Type v Ann)])
 -&gt; Maybe [(Token v, Type v Ann)]
@@ -2068,15 +2069,15 @@ forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f b
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f (Maybe a)
 </span><span class="hs-identifier hs-var">optional</span></span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) [(Token v, Type v Ann)]
 </span><a href="#local-6989586621680626724"><span class="hs-identifier hs-var">field</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-348"></span><span>                    </span><span class="hs-special">)</span><span>
-</span><span id="line-349"></span><span>        </span><span id="local-6989586621680626720"><span class="annot"><span class="annottext">[(Token v, Type v Ann)]
+</span><span id="line-349"></span><span>                    </span><span class="hs-special">)</span><span>
+</span><span id="line-350"></span><span>        </span><span id="local-6989586621680626720"><span class="annot"><span class="annottext">[(Token v, Type v Ann)]
 </span><a href="#local-6989586621680626720"><span class="hs-identifier hs-var">fields</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) [(Token v, Type v Ann)]
 </span><a href="#local-6989586621680626724"><span class="hs-identifier hs-var">field</span></a></span><span>
-</span><span id="line-350"></span><span>        </span><span class="annot"><span class="annottext">Token ()
+</span><span id="line-351"></span><span>        </span><span class="annot"><span class="annottext">Token ()
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token ())
 forall v. Ord v =&gt; P v (Token ())
 </span><span class="hs-identifier hs-var">closeBlock</span></span><span>
-</span><span id="line-351"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626719"><span class="annot"><span class="annottext">lastSegment :: Token v
+</span><span id="line-352"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626719"><span class="annot"><span class="annottext">lastSegment :: Token v
 </span><a href="#local-6989586621680626719"><span class="hs-identifier hs-var hs-var">lastSegment</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626754"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">Token v -&gt; (v -&gt; v) -&gt; Token v
 forall (f :: * -&gt; *) a b. Functor f =&gt; f a -&gt; (a -&gt; b) -&gt; f b
@@ -2091,7 +2092,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 forall v. Var v =&gt; v -&gt; Name
 </span><span class="hs-identifier hs-var">Name.unsafeFromVar</span></span><span> </span><span class="annot"><span class="annottext">v
 </span><a href="#local-6989586621680626718"><span class="hs-identifier hs-var">v</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-352"></span><span>        </span><span class="hs-identifier">pure</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="annot"><span class="annottext">Token v -&gt; [Type v Ann] -&gt; (Ann, v, Type v Ann)
+</span><span id="line-353"></span><span>        </span><span class="hs-identifier">pure</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="annot"><span class="annottext">Token v -&gt; [Type v Ann] -&gt; (Ann, v, Type v Ann)
 </span><a href="#local-6989586621680626748"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626719"><span class="hs-identifier hs-var">lastSegment</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(Token v, Type v Ann) -&gt; Type v Ann
 forall a b. (a, b) -&gt; b
@@ -2102,10 +2103,10 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><a href="#local-6989586621680626720"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626754"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(Token v, Type v Ann)]
 </span><a href="#local-6989586621680626720"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span class="hs-special">)</span><span>
-</span><span id="line-353"></span><span>  </span><span class="hs-special">(</span><span id="local-6989586621680626716"><span class="annot"><span class="annottext">[(Ann, v, Type v Ann)]
+</span><span id="line-354"></span><span>  </span><span class="hs-special">(</span><span id="local-6989586621680626716"><span class="annot"><span class="annottext">[(Ann, v, Type v Ann)]
 </span><a href="#local-6989586621680626716"><span class="hs-identifier hs-var">constructors</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621680626715"><span class="annot"><span class="annottext">Accessors v
 </span><a href="#local-6989586621680626715"><span class="hs-identifier hs-var">accessors</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span>
-</span><span id="line-354"></span><span>    </span><span class="annot"><span class="annottext">[ParsecT
+</span><span id="line-355"></span><span>    </span><span class="annot"><span class="annottext">[ParsecT
    (Error v)
    Input
    ((-&gt;) ParsingEnv)
@@ -2140,14 +2141,14 @@ forall v. Ord v =&gt; String -&gt; P v (Token String)
 </span><span class="hs-identifier hs-var">reserved</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;|&quot;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Ann, v, Type v Ann)
 </span><a href="#local-6989586621680626727"><span class="hs-identifier hs-var">dataConstructor</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-355"></span><span>  </span><span class="annot"><span class="annottext">Token ()
+</span><span id="line-356"></span><span>  </span><span class="annot"><span class="annottext">Token ()
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token ())
 forall v. Ord v =&gt; P v (Token ())
 </span><span class="hs-identifier hs-var">closeBlock</span></span><span>
-</span><span id="line-356"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-comment">-- the annotation of the last constructor if present,</span><span>
-</span><span id="line-357"></span><span>      </span><span class="hs-comment">-- otherwise ann of name</span><span>
-</span><span id="line-358"></span><span>      </span><span class="annot"><a href="#local-6989586621680626714"><span class="hs-identifier hs-type">closingAnn</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span>
-</span><span id="line-359"></span><span>      </span><span id="local-6989586621680626714"><span class="annot"><span class="annottext">closingAnn :: Ann
+</span><span id="line-357"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-comment">-- the annotation of the last constructor if present,</span><span>
+</span><span id="line-358"></span><span>      </span><span class="hs-comment">-- otherwise ann of name</span><span>
+</span><span id="line-359"></span><span>      </span><span class="annot"><a href="#local-6989586621680626714"><span class="hs-identifier hs-type">closingAnn</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span>
+</span><span id="line-360"></span><span>      </span><span id="local-6989586621680626714"><span class="annot"><span class="annottext">closingAnn :: Ann
 </span><a href="#local-6989586621680626714"><span class="hs-identifier hs-var hs-var">closingAnn</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Ann] -&gt; Ann
 forall a. [a] -&gt; a
 </span><span class="hs-identifier hs-var">last</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Token String -&gt; Ann
@@ -2165,9 +2166,9 @@ forall a. Annotated a =&gt; a -&gt; Ann
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[(Ann, v, Type v Ann)]
 </span><a href="#local-6989586621680626716"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-360"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe (Token Modifier)
+</span><span id="line-361"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe (Token Modifier)
 </span><a href="#local-6989586621680626758"><span class="hs-identifier hs-var">mod</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-361"></span><span>    </span><span class="annot"><span class="annottext">Maybe (Token Modifier)
+</span><span id="line-362"></span><span>    </span><span class="annot"><span class="annottext">Maybe (Token Modifier)
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Error v -&gt; P v (v, DataDeclaration v Ann, Accessors v)
 forall e s (m :: * -&gt; *) a. MonadParsec e s m =&gt; e -&gt; m a
 </span><span class="hs-identifier hs-var">P.customFailure</span></span><span> </span><span class="annot"><span class="annottext">(Error v -&gt; P v (v, DataDeclaration v Ann, Accessors v))
@@ -2181,17 +2182,17 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">Token ()
 </span><a href="#local-6989586621680626757"><span class="hs-identifier hs-var">keywordTok</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626754"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-362"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621680626710"><span class="annot"><span class="annottext">Token Modifier
+</span><span id="line-363"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621680626710"><span class="annot"><span class="annottext">Token Modifier
 </span><a href="#local-6989586621680626710"><span class="hs-identifier hs-var">mod'</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-363"></span><span>      </span><span class="annot"><span class="annottext">(v, DataDeclaration v Ann, Accessors v)
+</span><span id="line-364"></span><span>      </span><span class="annot"><span class="annottext">(v, DataDeclaration v Ann, Accessors v)
 -&gt; P v (v, DataDeclaration v Ann, Accessors v)
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span>
-</span><span id="line-364"></span><span>        </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; v
+</span><span id="line-365"></span><span>        </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; v
 forall a. Token a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">L.payload</span></span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626754"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">,</span><span>
-</span><span id="line-365"></span><span>          </span><span class="annot"><span class="annottext">Modifier
+</span><span id="line-366"></span><span>          </span><span class="annot"><span class="annottext">Modifier
 -&gt; Ann -&gt; [v] -&gt; [(Ann, v, Type v Ann)] -&gt; DataDeclaration v Ann
 forall a v.
 Modifier -&gt; a -&gt; [v] -&gt; [(a, v, Type v a)] -&gt; DataDeclaration v a
@@ -2207,16 +2208,16 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><a href="#local-6989586621680626714"><span class="hs-identifier hs-var">closingAnn</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[v]
 </span><a href="#local-6989586621680626750"><span class="hs-identifier hs-var">typeArgVs</span></a></span><span> </span><span class="annot"><span class="annottext">[(Ann, v, Type v Ann)]
 </span><a href="#local-6989586621680626716"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">,</span><span>
-</span><span id="line-366"></span><span>          </span><span class="annot"><span class="annottext">Accessors v
+</span><span id="line-367"></span><span>          </span><span class="annot"><span class="annottext">Accessors v
 </span><a href="#local-6989586621680626715"><span class="hs-identifier hs-var">accessors</span></a></span><span>
-</span><span id="line-367"></span><span>        </span><span class="hs-special">)</span><span>
-</span><span id="line-368"></span><span>
-</span><span id="line-369"></span><span id="local-6989586621680627122"><span class="annot"><a href="Unison.Syntax.FileParser.html#effectDeclaration"><span class="hs-identifier hs-type">effectDeclaration</span></a></span><span> </span><span class="hs-glyph">::</span><span>
-</span><span id="line-370"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627122"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">DD.Modifier</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627122"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621680627122"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">EffectDeclaration</span></span><span> </span><span class="annot"><a href="#local-6989586621680627122"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span></span><span>
-</span><span id="line-371"></span><span id="effectDeclaration"><span class="annot"><span class="annottext">effectDeclaration :: Maybe (Token Modifier) -&gt; P v (v, EffectDeclaration v Ann)
+</span><span id="line-368"></span><span>        </span><span class="hs-special">)</span><span>
+</span><span id="line-369"></span><span>
+</span><span id="line-370"></span><span id="local-6989586621680627122"><span class="annot"><a href="Unison.Syntax.FileParser.html#effectDeclaration"><span class="hs-identifier hs-type">effectDeclaration</span></a></span><span> </span><span class="hs-glyph">::</span><span>
+</span><span id="line-371"></span><span>  </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627122"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">DD.Modifier</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627122"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621680627122"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">EffectDeclaration</span></span><span> </span><span class="annot"><a href="#local-6989586621680627122"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span></span><span>
+</span><span id="line-372"></span><span id="effectDeclaration"><span class="annot"><span class="annottext">effectDeclaration :: Maybe (Token Modifier) -&gt; P v (v, EffectDeclaration v Ann)
 </span><a href="Unison.Syntax.FileParser.html#effectDeclaration"><span class="hs-identifier hs-var hs-var">effectDeclaration</span></a></span></span><span> </span><span id="local-6989586621680626708"><span class="annot"><span class="annottext">Maybe (Token Modifier)
 </span><a href="#local-6989586621680626708"><span class="hs-identifier hs-var">mod</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-372"></span><span>  </span><span id="local-6989586621680626707"><span class="annot"><span class="annottext">Token ()
+</span><span id="line-373"></span><span>  </span><span id="local-6989586621680626707"><span class="annot"><span class="annottext">Token ()
 </span><a href="#local-6989586621680626707"><span class="hs-identifier hs-var">keywordTok</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">(Token String -&gt; Token ())
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token String)
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token ())
@@ -2234,13 +2235,13 @@ forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
 forall v. Ord v =&gt; String -&gt; P v (Token ())
 </span><span class="hs-identifier hs-var">openBlockWith</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;ability&quot;</span></span><span>
-</span><span id="line-373"></span><span>  </span><span id="local-6989586621680626706"><span class="annot"><span class="annottext">Token v
+</span><span id="line-374"></span><span>  </span><span id="local-6989586621680626706"><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626706"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">P v (Token v) -&gt; P v (Token v)
 forall v. Var v =&gt; P v (Token v) -&gt; P v (Token v)
 </span><a href="Unison.Syntax.TermParser.html#verifyRelativeVarName"><span class="hs-identifier hs-var">TermParser.verifyRelativeVarName</span></a></span><span> </span><span class="annot"><span class="annottext">P v (Token v)
 forall v. Var v =&gt; P v (Token v)
 </span><span class="hs-identifier hs-var">prefixDefinitionName</span></span><span>
-</span><span id="line-374"></span><span>  </span><span id="local-6989586621680626705"><span class="annot"><span class="annottext">[Token v]
+</span><span id="line-375"></span><span>  </span><span id="local-6989586621680626705"><span class="annot"><span class="annottext">[Token v]
 </span><a href="#local-6989586621680626705"><span class="hs-identifier hs-var">typeArgs</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">P v (Token v)
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) [Token v]
 forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f [a]
@@ -2249,19 +2250,19 @@ forall v. Var v =&gt; P v (Token v) -&gt; P v (Token v)
 </span><a href="Unison.Syntax.TermParser.html#verifyRelativeVarName"><span class="hs-identifier hs-var">TermParser.verifyRelativeVarName</span></a></span><span> </span><span class="annot"><span class="annottext">P v (Token v)
 forall v. Var v =&gt; P v (Token v)
 </span><span class="hs-identifier hs-var">prefixDefinitionName</span></span><span class="hs-special">)</span><span>
-</span><span id="line-375"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626704"><span class="annot"><span class="annottext">typeArgVs :: [v]
+</span><span id="line-376"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626704"><span class="annot"><span class="annottext">typeArgVs :: [v]
 </span><a href="#local-6989586621680626704"><span class="hs-identifier hs-var hs-var">typeArgVs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; v
 forall a. Token a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">L.payload</span></span><span> </span><span class="annot"><span class="annottext">(Token v -&gt; v) -&gt; [Token v] -&gt; [v]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Token v]
 </span><a href="#local-6989586621680626705"><span class="hs-identifier hs-var">typeArgs</span></a></span><span>
-</span><span id="line-376"></span><span>  </span><span id="local-6989586621680626703"><span class="annot"><span class="annottext">Token ()
+</span><span id="line-377"></span><span>  </span><span id="local-6989586621680626703"><span class="annot"><span class="annottext">Token ()
 </span><a href="#local-6989586621680626703"><span class="hs-identifier hs-var">blockStart</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token ())
 forall v. Ord v =&gt; String -&gt; P v (Token ())
 </span><span class="hs-identifier hs-var">openBlockWith</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;where&quot;</span></span><span>
-</span><span id="line-377"></span><span>  </span><span id="local-6989586621680626702"><span class="annot"><span class="annottext">[(Ann, v, Type v Ann)]
+</span><span id="line-378"></span><span>  </span><span id="local-6989586621680626702"><span class="annot"><span class="annottext">[(Ann, v, Type v Ann)]
 </span><a href="#local-6989586621680626702"><span class="hs-identifier hs-var">constructors</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token ())
 -&gt; P v (Ann, v, Type v Ann) -&gt; P v [(Ann, v, Type v Ann)]
 forall v a b. Ord v =&gt; P v a -&gt; P v b -&gt; P v [b]
@@ -2272,8 +2273,8 @@ forall v. Var v =&gt; [Token v] -&gt; Token v -&gt; P v (Ann, v, Type v Ann)
 </span><a href="#local-6989586621680626701"><span class="hs-identifier hs-var">constructor</span></a></span><span> </span><span class="annot"><span class="annottext">[Token v]
 </span><a href="#local-6989586621680626705"><span class="hs-identifier hs-var">typeArgs</span></a></span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626706"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-378"></span><span>  </span><span class="hs-comment">-- `ability` opens a block, as does `where`</span><span>
-</span><span id="line-379"></span><span>  </span><span class="annot"><span class="annottext">Token ()
+</span><span id="line-379"></span><span>  </span><span class="hs-comment">-- `ability` opens a block, as does `where`</span><span>
+</span><span id="line-380"></span><span>  </span><span class="annot"><span class="annottext">Token ()
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token ())
 forall v. Ord v =&gt; P v (Token ())
 </span><span class="hs-identifier hs-var">closeBlock</span></span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token ())
@@ -2283,9 +2284,9 @@ forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;*</span></span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token ())
 forall v. Ord v =&gt; P v (Token ())
 </span><span class="hs-identifier hs-var">closeBlock</span></span><span>
-</span><span id="line-380"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626700"><span class="annot"><span class="annottext">closingAnn :: Ann
+</span><span id="line-381"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626700"><span class="annot"><span class="annottext">closingAnn :: Ann
 </span><a href="#local-6989586621680626700"><span class="hs-identifier hs-var hs-var">closingAnn</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-381"></span><span>        </span><span class="annot"><span class="annottext">[Ann] -&gt; Ann
+</span><span id="line-382"></span><span>        </span><span class="annot"><span class="annottext">[Ann] -&gt; Ann
 forall a. [a] -&gt; a
 </span><span class="hs-identifier hs-var">last</span></span><span> </span><span class="annot"><span class="annottext">([Ann] -&gt; Ann) -&gt; [Ann] -&gt; Ann
 forall a b. (a -&gt; b) -&gt; a -&gt; b
@@ -2304,10 +2305,10 @@ forall a. Annotated a =&gt; a -&gt; Ann
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[(Ann, v, Type v Ann)]
 </span><a href="#local-6989586621680626702"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-382"></span><span>
-</span><span id="line-383"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe (Token Modifier)
+</span><span id="line-383"></span><span>
+</span><span id="line-384"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe (Token Modifier)
 </span><a href="#local-6989586621680626708"><span class="hs-identifier hs-var">mod</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-384"></span><span>    </span><span class="annot"><span class="annottext">Maybe (Token Modifier)
+</span><span id="line-385"></span><span>    </span><span class="annot"><span class="annottext">Maybe (Token Modifier)
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Error v -&gt; P v (v, EffectDeclaration v Ann)
 forall e s (m :: * -&gt; *) a. MonadParsec e s m =&gt; e -&gt; m a
 </span><span class="hs-identifier hs-var">P.customFailure</span></span><span> </span><span class="annot"><span class="annottext">(Error v -&gt; P v (v, EffectDeclaration v Ann))
@@ -2321,46 +2322,46 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">Token ()
 </span><a href="#local-6989586621680626707"><span class="hs-identifier hs-var">keywordTok</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626706"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-385"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621680626698"><span class="annot"><span class="annottext">Token Modifier
+</span><span id="line-386"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621680626698"><span class="annot"><span class="annottext">Token Modifier
 </span><a href="#local-6989586621680626698"><span class="hs-identifier hs-var">mod'</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-386"></span><span>      </span><span class="annot"><span class="annottext">(v, EffectDeclaration v Ann) -&gt; P v (v, EffectDeclaration v Ann)
+</span><span id="line-387"></span><span>      </span><span class="annot"><span class="annottext">(v, EffectDeclaration v Ann) -&gt; P v (v, EffectDeclaration v Ann)
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span>
-</span><span id="line-387"></span><span>        </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; v
+</span><span id="line-388"></span><span>        </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="annottext">Token v -&gt; v
 forall a. Token a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">L.payload</span></span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626706"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">,</span><span>
-</span><span id="line-388"></span><span>          </span><span class="annot"><span class="annottext">Modifier
+</span><span id="line-389"></span><span>          </span><span class="annot"><span class="annottext">Modifier
 -&gt; Ann -&gt; [v] -&gt; [(Ann, v, Type v Ann)] -&gt; EffectDeclaration v Ann
 forall a v.
 Modifier -&gt; a -&gt; [v] -&gt; [(a, v, Type v a)] -&gt; EffectDeclaration v a
 </span><span class="hs-identifier hs-var">DD.mkEffectDecl'</span></span><span>
-</span><span id="line-389"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Token Modifier -&gt; Modifier
+</span><span id="line-390"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Token Modifier -&gt; Modifier
 forall a. Token a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">L.payload</span></span><span> </span><span class="annot"><span class="annottext">Token Modifier
 </span><a href="#local-6989586621680626698"><span class="hs-identifier hs-var">mod'</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-390"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Token Modifier -&gt; Ann
+</span><span id="line-391"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Token Modifier -&gt; Ann
 forall a. Annotated a =&gt; a -&gt; Ann
 </span><span class="hs-identifier hs-var">ann</span></span><span> </span><span class="annot"><span class="annottext">Token Modifier
 </span><a href="#local-6989586621680626698"><span class="hs-identifier hs-var">mod'</span></a></span><span> </span><span class="annot"><span class="annottext">Ann -&gt; Ann -&gt; Ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Ann
 </span><a href="#local-6989586621680626700"><span class="hs-identifier hs-var">closingAnn</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-391"></span><span>            </span><span class="annot"><span class="annottext">[v]
+</span><span id="line-392"></span><span>            </span><span class="annot"><span class="annottext">[v]
 </span><a href="#local-6989586621680626704"><span class="hs-identifier hs-var">typeArgVs</span></a></span><span>
-</span><span id="line-392"></span><span>            </span><span class="annot"><span class="annottext">[(Ann, v, Type v Ann)]
+</span><span id="line-393"></span><span>            </span><span class="annot"><span class="annottext">[(Ann, v, Type v Ann)]
 </span><a href="#local-6989586621680626702"><span class="hs-identifier hs-var">constructors</span></a></span><span>
-</span><span id="line-393"></span><span>        </span><span class="hs-special">)</span><span>
-</span><span id="line-394"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-395"></span><span>    </span><span id="local-6989586621680627089"><span class="annot"><a href="#local-6989586621680626701"><span class="hs-identifier hs-type">constructor</span></a></span><span> </span><span class="hs-glyph">::</span><span>
-</span><span id="line-396"></span><span>      </span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span></span><span>
-</span><span id="line-397"></span><span>    </span><span id="local-6989586621680626701"><span class="annot"><span class="annottext">constructor :: [Token v] -&gt; Token v -&gt; P v (Ann, v, Type v Ann)
+</span><span id="line-394"></span><span>        </span><span class="hs-special">)</span><span>
+</span><span id="line-395"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-396"></span><span>    </span><span id="local-6989586621680627089"><span class="annot"><a href="#local-6989586621680626701"><span class="hs-identifier hs-type">constructor</span></a></span><span> </span><span class="hs-glyph">::</span><span>
+</span><span id="line-397"></span><span>      </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Var</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">L.Token</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Type</span></span><span> </span><span class="annot"><a href="#local-6989586621680627089"><span class="hs-identifier hs-type">v</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Ann</span></span><span class="hs-special">)</span></span><span>
+</span><span id="line-398"></span><span>    </span><span id="local-6989586621680626701"><span class="annot"><span class="annottext">constructor :: [Token v] -&gt; Token v -&gt; P v (Ann, v, Type v Ann)
 </span><a href="#local-6989586621680626701"><span class="hs-identifier hs-var hs-var">constructor</span></a></span></span><span> </span><span id="local-6989586621680626696"><span class="annot"><span class="annottext">[Token v]
 </span><a href="#local-6989586621680626696"><span class="hs-identifier hs-var">typeArgs</span></a></span></span><span> </span><span id="local-6989586621680626695"><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626695"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-398"></span><span>      </span><span class="annot"><span class="annottext">Token v -&gt; Type v Ann -&gt; (Ann, v, Type v Ann)
+</span><span id="line-399"></span><span>      </span><span class="annot"><span class="annottext">Token v -&gt; Type v Ann -&gt; (Ann, v, Type v Ann)
 </span><a href="#local-6989586621680626694"><span class="hs-identifier hs-var">explodeToken</span></a></span><span>
-</span><span id="line-399"></span><span>        </span><span class="annot"><span class="annottext">(Token v -&gt; Type v Ann -&gt; (Ann, v, Type v Ann))
+</span><span id="line-400"></span><span>        </span><span class="annot"><span class="annottext">(Token v -&gt; Type v Ann -&gt; (Ann, v, Type v Ann))
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 -&gt; ParsecT
      (Error v)
@@ -2374,7 +2375,7 @@ forall v. Var v =&gt; P v (Token v) -&gt; P v (Token v)
 </span><a href="Unison.Syntax.TermParser.html#verifyRelativeVarName"><span class="hs-identifier hs-var">TermParser.verifyRelativeVarName</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Token v)
 forall v. Var v =&gt; P v (Token v)
 </span><span class="hs-identifier hs-var">prefixDefinitionName</span></span><span>
-</span><span id="line-400"></span><span>        </span><span class="annot"><span class="annottext">ParsecT
+</span><span id="line-401"></span><span>        </span><span class="annot"><span class="annottext">ParsecT
   (Error v)
   Input
   ((-&gt;) ParsingEnv)
@@ -2390,7 +2391,7 @@ forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f a
 forall v. Ord v =&gt; String -&gt; P v (Token String)
 </span><span class="hs-identifier hs-var">reserved</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;:&quot;</span></span><span>
-</span><span id="line-401"></span><span>        </span><span class="annot"><span class="annottext">ParsecT
+</span><span id="line-402"></span><span>        </span><span class="annot"><span class="annottext">ParsecT
   (Error v)
   Input
   ((-&gt;) ParsingEnv)
@@ -2403,21 +2404,21 @@ forall v a. Var v =&gt; Set v -&gt; Type v a -&gt; Type v a
 </span><span class="hs-identifier hs-var">Type.generalizeLowercase</span></span><span> </span><span class="annot"><span class="annottext">Set v
 forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span>
-</span><span id="line-402"></span><span>                </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Type v Ann)
+</span><span id="line-403"></span><span>                </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Type v Ann)
 -&gt; (Type v Ann -&gt; Type v Ann) -&gt; Type v Ann -&gt; Type v Ann
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Type v Ann -&gt; Type v Ann
 </span><a href="#local-6989586621680626692"><span class="hs-identifier hs-var">ensureEffect</span></a></span><span>
-</span><span id="line-403"></span><span>                </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Type v Ann)
+</span><span id="line-404"></span><span>                </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Type v Ann)
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Type v Ann)
 -&gt; ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Type v Ann)
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT (Error v) Input ((-&gt;) ParsingEnv) (Type v Ann)
 forall v. Var v =&gt; TypeP v
 </span><a href="Unison.Syntax.TypeParser.html#computationType"><span class="hs-identifier hs-var">TypeParser.computationType</span></a></span><span>
-</span><span id="line-404"></span><span>            </span><span class="hs-special">)</span><span>
-</span><span id="line-405"></span><span>      </span><span class="hs-keyword">where</span><span>
-</span><span id="line-406"></span><span>        </span><span id="local-6989586621680626694"><span class="annot"><span class="annottext">explodeToken :: Token v -&gt; Type v Ann -&gt; (Ann, v, Type v Ann)
+</span><span id="line-405"></span><span>            </span><span class="hs-special">)</span><span>
+</span><span id="line-406"></span><span>      </span><span class="hs-keyword">where</span><span>
+</span><span id="line-407"></span><span>        </span><span id="local-6989586621680626694"><span class="annot"><span class="annottext">explodeToken :: Token v -&gt; Type v Ann -&gt; (Ann, v, Type v Ann)
 </span><a href="#local-6989586621680626694"><span class="hs-identifier hs-var hs-var">explodeToken</span></a></span></span><span> </span><span id="local-6989586621680626690"><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626690"><span class="hs-identifier hs-var">v</span></a></span></span><span> </span><span id="local-6989586621680626689"><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626689"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Token v -&gt; Ann
@@ -2433,38 +2434,38 @@ forall a. Token a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">L.payload</span></span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626690"><span class="hs-identifier hs-var">v</span></a></span><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626689"><span class="hs-identifier hs-var">t</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-407"></span><span>        </span><span class="hs-comment">-- If the effect is not syntactically present in the constructor types,</span><span>
-</span><span id="line-408"></span><span>        </span><span class="hs-comment">-- add them after parsing.</span><span>
-</span><span id="line-409"></span><span>        </span><span id="local-6989586621680626692"><span class="annot"><span class="annottext">ensureEffect :: Type v Ann -&gt; Type v Ann
+</span><span id="line-408"></span><span>        </span><span class="hs-comment">-- If the effect is not syntactically present in the constructor types,</span><span>
+</span><span id="line-409"></span><span>        </span><span class="hs-comment">-- add them after parsing.</span><span>
+</span><span id="line-410"></span><span>        </span><span id="local-6989586621680626692"><span class="annot"><span class="annottext">ensureEffect :: Type v Ann -&gt; Type v Ann
 </span><a href="#local-6989586621680626692"><span class="hs-identifier hs-var hs-var">ensureEffect</span></a></span></span><span> </span><span id="local-6989586621680626688"><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626688"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626688"><span class="hs-identifier hs-var">t</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-410"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Effect'</span></span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
+</span><span id="line-411"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Effect'</span></span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
 </span><span class="hs-identifier">_</span></span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Type v Ann -&gt; Type v Ann
 </span><a href="#local-6989586621680626686"><span class="hs-identifier hs-var">modEffect</span></a></span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626688"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-411"></span><span>          </span><span id="local-6989586621680626685"><span class="annot"><span class="annottext">Type v Ann
+</span><span id="line-412"></span><span>          </span><span id="local-6989586621680626685"><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626685"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Type v Ann) -&gt; Type v Ann -&gt; Type v Ann
 forall v a. Ord v =&gt; (Type v a -&gt; Type v a) -&gt; Type v a -&gt; Type v a
 </span><span class="hs-identifier hs-var">Type.editFunctionResult</span></span><span> </span><span class="annot"><span class="annottext">Type v Ann -&gt; Type v Ann
 </span><a href="#local-6989586621680626686"><span class="hs-identifier hs-var">modEffect</span></a></span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626685"><span class="hs-identifier hs-var">x</span></a></span><span>
-</span><span id="line-412"></span><span>        </span><span id="local-6989586621680626686"><span class="annot"><span class="annottext">modEffect :: Type v Ann -&gt; Type v Ann
+</span><span id="line-413"></span><span>        </span><span id="local-6989586621680626686"><span class="annot"><span class="annottext">modEffect :: Type v Ann -&gt; Type v Ann
 </span><a href="#local-6989586621680626686"><span class="hs-identifier hs-var hs-var">modEffect</span></a></span></span><span> </span><span id="local-6989586621680626683"><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626683"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626683"><span class="hs-identifier hs-var">t</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-413"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Effect'</span></span><span> </span><span id="local-6989586621680626682"><span class="annot"><span class="annottext">[Type v Ann]
+</span><span id="line-414"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Effect'</span></span><span> </span><span id="local-6989586621680626682"><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626682"><span class="hs-identifier hs-var">es</span></a></span></span><span> </span><span id="local-6989586621680626681"><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626681"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[Type v Ann] -&gt; Type v Ann -&gt; Type v Ann
 </span><a href="#local-6989586621680626680"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626682"><span class="hs-identifier hs-var">es</span></a></span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626681"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-414"></span><span>          </span><span id="local-6989586621680626679"><span class="annot"><span class="annottext">Type v Ann
+</span><span id="line-415"></span><span>          </span><span id="local-6989586621680626679"><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626679"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[Type v Ann] -&gt; Type v Ann -&gt; Type v Ann
 </span><a href="#local-6989586621680626680"><span class="hs-identifier hs-var">go</span></a></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626679"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-415"></span><span>        </span><span id="local-6989586621680626678"><span class="annot"><span class="annottext">toTypeVar :: Token v -&gt; Type v Ann
+</span><span id="line-416"></span><span>        </span><span id="local-6989586621680626678"><span class="annot"><span class="annottext">toTypeVar :: Token v -&gt; Type v Ann
 </span><a href="#local-6989586621680626678"><span class="hs-identifier hs-var hs-var">toTypeVar</span></a></span></span><span> </span><span id="local-6989586621680626677"><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626677"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Ann -&gt; Text -&gt; Type v Ann
 forall v a. Var v =&gt; a -&gt; Text -&gt; Type v a
@@ -2479,34 +2480,34 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 forall a. Token a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">L.payload</span></span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626677"><span class="hs-identifier hs-var">t</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-416"></span><span>        </span><span id="local-6989586621680626674"><span class="annot"><span class="annottext">headIs :: Type a a -&gt; a -&gt; Bool
+</span><span id="line-417"></span><span>        </span><span id="local-6989586621680626674"><span class="annot"><span class="annottext">headIs :: Type a a -&gt; a -&gt; Bool
 </span><a href="#local-6989586621680626674"><span class="hs-identifier hs-var hs-var">headIs</span></a></span></span><span> </span><span id="local-6989586621680626673"><span class="annot"><span class="annottext">Type a a
 </span><a href="#local-6989586621680626673"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span id="local-6989586621680626672"><span class="annot"><span class="annottext">a
 </span><a href="#local-6989586621680626672"><span class="hs-identifier hs-var">v</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Type a a
 </span><a href="#local-6989586621680626673"><span class="hs-identifier hs-var">t</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-417"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Apps'</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Type.Var'</span></span><span> </span><span id="local-6989586621680626669"><span class="annot"><span class="annottext">a
+</span><span id="line-418"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Apps'</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Type.Var'</span></span><span> </span><span id="local-6989586621680626669"><span class="annot"><span class="annottext">a
 </span><a href="#local-6989586621680626669"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Type a a]
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">a
 </span><a href="#local-6989586621680626669"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; a -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">a
 </span><a href="#local-6989586621680626672"><span class="hs-identifier hs-var">v</span></a></span><span>
-</span><span id="line-418"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Var'</span></span><span> </span><span id="local-6989586621680626668"><span class="annot"><span class="annottext">a
+</span><span id="line-419"></span><span>          </span><span class="annot"><span class="hs-identifier hs-type">Type.Var'</span></span><span> </span><span id="local-6989586621680626668"><span class="annot"><span class="annottext">a
 </span><a href="#local-6989586621680626668"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">a
 </span><a href="#local-6989586621680626668"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">a -&gt; a -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">a
 </span><a href="#local-6989586621680626672"><span class="hs-identifier hs-var">v</span></a></span><span>
-</span><span id="line-419"></span><span>          </span><span class="annot"><span class="annottext">Type a a
+</span><span id="line-420"></span><span>          </span><span class="annot"><span class="annottext">Type a a
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-420"></span><span>        </span><span id="local-6989586621680626680"><span class="annot"><span class="annottext">go :: [Type v Ann] -&gt; Type v Ann -&gt; Type v Ann
+</span><span id="line-421"></span><span>        </span><span id="local-6989586621680626680"><span class="annot"><span class="annottext">go :: [Type v Ann] -&gt; Type v Ann -&gt; Type v Ann
 </span><a href="#local-6989586621680626680"><span class="hs-identifier hs-var hs-var">go</span></a></span></span><span> </span><span id="local-6989586621680626667"><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626667"><span class="hs-identifier hs-var">es</span></a></span></span><span> </span><span id="local-6989586621680626666"><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626666"><span class="hs-identifier hs-var">t</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-421"></span><span>          </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626665"><span class="annot"><span class="annottext">es' :: [Type v Ann]
+</span><span id="line-422"></span><span>          </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621680626665"><span class="annot"><span class="annottext">es' :: [Type v Ann]
 </span><a href="#local-6989586621680626665"><span class="hs-identifier hs-var hs-var">es'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-422"></span><span>                </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Bool) -&gt; [Type v Ann] -&gt; Bool
+</span><span id="line-423"></span><span>                </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Bool) -&gt; [Type v Ann] -&gt; Bool
 forall (t :: * -&gt; *) a. Foldable t =&gt; (a -&gt; Bool) -&gt; t a -&gt; Bool
 </span><span class="hs-identifier hs-var">any</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Type v Ann -&gt; v -&gt; Bool
 forall a a. Eq a =&gt; Type a a -&gt; a -&gt; Bool
@@ -2515,9 +2516,9 @@ forall a. Token a -&gt; a
 </span><span class="hs-identifier hs-var hs-var">L.payload</span></span><span> </span><span class="annot"><span class="annottext">Token v
 </span><a href="#local-6989586621680626695"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626667"><span class="hs-identifier hs-var">es</span></a></span><span>
-</span><span id="line-423"></span><span>                  </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
+</span><span id="line-424"></span><span>                  </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626667"><span class="hs-identifier hs-var">es</span></a></span><span>
-</span><span id="line-424"></span><span>                  </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Type v Ann -&gt; [Type v Ann] -&gt; Type v Ann
+</span><span id="line-425"></span><span>                  </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Type v Ann -&gt; [Type v Ann] -&gt; Type v Ann
 forall a v.
 (Semigroup a, Ord v) =&gt;
 Type v a -&gt; [Type v a] -&gt; Type v a
@@ -2533,7 +2534,7 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626667"><span class="hs-identifier hs-var">es</span></a></span><span>
-</span><span id="line-425"></span><span>           </span><span class="hs-keyword">in</span><span> </span><span class="annot"><span class="annottext">Type v Ann -&gt; Type v Ann
+</span><span id="line-426"></span><span>           </span><span class="hs-keyword">in</span><span> </span><span class="annot"><span class="annottext">Type v Ann -&gt; Type v Ann
 forall v a. Var v =&gt; Type v a -&gt; Type v a
 </span><span class="hs-identifier hs-var">Type.cleanupAbilityLists</span></span><span> </span><span class="annot"><span class="annottext">(Type v Ann -&gt; Type v Ann) -&gt; Type v Ann -&gt; Type v Ann
 forall a b. (a -&gt; b) -&gt; a -&gt; b
@@ -2545,4 +2546,4 @@ forall (f :: * -&gt; *) v a. Term f v a -&gt; a
 </span><a href="#local-6989586621680626666"><span class="hs-identifier hs-var">t</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Type v Ann]
 </span><a href="#local-6989586621680626665"><span class="hs-identifier hs-var">es'</span></a></span><span> </span><span class="annot"><span class="annottext">Type v Ann
 </span><a href="#local-6989586621680626666"><span class="hs-identifier hs-var">t</span></a></span><span>
-</span><span id="line-426"></span></pre></body></html>
+</span><span id="line-427"></span></pre></body></html>

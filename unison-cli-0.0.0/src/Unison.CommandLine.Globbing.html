@@ -287,32 +287,33 @@ forall (m :: * -&gt; *). Branch0 m -&gt; Star Reference NameSegment
 </span><a href="#local-6989586621679629694"><span class="hs-identifier hs-var">predicate</span></a></span></span><span> </span><span id="local-6989586621679629693"><span class="annot"><span class="annottext">Star a NameSegment
 </span><a href="#local-6989586621679629693"><span class="hs-identifier hs-var">star</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-77"></span><span>          </span><span class="annot"><span class="annottext">Star a NameSegment
-</span><a href="#local-6989586621679629693"><span class="hs-identifier hs-var">star</span></a></span><span> </span><span class="annot"><span class="annottext">Star a NameSegment
+</span><a href="#local-6989586621679629693"><span class="hs-identifier hs-var">star</span></a></span><span>
+</span><span id="line-78"></span><span>            </span><span class="annot"><span class="annottext">Star a NameSegment
 -&gt; (Star a NameSegment -&gt; Relation a NameSegment)
 -&gt; Relation a NameSegment
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">Star a NameSegment -&gt; Relation a NameSegment
 forall fact d1 d2 d3. Star3 fact d1 d2 d3 -&gt; Relation fact d1
 </span><span class="hs-identifier hs-var hs-var">Star3.d1</span></span><span>
-</span><span id="line-78"></span><span>            </span><span class="annot"><span class="annottext">Relation a NameSegment
+</span><span id="line-79"></span><span>            </span><span class="annot"><span class="annottext">Relation a NameSegment
 -&gt; (Relation a NameSegment -&gt; Set NameSegment) -&gt; Set NameSegment
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">Relation a NameSegment -&gt; Set NameSegment
 forall a b. Relation a b -&gt; Set b
 </span><span class="hs-identifier hs-var">Relation.ran</span></span><span>
-</span><span id="line-79"></span><span>            </span><span class="annot"><span class="annottext">Set NameSegment
+</span><span id="line-80"></span><span>            </span><span class="annot"><span class="annottext">Set NameSegment
 -&gt; (Set NameSegment -&gt; [NameSegment]) -&gt; [NameSegment]
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">Set NameSegment -&gt; [NameSegment]
 forall a. Set a -&gt; [a]
 </span><span class="hs-identifier hs-var">Set.toList</span></span><span>
-</span><span id="line-80"></span><span>            </span><span class="annot"><span class="annottext">[NameSegment] -&gt; ([NameSegment] -&gt; [NameSegment]) -&gt; [NameSegment]
+</span><span id="line-81"></span><span>            </span><span class="annot"><span class="annottext">[NameSegment] -&gt; ([NameSegment] -&gt; [NameSegment]) -&gt; [NameSegment]
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">(NameSegment -&gt; Bool) -&gt; [NameSegment] -&gt; [NameSegment]
 forall a. (a -&gt; Bool) -&gt; [a] -&gt; [a]
 </span><span class="hs-identifier hs-var">filter</span></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Bool
 </span><a href="#local-6989586621679629694"><span class="hs-identifier hs-var">predicate</span></a></span><span>
-</span><span id="line-81"></span><span>            </span><span class="annot"><span class="annottext">[NameSegment]
+</span><span id="line-82"></span><span>            </span><span class="annot"><span class="annottext">[NameSegment]
 -&gt; ([NameSegment] -&gt; [[NameSegment]]) -&gt; [[NameSegment]]
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">(NameSegment -&gt; [NameSegment]) -&gt; [NameSegment] -&gt; [[NameSegment]]
@@ -320,15 +321,15 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">forall a. Applicative [] =&gt; a -&gt; [a]
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-glyph">@</span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><span class="hs-comment">-- Embed each name segment into a path.</span><span>
-</span><span id="line-82"></span><span>            </span><span class="hs-comment">-- If we have multiple remaining segments, descend into any children matching the current</span><span>
-</span><span id="line-83"></span><span>            </span><span class="hs-comment">-- segment, then keep matching on the remainder of the path.</span><span>
-</span><span id="line-84"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679629688"><span class="annot"><span class="annottext">Either NameSegment GlobArg
+</span><span id="line-83"></span><span>            </span><span class="hs-comment">-- If we have multiple remaining segments, descend into any children matching the current</span><span>
+</span><span id="line-84"></span><span>            </span><span class="hs-comment">-- segment, then keep matching on the remainder of the path.</span><span>
+</span><span id="line-85"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679629688"><span class="annot"><span class="annottext">Either NameSegment GlobArg
 </span><a href="#local-6989586621679629688"><span class="hs-identifier hs-var">segment</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679629687"><span class="annot"><span class="annottext">GlobPath
 </span><a href="#local-6989586621679629687"><span class="hs-identifier hs-var">rest</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[[NameSegment]]
 </span><a href="#local-6989586621679629686"><span class="hs-identifier hs-var">recursiveMatches</span></a></span><span>
-</span><span id="line-85"></span><span>      </span><span class="hs-keyword">where</span><span>
-</span><span id="line-86"></span><span>        </span><span class="annot"><a href="#local-6989586621679629685"><span class="hs-identifier hs-type">nextBranches</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629864"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-special">]</span><span>
-</span><span id="line-87"></span><span>        </span><span id="local-6989586621679629685"><span class="annot"><span class="annottext">nextBranches :: [(NameSegment, Branch0 m)]
+</span><span id="line-86"></span><span>      </span><span class="hs-keyword">where</span><span>
+</span><span id="line-87"></span><span>        </span><span class="annot"><a href="#local-6989586621679629685"><span class="hs-identifier hs-type">nextBranches</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span class="hs-special">,</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629864"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span class="hs-special">]</span><span>
+</span><span id="line-88"></span><span>        </span><span id="local-6989586621679629685"><span class="annot"><span class="annottext">nextBranches :: [(NameSegment, Branch0 m)]
 </span><a href="#local-6989586621679629685"><span class="hs-identifier hs-var hs-var">nextBranches</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Branch0 m
 </span><a href="#local-6989586621679629710"><span class="hs-identifier hs-var">branch</span></a></span><span> </span><span class="annot"><span class="annottext">Branch0 m
 -&gt; IndexedGetting
@@ -346,10 +347,10 @@ forall (m :: * -&gt; *).
 </span><a href="Unison.CommandLine.Globbing.html#matchingChildBranches"><span class="hs-identifier hs-var">matchingChildBranches</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Either NameSegment GlobArg -&gt; NameSegment -&gt; Bool
 </span><a href="Unison.CommandLine.Globbing.html#globPredicate"><span class="hs-identifier hs-var">globPredicate</span></a></span><span> </span><span class="annot"><span class="annottext">Either NameSegment GlobArg
 </span><a href="#local-6989586621679629688"><span class="hs-identifier hs-var">segment</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-88"></span><span>        </span><span class="annot"><a href="#local-6989586621679629686"><span class="hs-identifier hs-type">recursiveMatches</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span class="hs-special">]</span><span class="hs-special">]</span><span>
-</span><span id="line-89"></span><span>        </span><span id="local-6989586621679629686"><span class="annot"><span class="annottext">recursiveMatches :: [[NameSegment]]
+</span><span id="line-89"></span><span>        </span><span class="annot"><a href="#local-6989586621679629686"><span class="hs-identifier hs-type">recursiveMatches</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span class="hs-special">]</span><span class="hs-special">]</span><span>
+</span><span id="line-90"></span><span>        </span><span id="local-6989586621679629686"><span class="annot"><span class="annottext">recursiveMatches :: [[NameSegment]]
 </span><a href="#local-6989586621679629686"><span class="hs-identifier hs-var hs-var">recursiveMatches</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-90"></span><span>          </span><span class="annot"><span class="annottext">((NameSegment, Branch0 m) -&gt; [[NameSegment]])
+</span><span id="line-91"></span><span>          </span><span class="annot"><span class="annottext">((NameSegment, Branch0 m) -&gt; [[NameSegment]])
 -&gt; [(NameSegment, Branch0 m)] -&gt; [[NameSegment]]
 forall (t :: * -&gt; *) m a.
 (Foldable t, Monoid m) =&gt;
@@ -370,10 +371,10 @@ Set TargetType -&gt; Branch0 m -&gt; GlobPath -&gt; [[NameSegment]]
 </span><a href="#local-6989586621679629681"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="annot"><span class="annottext">GlobPath
 </span><a href="#local-6989586621679629687"><span class="hs-identifier hs-var">rest</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[(NameSegment, Branch0 m)]
 </span><a href="#local-6989586621679629685"><span class="hs-identifier hs-var">nextBranches</span></a></span><span>
-</span><span id="line-91"></span><span>
-</span><span id="line-92"></span><span class="hs-comment">-- | Find all child branches whose name matches a predicate.</span><span>
-</span><span id="line-93"></span><span id="local-6989586621679629851"><span class="annot"><a href="Unison.CommandLine.Globbing.html#matchingChildBranches"><span class="hs-identifier hs-type">matchingChildBranches</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IndexedTraversal'</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629851"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629851"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span></span><span>
-</span><span id="line-94"></span><span id="matchingChildBranches"><span class="annot"><span class="annottext">matchingChildBranches :: (NameSegment -&gt; Bool)
+</span><span id="line-92"></span><span>
+</span><span id="line-93"></span><span class="hs-comment">-- | Find all child branches whose name matches a predicate.</span><span>
+</span><span id="line-94"></span><span id="local-6989586621679629851"><span class="annot"><a href="Unison.CommandLine.Globbing.html#matchingChildBranches"><span class="hs-identifier hs-type">matchingChildBranches</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IndexedTraversal'</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629851"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629851"><span class="hs-identifier hs-type">m</span></a></span><span class="hs-special">)</span></span><span>
+</span><span id="line-95"></span><span id="matchingChildBranches"><span class="annot"><span class="annottext">matchingChildBranches :: (NameSegment -&gt; Bool)
 -&gt; IndexedTraversal' NameSegment (Branch0 m) (Branch0 m)
 </span><a href="Unison.CommandLine.Globbing.html#matchingChildBranches"><span class="hs-identifier hs-var hs-var">matchingChildBranches</span></a></span></span><span> </span><span id="local-6989586621679629680"><span class="annot"><span class="annottext">NameSegment -&gt; Bool
 </span><a href="#local-6989586621679629680"><span class="hs-identifier hs-var">keyPredicate</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Indexed NameSegment (Branch0 m) (f (Branch0 m))
@@ -396,27 +397,27 @@ forall i (p :: * -&gt; * -&gt; *) (f :: * -&gt; *) a.
 (i -&gt; Bool) -&gt; Optical' p (Indexed i) f a a
 </span><span class="hs-identifier hs-var">indices</span></span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Bool
 </span><a href="#local-6989586621679629680"><span class="hs-identifier hs-var">keyPredicate</span></a></span><span>
-</span><span id="line-95"></span><span>
-</span><span id="line-96"></span><span class="hs-comment">-- | Expand a single glob pattern into all matching targets of the specified types.</span><span>
-</span><span id="line-97"></span><span class="annot"><a href="Unison.CommandLine.Globbing.html#expandGlobs"><span class="hs-identifier hs-type">expandGlobs</span></a></span><span> </span><span class="hs-glyph">::</span><span>
-</span><span id="line-98"></span><span>  </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679629677"><span class="annot"><a href="#local-6989586621679629677"><span class="hs-identifier hs-type">m</span></a></span></span><span class="hs-operator">.</span><span>
-</span><span id="line-99"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Unison.CommandLine.Globbing.html#TargetType"><span class="hs-identifier hs-type">TargetType</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-100"></span><span>  </span><span class="hs-comment">-- | Root branch</span><span>
-</span><span id="line-101"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629677"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-102"></span><span>  </span><span class="hs-comment">-- | UCM's current path</span><span>
-</span><span id="line-103"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Path.Absolute</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-104"></span><span>  </span><span class="hs-comment">-- | The glob string, e.g. .base.List.?.doc</span><span>
-</span><span id="line-105"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-106"></span><span>  </span><span class="hs-comment">-- | Nothing if arg was not a glob.</span><span>
-</span><span id="line-107"></span><span>  </span><span class="hs-comment">-- otherwise, fully expanded, absolute paths. E.g. [&quot;.base.List.map&quot;]</span><span>
-</span><span id="line-108"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">]</span><span>
-</span><span id="line-109"></span><span id="expandGlobs"><span class="annot"><span class="annottext">expandGlobs :: Set TargetType -&gt; Branch0 m -&gt; Absolute -&gt; String -&gt; Maybe [String]
+</span><span id="line-96"></span><span>
+</span><span id="line-97"></span><span class="hs-comment">-- | Expand a single glob pattern into all matching targets of the specified types.</span><span>
+</span><span id="line-98"></span><span class="annot"><a href="Unison.CommandLine.Globbing.html#expandGlobs"><span class="hs-identifier hs-type">expandGlobs</span></a></span><span> </span><span class="hs-glyph">::</span><span>
+</span><span id="line-99"></span><span>  </span><span class="hs-keyword">forall</span><span> </span><span id="local-6989586621679629677"><span class="annot"><a href="#local-6989586621679629677"><span class="hs-identifier hs-type">m</span></a></span></span><span class="hs-operator">.</span><span>
+</span><span id="line-100"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Unison.CommandLine.Globbing.html#TargetType"><span class="hs-identifier hs-type">TargetType</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-101"></span><span>  </span><span class="hs-comment">-- | Root branch</span><span>
+</span><span id="line-102"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629677"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-103"></span><span>  </span><span class="hs-comment">-- | UCM's current path</span><span>
+</span><span id="line-104"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Path.Absolute</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-105"></span><span>  </span><span class="hs-comment">-- | The glob string, e.g. .base.List.?.doc</span><span>
+</span><span id="line-106"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-107"></span><span>  </span><span class="hs-comment">-- | Nothing if arg was not a glob.</span><span>
+</span><span id="line-108"></span><span>  </span><span class="hs-comment">-- otherwise, fully expanded, absolute paths. E.g. [&quot;.base.List.map&quot;]</span><span>
+</span><span id="line-109"></span><span>  </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">]</span><span>
+</span><span id="line-110"></span><span id="expandGlobs"><span class="annot"><span class="annottext">expandGlobs :: Set TargetType -&gt; Branch0 m -&gt; Absolute -&gt; String -&gt; Maybe [String]
 </span><a href="Unison.CommandLine.Globbing.html#expandGlobs"><span class="hs-identifier hs-var hs-var">expandGlobs</span></a></span></span><span> </span><span id="local-6989586621679629676"><span class="annot"><span class="annottext">Set TargetType
 </span><a href="#local-6989586621679629676"><span class="hs-identifier hs-var">targets</span></a></span></span><span> </span><span id="local-6989586621679629675"><span class="annot"><span class="annottext">Branch0 m
 </span><a href="#local-6989586621679629675"><span class="hs-identifier hs-var">rootBranch</span></a></span></span><span> </span><span id="local-6989586621679629674"><span class="annot"><span class="annottext">Absolute
 </span><a href="#local-6989586621679629674"><span class="hs-identifier hs-var">currentPath</span></a></span></span><span> </span><span id="local-6989586621679629673"><span class="annot"><span class="annottext">String
 </span><a href="#local-6989586621679629673"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-110"></span><span>  </span><span class="annot"><span class="annottext">Bool -&gt; Maybe ()
+</span><span id="line-111"></span><span>  </span><span class="annot"><span class="annottext">Bool -&gt; Maybe ()
 forall (f :: * -&gt; *). Alternative f =&gt; Bool -&gt; f ()
 </span><span class="hs-identifier hs-var">guard</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool -&gt; Bool
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="annot"><span class="annottext">(Bool -&gt; Bool)
@@ -428,13 +429,13 @@ forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; Bool
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Set TargetType
 </span><a href="#local-6989586621679629676"><span class="hs-identifier hs-var">targets</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-111"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679629670"><span class="annot"><span class="annottext">Bool
+</span><span id="line-112"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679629670"><span class="annot"><span class="annottext">Bool
 </span><a href="#local-6989586621679629670"><span class="hs-identifier hs-var">isAbsolute</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679629669"><span class="annot"><span class="annottext">GlobPath
 </span><a href="#local-6989586621679629669"><span class="hs-identifier hs-var">globPath</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; (Bool, GlobPath)
 </span><a href="Unison.CommandLine.Globbing.html#globbedPathParser"><span class="hs-identifier hs-var">globbedPathParser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Text
 </span><span class="hs-identifier hs-var">Text.pack</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="#local-6989586621679629673"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-112"></span><span>  </span><span class="annot"><span class="annottext">Bool -&gt; Maybe ()
+</span><span id="line-113"></span><span>  </span><span class="annot"><span class="annottext">Bool -&gt; Maybe ()
 forall (f :: * -&gt; *). Alternative f =&gt; Bool -&gt; f ()
 </span><span class="hs-identifier hs-var">guard</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(Either NameSegment GlobArg -&gt; Bool) -&gt; GlobPath -&gt; Bool
 forall (t :: * -&gt; *) a. Foldable t =&gt; (a -&gt; Bool) -&gt; t a -&gt; Bool
@@ -444,20 +445,20 @@ forall a b. Either a b -&gt; Bool
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">GlobPath
 </span><a href="#local-6989586621679629669"><span class="hs-identifier hs-var">globPath</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-113"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><a href="#local-6989586621679629664"><span class="hs-identifier hs-type">currentBranch</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629677"><span class="hs-identifier hs-type">m</span></a></span><span>
-</span><span id="line-114"></span><span>      </span><span id="local-6989586621679629664"><span class="annot"><span class="annottext">currentBranch :: Branch0 m
+</span><span id="line-114"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="annot"><a href="#local-6989586621679629664"><span class="hs-identifier hs-type">currentBranch</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Branch0</span></span><span> </span><span class="annot"><a href="#local-6989586621679629677"><span class="hs-identifier hs-type">m</span></a></span><span>
+</span><span id="line-115"></span><span>      </span><span id="local-6989586621679629664"><span class="annot"><span class="annottext">currentBranch :: Branch0 m
 </span><a href="#local-6989586621679629664"><span class="hs-identifier hs-var hs-var">currentBranch</span></a></span></span><span>
-</span><span id="line-115"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span id="line-116"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><a href="#local-6989586621679629670"><span class="hs-identifier hs-var">isAbsolute</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Branch0 m
 </span><a href="#local-6989586621679629675"><span class="hs-identifier hs-var">rootBranch</span></a></span><span>
-</span><span id="line-116"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span id="line-117"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Path -&gt; Branch0 m -&gt; Branch0 m
 forall (m :: * -&gt; *). Path -&gt; Branch0 m -&gt; Branch0 m
 </span><span class="hs-identifier hs-var">Branch.getAt0</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Absolute -&gt; Path
 </span><span class="hs-identifier hs-var hs-var">Path.unabsolute</span></span><span> </span><span class="annot"><span class="annottext">Absolute
 </span><a href="#local-6989586621679629674"><span class="hs-identifier hs-var">currentPath</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Branch0 m
 </span><a href="#local-6989586621679629675"><span class="hs-identifier hs-var">rootBranch</span></a></span><span>
-</span><span id="line-117"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679629661"><span class="annot"><span class="annottext">paths :: [Relative]
+</span><span id="line-118"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679629661"><span class="annot"><span class="annottext">paths :: [Relative]
 </span><a href="#local-6989586621679629661"><span class="hs-identifier hs-var hs-var">paths</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Set TargetType -&gt; GlobPath -&gt; Branch0 m -&gt; [Relative]
 forall (m :: * -&gt; *).
 Set TargetType -&gt; GlobPath -&gt; Branch0 m -&gt; [Relative]
@@ -465,9 +466,9 @@ Set TargetType -&gt; GlobPath -&gt; Branch0 m -&gt; [Relative]
 </span><a href="#local-6989586621679629676"><span class="hs-identifier hs-var">targets</span></a></span><span> </span><span class="annot"><span class="annottext">GlobPath
 </span><a href="#local-6989586621679629669"><span class="hs-identifier hs-var">globPath</span></a></span><span> </span><span class="annot"><span class="annottext">Branch0 m
 </span><a href="#local-6989586621679629664"><span class="hs-identifier hs-var">currentBranch</span></a></span><span>
-</span><span id="line-118"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679629660"><span class="annot"><span class="annottext">relocatedPaths :: [Absolute]
+</span><span id="line-119"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679629660"><span class="annot"><span class="annottext">relocatedPaths :: [Absolute]
 </span><a href="#local-6989586621679629660"><span class="hs-identifier hs-var hs-var">relocatedPaths</span></a></span></span><span>
-</span><span id="line-119"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span id="line-120"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><a href="#local-6989586621679629670"><span class="hs-identifier hs-var">isAbsolute</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Path -&gt; Absolute
 </span><span class="hs-identifier hs-var">Path.Absolute</span></span><span> </span><span class="annot"><span class="annottext">(Path -&gt; Absolute) -&gt; (Relative -&gt; Path) -&gt; Relative -&gt; Absolute
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
@@ -476,7 +477,7 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Relative]
 </span><a href="#local-6989586621679629661"><span class="hs-identifier hs-var">paths</span></a></span><span>
-</span><span id="line-120"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span id="line-121"></span><span>        </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Absolute -&gt; Relative -&gt; Absolute
 forall l r o. Resolve l r o =&gt; l -&gt; r -&gt; o
 </span><span class="hs-identifier hs-var">Path.resolve</span></span><span> </span><span class="annot"><span class="annottext">Absolute
@@ -484,24 +485,24 @@ forall l r o. Resolve l r o =&gt; l -&gt; r -&gt; o
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Relative]
 </span><a href="#local-6989586621679629661"><span class="hs-identifier hs-var">paths</span></a></span><span>
-</span><span id="line-121"></span><span>  </span><span class="hs-identifier">pure</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Absolute -&gt; String
+</span><span id="line-122"></span><span>  </span><span class="hs-identifier">pure</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Absolute -&gt; String
 forall a b. Convert a b =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">Path.convert</span></span><span> </span><span class="annot"><span class="annottext">(Absolute -&gt; String) -&gt; [Absolute] -&gt; [String]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">[Absolute]
 </span><a href="#local-6989586621679629660"><span class="hs-identifier hs-var">relocatedPaths</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-122"></span><span>
-</span><span id="line-123"></span><span class="annot"><a href="Unison.CommandLine.Globbing.html#containsGlob"><span class="hs-identifier hs-type">containsGlob</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
-</span><span id="line-124"></span><span id="containsGlob"><span class="annot"><span class="annottext">containsGlob :: String -&gt; Bool
+</span><span id="line-123"></span><span>
+</span><span id="line-124"></span><span class="annot"><a href="Unison.CommandLine.Globbing.html#containsGlob"><span class="hs-identifier hs-type">containsGlob</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
+</span><span id="line-125"></span><span id="containsGlob"><span class="annot"><span class="annottext">containsGlob :: String -&gt; Bool
 </span><a href="Unison.CommandLine.Globbing.html#containsGlob"><span class="hs-identifier hs-var hs-var">containsGlob</span></a></span></span><span> </span><span id="local-6989586621679629655"><span class="annot"><span class="annottext">String
 </span><a href="#local-6989586621679629655"><span class="hs-identifier hs-var">s</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-125"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool
+</span><span id="line-126"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679629654"><span class="annot"><span class="annottext">GlobPath
 </span><a href="#local-6989586621679629654"><span class="hs-identifier hs-var">globPath</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; (Bool, GlobPath)
 </span><a href="Unison.CommandLine.Globbing.html#globbedPathParser"><span class="hs-identifier hs-var">globbedPathParser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Text
 </span><span class="hs-identifier hs-var">Text.pack</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="#local-6989586621679629655"><span class="hs-identifier hs-var">s</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-126"></span><span>   </span><span class="hs-keyword">in</span><span> </span><span class="annot"><span class="annottext">(Either NameSegment GlobArg -&gt; Bool) -&gt; GlobPath -&gt; Bool
+</span><span id="line-127"></span><span>   </span><span class="hs-keyword">in</span><span> </span><span class="annot"><span class="annottext">(Either NameSegment GlobArg -&gt; Bool) -&gt; GlobPath -&gt; Bool
 forall (t :: * -&gt; *) a. Foldable t =&gt; (a -&gt; Bool) -&gt; t a -&gt; Bool
 </span><span class="hs-identifier hs-var">any</span></span><span> </span><span class="annot"><span class="annottext">Either NameSegment GlobArg -&gt; Bool
 forall a b. Either a b -&gt; Bool
@@ -509,54 +510,54 @@ forall a b. Either a b -&gt; Bool
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">GlobPath
 </span><a href="#local-6989586621679629654"><span class="hs-identifier hs-var">globPath</span></a></span><span>
-</span><span id="line-127"></span><span>
-</span><span id="line-128"></span><span class="hs-comment">-- | Parses a single name segment into a GlobArg or a bare segment according to whether</span><span>
-</span><span id="line-129"></span><span class="hs-comment">-- there's a glob.</span><span>
-</span><span id="line-130"></span><span class="hs-comment">-- E.g.</span><span>
-</span><span id="line-131"></span><span class="hs-comment">--   &quot;toList&quot; -&gt; Left (NameSegment &quot;toList&quot;)</span><span>
-</span><span id="line-132"></span><span class="hs-comment">--   &quot;to?&quot; -&gt; Left (GlobArg &quot;to&quot; &quot;&quot;)</span><span>
-</span><span id="line-133"></span><span class="hs-comment">-- We unintuitively use '?' for glob patterns right now since they're not valid in names.</span><span>
-</span><span id="line-134"></span><span class="annot"><a href="Unison.CommandLine.Globbing.html#globbedPathParser"><span class="hs-identifier hs-type">globbedPathParser</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.CommandLine.Globbing.html#GlobPath"><span class="hs-identifier hs-type">GlobPath</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-135"></span><span id="globbedPathParser"><span class="annot"><span class="annottext">globbedPathParser :: Text -&gt; (Bool, GlobPath)
+</span><span id="line-128"></span><span>
+</span><span id="line-129"></span><span class="hs-comment">-- | Parses a single name segment into a GlobArg or a bare segment according to whether</span><span>
+</span><span id="line-130"></span><span class="hs-comment">-- there's a glob.</span><span>
+</span><span id="line-131"></span><span class="hs-comment">-- E.g.</span><span>
+</span><span id="line-132"></span><span class="hs-comment">--   &quot;toList&quot; -&gt; Left (NameSegment &quot;toList&quot;)</span><span>
+</span><span id="line-133"></span><span class="hs-comment">--   &quot;to?&quot; -&gt; Left (GlobArg &quot;to&quot; &quot;&quot;)</span><span>
+</span><span id="line-134"></span><span class="hs-comment">-- We unintuitively use '?' for glob patterns right now since they're not valid in names.</span><span>
+</span><span id="line-135"></span><span class="annot"><a href="Unison.CommandLine.Globbing.html#globbedPathParser"><span class="hs-identifier hs-type">globbedPathParser</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Unison.CommandLine.Globbing.html#GlobPath"><span class="hs-identifier hs-type">GlobPath</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-136"></span><span id="globbedPathParser"><span class="annot"><span class="annottext">globbedPathParser :: Text -&gt; (Bool, GlobPath)
 </span><a href="Unison.CommandLine.Globbing.html#globbedPathParser"><span class="hs-identifier hs-var hs-var">globbedPathParser</span></a></span></span><span> </span><span id="local-6989586621679629653"><span class="annot"><span class="annottext">Text
 </span><a href="#local-6989586621679629653"><span class="hs-identifier hs-var">txt</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-136"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679629652"><span class="annot"><span class="annottext">Bool
+</span><span id="line-137"></span><span>  </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679629652"><span class="annot"><span class="annottext">Bool
 </span><a href="#local-6989586621679629652"><span class="hs-identifier hs-var">isAbsolute</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679629651"><span class="annot"><span class="annottext">[Text]
 </span><a href="#local-6989586621679629651"><span class="hs-identifier hs-var">segments</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-137"></span><span>        </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Bool) -&gt; Text -&gt; [Text]
+</span><span id="line-138"></span><span>        </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Bool) -&gt; Text -&gt; [Text]
 </span><span class="hs-identifier hs-var">Text.split</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Char -&gt; Char -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Char
 </span><span class="hs-char">'.'</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text
 </span><a href="#local-6989586621679629653"><span class="hs-identifier hs-var">txt</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-138"></span><span>          </span><span class="hs-comment">-- An initial '.' creates an empty split</span><span>
-</span><span id="line-139"></span><span>          </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
+</span><span id="line-139"></span><span>          </span><span class="hs-comment">-- An initial '.' creates an empty split</span><span>
+</span><span id="line-140"></span><span>          </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&quot;</span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679629649"><span class="annot"><span class="annottext">[Text]
 </span><a href="#local-6989586621679629649"><span class="hs-identifier hs-var">segments</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">True</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[Text]
 </span><a href="#local-6989586621679629649"><span class="hs-identifier hs-var">segments</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-140"></span><span>          </span><span class="hs-special">(</span><span id="local-6989586621679629648"><span class="annot"><span class="annottext">[Text]
+</span><span id="line-141"></span><span>          </span><span class="hs-special">(</span><span id="local-6989586621679629648"><span class="annot"><span class="annottext">[Text]
 </span><a href="#local-6989586621679629648"><span class="hs-identifier hs-var">segments</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[Text]
 </span><a href="#local-6989586621679629648"><span class="hs-identifier hs-var">segments</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-141"></span><span>   </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool
+</span><span id="line-142"></span><span>   </span><span class="hs-keyword">in</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Bool
 </span><a href="#local-6989586621679629652"><span class="hs-identifier hs-var">isAbsolute</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Either NameSegment GlobArg) -&gt; [Text] -&gt; GlobPath
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Either NameSegment GlobArg
 </span><a href="Unison.CommandLine.Globbing.html#globArgParser"><span class="hs-identifier hs-var">globArgParser</span></a></span><span> </span><span class="annot"><span class="annottext">[Text]
 </span><a href="#local-6989586621679629651"><span class="hs-identifier hs-var">segments</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-142"></span><span>
-</span><span id="line-143"></span><span class="annot"><a href="Unison.CommandLine.Globbing.html#globArgParser"><span class="hs-identifier hs-type">globArgParser</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="annot"><a href="Unison.CommandLine.Globbing.html#GlobArg"><span class="hs-identifier hs-type">GlobArg</span></a></span><span>
-</span><span id="line-144"></span><span id="globArgParser"><span class="annot"><span class="annottext">globArgParser :: Text -&gt; Either NameSegment GlobArg
+</span><span id="line-143"></span><span>
+</span><span id="line-144"></span><span class="annot"><a href="Unison.CommandLine.Globbing.html#globArgParser"><span class="hs-identifier hs-type">globArgParser</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">NameSegment</span></span><span> </span><span class="annot"><a href="Unison.CommandLine.Globbing.html#GlobArg"><span class="hs-identifier hs-type">GlobArg</span></a></span><span>
+</span><span id="line-145"></span><span id="globArgParser"><span class="annot"><span class="annottext">globArgParser :: Text -&gt; Either NameSegment GlobArg
 </span><a href="Unison.CommandLine.Globbing.html#globArgParser"><span class="hs-identifier hs-var hs-var">globArgParser</span></a></span></span><span> </span><span id="local-6989586621679629646"><span class="annot"><span class="annottext">Text
 </span><a href="#local-6989586621679629646"><span class="hs-identifier hs-var">txt</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-145"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Bool) -&gt; Text -&gt; [Text]
+</span><span id="line-146"></span><span>  </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">(Char -&gt; Bool) -&gt; Text -&gt; [Text]
 </span><span class="hs-identifier hs-var">Text.split</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Char -&gt; Char -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Char
 </span><span class="hs-char">'?'</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Text
 </span><a href="#local-6989586621679629646"><span class="hs-identifier hs-var">txt</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-146"></span><span>    </span><span class="hs-special">[</span><span id="local-6989586621679629645"><span class="annot"><span class="annottext">Text
+</span><span id="line-147"></span><span>    </span><span class="hs-special">[</span><span id="local-6989586621679629645"><span class="annot"><span class="annottext">Text
 </span><a href="#local-6989586621679629645"><span class="hs-identifier hs-var">prefix</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679629644"><span class="annot"><span class="annottext">Text
 </span><a href="#local-6989586621679629644"><span class="hs-identifier hs-var">suffix</span></a></span></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">GlobArg -&gt; Either NameSegment GlobArg
 forall a b. b -&gt; Either a b
@@ -564,10 +565,10 @@ forall a b. b -&gt; Either a b
 </span><a href="Unison.CommandLine.Globbing.html#GlobArg"><span class="hs-identifier hs-var">GlobArg</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><a href="#local-6989586621679629645"><span class="hs-identifier hs-var">prefix</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><a href="#local-6989586621679629644"><span class="hs-identifier hs-var">suffix</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-147"></span><span>    </span><span class="annot"><span class="annottext">[Text]
+</span><span id="line-148"></span><span>    </span><span class="annot"><span class="annottext">[Text]
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">NameSegment -&gt; Either NameSegment GlobArg
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Text -&gt; NameSegment
 </span><span class="hs-identifier hs-var">NameSegment</span></span><span> </span><span class="annot"><span class="annottext">Text
 </span><a href="#local-6989586621679629646"><span class="hs-identifier hs-var">txt</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-148"></span></pre></body></html>
+</span><span id="line-149"></span></pre></body></html>

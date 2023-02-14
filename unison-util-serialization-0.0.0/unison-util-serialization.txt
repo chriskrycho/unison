@@ -6,8 +6,8 @@
 @version 0.0.0
 
 module U.Util.Serialization
-type Get a = forall m. MonadGet m => m a
-type Put a = forall m. MonadPut m => a -> m ()
+type Get a = forall m. (MonadGet m) => m a
+type Put a = forall m. (MonadPut m) => a -> m ()
 data Format a
 Format :: Get a -> Put a -> Format a
 [get] :: Format a -> Get a
