@@ -53,15 +53,22 @@ InvalidJWT :: Text -> CredentialFailure
 RefreshFailure :: Text -> CredentialFailure
 InvalidTokenResponse :: URI -> Text -> CredentialFailure
 InvalidHost :: CodeserverURI -> CredentialFailure
+FailedToFetchUserInfo :: URI -> Text -> CredentialFailure
 
 -- | Credentials for a specific codeserver
 data CodeserverCredentials
-CodeserverCredentials :: Tokens -> URI -> CodeserverCredentials
+CodeserverCredentials :: Tokens -> URI -> UserInfo -> CodeserverCredentials
 [$sel:tokens:CodeserverCredentials] :: CodeserverCredentials -> Tokens
 [$sel:discoveryURI:CodeserverCredentials] :: CodeserverCredentials -> URI
+[$sel:userInfo:CodeserverCredentials] :: CodeserverCredentials -> UserInfo
+data UserInfo
+UserInfo :: Text -> Maybe Text -> Text -> UserInfo
+[$sel:userId:UserInfo] :: UserInfo -> Text
+[$sel:name:UserInfo] :: UserInfo -> Maybe Text
+[$sel:handle:UserInfo] :: UserInfo -> Text
 getCodeserverCredentials :: CodeserverId -> Credentials -> Either CredentialFailure CodeserverCredentials
 setCodeserverCredentials :: CodeserverId -> CodeserverCredentials -> Credentials -> Credentials
-codeserverCredentials :: URI -> Tokens -> CodeserverCredentials
+codeserverCredentials :: URI -> Tokens -> UserInfo -> CodeserverCredentials
 emptyCredentials :: Credentials
 instance GHC.Exception.Type.Exception Unison.Auth.Types.CredentialFailure
 instance GHC.Classes.Eq Unison.Auth.Types.CredentialFailure
@@ -72,12 +79,16 @@ instance GHC.Show.Show Unison.Auth.Types.Scopes
 instance GHC.Show.Show Unison.Auth.Types.DiscoveryDoc
 instance GHC.Show.Show Unison.Auth.Types.Tokens
 instance GHC.Classes.Eq Unison.Auth.Types.Tokens
+instance GHC.Classes.Eq Unison.Auth.Types.UserInfo
+instance GHC.Show.Show Unison.Auth.Types.UserInfo
 instance GHC.Classes.Eq Unison.Auth.Types.CodeserverCredentials
 instance GHC.Classes.Eq Unison.Auth.Types.Credentials
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Auth.Types.Credentials
 instance Data.Aeson.Types.FromJSON.FromJSON Unison.Auth.Types.Credentials
 instance Data.Aeson.Types.ToJSON.ToJSON Unison.Auth.Types.CodeserverCredentials
 instance Data.Aeson.Types.FromJSON.FromJSON Unison.Auth.Types.CodeserverCredentials
+instance Data.Aeson.Types.ToJSON.ToJSON Unison.Auth.Types.UserInfo
+instance Data.Aeson.Types.FromJSON.FromJSON Unison.Auth.Types.UserInfo
 instance Data.Aeson.Types.FromJSON.FromJSON Unison.Auth.Types.URIParam
 instance Data.Aeson.Types.FromJSON.FromJSON Unison.Auth.Types.DiscoveryDoc
 instance Data.Aeson.Types.FromJSON.FromJSON Unison.Auth.Types.Tokens
@@ -110,6 +121,12 @@ data CredentialManager
 newCredentialManager :: MonadIO m => m CredentialManager
 getCredentials :: MonadIO m => CredentialManager -> CodeserverId -> m (Either CredentialFailure CodeserverCredentials)
 
+module Unison.Auth.UserInfo
+
+-- | Get user info for an authenticated user.
+getUserInfo :: MonadIO m => DiscoveryDoc -> AccessToken -> m (Either CredentialFailure UserInfo)
+decodeUserInfo :: ByteString -> Either String UserInfo
+
 module Unison.Auth.Tokens
 
 -- | Checks whether a JWT access token is expired.
@@ -128,7 +145,7 @@ newTokenProvider :: CredentialManager -> TokenProvider
 --   
 --   Specification:
 --   <a>https://datatracker.ietf.org/doc/html/rfc6749#section-6</a>
-performTokenRefresh :: MonadIO m => URI -> Tokens -> m (Either CredentialFailure Tokens)
+performTokenRefresh :: MonadIO m => DiscoveryDoc -> Tokens -> m (Either CredentialFailure Tokens)
 
 
 -- | <tt>.unisonConfig</tt> file utilities
@@ -1728,11 +1745,11 @@ module Unison.Codebase.Editor.HandleInput.AuthLogin
 
 -- | Direct the user through an authentication flow with the given server
 --   and store the credentials in the provided credential manager.
-authLogin :: CodeserverURI -> Cli ()
+authLogin :: CodeserverURI -> Cli UserInfo
 
 -- | Checks if the user has valid auth for the given codeserver, and runs
 --   through an authentication flow if not.
-ensureAuthenticatedWithCodeserver :: CodeserverURI -> Cli ()
+ensureAuthenticatedWithCodeserver :: CodeserverURI -> Cli UserInfo
 
 module Unison.Cli.TypeCheck
 typecheck :: [Type Symbol Ann] -> NamesWithHistory -> Text -> (Text, [Token Lexeme]) -> Cli (Result (Seq (Note Symbol Ann)) (Either (UnisonFile Symbol Ann) (TypecheckedUnisonFile Symbol Ann)))
