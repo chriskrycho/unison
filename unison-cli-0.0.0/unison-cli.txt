@@ -337,9 +337,9 @@ data DeleteOutput
 DeleteOutput'Diff :: DeleteOutput
 DeleteOutput'NoDiff :: DeleteOutput
 data DeleteTarget
-DeleteTarget'TermOrType :: DeleteOutput -> HQSplit' -> DeleteTarget
-DeleteTarget'Term :: DeleteOutput -> HQSplit' -> DeleteTarget
-DeleteTarget'Type :: DeleteOutput -> HQSplit' -> DeleteTarget
+DeleteTarget'TermOrType :: DeleteOutput -> [HQSplit'] -> DeleteTarget
+DeleteTarget'Term :: DeleteOutput -> [HQSplit'] -> DeleteTarget
+DeleteTarget'Type :: DeleteOutput -> [HQSplit'] -> DeleteTarget
 DeleteTarget'Branch :: Insistence -> Maybe Split' -> DeleteTarget
 DeleteTarget'Patch :: Split' -> DeleteTarget
 instance GHC.Show.Show Unison.Codebase.Editor.Input.OptionalPatch
@@ -1099,6 +1099,7 @@ BadNamespace :: String -> String -> Output
 BranchNotFound :: Path' -> Output
 EmptyPush :: Path' -> Output
 NameNotFound :: HQSplit' -> Output
+NamesNotFound :: [Name] -> Output
 PatchNotFound :: Split' -> Output
 TypeNotFound :: HQSplit' -> Output
 TermNotFound :: HQSplit' -> Output
@@ -1338,7 +1339,7 @@ findVerboseAll :: InputPattern
 findPatch :: InputPattern
 renameTerm :: InputPattern
 renameType :: InputPattern
-deleteGen :: Maybe String -> String -> (HQSplit' -> DeleteTarget) -> InputPattern
+deleteGen :: Maybe String -> String -> ([HQSplit'] -> DeleteTarget) -> InputPattern
 delete :: InputPattern
 deleteVerbose :: InputPattern
 deleteTerm :: InputPattern
