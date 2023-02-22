@@ -73,7 +73,7 @@ vacuum :: Connection -> IO Bool
 -- | <pre>
 --   VACUUM INTO
 --   </pre>
-vacuumInto :: Connection -> Text -> IO ()
+vacuumInto :: Connection -> FilePath -> IO ()
 
 -- | <pre>
 --   BEGIN
@@ -373,7 +373,7 @@ vacuum :: Connection -> IO Bool
 -- | <pre>
 --   VACUUM INTO
 --   </pre>
-vacuumInto :: Connection -> Text -> IO ()
+vacuumInto :: Connection -> FilePath -> IO ()
 
 -- | The root exception for all exceptions thrown by this library.
 --   

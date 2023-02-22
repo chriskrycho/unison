@@ -4347,38 +4347,13 @@ makeCodebaseDirPath :: CodebasePath -> FilePath
 
 -- | Makes a path to store a backup of a sqlite database given the current
 --   time.
-backupCodebasePath :: NominalDiffTime -> FilePath
+backupCodebasePath :: SchemaVersion -> NominalDiffTime -> FilePath
 lockfilePath :: CodebasePath -> FilePath
 
 module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema5To6
 
 -- | The 5 to 6 migration adds the reflog as a table in the DB
 migrateSchema5To6 :: CodebasePath -> Transaction ()
-
-module Unison.Codebase.SqliteCodebase.Migrations
-
--- | Mapping from schema version to the migration required to get there.
---   Each migration may only be run on a schema of its immediate
---   predecessor, E.g. The migration at index 2 must be run on a codebase
---   at version 1.
-migrations :: (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> CodebasePath -> Map SchemaVersion (Transaction ())
-data CodebaseVersionStatus
-CodebaseUpToDate :: CodebaseVersionStatus
-CodebaseUnknownSchemaVersion :: SchemaVersion -> CodebaseVersionStatus
-CodebaseRequiresMigration :: SchemaVersion -> SchemaVersion -> CodebaseVersionStatus
-checkCodebaseIsUpToDate :: Transaction CodebaseVersionStatus
-
--- | Migrates a codebase up to the most recent version known to ucm. This
---   is a No-op if it's up to date Returns an error if the schema version
---   is newer than this ucm knows about.
-ensureCodebaseIsUpToDate :: MonadIO m => LocalOrRemote -> CodebasePath -> (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Bool -> Connection -> m (Either OpenCodebaseError ())
-
--- | Copy the sqlite database to a new file with a unique name based on
---   current time.
-backupCodebase :: CodebasePath -> Bool -> IO ()
-instance GHC.Show.Show Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
-instance GHC.Classes.Ord Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
-instance GHC.Classes.Eq Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
 
 module Unison.Codebase.Init.Type
 data Init m v a
@@ -4434,15 +4409,18 @@ DontCreateWhenMissing :: CodebasePath -> SpecifiedCodebase
 data MigrationStrategy
 
 -- | Perform a migration immediately if one is required.
-MigrateAutomatically :: MigrationStrategy
+MigrateAutomatically :: BackupStrategy -> MigrationStrategy
 
 -- | Prompt the user that a migration is about to occur, continue after
 --   acknownledgment
-MigrateAfterPrompt :: MigrationStrategy
+MigrateAfterPrompt :: BackupStrategy -> MigrationStrategy
 
 -- | Triggers an <a>OpenCodebaseRequiresMigration</a> error instead of
 --   migrating
 DontMigrate :: MigrationStrategy
+data BackupStrategy
+Backup :: BackupStrategy
+NoBackup :: BackupStrategy
 type Pretty = Pretty ColorText
 createCodebase :: MonadIO m => Init m v a -> DebugName -> CodebasePath -> CodebaseLockOption -> (Codebase m v a -> m r) -> m (Either Pretty r)
 
@@ -4452,6 +4430,9 @@ initCodebaseAndExit :: MonadIO m => Init m Symbol Ann -> DebugName -> Maybe Code
 withOpenOrCreateCodebase :: MonadIO m => Init m v a -> DebugName -> CodebaseInitOptions -> CodebaseLockOption -> MigrationStrategy -> ((InitResult, CodebasePath, Codebase m v a) -> m r) -> m (Either (CodebasePath, InitError) r)
 withNewUcmCodebaseOrExit :: MonadIO m => Init m Symbol Ann -> DebugName -> CodebasePath -> CodebaseLockOption -> (Codebase m Symbol Ann -> m r) -> m r
 withTemporaryUcmCodebase :: MonadUnliftIO m => Init m Symbol Ann -> DebugName -> CodebaseLockOption -> ((CodebasePath, Codebase m Symbol Ann) -> m r) -> m r
+instance GHC.Classes.Ord Unison.Codebase.Init.BackupStrategy
+instance GHC.Classes.Eq Unison.Codebase.Init.BackupStrategy
+instance GHC.Show.Show Unison.Codebase.Init.BackupStrategy
 instance GHC.Classes.Ord Unison.Codebase.Init.MigrationStrategy
 instance GHC.Classes.Eq Unison.Codebase.Init.MigrationStrategy
 instance GHC.Show.Show Unison.Codebase.Init.MigrationStrategy
@@ -4460,23 +4441,56 @@ instance GHC.Show.Show Unison.Codebase.Init.InitError
 instance GHC.Classes.Eq Unison.Codebase.Init.InitResult
 instance GHC.Show.Show Unison.Codebase.Init.InitResult
 
+module Unison.Codebase.SqliteCodebase.Migrations
+
+-- | Mapping from schema version to the migration required to get there.
+--   Each migration may only be run on a schema of its immediate
+--   predecessor, E.g. The migration at index 2 must be run on a codebase
+--   at version 1.
+migrations :: (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> CodebasePath -> Map SchemaVersion (Transaction ())
+data CodebaseVersionStatus
+CodebaseUpToDate :: CodebaseVersionStatus
+CodebaseUnknownSchemaVersion :: SchemaVersion -> CodebaseVersionStatus
+CodebaseRequiresMigration :: SchemaVersion -> SchemaVersion -> CodebaseVersionStatus
+checkCodebaseIsUpToDate :: Transaction CodebaseVersionStatus
+
+-- | Migrates a codebase up to the most recent version known to ucm. This
+--   is a No-op if it's up to date Returns an error if the schema version
+--   is newer than this ucm knows about.
+ensureCodebaseIsUpToDate :: MonadIO m => LocalOrRemote -> CodebasePath -> (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Bool -> BackupStrategy -> Connection -> m (Either OpenCodebaseError ())
+
+-- | Copy the sqlite database to a new file with a unique name based on
+--   current time.
+backupCodebase :: Connection -> SchemaVersion -> CodebasePath -> Bool -> IO ()
+instance GHC.Show.Show Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
+instance GHC.Classes.Ord Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
+instance GHC.Classes.Eq Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
+
 module Unison.Codebase.SqliteCodebase
 init :: HasCallStack => MonadUnliftIO m => Init m Symbol Ann
 data MigrationStrategy
 
 -- | Perform a migration immediately if one is required.
-MigrateAutomatically :: MigrationStrategy
+MigrateAutomatically :: BackupStrategy -> MigrationStrategy
 
 -- | Prompt the user that a migration is about to occur, continue after
 --   acknownledgment
-MigrateAfterPrompt :: MigrationStrategy
+MigrateAfterPrompt :: BackupStrategy -> MigrationStrategy
 
 -- | Triggers an <a>OpenCodebaseRequiresMigration</a> error instead of
 --   migrating
 DontMigrate :: MigrationStrategy
+data BackupStrategy
+Backup :: BackupStrategy
+NoBackup :: BackupStrategy
 data CodebaseLockOption
 DoLock :: CodebaseLockOption
 DontLock :: CodebaseLockOption
+
+-- | Given two codebase roots (e.g. "./mycodebase"), safely copy the
+--   codebase at the source to the destination. Note: this does not copy
+--   the .unisonConfig file.
+copyCodebase :: MonadIO m => CodebasePath -> CodebasePath -> m ()
 instance GHC.Classes.Eq Unison.Codebase.SqliteCodebase.CodebaseStatus
 instance GHC.Show.Show (Unison.Codebase.SqliteCodebase.Entity m)
 
