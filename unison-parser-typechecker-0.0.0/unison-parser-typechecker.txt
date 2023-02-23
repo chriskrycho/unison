@@ -522,6 +522,13 @@ module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema6To7
 --   if missing.
 migrateSchema6To7 :: Transaction ()
 
+module Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema7To8
+
+-- | Adds a table for tracking namespace statistics Adds stats for all
+--   existing namespaces, even though missing stats are computed on-demand
+--   if missing.
+migrateSchema7To8 :: Transaction ()
+
 module Unison.Codebase.SqliteCodebase.SyncEphemeral
 data Dependencies
 Dependencies :: Set Hash -> Set Hash -> Dependencies
@@ -2823,9 +2830,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2VHx loc_a2VHy. Lens' (Env v_a2VHx loc_a2VHy) (TypeLookup v_a2VHx loc_a2VHy)
-termsByShortname :: forall v_a2VHx loc_a2VHy. Lens' (Env v_a2VHx loc_a2VHy) (Map Name [NamedReference v_a2VHx loc_a2VHy])
-ambientAbilities :: forall v_a2VHx loc_a2VHy. Lens' (Env v_a2VHx loc_a2VHy) [Type v_a2VHx loc_a2VHy]
+typeLookup :: forall v_a2W6u loc_a2W6v. Lens' (Env v_a2W6u loc_a2W6v) (TypeLookup v_a2W6u loc_a2W6v)
+termsByShortname :: forall v_a2W6u loc_a2W6v. Lens' (Env v_a2W6u loc_a2W6v) (Map Name [NamedReference v_a2W6u loc_a2W6v])
+ambientAbilities :: forall v_a2W6u loc_a2W6v. Lens' (Env v_a2W6u loc_a2W6v) [Type v_a2W6u loc_a2W6v]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -4009,6 +4016,10 @@ namesAtPath :: Path -> Path -> Transaction ScopedNames
 --   server for serving api requests.
 updateNameLookupIndex :: (Reference -> Transaction ConstructorType) -> Path -> Maybe BranchHash -> BranchHash -> Transaction ()
 
+-- | Add an index for the provided branch hash if one doesn't already
+--   exist.
+ensureNameLookupForBranchHash :: (Reference -> Transaction ConstructorType) -> Maybe BranchHash -> BranchHash -> Transaction ()
+
 -- | Compute the root namespace names index which is used by the share
 --   server for serving api requests. Using <a>updateNameLookupIndex</a> is
 --   preferred whenever possible, since it's considerably faster. This can
@@ -4444,9 +4455,7 @@ instance GHC.Show.Show Unison.Codebase.Init.InitResult
 module Unison.Codebase.SqliteCodebase.Migrations
 
 -- | Mapping from schema version to the migration required to get there.
---   Each migration may only be run on a schema of its immediate
---   predecessor, E.g. The migration at index 2 must be run on a codebase
---   at version 1.
+--   E.g. The migration at index 2 must be run on a codebase at version 1.
 migrations :: (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> CodebasePath -> Map SchemaVersion (Transaction ())
 data CodebaseVersionStatus
 CodebaseUpToDate :: CodebaseVersionStatus

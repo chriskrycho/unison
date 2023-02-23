@@ -344,6 +344,17 @@ NamedRef :: ReversedSegments -> ref -> NamedRef ref
 [$sel:reversedSegments:NamedRef] :: NamedRef ref -> ReversedSegments
 [$sel:ref:NamedRef] :: NamedRef ref -> ref
 toRowWithNamespace :: ToRow ref => NamedRef ref -> [SQLData]
+
+-- | The new <tt>scoped</tt> name lookup format is different from the old
+--   version.
+--   
+--   Specifically, the scoped format adds the <tt>lastNameSegment</tt> as
+--   well as adding a trailing <a>.</a> to the db format of both the
+--   namespace and reversed_name.
+--   
+--   Converts a NamedRef to SQLData of the form: [reversedName, namespace,
+--   lastNameSegment] &lt;&gt; ref fields...
+namedRefToScopedRow :: ToRow ref => NamedRef ref -> [SQLData]
 instance Data.Traversable.Traversable U.Codebase.Sqlite.NamedRef.NamedRef
 instance Data.Foldable.Foldable U.Codebase.Sqlite.NamedRef.NamedRef
 instance GHC.Base.Functor U.Codebase.Sqlite.NamedRef.NamedRef
@@ -933,6 +944,7 @@ expectTermObject :: SqliteExceptionReason e => ObjectId -> (ByteString -> Either
 loadNamespaceRoot :: Transaction (Maybe CausalHashId)
 setNamespaceRoot :: CausalHashId -> Transaction ()
 expectNamespaceRoot :: Transaction CausalHashId
+expectNamespaceRootBranchHashId :: Transaction BranchHashId
 
 -- | Save statistics about a given branch.
 saveNamespaceStats :: BranchHashId -> NamespaceStats -> Transaction ()
@@ -1042,7 +1054,15 @@ namespaceHashIdByBase32Prefix :: Text -> Transaction [BranchHashId]
 causalHashIdByBase32Prefix :: Text -> Transaction [CausalHashId]
 
 -- | Ensure the name lookup tables exist.
+--   
+--   These tables will be deprecated in favour of
+--   ensureScopedNameLookupTables once we've migrated all the indexes over.
 ensureNameLookupTables :: Transaction ()
+
+-- | Copies existing name lookup rows but replaces their branch hash id;
+--   This is a low-level operation used as part of deriving a new name
+--   lookup index from an existing one as performantly as possible.
+copyScopedNameLookup :: BranchHashId -> BranchHashId -> Transaction ()
 
 -- | Not used in typical operations, but if we ever end up in a situation
 --   where a bug has caused the name lookup index to go out of sync this
@@ -1061,6 +1081,18 @@ removeTermNames :: [NamedRef TextReferent] -> Transaction ()
 -- | Remove the given set of term names into the name lookup table
 removeTypeNames :: [NamedRef TextReference] -> Transaction ()
 
+-- | Insert the given set of term names into the name lookup table
+insertScopedTermNames :: BranchHashId -> [NamedRef (TextReferent, Maybe ConstructorType)] -> Transaction ()
+
+-- | Insert the given set of type names into the name lookup table
+insertScopedTypeNames :: BranchHashId -> [NamedRef TextReference] -> Transaction ()
+
+-- | Remove the given set of term names into the name lookup table
+removeScopedTermNames :: BranchHashId -> [NamedRef TextReferent] -> Transaction ()
+
+-- | Remove the given set of term names into the name lookup table
+removeScopedTypeNames :: BranchHashId -> [NamedRef TextReference] -> Transaction ()
+
 -- | Get the list of a term names in the root namespace according to the
 --   name lookup index
 rootTermNamesByPath :: Maybe Text -> Transaction [NamedRef (TextReferent, Maybe ConstructorType)]
@@ -1072,6 +1104,12 @@ rootTypeNamesByPath :: Maybe Text -> Transaction [NamedRef TextReference]
 -- | Gets the count of all definitions within the given namespace. NOTE:
 --   This requires a working name lookup index.
 getNamespaceDefinitionCount :: Text -> Transaction Int
+
+-- | Check if we've already got an index for the desired root branch hash.
+checkBranchHashNameLookupExists :: BranchHashId -> Transaction Bool
+
+-- | Inserts a new record into the name_lookups table
+trackNewBranchHashNameLookup :: BranchHashId -> Transaction ()
 appendReflog :: Entry CausalHashId Text -> Transaction ()
 getReflog :: Int -> Transaction [Entry CausalHashId Text]
 
@@ -1297,6 +1335,12 @@ data NamesByPath
 NamesByPath :: [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef Reference] -> NamesByPath
 [$sel:termNamesInPath:NamesByPath] :: NamesByPath -> [NamedRef (Referent, Maybe ConstructorType)]
 [$sel:typeNamesInPath:NamesByPath] :: NamesByPath -> [NamedRef Reference]
+
+-- | Check whether we've already got an index for a given causal hash.
+checkBranchHashNameLookupExists :: BranchHash -> Transaction Bool
+
+-- | Apply a set of name updates to an existing index.
+buildNameLookupForBranchHash :: Maybe BranchHash -> BranchHash -> ([NamedRef (Referent, Maybe ConstructorType)], [NamedRef Referent]) -> ([NamedRef Reference], [NamedRef Reference]) -> Transaction ()
 
 -- | Gets the specified number of reflog entries in chronological order,
 --   most recent first.
