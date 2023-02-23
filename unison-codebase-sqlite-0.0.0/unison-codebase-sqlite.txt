@@ -1053,12 +1053,6 @@ objectIdByBase32Prefix :: ObjectType -> Text -> Transaction [ObjectId]
 namespaceHashIdByBase32Prefix :: Text -> Transaction [BranchHashId]
 causalHashIdByBase32Prefix :: Text -> Transaction [CausalHashId]
 
--- | Ensure the name lookup tables exist.
---   
---   These tables will be deprecated in favour of
---   ensureScopedNameLookupTables once we've migrated all the indexes over.
-ensureNameLookupTables :: Transaction ()
-
 -- | Copies existing name lookup rows but replaces their branch hash id;
 --   This is a low-level operation used as part of deriving a new name
 --   lookup index from an existing one as performantly as possible.
@@ -1068,18 +1062,6 @@ copyScopedNameLookup :: BranchHashId -> BranchHashId -> Transaction ()
 --   where a bug has caused the name lookup index to go out of sync this
 --   can be used to get back to a clean slate.
 dropNameLookupTables :: Transaction ()
-
--- | Insert the given set of term names into the name lookup table
-insertTermNames :: [NamedRef (TextReferent, Maybe ConstructorType)] -> Transaction ()
-
--- | Insert the given set of type names into the name lookup table
-insertTypeNames :: [NamedRef TextReference] -> Transaction ()
-
--- | Remove the given set of term names into the name lookup table
-removeTermNames :: [NamedRef TextReferent] -> Transaction ()
-
--- | Remove the given set of term names into the name lookup table
-removeTypeNames :: [NamedRef TextReference] -> Transaction ()
 
 -- | Insert the given set of term names into the name lookup table
 insertScopedTermNames :: BranchHashId -> [NamedRef (TextReferent, Maybe ConstructorType)] -> Transaction ()
@@ -1095,15 +1077,11 @@ removeScopedTypeNames :: BranchHashId -> [NamedRef TextReference] -> Transaction
 
 -- | Get the list of a term names in the root namespace according to the
 --   name lookup index
-rootTermNamesByPath :: Maybe Text -> Transaction [NamedRef (TextReferent, Maybe ConstructorType)]
+termNamesWithinNamespace :: BranchHashId -> Maybe Text -> Transaction [NamedRef (TextReferent, Maybe ConstructorType)]
 
 -- | Get the list of a type names in the root namespace according to the
 --   name lookup index
-rootTypeNamesByPath :: Maybe Text -> Transaction [NamedRef TextReference]
-
--- | Gets the count of all definitions within the given namespace. NOTE:
---   This requires a working name lookup index.
-getNamespaceDefinitionCount :: Text -> Transaction Int
+typeNamesWithinNamespace :: BranchHashId -> Maybe Text -> Transaction [NamedRef TextReference]
 
 -- | Check if we've already got an index for the desired root branch hash.
 checkBranchHashNameLookupExists :: BranchHashId -> Transaction Bool
@@ -1325,11 +1303,9 @@ termsHavingType :: Reference -> Transaction (Set Id)
 addTypeMentionsToIndexForTerm :: Id -> Set Reference -> Transaction ()
 termsMentioningType :: Reference -> Transaction (Set Id)
 
--- | Given lists of names to add and remove, update the index accordingly.
-updateNameIndex :: ([NamedRef (Referent, Maybe ConstructorType)], [NamedRef Referent]) -> ([NamedRef Reference], [NamedRef Reference]) -> Transaction ()
-
 -- | Get all the term and type names for the root namespace from the lookup
---   table.
+--   table. Requires that an index for this branch hash already exists,
+--   which is currently only true on Share.
 rootNamesByPath :: Maybe Text -> Transaction NamesByPath
 data NamesByPath
 NamesByPath :: [NamedRef (Referent, Maybe ConstructorType)] -> [NamedRef Reference] -> NamesByPath

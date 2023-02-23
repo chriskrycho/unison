@@ -2830,9 +2830,9 @@ Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> En
 [$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
 [$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
 [$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2W6u loc_a2W6v. Lens' (Env v_a2W6u loc_a2W6v) (TypeLookup v_a2W6u loc_a2W6v)
-termsByShortname :: forall v_a2W6u loc_a2W6v. Lens' (Env v_a2W6u loc_a2W6v) (Map Name [NamedReference v_a2W6u loc_a2W6v])
-ambientAbilities :: forall v_a2W6u loc_a2W6v. Lens' (Env v_a2W6u loc_a2W6v) [Type v_a2W6u loc_a2W6v]
+typeLookup :: forall v_a2W6n loc_a2W6o. Lens' (Env v_a2W6n loc_a2W6o) (TypeLookup v_a2W6n loc_a2W6o)
+termsByShortname :: forall v_a2W6n loc_a2W6o. Lens' (Env v_a2W6n loc_a2W6o) (Map Name [NamedReference v_a2W6n loc_a2W6o])
+ambientAbilities :: forall v_a2W6n loc_a2W6o. Lens' (Env v_a2W6n loc_a2W6o) [Type v_a2W6n loc_a2W6o]
 
 -- | Infer the type of a <a>Term</a>, using a function to resolve the type
 --   of <tt>Ref</tt> constructors contained in that term.
@@ -3638,7 +3638,7 @@ module Unison.Codebase.Type
 
 -- | Abstract interface to a user's codebase.
 data Codebase m v a
-Codebase :: (Id -> Transaction (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> m (Branch m) -> (Text -> Branch m -> m ()) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> Id -> Transaction (Maybe (Term v a))) -> (Reference -> Transaction (Set Id)) -> (Reference -> Transaction (Set Id)) -> (ShortHash -> Transaction (Set Id)) -> (Path -> Maybe BranchHash -> BranchHash -> Transaction ()) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
+Codebase :: (Id -> Transaction (Maybe (Term v a))) -> (Id -> Transaction (Maybe (Type v a))) -> (Id -> Transaction (Maybe (Decl v a))) -> (Reference -> m ConstructorType) -> (Id -> Term v a -> Type v a -> Transaction ()) -> (Hash -> [(Term v a, Type v a)] -> Transaction ()) -> (Id -> Decl v a -> Transaction ()) -> (Hash -> [Decl v a] -> Transaction ()) -> (Hash -> Transaction (Maybe [(Term v a, Type v a)])) -> m (Branch m) -> (Text -> Branch m -> m ()) -> (CausalHash -> m (Maybe (Branch m))) -> (Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (CodebasePath -> SyncMode -> Branch m -> m ()) -> (forall r. ReadGitRemoteNamespace -> GitBranchBehavior -> ((Branch m, CodebasePath) -> m r) -> m (Either GitError r)) -> (forall e. WriteGitRepo -> PushGitBranchOpts -> (Branch m -> m (Either e (Branch m))) -> m (Either GitError (Either e (Branch m)))) -> (WatchKind -> Id -> Transaction (Maybe (Term v a))) -> (Reference -> Transaction (Set Id)) -> (Reference -> Transaction (Set Id)) -> (ShortHash -> Transaction (Set Id)) -> (forall x. (Connection -> m x) -> m x) -> (forall x. (Connection -> IO x) -> IO x) -> Codebase m v a
 
 -- | Get a user-defined term from the codebase.
 --   
@@ -3722,7 +3722,6 @@ Codebase :: (Id -> Transaction (Maybe (Term v a))) -> (Id -> Transaction (Maybe 
 -- | Get the set of user-defined terms-or-constructors whose hash matches
 --   the given prefix.
 [$sel:termReferentsByPrefix:Codebase] :: Codebase m v a -> ShortHash -> Transaction (Set Id)
-[$sel:updateNameLookup:Codebase] :: Codebase m v a -> Path -> Maybe BranchHash -> BranchHash -> Transaction ()
 
 -- | Acquire a new connection to the same underlying database file this
 --   codebase object connects to.
@@ -3837,68 +3836,6 @@ referent2toshorthash1 :: Maybe Int -> Referent -> ShortHash
 --   length hash.
 reference2toshorthash1 :: Maybe Int -> Reference -> ShortHash
 
-module Unison.Codebase.BranchUtil
-
--- | Creates a branch containing all of the given names, with a single
---   history node.
-fromNames :: Monad m => Names -> Branch m
-getBranch :: Split -> Branch0 m -> Maybe (Branch m)
-getTerm :: HQSplit -> Branch0 m -> Set Referent
-getType :: HQSplit -> Branch0 m -> Set Reference
-getTermMetadataAt :: (Path, a) -> Referent -> Branch0 m -> Metadata
-getTypeMetadataAt :: (Path, a) -> Reference -> Branch0 m -> Metadata
-getTermMetadataHQNamed :: (Path, HQSegment) -> Branch0 m -> R4 Referent NameSegment
-getTypeMetadataHQNamed :: (Path, HQSegment) -> Branch0 m -> R4 Reference NameSegment
-makeSetBranch :: Split -> Branch m -> (Path, Branch0 m -> Branch0 m)
-makeAddTypeName :: Split -> Reference -> Metadata -> (Path, Branch0 m -> Branch0 m)
-makeDeleteTypeName :: Split -> Reference -> (Path, Branch0 m -> Branch0 m)
-makeAddTermName :: Split -> Referent -> Metadata -> (Path, Branch0 m -> Branch0 m)
-makeDeleteTermName :: Split -> Referent -> (Path, Branch0 m -> Branch0 m)
-makeDeletePatch :: Split -> (Path, Branch0 m -> Branch0 m)
-makeReplacePatch :: Applicative m => Split -> Patch -> (Path, Branch0 m -> Branch0 m)
-
-module Unison.Codebase.BranchDiff
-data DiffType a
-Create :: a -> DiffType a
-Delete :: a -> DiffType a
-Modify :: a -> DiffType a
-data NamespaceSlice r
-NamespaceSlice :: Relation r Name -> Relation3 r Name Value -> NamespaceSlice r
-[$sel:names:NamespaceSlice] :: NamespaceSlice r -> Relation r Name
-[$sel:metadata:NamespaceSlice] :: NamespaceSlice r -> Relation3 r Name Value
-data DiffSlice r
-DiffSlice :: Map Name (Set r, Set r) -> Relation r Name -> Relation r Name -> Map r (Set Name, Set Name) -> Relation3 r Name Value -> Relation3 r Name Value -> DiffSlice r
-[$sel:tallnamespaceUpdates:DiffSlice] :: DiffSlice r -> Map Name (Set r, Set r)
-[$sel:talladds:DiffSlice] :: DiffSlice r -> Relation r Name
-[$sel:tallremoves:DiffSlice] :: DiffSlice r -> Relation r Name
-[$sel:trenames:DiffSlice] :: DiffSlice r -> Map r (Set Name, Set Name)
-[$sel:taddedMetadata:DiffSlice] :: DiffSlice r -> Relation3 r Name Value
-[$sel:tremovedMetadata:DiffSlice] :: DiffSlice r -> Relation3 r Name Value
-data BranchDiff
-BranchDiff :: DiffSlice Referent -> DiffSlice Reference -> Map Name (DiffType PatchDiff) -> BranchDiff
-[$sel:termsDiff:BranchDiff] :: BranchDiff -> DiffSlice Referent
-[$sel:typesDiff:BranchDiff] :: BranchDiff -> DiffSlice Reference
-[$sel:patchesDiff:BranchDiff] :: BranchDiff -> Map Name (DiffType PatchDiff)
-diff0 :: forall m. Monad m => Branch0 m -> Branch0 m -> m BranchDiff
-patchDiff :: forall m. Monad m => Branch0 m -> Branch0 m -> m (Map Name (DiffType PatchDiff))
-deepr4ToSlice :: Ord r => Relation r Name -> R4 r Name -> NamespaceSlice r
-computeSlices :: NamespaceSlice Referent -> NamespaceSlice Referent -> NamespaceSlice Reference -> NamespaceSlice Reference -> (DiffSlice Referent, DiffSlice Reference)
-namespaceUpdates :: Ord r => DiffSlice r -> Map Name (Set r, Set r)
-propagatedUpdates :: Ord r => DiffSlice r -> Map Name (Set r)
-instance GHC.Show.Show a => GHC.Show.Show (Unison.Codebase.BranchDiff.DiffType a)
-instance GHC.Show.Show r => GHC.Show.Show (Unison.Codebase.BranchDiff.NamespaceSlice r)
-instance GHC.Show.Show r => GHC.Show.Show (Unison.Codebase.BranchDiff.DiffSlice r)
-instance GHC.Generics.Generic (Unison.Codebase.BranchDiff.DiffSlice r)
-instance GHC.Show.Show Unison.Codebase.BranchDiff.BranchDiff
-instance GHC.Generics.Generic Unison.Codebase.BranchDiff.BranchDiff
-
-module Unison.Codebase.Branch.Names
-findHistoricalHQs :: Monad m => Set (HashQualified Name) -> Branch m -> m (Set (HashQualified Name), Names)
-findHistoricalRefs :: Monad m => Set LabeledDependency -> Branch m -> m (Set LabeledDependency, Names)
-findHistoricalRefs' :: Monad m => Set Reference -> Branch m -> m (Set Reference, Names)
-namesDiff :: Branch m -> Branch m -> Diff
-toNames :: Branch0 m -> Names
-
 
 -- | This module contains sqlite-specific operations on high-level
 --   "parser-typechecker" types all in the Transaction monad.
@@ -4012,33 +3949,9 @@ before :: CausalHash -> CausalHash -> Transaction Bool
 --   so).
 namesAtPath :: Path -> Path -> Transaction ScopedNames
 
--- | Update the root namespace names index which is used by the share
---   server for serving api requests.
-updateNameLookupIndex :: (Reference -> Transaction ConstructorType) -> Path -> Maybe BranchHash -> BranchHash -> Transaction ()
-
 -- | Add an index for the provided branch hash if one doesn't already
 --   exist.
 ensureNameLookupForBranchHash :: (Reference -> Transaction ConstructorType) -> Maybe BranchHash -> BranchHash -> Transaction ()
-
--- | Compute the root namespace names index which is used by the share
---   server for serving api requests. Using <a>updateNameLookupIndex</a> is
---   preferred whenever possible, since it's considerably faster. This can
---   be used to reset the index if it ever gets out of sync due to a bug.
---   
---   This version can be used if you've already got the root Branch
---   pre-loaded, otherwise it's faster to use
---   <a>initializeNameLookupIndexFromV2Root</a>
-initializeNameLookupIndexFromV1Branch :: Branch Transaction -> Transaction ()
-
--- | Compute the root namespace names index which is used by the share
---   server for serving api requests. Using <a>updateNameLookupIndex</a> is
---   preferred whenever possible, since it's considerably faster. This can
---   be used to reset the index if it ever gets out of sync due to a bug.
---   
---   This version should be used if you don't already have the root Branch
---   pre-loaded, If you do, use
---   <a>initializeNameLookupIndexFromV1Branch</a> instead.
-initializeNameLookupIndexFromV2Root :: (Reference -> Transaction ConstructorType) -> Transaction ()
 
 -- | Given a transaction, return a transaction that first checks a
 --   semispace cache of the given size.
@@ -4066,6 +3979,68 @@ instance GHC.Generics.Generic (Unison.Codebase.SqliteCodebase.Migrations.Migrate
 instance GHC.Base.Functor Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema1To2.SomeReference
 instance GHC.Classes.Eq ref => GHC.Classes.Eq (Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema1To2.SomeReference ref)
 instance GHC.Generics.Generic Unison.Codebase.SqliteCodebase.Migrations.MigrateSchema1To2.MigrationState
+
+module Unison.Codebase.BranchUtil
+
+-- | Creates a branch containing all of the given names, with a single
+--   history node.
+fromNames :: Monad m => Names -> Branch m
+getBranch :: Split -> Branch0 m -> Maybe (Branch m)
+getTerm :: HQSplit -> Branch0 m -> Set Referent
+getType :: HQSplit -> Branch0 m -> Set Reference
+getTermMetadataAt :: (Path, a) -> Referent -> Branch0 m -> Metadata
+getTypeMetadataAt :: (Path, a) -> Reference -> Branch0 m -> Metadata
+getTermMetadataHQNamed :: (Path, HQSegment) -> Branch0 m -> R4 Referent NameSegment
+getTypeMetadataHQNamed :: (Path, HQSegment) -> Branch0 m -> R4 Reference NameSegment
+makeSetBranch :: Split -> Branch m -> (Path, Branch0 m -> Branch0 m)
+makeAddTypeName :: Split -> Reference -> Metadata -> (Path, Branch0 m -> Branch0 m)
+makeDeleteTypeName :: Split -> Reference -> (Path, Branch0 m -> Branch0 m)
+makeAddTermName :: Split -> Referent -> Metadata -> (Path, Branch0 m -> Branch0 m)
+makeDeleteTermName :: Split -> Referent -> (Path, Branch0 m -> Branch0 m)
+makeDeletePatch :: Split -> (Path, Branch0 m -> Branch0 m)
+makeReplacePatch :: Applicative m => Split -> Patch -> (Path, Branch0 m -> Branch0 m)
+
+module Unison.Codebase.BranchDiff
+data DiffType a
+Create :: a -> DiffType a
+Delete :: a -> DiffType a
+Modify :: a -> DiffType a
+data NamespaceSlice r
+NamespaceSlice :: Relation r Name -> Relation3 r Name Value -> NamespaceSlice r
+[$sel:names:NamespaceSlice] :: NamespaceSlice r -> Relation r Name
+[$sel:metadata:NamespaceSlice] :: NamespaceSlice r -> Relation3 r Name Value
+data DiffSlice r
+DiffSlice :: Map Name (Set r, Set r) -> Relation r Name -> Relation r Name -> Map r (Set Name, Set Name) -> Relation3 r Name Value -> Relation3 r Name Value -> DiffSlice r
+[$sel:tallnamespaceUpdates:DiffSlice] :: DiffSlice r -> Map Name (Set r, Set r)
+[$sel:talladds:DiffSlice] :: DiffSlice r -> Relation r Name
+[$sel:tallremoves:DiffSlice] :: DiffSlice r -> Relation r Name
+[$sel:trenames:DiffSlice] :: DiffSlice r -> Map r (Set Name, Set Name)
+[$sel:taddedMetadata:DiffSlice] :: DiffSlice r -> Relation3 r Name Value
+[$sel:tremovedMetadata:DiffSlice] :: DiffSlice r -> Relation3 r Name Value
+data BranchDiff
+BranchDiff :: DiffSlice Referent -> DiffSlice Reference -> Map Name (DiffType PatchDiff) -> BranchDiff
+[$sel:termsDiff:BranchDiff] :: BranchDiff -> DiffSlice Referent
+[$sel:typesDiff:BranchDiff] :: BranchDiff -> DiffSlice Reference
+[$sel:patchesDiff:BranchDiff] :: BranchDiff -> Map Name (DiffType PatchDiff)
+diff0 :: forall m. Monad m => Branch0 m -> Branch0 m -> m BranchDiff
+patchDiff :: forall m. Monad m => Branch0 m -> Branch0 m -> m (Map Name (DiffType PatchDiff))
+deepr4ToSlice :: Ord r => Relation r Name -> R4 r Name -> NamespaceSlice r
+computeSlices :: NamespaceSlice Referent -> NamespaceSlice Referent -> NamespaceSlice Reference -> NamespaceSlice Reference -> (DiffSlice Referent, DiffSlice Reference)
+namespaceUpdates :: Ord r => DiffSlice r -> Map Name (Set r, Set r)
+propagatedUpdates :: Ord r => DiffSlice r -> Map Name (Set r)
+instance GHC.Show.Show a => GHC.Show.Show (Unison.Codebase.BranchDiff.DiffType a)
+instance GHC.Show.Show r => GHC.Show.Show (Unison.Codebase.BranchDiff.NamespaceSlice r)
+instance GHC.Show.Show r => GHC.Show.Show (Unison.Codebase.BranchDiff.DiffSlice r)
+instance GHC.Generics.Generic (Unison.Codebase.BranchDiff.DiffSlice r)
+instance GHC.Show.Show Unison.Codebase.BranchDiff.BranchDiff
+instance GHC.Generics.Generic Unison.Codebase.BranchDiff.BranchDiff
+
+module Unison.Codebase.Branch.Names
+findHistoricalHQs :: Monad m => Set (HashQualified Name) -> Branch m -> m (Set (HashQualified Name), Names)
+findHistoricalRefs :: Monad m => Set LabeledDependency -> Branch m -> m (Set LabeledDependency, Names)
+findHistoricalRefs' :: Monad m => Set Reference -> Branch m -> m (Set Reference, Names)
+namesDiff :: Branch m -> Branch m -> Diff
+toNames :: Branch0 m -> Names
 
 module Unison.Codebase.Branch.Merge
 data MergeMode
