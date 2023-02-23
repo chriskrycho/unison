@@ -4443,9 +4443,9 @@ checkCodebaseIsUpToDate :: Transaction CodebaseVersionStatus
 --   is newer than this ucm knows about.
 ensureCodebaseIsUpToDate :: MonadIO m => LocalOrRemote -> CodebasePath -> (Reference -> Transaction ConstructorType) -> TVar (Map Hash TermBufferEntry) -> TVar (Map Hash DeclBufferEntry) -> Bool -> BackupStrategy -> Connection -> m (Either OpenCodebaseError ())
 
--- | Copy the sqlite database to a new file with a unique name based on
---   current time.
-backupCodebase :: Connection -> SchemaVersion -> CodebasePath -> Bool -> IO ()
+-- | If we need to make a backup, then copy the sqlite database to a new
+--   file with a unique name based on current time.
+backupCodebaseIfNecessary :: BackupStrategy -> LocalOrRemote -> Connection -> SchemaVersion -> SchemaVersion -> CodebasePath -> IO ()
 instance GHC.Show.Show Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
 instance GHC.Classes.Ord Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
 instance GHC.Classes.Eq Unison.Codebase.SqliteCodebase.Migrations.CodebaseVersionStatus
