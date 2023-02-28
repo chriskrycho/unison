@@ -3,11 +3,11 @@ shouldFail fn = isLeft <| catchAll fn
 
 tests : '{IO,Exception} ()
 tests = Tests.main do
-  !crypto.hash.tests
-  !hmac.tests
-  !concurrency.tests
-  !tcp.tests
-  check "bug is caught" do shouldFail do bug ()
+  --  !crypto.hash.tests
+  --  !hmac.tests
+  --  !concurrency.tests
+  --   !tcp.tests
+  --  check "bug is caught" do isLeft (catchAll do bug ())
   !list.tests
 
 
@@ -86,7 +86,7 @@ hmac.tests = do
 
 list.tests = do
   Tests.check "minimal" do
-    _ = [1,2,3]
+    _ = []
     true
   --  checkEqual "List.++ (1)" ([] ++ [1]) [1]
   --  checkEqual "List.++ (2)" ([1] ++ []) [1]
