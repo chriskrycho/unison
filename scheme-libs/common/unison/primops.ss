@@ -171,6 +171,7 @@
   (import (rnrs)
           (unison core)
           (unison data)
+          (unison data vector-trie)
           (unison string)
           (unison crypto)
           (unison data)
@@ -198,7 +199,7 @@
   ; Core implemented primops, upon which primops-in-unison can be built.
   (define (unison-POp-ADDN m n) (fx+ m n))
   (define (unison-POp-ANDN m n) (fxand m n))
-  (define unison-POp-BLDS list)
+  (define unison-POp-BLDS (lambda (x) empty-vector-trie))
   (define (unison-POp-CATS l r) (append l r))
   (define (unison-POp-CATT l r) (istring-append l r))
   (define (unison-POp-CMPU l r) (universal-compare l r))
