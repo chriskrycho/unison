@@ -632,6 +632,168 @@ module Unison.CodebasePath
 type CodebasePath = FilePath
 getCodebaseDir :: MonadIO m => Maybe CodebasePath -> m CodebasePath
 
+module Unison.PatternMatchCoverage.Fix
+newtype Fix f
+Fix :: f (Fix f) -> Fix f
+[$sel:unFix:Fix] :: Fix f -> f (Fix f)
+cata :: Functor f => (f a -> a) -> Fix f -> a
+para :: Functor f => (f (Fix f, a) -> a) -> Fix f -> a
+instance (forall a. GHC.Show.Show a => GHC.Show.Show (f a)) => GHC.Show.Show (Unison.PatternMatchCoverage.Fix.Fix f)
+instance (forall a. GHC.Classes.Eq a => GHC.Classes.Eq (f a)) => GHC.Classes.Eq (Unison.PatternMatchCoverage.Fix.Fix f)
+instance (GHC.Classes.Eq (Unison.PatternMatchCoverage.Fix.Fix f), forall a. GHC.Classes.Ord a => GHC.Classes.Ord (f a)) => GHC.Classes.Ord (Unison.PatternMatchCoverage.Fix.Fix f)
+
+module Unison.PatternMatchCoverage.GrdTree
+
+-- | A <tt>GrdTree</tt> is the simple language to desugar matches into. All
+--   pattern matching constructs (<i>e.g.</i> structural pattern matching,
+--   boolean guards, pattern guards, view patterns, etc) are desugared into
+--   this simpler structure.
+--   
+--   It is parameterized by the values at guard nodes, <tt>n</tt>, and the
+--   values at the leaves, <tt>l</tt>. When desugaring, <tt>n</tt> is
+--   <a>PmGrd</a> and <tt>l</tt> is the source location. After annotating
+--   the <tt>GrdTree</tt>, <tt>n</tt> is a refinement type representing
+--   matching values and the <tt>l</tt> is pairs of the aforementioned
+--   refinement type and source location.
+--   
+--   For example:
+--   
+--   <pre>
+--   example : Optional Nat -&gt; Nat
+--   example = cases
+--     None -&gt; 0
+--     Some x
+--       | isEven x -&gt; 0
+--       | otherwise -&gt; 1
+--   </pre>
+--   
+--   is desugared into
+--   
+--   <pre>
+--   ──┬─ None &lt;- v0 ── srcloc
+--     ├─ Some ( v1 :: ##Nat ) &lt;- v0 ── let v2 = isEven v1 ── True &lt;- v2 ── srcloc
+--     └─ Some ( v3 :: ##Nat ) &lt;- v0 ── srcloc
+--   </pre>
+type GrdTree n l = Fix (GrdTreeF n l)
+data GrdTreeF n l a
+
+-- | A successful match
+LeafF :: l -> GrdTreeF n l a
+
+-- | A constraint of some kind (structural pattern match, boolan guard,
+--   etc)
+GrdF :: n -> a -> GrdTreeF n l a
+
+-- | A list of alternative matches, tried in order
+ForkF :: NonEmpty a -> GrdTreeF n l a
+pattern Leaf :: l -> GrdTree n l
+pattern Grd :: n -> GrdTree n l -> GrdTree n l
+pattern Fork :: NonEmpty (GrdTree n l) -> GrdTree n l
+prettyGrdTree :: forall n l s. (ListLike s Char, IsString s) => (n -> Pretty s) -> (l -> Pretty s) -> GrdTree n l -> Pretty s
+instance (GHC.Show.Show l, GHC.Show.Show n, GHC.Show.Show a) => GHC.Show.Show (Unison.PatternMatchCoverage.GrdTree.GrdTreeF n l a)
+instance GHC.Base.Functor (Unison.PatternMatchCoverage.GrdTree.GrdTreeF n l)
+
+module Unison.PatternMatchCoverage.IntervalSet
+data IntervalSet
+empty :: IntervalSet
+singleton :: (Int, Int) -> IntervalSet
+fromList :: [(Int, Int)] -> IntervalSet
+
+-- | insert inclusive bounds interval into set
+insert :: (Int, Int) -> IntervalSet -> IntervalSet
+delete :: (Int, Int) -> IntervalSet -> IntervalSet
+difference :: IntervalSet -> IntervalSet -> IntervalSet
+intersection :: IntervalSet -> IntervalSet -> IntervalSet
+complement :: IntervalSet -> IntervalSet
+null :: IntervalSet -> Bool
+member :: Int -> IntervalSet -> Bool
+extractSingleton :: IntervalSet -> Maybe Int
+intersectIntervals :: (Int, Int) -> (Int, Int) -> Maybe (Int, Int)
+map :: ((Int, Int) -> (Int, Int)) -> IntervalSet -> IntervalSet
+foldr :: (Int -> Int -> b -> b) -> b -> IntervalSet -> b
+lookupMin :: IntervalSet -> Maybe Int
+lookupMax :: IntervalSet -> Maybe Int
+instance GHC.Classes.Ord Unison.PatternMatchCoverage.IntervalSet.IntervalSet
+instance GHC.Classes.Eq Unison.PatternMatchCoverage.IntervalSet.IntervalSet
+instance GHC.Show.Show Unison.PatternMatchCoverage.IntervalSet.IntervalSet
+
+module Unison.PatternMatchCoverage.ListPat
+data ListPat
+Cons :: ListPat
+Snoc :: ListPat
+Nil :: ListPat
+prettyListPat :: ListPat -> Pretty ColorText
+instance GHC.Classes.Ord Unison.PatternMatchCoverage.ListPat.ListPat
+instance GHC.Classes.Eq Unison.PatternMatchCoverage.ListPat.ListPat
+instance GHC.Show.Show Unison.PatternMatchCoverage.ListPat.ListPat
+
+module Unison.PatternMatchCoverage.Class
+
+-- | A typeclass for the queries required to perform pattern match coverage
+--   checking.
+class (Ord loc, Var vt, Var v, MonadFix m) => Pmc vt v loc m | m -> vt v loc
+
+-- | Get the constructors of a type
+getConstructors :: Pmc vt v loc m => Type vt loc -> m (EnumeratedConstructors vt v loc)
+
+-- | Get the types of the arguments of a specific constructor
+getConstructorVarTypes :: Pmc vt v loc m => Type vt loc -> ConstructorReference -> m [Type vt loc]
+
+-- | Get a fresh variable
+fresh :: Pmc vt v loc m => m v
+data EnumeratedConstructors vt v loc
+ConstructorType :: [(v, ConstructorReference, Type vt loc)] -> EnumeratedConstructors vt v loc
+SequenceType :: [(ListPat, [Type vt loc])] -> EnumeratedConstructors vt v loc
+BooleanType :: EnumeratedConstructors vt v loc
+OtherType :: EnumeratedConstructors vt v loc
+traverseConstructors :: Applicative f => (v -> ConstructorReference -> Type vt loc -> f (v, ConstructorReference, Type vt loc)) -> EnumeratedConstructors vt v loc -> f (EnumeratedConstructors vt v loc)
+instance (GHC.Show.Show v, GHC.Show.Show vt) => GHC.Show.Show (Unison.PatternMatchCoverage.Class.EnumeratedConstructors vt v loc)
+
+module Unison.PatternMatchCoverage.PmLit
+data PmLit
+Int :: Int64 -> PmLit
+Nat :: Word64 -> PmLit
+Boolean :: Bool -> PmLit
+Float :: Double -> PmLit
+Text :: Text -> PmLit
+Char :: Char -> PmLit
+prettyPmLit :: IsString s => PmLit -> Pretty s
+instance GHC.Classes.Ord Unison.PatternMatchCoverage.PmLit.PmLit
+instance GHC.Classes.Eq Unison.PatternMatchCoverage.PmLit.PmLit
+instance GHC.Show.Show Unison.PatternMatchCoverage.PmLit.PmLit
+
+module Unison.PatternMatchCoverage.UFMap
+
+-- | A union-find structure. Used by <a>NormalizedConstraints</a> to
+--   provide efficient unification.
+data UFMap k v
+data UFValue k v
+
+-- | This is not the canonical value, lookup k in the map to try again
+Indirection :: !k -> UFValue k v
+
+-- | The number of elements in the equivalence class
+Canonical :: !Int -> !v -> UFValue k v
+empty :: UFMap k v
+
+-- | Lookup the canonical value
+lookupCanon :: Ord k => k -> UFMap k v -> Maybe (k, Int, v, UFMap k v)
+insert :: Ord k => k -> v -> UFMap k v -> UFMap k v
+union :: forall m k v r. (MonadFix m, Ord k) => k -> k -> UFMap k v -> (k -> v -> UFMap k v -> m (Maybe r)) -> m (Maybe r)
+alterF :: forall f k v. (Functor f, Ord k) => k -> f (Maybe v) -> (k -> Int -> v -> f (UFValue k v)) -> UFMap k v -> f (UFMap k v)
+alter :: forall k v. Ord k => k -> Maybe v -> (k -> Int -> v -> UFValue k v) -> UFMap k v -> UFMap k v
+keys :: UFMap k v -> [k]
+
+-- | Dump the <tt>UFmap</tt> to a list grouped by equivalence class
+toClasses :: forall k v. Ord k => UFMap k v -> [(k, Set k, v)]
+instance (GHC.Show.Show k, GHC.Show.Show v) => GHC.Show.Show (Unison.PatternMatchCoverage.UFMap.UFValue k v)
+instance (GHC.Classes.Ord k, GHC.Classes.Ord v) => GHC.Classes.Ord (Unison.PatternMatchCoverage.UFMap.UFValue k v)
+instance (GHC.Classes.Eq k, GHC.Classes.Eq v) => GHC.Classes.Eq (Unison.PatternMatchCoverage.UFMap.UFValue k v)
+instance (GHC.Show.Show k, GHC.Show.Show v) => GHC.Show.Show (Unison.PatternMatchCoverage.UFMap.UFMap k v)
+instance (GHC.Classes.Ord k, GHC.Classes.Ord v) => GHC.Classes.Ord (Unison.PatternMatchCoverage.UFMap.UFMap k v)
+instance (GHC.Classes.Eq k, GHC.Classes.Eq v) => GHC.Classes.Eq (Unison.PatternMatchCoverage.UFMap.UFMap k v)
+instance GHC.Base.Functor (Unison.PatternMatchCoverage.UFMap.UnionValue k v)
+
 module Unison.PrettyPrintEnv
 data PrettyPrintEnv
 PrettyPrintEnv :: (Referent -> [(HashQualified Name, HashQualified Name)]) -> (Reference -> [(HashQualified Name, HashQualified Name)]) -> PrettyPrintEnv
@@ -2435,469 +2597,170 @@ prettySignaturesAlt :: Var v => PrettyPrintEnv -> [([HashQualified Name], Type v
 prettySignaturesAlt' :: Var v => PrettyPrintEnv -> [([HashQualified Name], Type v a)] -> [Pretty ColorText]
 runPretty :: Var v => PrettyPrintEnv -> Reader (PrettyPrintEnv, Set v) a -> a
 
-module Unison.Typechecker.Context
+module Unison.PatternMatchCoverage.PmGrd
+data PmGrd vt v loc
 
--- | public interface to the typechecker
-synthesizeClosed :: (Var v, Ord loc) => [Type v loc] -> TypeLookup v loc -> Term v loc -> Result v loc (Type v loc)
-data ErrorNote v loc
-ErrorNote :: Cause v loc -> Seq (PathElement v loc) -> ErrorNote v loc
-[$sel:cause:ErrorNote] :: ErrorNote v loc -> Cause v loc
-[$sel:path:ErrorNote] :: ErrorNote v loc -> Seq (PathElement v loc)
-data CompilerBug v loc
-UnknownDecl :: Unknown -> Reference -> Map Reference (DataDeclaration v loc) -> CompilerBug v loc
-UnknownConstructor :: Unknown -> ConstructorReference -> DataDeclaration v loc -> CompilerBug v loc
-UndeclaredTermVariable :: v -> Context v loc -> CompilerBug v loc
-RetractFailure :: Element v loc -> Context v loc -> CompilerBug v loc
-EmptyLetRec :: Term v loc -> CompilerBug v loc
-PatternMatchFailure :: CompilerBug v loc
-EffectConstructorHadMultipleEffects :: Type v loc -> CompilerBug v loc
-FreeVarsInTypeAnnotation :: Set (TypeVar v loc) -> CompilerBug v loc
-UnannotatedReference :: Reference -> CompilerBug v loc
-MalformedPattern :: Pattern loc -> CompilerBug v loc
-UnknownTermReference :: Reference -> CompilerBug v loc
-UnknownExistentialVariable :: v -> Context v loc -> CompilerBug v loc
-IllegalContextExtension :: Context v loc -> Element v loc -> String -> CompilerBug v loc
-OtherBug :: String -> CompilerBug v loc
-data InfoNote v loc
-SolvedBlank :: Recorded loc -> v -> Type v loc -> InfoNote v loc
-Decision :: v -> loc -> Term v loc -> InfoNote v loc
-TopLevelComponent :: [(v, Type v loc, RedundantTypeAnnotation)] -> InfoNote v loc
-data Cause v loc
-TypeMismatch :: Context v loc -> Cause v loc
-IllFormedType :: Context v loc -> Cause v loc
-UnknownSymbol :: loc -> v -> Cause v loc
-UnknownTerm :: loc -> v -> [Suggestion v loc] -> Type v loc -> Cause v loc
-AbilityCheckFailure :: [Type v loc] -> [Type v loc] -> Context v loc -> Cause v loc
-AbilityEqFailure :: [Type v loc] -> [Type v loc] -> Context v loc -> Cause v loc
-EffectConstructorWrongArgCount :: ExpectedArgCount -> ActualArgCount -> ConstructorReference -> Cause v loc
-MalformedEffectBind :: Type v loc -> Type v loc -> [Type v loc] -> Cause v loc
-PatternArityMismatch :: loc -> Type v loc -> Int -> Cause v loc
-DuplicateDefinitions :: NonEmpty (v, [loc]) -> Cause v loc
-UnguardedLetRecCycle :: [v] -> [(v, Term v loc)] -> Cause v loc
-ConcatPatternWithoutConstantLength :: loc -> Type v loc -> Cause v loc
-HandlerOfUnexpectedType :: loc -> Type v loc -> Cause v loc
-DataEffectMismatch :: Unknown -> Reference -> DataDeclaration v loc -> Cause v loc
-newtype Context v loc
-Context :: [(Element v loc, Info v loc)] -> Context v loc
-type ActualArgCount = Int
-type ExpectedArgCount = Int
-type ConstructorId = Word64
+-- | <tt>PmCon x Con xs ys</tt> corresponds to the constraint <tt>Con ys
+--   &lt;- x</tt>
+PmCon :: v -> ConstructorReference -> [(v, Type vt loc)] -> PmGrd vt v loc
+PmLit :: v -> PmLit -> PmGrd vt v loc
+PmListHead :: v -> Int -> v -> Type vt loc -> PmGrd vt v loc
+PmListTail :: v -> Int -> v -> Type vt loc -> PmGrd vt v loc
 
--- | Elements of an ordered algorithmic context
-data Element v loc
+-- | The size of the list must fall within this inclusive range
+PmListInterval :: v -> Int -> Int -> PmGrd vt v loc
 
--- | A variable declaration
-Var :: TypeVar v loc -> Element v loc
+-- | If a guard performs an effect
+PmBang :: v -> PmGrd vt v loc
 
--- | <tt>v</tt> is solved to some monotype
-Solved :: Blank loc -> v -> Monotype v loc -> Element v loc
+-- | <tt>PmLet x expr</tt> corresponds to a <tt>let x = expr</tt> guard.
+--   This actually <i>binds</i> <tt>x</tt>.
+PmLet :: v -> Term' vt v loc -> Type vt loc -> PmGrd vt v loc
+prettyPmGrd :: (Var vt, Var v) => PmGrd vt v loc -> Pretty ColorText
+instance (GHC.Show.Show v, GHC.Show.Show vt) => GHC.Show.Show (Unison.PatternMatchCoverage.PmGrd.PmGrd vt v loc)
 
--- | <tt>v</tt> has type <tt>a</tt>, maybe quantified
-Ann :: v -> Type v loc -> Element v loc
+module Unison.PatternMatchCoverage.Desugar
 
--- | used for scoping
-Marker :: v -> Element v loc
-data PathElement v loc
-InSynthesize :: Term v loc -> PathElement v loc
-InSubtype :: Type v loc -> Type v loc -> PathElement v loc
-InEquate :: Type v loc -> Type v loc -> PathElement v loc
-InCheck :: Term v loc -> Type v loc -> PathElement v loc
-InInstantiateL :: v -> Type v loc -> PathElement v loc
-InInstantiateR :: Type v loc -> v -> PathElement v loc
-InSynthesizeApp :: Type v loc -> Term v loc -> Int -> PathElement v loc
-InFunctionCall :: [v] -> Term v loc -> Type v loc -> [Term v loc] -> PathElement v loc
-InAndApp :: PathElement v loc
-InOrApp :: PathElement v loc
-InIfCond :: PathElement v loc
-InIfBody :: loc -> PathElement v loc
-InVectorApp :: loc -> PathElement v loc
-InMatch :: loc -> PathElement v loc
-InMatchGuard :: PathElement v loc
-InMatchBody :: PathElement v loc
-type Term v loc = Term' (TypeVar v loc) v loc
-type Type v loc = Type (TypeVar v loc) loc
-type TypeVar v loc = TypeVar (Blank loc) v
-data Result v loc a
-Success :: !Seq (InfoNote v loc) -> !a -> Result v loc a
-TypeError :: !NESeq (ErrorNote v loc) -> !Seq (InfoNote v loc) -> Result v loc a
-CompilerBug :: !CompilerBug v loc -> !Seq (ErrorNote v loc) -> !Seq (InfoNote v loc) -> Result v loc a
-errorTerms :: ErrorNote v loc -> [Term v loc]
-innermostErrorTerm :: ErrorNote v loc -> Maybe (Term v loc)
-lookupAnn :: Ord v => Context v loc -> v -> Maybe (Type v loc)
-lookupSolved :: Ord v => Context v loc -> v -> Maybe (Monotype v loc)
+-- | Desugar a match into a <a>GrdTree</a>
+desugarMatch :: forall loc vt v m. Pmc vt v loc m => loc -> Type vt loc -> v -> [MatchCase loc (Term' vt v loc)] -> m (GrdTree (PmGrd vt v loc) loc)
+instance GHC.Base.Functor (Unison.PatternMatchCoverage.Desugar.NormalizedListF loc)
 
--- | Replace any existentials with their solution in the context
-apply :: (Var v, Ord loc) => Context v loc -> Type v loc -> Type v loc
-isEqual :: (Var v, Ord loc) => Type v loc -> Type v loc -> Either (CompilerBug v loc) Bool
-isSubtype :: (Var v, Ord loc) => Type v loc -> Type v loc -> Either (CompilerBug v loc) Bool
-fitsScheme :: (Var v, Ord loc) => Type v loc -> Type v loc -> Either (CompilerBug v loc) Bool
-isRedundant :: (Var v, Ord loc) => Type v loc -> Type v loc -> M v loc Bool
-data Suggestion v loc
-Suggestion :: Text -> Type v loc -> Either v Referent -> SuggestionMatch -> Suggestion v loc
-[$sel:suggestionName:Suggestion] :: Suggestion v loc -> Text
-[$sel:suggestionType:Suggestion] :: Suggestion v loc -> Type v loc
-[$sel:suggestionReplacement:Suggestion] :: Suggestion v loc -> Either v Referent
-[$sel:suggestionMatch:Suggestion] :: Suggestion v loc -> SuggestionMatch
-data SuggestionMatch
-Exact :: SuggestionMatch
-WrongType :: SuggestionMatch
-WrongName :: SuggestionMatch
-isExact :: Suggestion v loc -> Bool
-typeErrors :: Result v loc a -> Seq (ErrorNote v loc)
-infoNotes :: Result v loc a -> Seq (InfoNote v loc)
-data Unknown
-Data :: Unknown
-Effect :: Unknown
-relax :: Var v => Ord loc => Type v loc -> Type v loc
-generalizeAndUnTypeVar :: Var v => Type v a -> Type v a
-instance GHC.Show.Show Unison.Typechecker.Context.Unknown
-instance (GHC.Show.Show v, GHC.Show.Show loc) => GHC.Show.Show (Unison.Typechecker.Context.PathElement v loc)
-instance GHC.Show.Show Unison.Typechecker.Context.SuggestionMatch
-instance GHC.Classes.Eq Unison.Typechecker.Context.SuggestionMatch
-instance GHC.Classes.Ord Unison.Typechecker.Context.SuggestionMatch
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Typechecker.Context.Suggestion v loc)
-instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Typechecker.Context.Suggestion v loc)
-instance (GHC.Show.Show loc, GHC.Show.Show v) => GHC.Show.Show (Unison.Typechecker.Context.InfoNote v loc)
-instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Context.Cause v loc)
-instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Context.ErrorNote v loc)
-instance (GHC.Show.Show loc, Unison.Var.Var v, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Context.CompilerBug v loc)
-instance GHC.Base.Functor (Unison.Typechecker.Context.Result v loc)
-instance GHC.Base.Functor f => GHC.Base.Functor (Unison.Typechecker.Context.MT v loc f)
-instance GHC.Base.Monad f => GHC.Base.Monad (Unison.Typechecker.Context.MT v loc f)
-instance GHC.Base.Monad f => Control.Monad.Fail.MonadFail (Unison.Typechecker.Context.MT v loc f)
-instance GHC.Base.Monad f => GHC.Base.Applicative (Unison.Typechecker.Context.MT v loc f)
-instance GHC.Base.Monad f => Control.Monad.State.Class.MonadState (Unison.Typechecker.Context.Env v loc) (Unison.Typechecker.Context.MT v loc f)
-instance GHC.Base.Applicative (Unison.Typechecker.Context.Result v loc)
-instance GHC.Base.Monad (Unison.Typechecker.Context.Result v loc)
-instance (GHC.Classes.Ord loc, Unison.Var.Var v) => GHC.Show.Show (Unison.Typechecker.Context.Context v loc)
-instance (GHC.Classes.Ord loc, Unison.Var.Var v) => GHC.Classes.Eq (Unison.Typechecker.Context.Element v loc)
-instance Unison.Var.Var v => GHC.Show.Show (Unison.Typechecker.Context.Element v loc)
+module Unison.PatternMatchCoverage.Constraint
 
-module Unison.Typechecker.Extractor
-type RedundantTypeAnnotation = Bool
-type Extractor e a = MaybeT (Reader e) a
-type ErrorExtractor v loc a = Extractor (ErrorNote v loc) a
-type InfoExtractor v loc a = Extractor (InfoNote v loc) a
-type PathExtractor v loc a = Extractor (PathElement v loc) a
-type SubseqExtractor v loc a = SubseqExtractor' (ErrorNote v loc) a
-extractor :: (e -> Maybe a) -> Extractor e a
-extract :: Extractor e a -> e -> Maybe a
-subseqExtractor :: (ErrorNote v loc -> [Ranged a]) -> SubseqExtractor v loc a
-traceSubseq :: Show a => String -> SubseqExtractor' n a -> SubseqExtractor' n a
-traceNote :: Show a => String -> ErrorExtractor v loc a -> ErrorExtractor v loc a
-unique :: SubseqExtractor v loc a -> ErrorExtractor v loc a
-data SubseqExtractor' n a
-SubseqExtractor' :: (n -> [Ranged a]) -> SubseqExtractor' n a
-[$sel:runSubseq:SubseqExtractor'] :: SubseqExtractor' n a -> n -> [Ranged a]
-data Ranged a
-Pure :: a -> Ranged a
-Ranged :: a -> Int -> Int -> Ranged a
-[$sel:get:Pure] :: Ranged a -> a
-[$sel:start:Pure] :: Ranged a -> Int
-[$sel:end:Pure] :: Ranged a -> Int
+-- | A constraint to add to a <a>normalized constraint set</a> (fig 6) See
+--   <a>addConstraint</a>
+data Constraint vt v loc
 
--- | collects the regions where <tt>xa</tt> doesn't match / aka invert a
---   set of intervals unused, but don't want to delete it yet - Aug 30,
---   2018
-_no :: SubseqExtractor' n a -> SubseqExtractor' n ()
-_any :: SubseqExtractor v loc ()
-_any' :: (n -> Int) -> SubseqExtractor' n ()
-data DistinctRanged a
-DistinctRanged :: a -> Int -> Int -> DistinctRanged a
-some :: forall n a. SubseqExtractor' n a -> SubseqExtractor' n [a]
-pathStart :: SubseqExtractor' n ()
-asPathExtractor :: (PathElement v loc -> Maybe a) -> SubseqExtractor v loc a
-inSynthesize :: SubseqExtractor v loc (Term v loc)
-inSubtype :: SubseqExtractor v loc (Type v loc, Type v loc)
-inEquate :: SubseqExtractor v loc (Type v loc, Type v loc)
-inCheck :: SubseqExtractor v loc (Term v loc, Type v loc)
-inSynthesizeApp :: SubseqExtractor v loc (Type v loc, Term v loc, Int)
-inFunctionCall :: SubseqExtractor v loc ([v], Term v loc, Type v loc, [Term v loc])
-inAndApp :: SubseqExtractor v loc ()
-inOrApp :: SubseqExtractor v loc ()
-inIfCond :: SubseqExtractor v loc ()
-inMatchGuard :: SubseqExtractor v loc ()
-inMatchBody :: SubseqExtractor v loc ()
-inMatch :: SubseqExtractor v loc loc
-inVector :: SubseqExtractor v loc loc
-inIfBody :: SubseqExtractor v loc loc
-cause :: ErrorExtractor v loc (Cause v loc)
-duplicateDefinitions :: ErrorExtractor v loc (NonEmpty (v, [loc]))
-typeMismatch :: ErrorExtractor v loc (Context v loc)
-illFormedType :: ErrorExtractor v loc (Context v loc)
-unknownSymbol :: ErrorExtractor v loc (loc, v)
-unknownTerm :: Var v => ErrorExtractor v loc (loc, v, [Suggestion v loc], Type v loc)
-abilityCheckFailure :: ErrorExtractor v loc ([Type v loc], [Type v loc], Context v loc)
-abilityEqFailure :: ErrorExtractor v loc ([Type v loc], [Type v loc], Context v loc)
-effectConstructorWrongArgCount :: ErrorExtractor v loc (ExpectedArgCount, ActualArgCount, ConstructorReference)
-malformedEffectBind :: ErrorExtractor v loc (Type v loc, Type v loc, [Type v loc])
-solvedBlank :: InfoExtractor v loc (Recorded loc, v, Type v loc)
-errorNote :: ErrorExtractor v loc (ErrorNote v loc)
-infoNote :: InfoExtractor v loc (InfoNote v loc)
-innermostTerm :: ErrorExtractor v loc (Term v loc)
-path :: ErrorExtractor v loc [PathElement v loc]
-topLevelComponent :: InfoExtractor v loc [(v, Type v loc, RedundantTypeAnnotation)]
-instance GHC.Show.Show a => GHC.Show.Show (Unison.Typechecker.Extractor.Ranged a)
-instance GHC.Base.Functor Unison.Typechecker.Extractor.Ranged
-instance GHC.Classes.Eq (Unison.Typechecker.Extractor.DistinctRanged a)
-instance GHC.Classes.Ord (Unison.Typechecker.Extractor.DistinctRanged a)
-instance GHC.Base.Functor (Unison.Typechecker.Extractor.SubseqExtractor' n)
-instance GHC.Base.Applicative (Unison.Typechecker.Extractor.SubseqExtractor' n)
-instance Control.Monad.Fail.MonadFail (Unison.Typechecker.Extractor.SubseqExtractor' n)
-instance GHC.Base.Monad (Unison.Typechecker.Extractor.SubseqExtractor' n)
-instance GHC.Base.Alternative (Unison.Typechecker.Extractor.SubseqExtractor' n)
-instance GHC.Base.MonadPlus (Unison.Typechecker.Extractor.SubseqExtractor' n)
-instance GHC.Base.Monoid (Unison.Typechecker.Extractor.SubseqExtractor' n a)
-instance GHC.Base.Semigroup (Unison.Typechecker.Extractor.SubseqExtractor' n a)
+-- | Positive constraint regarding data type. States that the given
+--   variable must be the given constructor, and it also binds variables
+--   corresponding to constructor arguments.
+PosCon :: v -> ConstructorReference -> [(v, Type vt loc)] -> Constraint vt v loc
 
-module Unison.Typechecker.TypeError
-data BooleanMismatch
-CondMismatch :: BooleanMismatch
-AndMismatch :: BooleanMismatch
-OrMismatch :: BooleanMismatch
-GuardMismatch :: BooleanMismatch
-data ExistentialMismatch
-IfBody :: ExistentialMismatch
-ListBody :: ExistentialMismatch
-CaseBody :: ExistentialMismatch
-data TypeError v loc
-Mismatch :: Type v loc -> Type v loc -> Type v loc -> Type v loc -> Term v loc -> ErrorNote v loc -> TypeError v loc
-[$sel:foundType:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:expectedType:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:foundLeaf:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:expectedLeaf:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:mismatchSite:Mismatch] :: TypeError v loc -> Term v loc
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-BooleanMismatch :: BooleanMismatch -> Term v loc -> Type v loc -> ErrorNote v loc -> TypeError v loc
-[$sel:getBooleanMismatch:Mismatch] :: TypeError v loc -> BooleanMismatch
-[$sel:mismatchSite:Mismatch] :: TypeError v loc -> Term v loc
-[$sel:foundType:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-ExistentialMismatch :: ExistentialMismatch -> Type v loc -> loc -> Type v loc -> Term v loc -> ErrorNote v loc -> TypeError v loc
-[$sel:getExistentialMismatch:Mismatch] :: TypeError v loc -> ExistentialMismatch
-[$sel:expectedType:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:expectedLoc:Mismatch] :: TypeError v loc -> loc
-[$sel:foundType:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:mismatchSite:Mismatch] :: TypeError v loc -> Term v loc
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-FunctionApplication :: Term v loc -> Type v loc -> Term v loc -> Int -> Type v loc -> Type v loc -> Maybe (Type v loc, Type v loc) -> [(v, Type v loc)] -> ErrorNote v loc -> TypeError v loc
-[$sel:f:Mismatch] :: TypeError v loc -> Term v loc
-[$sel:ft:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:arg:Mismatch] :: TypeError v loc -> Term v loc
-[$sel:argNum:Mismatch] :: TypeError v loc -> Int
-[$sel:foundType:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:expectedType:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:leafs:Mismatch] :: TypeError v loc -> Maybe (Type v loc, Type v loc)
-[$sel:solvedVars:Mismatch] :: TypeError v loc -> [(v, Type v loc)]
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-NotFunctionApplication :: Term v loc -> Type v loc -> ErrorNote v loc -> TypeError v loc
-[$sel:f:Mismatch] :: TypeError v loc -> Term v loc
-[$sel:ft:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-AbilityCheckFailure :: [Type v loc] -> [Type v loc] -> loc -> ErrorNote v loc -> TypeError v loc
-[$sel:ambient:Mismatch] :: TypeError v loc -> [Type v loc]
-[$sel:requested:Mismatch] :: TypeError v loc -> [Type v loc]
-[$sel:abilityCheckFailureSite:Mismatch] :: TypeError v loc -> loc
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-AbilityEqFailure :: [Type v loc] -> [Type v loc] -> Type v loc -> Type v loc -> loc -> ErrorNote v loc -> TypeError v loc
-[$sel:lhs:Mismatch] :: TypeError v loc -> [Type v loc]
-[$sel:rhs:Mismatch] :: TypeError v loc -> [Type v loc]
-[$sel:tlhs:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:trhs:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:abilityCheckFailureSite:Mismatch] :: TypeError v loc -> loc
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-AbilityEqFailureFromAp :: [Type v loc] -> [Type v loc] -> Type v loc -> Type v loc -> Term v loc -> Term v loc -> ErrorNote v loc -> TypeError v loc
-[$sel:lhs:Mismatch] :: TypeError v loc -> [Type v loc]
-[$sel:rhs:Mismatch] :: TypeError v loc -> [Type v loc]
-[$sel:tlhs:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:trhs:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:expectedSite:Mismatch] :: TypeError v loc -> Term v loc
-[$sel:mismatchSite:Mismatch] :: TypeError v loc -> Term v loc
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-UnguardedLetRecCycle :: [v] -> [loc] -> ErrorNote v loc -> TypeError v loc
-[$sel:cycle:Mismatch] :: TypeError v loc -> [v]
-[$sel:cycleLocs:Mismatch] :: TypeError v loc -> [loc]
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-UnknownType :: v -> loc -> ErrorNote v loc -> TypeError v loc
-[$sel:unknownTypeV:Mismatch] :: TypeError v loc -> v
-[$sel:typeSite:Mismatch] :: TypeError v loc -> loc
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-UnknownTerm :: v -> loc -> [Suggestion v loc] -> Type v loc -> ErrorNote v loc -> TypeError v loc
-[$sel:unknownTermV:Mismatch] :: TypeError v loc -> v
-[$sel:termSite:Mismatch] :: TypeError v loc -> loc
-[$sel:suggestions:Mismatch] :: TypeError v loc -> [Suggestion v loc]
-[$sel:expectedType:Mismatch] :: TypeError v loc -> Type v loc
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-DuplicateDefinitions :: NonEmpty (v, [loc]) -> ErrorNote v loc -> TypeError v loc
-[$sel:defns:Mismatch] :: TypeError v loc -> NonEmpty (v, [loc])
-[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
-Other :: ErrorNote v loc -> TypeError v loc
-type RedundantTypeAnnotation = Bool
-data TypeInfo v loc
-TopLevelComponent :: [(v, Type v loc, RedundantTypeAnnotation)] -> TypeInfo v loc
-[$sel:definitions:TopLevelComponent] :: TypeInfo v loc -> [(v, Type v loc, RedundantTypeAnnotation)]
-type TypeNote v loc = Either (TypeError v loc) (TypeInfo v loc)
-typeErrorFromNote :: (Ord loc, Show loc, Var v) => ErrorNote v loc -> TypeError v loc
-typeInfoFromNote :: (Ord loc, Show loc, Var v) => InfoNote v loc -> Maybe (TypeInfo v loc)
-allErrors :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-topLevelComponent :: InfoExtractor v a (TypeInfo v a)
-abilityCheckFailure :: ErrorExtractor v a (TypeError v a)
-abilityEqFailure :: ErrorExtractor v a (TypeError v a)
-duplicateDefinitions :: ErrorExtractor v a (TypeError v a)
-unknownType :: ErrorExtractor v loc (TypeError v loc)
-unknownTerm :: Var v => ErrorExtractor v loc (TypeError v loc)
-generalMismatch :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-and :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-or :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-cond :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-matchGuard :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-unguardedCycle :: ErrorExtractor v loc (TypeError v loc)
+-- | Negative constraint concerning data type. States that the given
+--   variable must not be the given constructor.
+NegCon :: v -> ConstructorReference -> Constraint vt v loc
 
--- | helper function to support <a>and</a> <i> <a>or</a> </i> <a>cond</a>
-booleanMismatch0 :: (Var v, Ord loc) => BooleanMismatch -> SubseqExtractor v loc () -> ErrorExtractor v loc (TypeError v loc)
-existentialMismatch0 :: (Var v, Ord loc) => ExistentialMismatch -> SubseqExtractor v loc loc -> ErrorExtractor v loc (TypeError v loc)
-ifBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-listBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-matchBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
-applyingNonFunction :: Var v => ErrorExtractor v loc (TypeError v loc)
+-- | Positive constraint regarding literal
+PosLit :: v -> PmLit -> Constraint vt v loc
 
--- | Want to collect this info: The <tt>n</tt>th argument to
---   <a>$sel:f:Mismatch</a> is <a>$sel:foundType:Mismatch</a>, but I was
---   expecting <a>$sel:expectedType:Mismatch</a>.
+-- | Negative constraint regarding literal
+NegLit :: v -> PmLit -> Constraint vt v loc
+
+-- | Positive constraint on list element with position relative to head of
+--   list
+PosListHead :: v -> Int -> v -> Constraint vt v loc
+
+-- | Positive constraint on list element with position relative to end of
+--   list
+PosListTail :: v -> Int -> v -> Constraint vt v loc
+
+-- | Negative constraint on length of the list (<i>i.e.</i> the list may
+--   not be an element of the interval set)
+NegListInterval :: v -> IntervalSet -> Constraint vt v loc
+
+-- | An effect is performed
+Effectful :: v -> Constraint vt v loc
+
+-- | Equality constraint
+Eq :: v -> v -> Constraint vt v loc
+prettyConstraint :: (Var vt, Var v) => Constraint vt v loc -> Pretty ColorText
+instance (U.Core.ABT.Var.Var vt, GHC.Classes.Ord v) => GHC.Classes.Ord (Unison.PatternMatchCoverage.Constraint.Constraint vt v loc)
+instance (U.Core.ABT.Var.Var vt, GHC.Classes.Eq v) => GHC.Classes.Eq (Unison.PatternMatchCoverage.Constraint.Constraint vt v loc)
+
+module Unison.PatternMatchCoverage.NormalizedConstraints
+
+-- | Normalized refinement types (fig 6)
 --   
---   30 | asdf asdf asdf
+--   Each variable may be associated with a number of constraints
+--   represented by <a>VarInfo</a>. A <a>NormalizedConstraints</a> is
+--   conceptually the conjunction of all constraints in the map.
+--   Disjunction is represented by passing a Set of NormalizedConstraints.
+--   So, the constraints are normalized into disjunctive normal form and
+--   each <tt>NormalizedConstraints</tt> is a DNF term.
 --   
---   If you're curious <a>$sel:f:Mismatch</a> has type <tt>blah</tt>, where
---   <tt>a</tt> was chosen as <tt>A</tt> <tt>b</tt> was chosen as
---   <tt>B</tt> <tt>c</tt> was chosen as <tt>C</tt> (many colors / groups)
-applyingFunction :: forall v loc. Var v => ErrorExtractor v loc (TypeError v loc)
-inSubtypes :: SubseqExtractor v loc (Type v loc, Type v loc, Maybe (Type v loc, Type v loc))
-instance GHC.Show.Show Unison.Typechecker.TypeError.BooleanMismatch
-instance GHC.Show.Show Unison.Typechecker.TypeError.ExistentialMismatch
-instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.TypeError.TypeError v loc)
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Typechecker.TypeError.TypeInfo v loc)
-
-module Unison.Result
-type Result notes = ResultT notes Identity
-type ResultT notes f = MaybeT (WriterT notes f)
-data Note v loc
-Parsing :: Err v -> Note v loc
-NameResolutionFailures :: [ResolutionFailure v loc] -> Note v loc
-UnknownSymbol :: v -> loc -> Note v loc
-TypeError :: ErrorNote v loc -> Note v loc
-TypeInfo :: InfoNote v loc -> Note v loc
-CompilerBug :: CompilerBug v loc -> Note v loc
-data CompilerBug v loc
-TopLevelComponentNotFound :: v -> Term v loc -> CompilerBug v loc
-ResolvedNameNotFound :: v -> loc -> Name -> CompilerBug v loc
-TypecheckerBug :: CompilerBug v loc -> CompilerBug v loc
-result :: Result notes a -> Maybe a
-pattern Result :: w -> Maybe a -> MaybeT (WriterT w Identity) a
-isSuccess :: Functor f => ResultT note f a -> f Bool
-isFailure :: Functor f => ResultT note f a -> f Bool
-toMaybe :: Functor f => ResultT note f a -> f (Maybe a)
-runResultT :: ResultT notes f a -> f (Maybe a, notes)
-getResult :: Functor f => ResultT notes f a -> f (Result notes a)
-toEither :: Functor f => ResultT notes f a -> ExceptT notes f a
-tell1 :: Monad f => note -> ResultT (Seq note) f ()
-fromParsing :: Monad f => Either (Err v) a -> ResultT (Seq (Note v loc)) f a
-tellAndFail :: Monad f => note -> ResultT (Seq note) f a
-compilerBug :: Monad f => CompilerBug v loc -> ResultT (Seq (Note v loc)) f a
-hoist :: (Monad f, Monoid notes) => (forall a. f a -> g a) -> ResultT notes f b -> ResultT notes g b
-instance (GHC.Show.Show loc, Unison.Var.Var v, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Result.CompilerBug v loc)
-instance (GHC.Show.Show loc, Unison.Var.Var v, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Result.Note v loc)
-
-
--- | This module is the primary interface to the Unison typechecker module
---   Unison.Typechecker (admissibleTypeAt, check, check', checkAdmissible',
---   equals, locals, subtype, isSubtype, synthesize, synthesize', typeAt,
---   wellTyped) where
-module Unison.Typechecker
-type Name = Text
-data Notes v loc
-Notes :: Seq (CompilerBug v loc) -> Seq (ErrorNote v loc) -> Seq (InfoNote v loc) -> Notes v loc
-[$sel:bugs:Notes] :: Notes v loc -> Seq (CompilerBug v loc)
-[$sel:errors:Notes] :: Notes v loc -> Seq (ErrorNote v loc)
-[$sel:infos:Notes] :: Notes v loc -> Seq (InfoNote v loc)
-convertResult :: Result v loc a -> Result (Notes v loc) a
-data NamedReference v loc
-NamedReference :: Name -> Type v loc -> Either v Referent -> NamedReference v loc
-[$sel:fqn:NamedReference] :: NamedReference v loc -> Name
-[$sel:fqnType:NamedReference] :: NamedReference v loc -> Type v loc
-[$sel:replacement:NamedReference] :: NamedReference v loc -> Either v Referent
-data Env v loc
-Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> Env v loc
-[$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
-[$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
-[$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
-typeLookup :: forall v_a2W6n loc_a2W6o. Lens' (Env v_a2W6n loc_a2W6o) (TypeLookup v_a2W6n loc_a2W6o)
-termsByShortname :: forall v_a2W6n loc_a2W6o. Lens' (Env v_a2W6n loc_a2W6o) (Map Name [NamedReference v_a2W6n loc_a2W6o])
-ambientAbilities :: forall v_a2W6n loc_a2W6o. Lens' (Env v_a2W6n loc_a2W6o) [Type v_a2W6n loc_a2W6o]
-
--- | Infer the type of a <a>Term</a>, using a function to resolve the type
---   of <tt>Ref</tt> constructors contained in that term.
-synthesize :: (Monad f, Var v, Ord loc) => Env v loc -> Term v loc -> ResultT (Notes v loc) f (Type v loc)
-isSubtype :: Var v => Type v loc -> Type v loc -> Bool
-handleCompilerBug :: Var v => Either (CompilerBug v ()) a -> a
-
--- | Similar to <a>isSubtype</a> but treats <tt>t2</tt> as a scheme where
---   the outermost variables are existential rather than universal.
+--   Additionally, the following invariants are enforced (Section 3.4)
 --   
---   For example: <tt> let lhs = Unison.Type.ref ()
---   (Unison.Builtin.Decls.unitRef) rhs = Unison.Type.forall ()
---   (Unison.Var.named "x") (Unison.Type.var () (Unison.Var.named "x")) in
---   fitsScheme </tt>Symbol lhs rhs <tt> is </tt>True@ although the lhs is
---   not a subtype of the rhs.
+--   <ul>
+--   <li>Mutual compatibility: No two constraints should conflict with each
+--   other.</li>
+--   <li>Inhabitation: There must be at least one value that inhabits each
+--   refinement type. (N.B. We don't truly know if a type is inhabited, see
+--   <tt>inhabited</tt> in <a>Unison.PatternMatchCoverage.Solve</a> for
+--   details. However, the refinement type is inhabited as far as our
+--   inhabitation checker is concerned.)</li>
+--   </ul>
 --   
---   <a>fitsScheme</a> is used to check that runnable types are a subtype
---   of <tt> exists x. '{IO, Exception} x </tt>
-fitsScheme :: Var v => Type v loc -> Type v loc -> Bool
-isEqual :: Var v => Type v loc -> Type v loc -> Bool
-type TDNR f v loc a = StateT (Term v loc) (ResultT (Notes v loc) f) a
-data Resolution v loc
-Resolution :: Text -> Type v loc -> loc -> [Suggestion v loc] -> Resolution v loc
-[$sel:resolvedName:Resolution] :: Resolution v loc -> Text
-[$sel:inferredType:Resolution] :: Resolution v loc -> Type v loc
-[$sel:resolvedLoc:Resolution] :: Resolution v loc -> loc
-[$sel:suggestions:Resolution] :: Resolution v loc -> [Suggestion v loc]
+--   These invariants ensure that each term in our DNF has at least one
+--   solution, and it is easy to expand and print these solutions.
+data NormalizedConstraints vt v loc
+NormalizedConstraints :: UFMap v (VarInfo vt v loc) -> Set v -> NormalizedConstraints vt v loc
 
--- | Infer the type of a <a>Term</a>, using type-directed name resolution
---   to attempt to resolve unknown symbols.
-synthesizeAndResolve :: (Monad f, Var v, Monoid loc, Ord loc) => Env v loc -> TDNR f v loc (Type v loc)
-compilerBug :: CompilerBug v loc -> Result (Notes v loc) ()
-typeError :: ErrorNote v loc -> Result (Notes v loc) ()
-btw :: Monad f => InfoNote v loc -> ResultT (Notes v loc) f ()
-liftResult :: Monad f => Result (Notes v loc) a -> TDNR f v loc a
-typeDirectedNameResolution :: forall v loc f. (Monad f, Var v, Ord loc, Monoid loc) => Notes v loc -> Type v loc -> Env v loc -> TDNR f v loc (Type v loc)
+-- | Constraints keyed by the variable they constrain. Equality constraints
+--   are handled by <a>UFMap</a>.
+[$sel:constraintMap:NormalizedConstraints] :: NormalizedConstraints vt v loc -> UFMap v (VarInfo vt v loc)
 
--- | Check whether a term matches a type, using a function to resolve the
---   type of <tt>Ref</tt> constructors contained in the term. Returns
---   <tt>typ</tt> if successful, and a note about typechecking failure
---   otherwise.
-check :: (Monad f, Var v, Ord loc) => Env v loc -> Term v loc -> Type v loc -> ResultT (Notes v loc) f (Type v loc)
+-- | dirty variables are ones that must be checked for inhabitance
+[$sel:dirtySet:NormalizedConstraints] :: NormalizedConstraints vt v loc -> Set v
 
--- | <tt>checkAdmissible</tt> e t` tests that `(f : t -&gt; r) e` is
---   well-typed. If <tt>t</tt> has quantifiers, these are moved outside, so
---   if `t : forall a . a`, this will check that `(f : forall a . a -&gt;
---   a) e` is well typed. checkAdmissible' :: Var v =&gt; Term v -&gt; Type
---   v -&gt; Either Note (Type v) checkAdmissible' term typ = synthesize'
---   (Term.blank() <a>ann_</a> tweak typ <a>app_</a> term) where tweak
---   (Type.ForallNamed' v body) = Type.forall() v (tweak body) tweak t =
---   Type.arrow() t t | Returns <a>True</a> if the expression is
---   well-typed, <a>False</a> otherwise
-wellTyped :: (Monad f, Var v, Ord loc) => Env v loc -> Term v loc -> f Bool
-instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Notes v loc)
-instance GHC.Show.Show v => GHC.Show.Show (Unison.Typechecker.NamedReference v loc)
-instance GHC.Base.Semigroup (Unison.Typechecker.Notes v loc)
-instance GHC.Base.Monoid (Unison.Typechecker.Notes v loc)
+-- | Normalized constraints on a specific variable
+data VarInfo vt v loc
+VarInfo :: v -> Type vt loc -> VarConstraints vt v loc -> EffectInfo -> VarInfo vt v loc
+[$sel:vi_id:VarInfo] :: VarInfo vt v loc -> v
+[$sel:vi_typ:VarInfo] :: VarInfo vt v loc -> Type vt loc
+[$sel:vi_con:VarInfo] :: VarInfo vt v loc -> VarConstraints vt v loc
+[$sel:vi_eff:VarInfo] :: VarInfo vt v loc -> EffectInfo
 
-module Unison.Codebase.TermEdit.Typing
-typing :: Var v => Type v loc -> Type v loc -> Typing
+-- | The constraints are different for different types, although most of
+--   them take the form of an optional positive constraint and a set of
+--   negative constraints.
+data VarConstraints vt v loc
+Vc'Constructor :: Maybe (ConstructorReference, [(v, Type vt loc)]) -> Set ConstructorReference -> VarConstraints vt v loc
+Vc'Boolean :: Maybe Bool -> Set Bool -> VarConstraints vt v loc
+Vc'Int :: Maybe Int64 -> Set Int64 -> VarConstraints vt v loc
+Vc'Nat :: Maybe Word64 -> Set Word64 -> VarConstraints vt v loc
+Vc'Float :: Maybe Double -> Set Double -> VarConstraints vt v loc
+Vc'Text :: Maybe Text -> Set Text -> VarConstraints vt v loc
+Vc'Char :: Maybe Char -> Set Char -> VarConstraints vt v loc
+Vc'ListRoot :: Type vt loc -> Seq v -> Seq v -> IntervalSet -> VarConstraints vt v loc
+data EffectInfo
+IsEffectful :: EffectInfo
+IsNotEffectful :: EffectInfo
 
-module Unison.Syntax.DeclPrinter
-prettyDecl :: Var v => PrettyPrintEnvDecl -> Reference -> HashQualified Name -> Decl v a -> Pretty SyntaxText
-prettyDeclHeader :: Var v => HashQualified Name -> Either (EffectDeclaration v a) (DataDeclaration v a) -> Pretty SyntaxText
-prettyDeclOrBuiltinHeader :: Var v => HashQualified Name -> DeclOrBuiltin v a -> Pretty SyntaxText
+-- | Mark a variable as requiring a new test for inhabitation.
+markDirty :: Ord v => v -> NormalizedConstraints vt v loc -> NormalizedConstraints vt v loc
+emptyNormalizedConstraints :: Ord v => NormalizedConstraints vt v loc
+
+-- | Generic function to lookup or alter constraints in the constraint map.
+--   Throws an error if the variable is not in the map.
+updateF :: forall vt v loc f. (Var v, Functor f) => v -> (v -> VarInfo vt v loc -> f (ConstraintUpdate (VarInfo vt v loc))) -> NormalizedConstraints vt v loc -> f (NormalizedConstraints vt v loc)
+data ConstraintUpdate a
+Update :: a -> ConstraintUpdate a
+Ignore :: ConstraintUpdate a
+
+-- | Lookup the canonical value of <tt>v</tt> from the constraint map.
+--   Throws an error if the variable is not in the map.
+expectCanon :: forall vt v loc. Var v => v -> NormalizedConstraints vt v loc -> (v, VarInfo vt v loc, NormalizedConstraints vt v loc)
+
+-- | Install a new variable into the constraint map. Throws an error if the
+--   variable already exists in the map.
+declVar :: forall vt v loc. Var v => v -> Type vt loc -> (VarInfo vt v loc -> VarInfo vt v loc) -> NormalizedConstraints vt v loc -> NormalizedConstraints vt v loc
+prettyNormalizedConstraints :: forall vt v loc. (Var v, Var vt) => NormalizedConstraints vt v loc -> Pretty ColorText
+prettyDnf :: (Var v, Var vt) => Set (NormalizedConstraints vt v loc) -> Pretty ColorText
+instance GHC.Base.Functor Unison.PatternMatchCoverage.NormalizedConstraints.ConstraintUpdate
+instance GHC.Generics.Generic (Unison.PatternMatchCoverage.NormalizedConstraints.VarConstraints vt v loc)
+instance (U.Core.ABT.Var.Var vt, GHC.Classes.Ord v) => GHC.Classes.Ord (Unison.PatternMatchCoverage.NormalizedConstraints.VarConstraints vt v loc)
+instance (U.Core.ABT.Var.Var vt, GHC.Classes.Eq v) => GHC.Classes.Eq (Unison.PatternMatchCoverage.NormalizedConstraints.VarConstraints vt v loc)
+instance (GHC.Show.Show v, GHC.Show.Show vt) => GHC.Show.Show (Unison.PatternMatchCoverage.NormalizedConstraints.VarConstraints vt v loc)
+instance GHC.Classes.Ord Unison.PatternMatchCoverage.NormalizedConstraints.EffectInfo
+instance GHC.Classes.Eq Unison.PatternMatchCoverage.NormalizedConstraints.EffectInfo
+instance GHC.Show.Show Unison.PatternMatchCoverage.NormalizedConstraints.EffectInfo
+instance GHC.Generics.Generic (Unison.PatternMatchCoverage.NormalizedConstraints.VarInfo vt v loc)
+instance (U.Core.ABT.Var.Var vt, GHC.Classes.Ord v) => GHC.Classes.Ord (Unison.PatternMatchCoverage.NormalizedConstraints.VarInfo vt v loc)
+instance (U.Core.ABT.Var.Var vt, GHC.Classes.Eq v) => GHC.Classes.Eq (Unison.PatternMatchCoverage.NormalizedConstraints.VarInfo vt v loc)
+instance (GHC.Show.Show v, GHC.Show.Show vt) => GHC.Show.Show (Unison.PatternMatchCoverage.NormalizedConstraints.VarInfo vt v loc)
+instance (GHC.Show.Show v, GHC.Show.Show vt) => GHC.Show.Show (Unison.PatternMatchCoverage.NormalizedConstraints.NormalizedConstraints vt v loc)
+instance (U.Core.ABT.Var.Var vt, GHC.Classes.Ord v) => GHC.Classes.Ord (Unison.PatternMatchCoverage.NormalizedConstraints.NormalizedConstraints vt v loc)
+instance (U.Core.ABT.Var.Var vt, GHC.Classes.Eq v) => GHC.Classes.Eq (Unison.PatternMatchCoverage.NormalizedConstraints.NormalizedConstraints vt v loc)
 
 module Unison.Syntax.TypeParser
 type TypeP v = P v (Type v Ann)
@@ -2940,6 +2803,7 @@ prettyBinding' :: Var v => PrettyPrintEnv -> Width -> HashQualified Name -> Term
 prettyBindingWithoutTypeSignature :: Var v => PrettyPrintEnv -> HashQualified Name -> Term2 v at ap v a -> Pretty SyntaxText
 pretty0 :: forall v m. MonadPretty v m => AmbientContext -> Term3 v PrintAnnotation -> m (Pretty SyntaxText)
 runPretty :: Var v => PrettyPrintEnv -> Reader (PrettyPrintEnv, Set v) a -> a
+prettyPattern :: forall v loc. Var v => PrettyPrintEnv -> AmbientContext -> Int -> [v] -> Pattern loc -> (Pretty SyntaxText, [v])
 instance GHC.Show.Show Unison.Syntax.TermPrinter.BlockContext
 instance GHC.Classes.Eq Unison.Syntax.TermPrinter.BlockContext
 instance GHC.Show.Show Unison.Syntax.TermPrinter.InfixContext
@@ -2949,6 +2813,52 @@ instance GHC.Classes.Eq Unison.Syntax.TermPrinter.DocLiteralContext
 instance GHC.Show.Show Unison.Syntax.TermPrinter.PrintAnnotation
 instance GHC.Base.Semigroup Unison.Syntax.TermPrinter.PrintAnnotation
 instance GHC.Base.Monoid Unison.Syntax.TermPrinter.PrintAnnotation
+
+module Unison.PatternMatchCoverage.Literal
+
+-- | Refinement type literals (fig 3)
+data Literal vt v loc
+
+-- | True
+T :: Literal vt v loc
+
+-- | False
+F :: Literal vt v loc
+
+-- | Positive constraint regarding data type. States that the given
+--   variable must be the given constructor, and it also binds variables
+--   corresponding to constructor arguments.
+PosCon :: v -> ConstructorReference -> [(v, Type vt loc)] -> Literal vt v loc
+
+-- | Negative constraint concerning data type. States that the given
+--   variable must not be the given constructor.
+NegCon :: v -> ConstructorReference -> Literal vt v loc
+
+-- | Positive constraint regarding literal
+PosLit :: v -> PmLit -> Literal vt v loc
+
+-- | Negative constraint regarding literal
+NegLit :: v -> PmLit -> Literal vt v loc
+
+-- | Positive constraint on list element with position relative to head of
+--   list
+PosListHead :: v -> Int -> v -> Type vt loc -> Literal vt v loc
+
+-- | Positive constraint on list element with position relative to end of
+--   list
+PosListTail :: v -> Int -> v -> Type vt loc -> Literal vt v loc
+
+-- | Negative constraint on length of the list (<i>i.e.</i> the list may
+--   not be an element of the interval set)
+NegListInterval :: v -> IntervalSet -> Literal vt v loc
+
+-- | An effect is performed
+Effectful :: v -> Literal vt v loc
+
+-- | Introduce a binding for a term
+Let :: v -> Term' vt v loc -> Type vt loc -> Literal vt v loc
+prettyLiteral :: Var v => Literal (TypeVar b v) v loc -> Pretty ColorText
+instance (GHC.Show.Show v, GHC.Show.Show vt) => GHC.Show.Show (Unison.PatternMatchCoverage.Literal.Literal vt v loc)
 
 module Unison.Syntax.TermParser
 watch :: Show a => String -> a -> a
@@ -3059,6 +2969,569 @@ instance GHC.Base.Functor (Unison.Syntax.FileParser.Stanza v)
 instance Data.Traversable.Traversable (Unison.Syntax.FileParser.Stanza v)
 instance Data.Foldable.Foldable (Unison.Syntax.FileParser.Stanza v)
 
+module Unison.PatternMatchCoverage.Solve
+
+-- | top-down traversal of the <a>GrdTree</a> that produces:
+--   
+--   <ul>
+--   <li>a refinement type describing values that do not match the
+--   <a>GrdTree</a> (the "uncovered" set)</li>
+--   <li>a new <a>GrdTree</a> annotated with refinement types at the nodes
+--   describing values that cause an effect to be performed and values that
+--   match the case at the leaves.</li>
+--   </ul>
+--   
+--   If the former is inhabited then its inhabitants are unmatched values.
+--   If the leaves of the latter are inhabited then the case is redundant.
+uncoverAnnotate :: forall vt v loc m l. Pmc vt v loc m => Set (NormalizedConstraints vt v loc) -> GrdTree (PmGrd vt v loc) l -> m (Set (NormalizedConstraints vt v loc), GrdTree (Set (NormalizedConstraints vt v loc)) (Set (NormalizedConstraints vt v loc), l))
+
+-- | Collect accessible, inaccessible, and redundant GRHSs
+classify :: forall vt v loc l. GrdTree (Set (NormalizedConstraints vt v loc)) (Set (NormalizedConstraints vt v loc), l) -> ([l], [l], [l])
+
+-- | Given a variable and a term in DNF, expand it to an identical DNF
+--   expression with enough positive info to print pattern suggestions.
+expandSolution :: forall vt v loc m. Pmc vt v loc m => v -> NormalizedConstraints vt v loc -> m (Set (NormalizedConstraints vt v loc))
+
+-- | Expand a full DNF term (i.e. each term identifies exactly one
+--   solution) into an inhabiting pattern.
+generateInhabitants :: forall vt v loc. Var v => v -> NormalizedConstraints vt v loc -> Pattern ()
+instance GHC.Num.Num Unison.PatternMatchCoverage.Solve.Fuel
+instance GHC.Enum.Bounded Unison.PatternMatchCoverage.Solve.Fuel
+instance GHC.Enum.Enum Unison.PatternMatchCoverage.Solve.Fuel
+instance GHC.Classes.Ord Unison.PatternMatchCoverage.Solve.Fuel
+instance GHC.Classes.Eq Unison.PatternMatchCoverage.Solve.Fuel
+instance GHC.Show.Show Unison.PatternMatchCoverage.Solve.Fuel
+instance Control.Monad.Trans.Class.MonadTrans (Unison.PatternMatchCoverage.Solve.C vt v loc)
+instance GHC.Base.Monad m => Control.Monad.State.Class.MonadState (Unison.PatternMatchCoverage.NormalizedConstraints.NormalizedConstraints vt v loc) (Unison.PatternMatchCoverage.Solve.C vt v loc m)
+instance GHC.Base.Monad m => GHC.Base.Monad (Unison.PatternMatchCoverage.Solve.C vt v loc m)
+instance GHC.Base.Monad m => GHC.Base.Applicative (Unison.PatternMatchCoverage.Solve.C vt v loc m)
+instance GHC.Base.Functor m => GHC.Base.Functor (Unison.PatternMatchCoverage.Solve.C vt v loc m)
+
+
+-- | Pattern match coverage checking is implemented following the algorithm
+--   described in <a>Lower Your Guards</a>. The goal of pattern match
+--   coverage checking is to identify the following problems that may arise
+--   in a pattern match:
+--   
+--   <ul>
+--   <li>It is missing clauses (<i>i.e.</i> it is non-exhaustive)</li>
+--   <li>It contains redundant patterns (<i>i.e.</i> the case can be
+--   deleted without altering the program)</li>
+--   <li>It contains inaccessible patterns (<i>i.e</i> the rhs can never be
+--   entered)</li>
+--   </ul>
+--   
+--   Furthermore, in the case of a non-exhaustive match, the goal to
+--   present the user with concrete values that do not match any of the
+--   existing patterns.
+--   
+--   <i>N.B.</i> An inaccessible pattern in unison would be one that
+--   performs effects in a guard although the constraints are
+--   unsatisfiable. Such a pattern cannot be deleted without altering the
+--   program.
+--   
+--   <h2>High-level algorithm overview</h2>
+--   
+--   <ol>
+--   <li><a>Desugar</a> a match expression into a <a>GrdTree</a>.</li>
+--   <li>Annotate the <tt>GrdTree</tt> leaves with <a>refinement types</a>
+--   describing values that match this branch. Redundant and inaccessible
+--   patterns are then identified by <tt>GrdTree</tt> leaves with
+--   uninhabited refinement types. Inaccessible patterns are distinguished
+--   by an effect being performed between the <tt>GrdTree</tt> root and the
+--   leaf.</li>
+--   <li>Traverse the <tt>GrdTree</tt> building up a refinement type
+--   describing uncovered values. If the resulting refinement type is
+--   inhabited then the match is missing clauses.</li>
+--   <li>Find inhabitants of the uncovered refinement type to present to
+--   the user.</li>
+--   </ol>
+--   
+--   Step (1) is implemented by <a>desugarMatch</a>. Steps (2) and (3) are
+--   implemented as a single traversal:
+--   <a>uncoverAnnotate</a>/<a>classify</a>. Step (4) is implemented by
+--   <a>expandSolution</a>/<a>generateInhabitants</a>.
+module Unison.PatternMatchCoverage
+
+-- | Perform pattern match coverage checking on a match expression
+checkMatch :: forall vt v loc m. Pmc vt v loc m => loc -> Type vt loc -> [MatchCase loc (Term' vt v loc)] -> m ([loc], [loc], [Pattern ()])
+
+module Unison.Typechecker.Context
+
+-- | public interface to the typechecker
+synthesizeClosed :: (Var v, Ord loc) => [Type v loc] -> TypeLookup v loc -> Term v loc -> Result v loc (Type v loc)
+data ErrorNote v loc
+ErrorNote :: Cause v loc -> Seq (PathElement v loc) -> ErrorNote v loc
+[$sel:cause:ErrorNote] :: ErrorNote v loc -> Cause v loc
+[$sel:path:ErrorNote] :: ErrorNote v loc -> Seq (PathElement v loc)
+data CompilerBug v loc
+UnknownDecl :: Unknown -> Reference -> Map Reference (DataDeclaration v loc) -> CompilerBug v loc
+UnknownConstructor :: Unknown -> ConstructorReference -> DataDeclaration v loc -> CompilerBug v loc
+UndeclaredTermVariable :: v -> Context v loc -> CompilerBug v loc
+RetractFailure :: Element v loc -> Context v loc -> CompilerBug v loc
+EmptyLetRec :: Term v loc -> CompilerBug v loc
+PatternMatchFailure :: CompilerBug v loc
+EffectConstructorHadMultipleEffects :: Type v loc -> CompilerBug v loc
+FreeVarsInTypeAnnotation :: Set (TypeVar v loc) -> CompilerBug v loc
+UnannotatedReference :: Reference -> CompilerBug v loc
+MalformedPattern :: Pattern loc -> CompilerBug v loc
+UnknownTermReference :: Reference -> CompilerBug v loc
+UnknownExistentialVariable :: v -> Context v loc -> CompilerBug v loc
+IllegalContextExtension :: Context v loc -> Element v loc -> String -> CompilerBug v loc
+OtherBug :: String -> CompilerBug v loc
+data InfoNote v loc
+SolvedBlank :: Recorded loc -> v -> Type v loc -> InfoNote v loc
+Decision :: v -> loc -> Term v loc -> InfoNote v loc
+TopLevelComponent :: [(v, Type v loc, RedundantTypeAnnotation)] -> InfoNote v loc
+data Cause v loc
+TypeMismatch :: Context v loc -> Cause v loc
+IllFormedType :: Context v loc -> Cause v loc
+UnknownSymbol :: loc -> v -> Cause v loc
+UnknownTerm :: loc -> v -> [Suggestion v loc] -> Type v loc -> Cause v loc
+AbilityCheckFailure :: [Type v loc] -> [Type v loc] -> Context v loc -> Cause v loc
+AbilityEqFailure :: [Type v loc] -> [Type v loc] -> Context v loc -> Cause v loc
+EffectConstructorWrongArgCount :: ExpectedArgCount -> ActualArgCount -> ConstructorReference -> Cause v loc
+MalformedEffectBind :: Type v loc -> Type v loc -> [Type v loc] -> Cause v loc
+PatternArityMismatch :: loc -> Type v loc -> Int -> Cause v loc
+DuplicateDefinitions :: NonEmpty (v, [loc]) -> Cause v loc
+UnguardedLetRecCycle :: [v] -> [(v, Term v loc)] -> Cause v loc
+ConcatPatternWithoutConstantLength :: loc -> Type v loc -> Cause v loc
+HandlerOfUnexpectedType :: loc -> Type v loc -> Cause v loc
+DataEffectMismatch :: Unknown -> Reference -> DataDeclaration v loc -> Cause v loc
+UncoveredPatterns :: loc -> NonEmpty (Pattern ()) -> Cause v loc
+RedundantPattern :: loc -> Cause v loc
+InaccessiblePattern :: loc -> Cause v loc
+newtype Context v loc
+Context :: [(Element v loc, Info v loc)] -> Context v loc
+type ActualArgCount = Int
+type ExpectedArgCount = Int
+type ConstructorId = Word64
+
+-- | Elements of an ordered algorithmic context
+data Element v loc
+
+-- | A variable declaration
+Var :: TypeVar v loc -> Element v loc
+
+-- | <tt>v</tt> is solved to some monotype
+Solved :: Blank loc -> v -> Monotype v loc -> Element v loc
+
+-- | <tt>v</tt> has type <tt>a</tt>, maybe quantified
+Ann :: v -> Type v loc -> Element v loc
+
+-- | used for scoping
+Marker :: v -> Element v loc
+data PathElement v loc
+InSynthesize :: Term v loc -> PathElement v loc
+InSubtype :: Type v loc -> Type v loc -> PathElement v loc
+InEquate :: Type v loc -> Type v loc -> PathElement v loc
+InCheck :: Term v loc -> Type v loc -> PathElement v loc
+InInstantiateL :: v -> Type v loc -> PathElement v loc
+InInstantiateR :: Type v loc -> v -> PathElement v loc
+InSynthesizeApp :: Type v loc -> Term v loc -> Int -> PathElement v loc
+InFunctionCall :: [v] -> Term v loc -> Type v loc -> [Term v loc] -> PathElement v loc
+InAndApp :: PathElement v loc
+InOrApp :: PathElement v loc
+InIfCond :: PathElement v loc
+InIfBody :: loc -> PathElement v loc
+InVectorApp :: loc -> PathElement v loc
+InMatch :: loc -> PathElement v loc
+InMatchGuard :: PathElement v loc
+InMatchBody :: PathElement v loc
+type Term v loc = Term' (TypeVar v loc) v loc
+type Type v loc = Type (TypeVar v loc) loc
+type TypeVar v loc = TypeVar (Blank loc) v
+data Result v loc a
+Success :: !Seq (InfoNote v loc) -> !a -> Result v loc a
+TypeError :: !NESeq (ErrorNote v loc) -> !Seq (InfoNote v loc) -> Result v loc a
+CompilerBug :: !CompilerBug v loc -> !Seq (ErrorNote v loc) -> !Seq (InfoNote v loc) -> Result v loc a
+errorTerms :: ErrorNote v loc -> [Term v loc]
+innermostErrorTerm :: ErrorNote v loc -> Maybe (Term v loc)
+lookupAnn :: Ord v => Context v loc -> v -> Maybe (Type v loc)
+lookupSolved :: Ord v => Context v loc -> v -> Maybe (Monotype v loc)
+
+-- | Replace any existentials with their solution in the context
+apply :: (Var v, Ord loc) => Context v loc -> Type v loc -> Type v loc
+isEqual :: (Var v, Ord loc) => Type v loc -> Type v loc -> Either (CompilerBug v loc) Bool
+isSubtype :: (Var v, Ord loc) => Type v loc -> Type v loc -> Either (CompilerBug v loc) Bool
+fitsScheme :: (Var v, Ord loc) => Type v loc -> Type v loc -> Either (CompilerBug v loc) Bool
+isRedundant :: (Var v, Ord loc) => Type v loc -> Type v loc -> M v loc Bool
+data Suggestion v loc
+Suggestion :: Text -> Type v loc -> Either v Referent -> SuggestionMatch -> Suggestion v loc
+[$sel:suggestionName:Suggestion] :: Suggestion v loc -> Text
+[$sel:suggestionType:Suggestion] :: Suggestion v loc -> Type v loc
+[$sel:suggestionReplacement:Suggestion] :: Suggestion v loc -> Either v Referent
+[$sel:suggestionMatch:Suggestion] :: Suggestion v loc -> SuggestionMatch
+data SuggestionMatch
+Exact :: SuggestionMatch
+WrongType :: SuggestionMatch
+WrongName :: SuggestionMatch
+isExact :: Suggestion v loc -> Bool
+typeErrors :: Result v loc a -> Seq (ErrorNote v loc)
+infoNotes :: Result v loc a -> Seq (InfoNote v loc)
+data Unknown
+Data :: Unknown
+Effect :: Unknown
+relax :: Var v => Ord loc => Type v loc -> Type v loc
+generalizeAndUnTypeVar :: Var v => Type v a -> Type v a
+instance GHC.Show.Show Unison.Typechecker.Context.Unknown
+instance (GHC.Show.Show v, GHC.Show.Show loc) => GHC.Show.Show (Unison.Typechecker.Context.PathElement v loc)
+instance GHC.Show.Show Unison.Typechecker.Context.SuggestionMatch
+instance GHC.Classes.Eq Unison.Typechecker.Context.SuggestionMatch
+instance GHC.Classes.Ord Unison.Typechecker.Context.SuggestionMatch
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Typechecker.Context.Suggestion v loc)
+instance U.Core.ABT.Var.Var v => GHC.Classes.Eq (Unison.Typechecker.Context.Suggestion v loc)
+instance (GHC.Show.Show loc, GHC.Show.Show v) => GHC.Show.Show (Unison.Typechecker.Context.InfoNote v loc)
+instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Context.Cause v loc)
+instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Context.ErrorNote v loc)
+instance (GHC.Show.Show loc, Unison.Var.Var v, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Context.CompilerBug v loc)
+instance GHC.Base.Functor (Unison.Typechecker.Context.Result v loc)
+instance GHC.Base.Functor f => GHC.Base.Functor (Unison.Typechecker.Context.MT v loc f)
+instance (GHC.Classes.Ord loc, Unison.Var.Var v) => Unison.PatternMatchCoverage.Class.Pmc (Unison.Typechecker.Context.TypeVar v loc) v loc (Control.Monad.Trans.State.Lazy.StateT (Data.Set.Internal.Set v) (Unison.Typechecker.Context.M v loc))
+instance GHC.Base.Monad f => GHC.Base.Monad (Unison.Typechecker.Context.MT v loc f)
+instance GHC.Base.Monad f => Control.Monad.Fail.MonadFail (Unison.Typechecker.Context.MT v loc f)
+instance GHC.Base.Monad f => GHC.Base.Applicative (Unison.Typechecker.Context.MT v loc f)
+instance GHC.Base.Monad f => Control.Monad.State.Class.MonadState (Unison.Typechecker.Context.Env v loc) (Unison.Typechecker.Context.MT v loc f)
+instance Control.Monad.Fix.MonadFix f => Control.Monad.Fix.MonadFix (Unison.Typechecker.Context.MT v loc f)
+instance GHC.Base.Applicative (Unison.Typechecker.Context.Result v loc)
+instance GHC.Base.Monad (Unison.Typechecker.Context.Result v loc)
+instance Control.Monad.Fix.MonadFix (Unison.Typechecker.Context.Result v loc)
+instance (GHC.Classes.Ord loc, Unison.Var.Var v) => GHC.Show.Show (Unison.Typechecker.Context.Context v loc)
+instance (GHC.Classes.Ord loc, Unison.Var.Var v) => GHC.Classes.Eq (Unison.Typechecker.Context.Element v loc)
+instance Unison.Var.Var v => GHC.Show.Show (Unison.Typechecker.Context.Element v loc)
+
+module Unison.Typechecker.Extractor
+type RedundantTypeAnnotation = Bool
+type Extractor e a = MaybeT (Reader e) a
+type ErrorExtractor v loc a = Extractor (ErrorNote v loc) a
+type InfoExtractor v loc a = Extractor (InfoNote v loc) a
+type PathExtractor v loc a = Extractor (PathElement v loc) a
+type SubseqExtractor v loc a = SubseqExtractor' (ErrorNote v loc) a
+extractor :: (e -> Maybe a) -> Extractor e a
+extract :: Extractor e a -> e -> Maybe a
+subseqExtractor :: (ErrorNote v loc -> [Ranged a]) -> SubseqExtractor v loc a
+traceSubseq :: Show a => String -> SubseqExtractor' n a -> SubseqExtractor' n a
+traceNote :: Show a => String -> ErrorExtractor v loc a -> ErrorExtractor v loc a
+unique :: SubseqExtractor v loc a -> ErrorExtractor v loc a
+data SubseqExtractor' n a
+SubseqExtractor' :: (n -> [Ranged a]) -> SubseqExtractor' n a
+[$sel:runSubseq:SubseqExtractor'] :: SubseqExtractor' n a -> n -> [Ranged a]
+data Ranged a
+Pure :: a -> Ranged a
+Ranged :: a -> Int -> Int -> Ranged a
+[$sel:get:Pure] :: Ranged a -> a
+[$sel:start:Pure] :: Ranged a -> Int
+[$sel:end:Pure] :: Ranged a -> Int
+
+-- | collects the regions where <tt>xa</tt> doesn't match / aka invert a
+--   set of intervals unused, but don't want to delete it yet - Aug 30,
+--   2018
+_no :: SubseqExtractor' n a -> SubseqExtractor' n ()
+_any :: SubseqExtractor v loc ()
+_any' :: (n -> Int) -> SubseqExtractor' n ()
+data DistinctRanged a
+DistinctRanged :: a -> Int -> Int -> DistinctRanged a
+some :: forall n a. SubseqExtractor' n a -> SubseqExtractor' n [a]
+pathStart :: SubseqExtractor' n ()
+asPathExtractor :: (PathElement v loc -> Maybe a) -> SubseqExtractor v loc a
+inSynthesize :: SubseqExtractor v loc (Term v loc)
+inSubtype :: SubseqExtractor v loc (Type v loc, Type v loc)
+inEquate :: SubseqExtractor v loc (Type v loc, Type v loc)
+inCheck :: SubseqExtractor v loc (Term v loc, Type v loc)
+inSynthesizeApp :: SubseqExtractor v loc (Type v loc, Term v loc, Int)
+inFunctionCall :: SubseqExtractor v loc ([v], Term v loc, Type v loc, [Term v loc])
+inAndApp :: SubseqExtractor v loc ()
+inOrApp :: SubseqExtractor v loc ()
+inIfCond :: SubseqExtractor v loc ()
+inMatchGuard :: SubseqExtractor v loc ()
+inMatchBody :: SubseqExtractor v loc ()
+inMatch :: SubseqExtractor v loc loc
+inVector :: SubseqExtractor v loc loc
+inIfBody :: SubseqExtractor v loc loc
+cause :: ErrorExtractor v loc (Cause v loc)
+duplicateDefinitions :: ErrorExtractor v loc (NonEmpty (v, [loc]))
+uncoveredPatterns :: ErrorExtractor v loc (loc, NonEmpty (Pattern ()))
+redundantPattern :: ErrorExtractor v loc loc
+typeMismatch :: ErrorExtractor v loc (Context v loc)
+illFormedType :: ErrorExtractor v loc (Context v loc)
+unknownSymbol :: ErrorExtractor v loc (loc, v)
+unknownTerm :: Var v => ErrorExtractor v loc (loc, v, [Suggestion v loc], Type v loc)
+abilityCheckFailure :: ErrorExtractor v loc ([Type v loc], [Type v loc], Context v loc)
+abilityEqFailure :: ErrorExtractor v loc ([Type v loc], [Type v loc], Context v loc)
+effectConstructorWrongArgCount :: ErrorExtractor v loc (ExpectedArgCount, ActualArgCount, ConstructorReference)
+malformedEffectBind :: ErrorExtractor v loc (Type v loc, Type v loc, [Type v loc])
+solvedBlank :: InfoExtractor v loc (Recorded loc, v, Type v loc)
+errorNote :: ErrorExtractor v loc (ErrorNote v loc)
+infoNote :: InfoExtractor v loc (InfoNote v loc)
+innermostTerm :: ErrorExtractor v loc (Term v loc)
+path :: ErrorExtractor v loc [PathElement v loc]
+topLevelComponent :: InfoExtractor v loc [(v, Type v loc, RedundantTypeAnnotation)]
+instance GHC.Show.Show a => GHC.Show.Show (Unison.Typechecker.Extractor.Ranged a)
+instance GHC.Base.Functor Unison.Typechecker.Extractor.Ranged
+instance GHC.Classes.Eq (Unison.Typechecker.Extractor.DistinctRanged a)
+instance GHC.Classes.Ord (Unison.Typechecker.Extractor.DistinctRanged a)
+instance GHC.Base.Functor (Unison.Typechecker.Extractor.SubseqExtractor' n)
+instance GHC.Base.Applicative (Unison.Typechecker.Extractor.SubseqExtractor' n)
+instance Control.Monad.Fail.MonadFail (Unison.Typechecker.Extractor.SubseqExtractor' n)
+instance GHC.Base.Monad (Unison.Typechecker.Extractor.SubseqExtractor' n)
+instance GHC.Base.Alternative (Unison.Typechecker.Extractor.SubseqExtractor' n)
+instance GHC.Base.MonadPlus (Unison.Typechecker.Extractor.SubseqExtractor' n)
+instance GHC.Base.Monoid (Unison.Typechecker.Extractor.SubseqExtractor' n a)
+instance GHC.Base.Semigroup (Unison.Typechecker.Extractor.SubseqExtractor' n a)
+
+module Unison.Typechecker.TypeError
+data BooleanMismatch
+CondMismatch :: BooleanMismatch
+AndMismatch :: BooleanMismatch
+OrMismatch :: BooleanMismatch
+GuardMismatch :: BooleanMismatch
+data ExistentialMismatch
+IfBody :: ExistentialMismatch
+ListBody :: ExistentialMismatch
+CaseBody :: ExistentialMismatch
+data TypeError v loc
+Mismatch :: Type v loc -> Type v loc -> Type v loc -> Type v loc -> Term v loc -> ErrorNote v loc -> TypeError v loc
+[$sel:foundType:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:expectedType:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:foundLeaf:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:expectedLeaf:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:mismatchSite:Mismatch] :: TypeError v loc -> Term v loc
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+BooleanMismatch :: BooleanMismatch -> Term v loc -> Type v loc -> ErrorNote v loc -> TypeError v loc
+[$sel:getBooleanMismatch:Mismatch] :: TypeError v loc -> BooleanMismatch
+[$sel:mismatchSite:Mismatch] :: TypeError v loc -> Term v loc
+[$sel:foundType:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+ExistentialMismatch :: ExistentialMismatch -> Type v loc -> loc -> Type v loc -> Term v loc -> ErrorNote v loc -> TypeError v loc
+[$sel:getExistentialMismatch:Mismatch] :: TypeError v loc -> ExistentialMismatch
+[$sel:expectedType:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:expectedLoc:Mismatch] :: TypeError v loc -> loc
+[$sel:foundType:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:mismatchSite:Mismatch] :: TypeError v loc -> Term v loc
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+FunctionApplication :: Term v loc -> Type v loc -> Term v loc -> Int -> Type v loc -> Type v loc -> Maybe (Type v loc, Type v loc) -> [(v, Type v loc)] -> ErrorNote v loc -> TypeError v loc
+[$sel:f:Mismatch] :: TypeError v loc -> Term v loc
+[$sel:ft:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:arg:Mismatch] :: TypeError v loc -> Term v loc
+[$sel:argNum:Mismatch] :: TypeError v loc -> Int
+[$sel:foundType:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:expectedType:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:leafs:Mismatch] :: TypeError v loc -> Maybe (Type v loc, Type v loc)
+[$sel:solvedVars:Mismatch] :: TypeError v loc -> [(v, Type v loc)]
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+NotFunctionApplication :: Term v loc -> Type v loc -> ErrorNote v loc -> TypeError v loc
+[$sel:f:Mismatch] :: TypeError v loc -> Term v loc
+[$sel:ft:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+AbilityCheckFailure :: [Type v loc] -> [Type v loc] -> loc -> ErrorNote v loc -> TypeError v loc
+[$sel:ambient:Mismatch] :: TypeError v loc -> [Type v loc]
+[$sel:requested:Mismatch] :: TypeError v loc -> [Type v loc]
+[$sel:abilityCheckFailureSite:Mismatch] :: TypeError v loc -> loc
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+AbilityEqFailure :: [Type v loc] -> [Type v loc] -> Type v loc -> Type v loc -> loc -> ErrorNote v loc -> TypeError v loc
+[$sel:lhs:Mismatch] :: TypeError v loc -> [Type v loc]
+[$sel:rhs:Mismatch] :: TypeError v loc -> [Type v loc]
+[$sel:tlhs:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:trhs:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:abilityCheckFailureSite:Mismatch] :: TypeError v loc -> loc
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+AbilityEqFailureFromAp :: [Type v loc] -> [Type v loc] -> Type v loc -> Type v loc -> Term v loc -> Term v loc -> ErrorNote v loc -> TypeError v loc
+[$sel:lhs:Mismatch] :: TypeError v loc -> [Type v loc]
+[$sel:rhs:Mismatch] :: TypeError v loc -> [Type v loc]
+[$sel:tlhs:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:trhs:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:expectedSite:Mismatch] :: TypeError v loc -> Term v loc
+[$sel:mismatchSite:Mismatch] :: TypeError v loc -> Term v loc
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+UnguardedLetRecCycle :: [v] -> [loc] -> ErrorNote v loc -> TypeError v loc
+[$sel:cycle:Mismatch] :: TypeError v loc -> [v]
+[$sel:cycleLocs:Mismatch] :: TypeError v loc -> [loc]
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+UnknownType :: v -> loc -> ErrorNote v loc -> TypeError v loc
+[$sel:unknownTypeV:Mismatch] :: TypeError v loc -> v
+[$sel:typeSite:Mismatch] :: TypeError v loc -> loc
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+UnknownTerm :: v -> loc -> [Suggestion v loc] -> Type v loc -> ErrorNote v loc -> TypeError v loc
+[$sel:unknownTermV:Mismatch] :: TypeError v loc -> v
+[$sel:termSite:Mismatch] :: TypeError v loc -> loc
+[$sel:suggestions:Mismatch] :: TypeError v loc -> [Suggestion v loc]
+[$sel:expectedType:Mismatch] :: TypeError v loc -> Type v loc
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+DuplicateDefinitions :: NonEmpty (v, [loc]) -> ErrorNote v loc -> TypeError v loc
+[$sel:defns:Mismatch] :: TypeError v loc -> NonEmpty (v, [loc])
+[$sel:note:Mismatch] :: TypeError v loc -> ErrorNote v loc
+UncoveredPatterns :: loc -> NonEmpty (Pattern ()) -> TypeError v loc
+RedundantPattern :: loc -> TypeError v loc
+Other :: ErrorNote v loc -> TypeError v loc
+type RedundantTypeAnnotation = Bool
+data TypeInfo v loc
+TopLevelComponent :: [(v, Type v loc, RedundantTypeAnnotation)] -> TypeInfo v loc
+[$sel:definitions:TopLevelComponent] :: TypeInfo v loc -> [(v, Type v loc, RedundantTypeAnnotation)]
+type TypeNote v loc = Either (TypeError v loc) (TypeInfo v loc)
+typeErrorFromNote :: (Ord loc, Show loc, Var v) => ErrorNote v loc -> TypeError v loc
+typeInfoFromNote :: (Ord loc, Show loc, Var v) => InfoNote v loc -> Maybe (TypeInfo v loc)
+allErrors :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+topLevelComponent :: InfoExtractor v a (TypeInfo v a)
+redundantPattern :: ErrorExtractor v a (TypeError v a)
+uncoveredPatterns :: ErrorExtractor v a (TypeError v a)
+abilityCheckFailure :: ErrorExtractor v a (TypeError v a)
+abilityEqFailure :: ErrorExtractor v a (TypeError v a)
+duplicateDefinitions :: ErrorExtractor v a (TypeError v a)
+unknownType :: ErrorExtractor v loc (TypeError v loc)
+unknownTerm :: Var v => ErrorExtractor v loc (TypeError v loc)
+generalMismatch :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+and :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+or :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+cond :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+matchGuard :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+unguardedCycle :: ErrorExtractor v loc (TypeError v loc)
+
+-- | helper function to support <a>and</a> <i> <a>or</a> </i> <a>cond</a>
+booleanMismatch0 :: (Var v, Ord loc) => BooleanMismatch -> SubseqExtractor v loc () -> ErrorExtractor v loc (TypeError v loc)
+existentialMismatch0 :: (Var v, Ord loc) => ExistentialMismatch -> SubseqExtractor v loc loc -> ErrorExtractor v loc (TypeError v loc)
+ifBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+listBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+matchBody :: (Var v, Ord loc) => ErrorExtractor v loc (TypeError v loc)
+applyingNonFunction :: Var v => ErrorExtractor v loc (TypeError v loc)
+
+-- | Want to collect this info: The <tt>n</tt>th argument to
+--   <a>$sel:f:Mismatch</a> is <a>$sel:foundType:Mismatch</a>, but I was
+--   expecting <a>$sel:expectedType:Mismatch</a>.
+--   
+--   30 | asdf asdf asdf
+--   
+--   If you're curious <a>$sel:f:Mismatch</a> has type <tt>blah</tt>, where
+--   <tt>a</tt> was chosen as <tt>A</tt> <tt>b</tt> was chosen as
+--   <tt>B</tt> <tt>c</tt> was chosen as <tt>C</tt> (many colors / groups)
+applyingFunction :: forall v loc. Var v => ErrorExtractor v loc (TypeError v loc)
+inSubtypes :: SubseqExtractor v loc (Type v loc, Type v loc, Maybe (Type v loc, Type v loc))
+instance GHC.Show.Show Unison.Typechecker.TypeError.BooleanMismatch
+instance GHC.Show.Show Unison.Typechecker.TypeError.ExistentialMismatch
+instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.TypeError.TypeError v loc)
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Typechecker.TypeError.TypeInfo v loc)
+
+module Unison.Result
+type Result notes = ResultT notes Identity
+type ResultT notes f = MaybeT (WriterT notes f)
+data Note v loc
+Parsing :: Err v -> Note v loc
+NameResolutionFailures :: [ResolutionFailure v loc] -> Note v loc
+UnknownSymbol :: v -> loc -> Note v loc
+TypeError :: ErrorNote v loc -> Note v loc
+TypeInfo :: InfoNote v loc -> Note v loc
+CompilerBug :: CompilerBug v loc -> Note v loc
+data CompilerBug v loc
+TopLevelComponentNotFound :: v -> Term v loc -> CompilerBug v loc
+ResolvedNameNotFound :: v -> loc -> Name -> CompilerBug v loc
+TypecheckerBug :: CompilerBug v loc -> CompilerBug v loc
+result :: Result notes a -> Maybe a
+pattern Result :: w -> Maybe a -> MaybeT (WriterT w Identity) a
+isSuccess :: Functor f => ResultT note f a -> f Bool
+isFailure :: Functor f => ResultT note f a -> f Bool
+toMaybe :: Functor f => ResultT note f a -> f (Maybe a)
+runResultT :: ResultT notes f a -> f (Maybe a, notes)
+getResult :: Functor f => ResultT notes f a -> f (Result notes a)
+toEither :: Functor f => ResultT notes f a -> ExceptT notes f a
+tell1 :: Monad f => note -> ResultT (Seq note) f ()
+fromParsing :: Monad f => Either (Err v) a -> ResultT (Seq (Note v loc)) f a
+tellAndFail :: Monad f => note -> ResultT (Seq note) f a
+compilerBug :: Monad f => CompilerBug v loc -> ResultT (Seq (Note v loc)) f a
+hoist :: (Monad f, Monoid notes) => (forall a. f a -> g a) -> ResultT notes f b -> ResultT notes g b
+instance (GHC.Show.Show loc, Unison.Var.Var v, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Result.CompilerBug v loc)
+instance (GHC.Show.Show loc, Unison.Var.Var v, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Result.Note v loc)
+
+
+-- | This module is the primary interface to the Unison typechecker module
+--   Unison.Typechecker (admissibleTypeAt, check, check', checkAdmissible',
+--   equals, locals, subtype, isSubtype, synthesize, synthesize', typeAt,
+--   wellTyped) where
+module Unison.Typechecker
+type Name = Text
+data Notes v loc
+Notes :: Seq (CompilerBug v loc) -> Seq (ErrorNote v loc) -> Seq (InfoNote v loc) -> Notes v loc
+[$sel:bugs:Notes] :: Notes v loc -> Seq (CompilerBug v loc)
+[$sel:errors:Notes] :: Notes v loc -> Seq (ErrorNote v loc)
+[$sel:infos:Notes] :: Notes v loc -> Seq (InfoNote v loc)
+convertResult :: Result v loc a -> Result (Notes v loc) a
+data NamedReference v loc
+NamedReference :: Name -> Type v loc -> Either v Referent -> NamedReference v loc
+[$sel:fqn:NamedReference] :: NamedReference v loc -> Name
+[$sel:fqnType:NamedReference] :: NamedReference v loc -> Type v loc
+[$sel:replacement:NamedReference] :: NamedReference v loc -> Either v Referent
+data Env v loc
+Env :: [Type v loc] -> TypeLookup v loc -> Map Name [NamedReference v loc] -> Env v loc
+[$sel:_ambientAbilities:Env] :: Env v loc -> [Type v loc]
+[$sel:_typeLookup:Env] :: Env v loc -> TypeLookup v loc
+[$sel:_termsByShortname:Env] :: Env v loc -> Map Name [NamedReference v loc]
+typeLookup :: forall v_a4mPJ loc_a4mPK. Lens' (Env v_a4mPJ loc_a4mPK) (TypeLookup v_a4mPJ loc_a4mPK)
+termsByShortname :: forall v_a4mPJ loc_a4mPK. Lens' (Env v_a4mPJ loc_a4mPK) (Map Name [NamedReference v_a4mPJ loc_a4mPK])
+ambientAbilities :: forall v_a4mPJ loc_a4mPK. Lens' (Env v_a4mPJ loc_a4mPK) [Type v_a4mPJ loc_a4mPK]
+
+-- | Infer the type of a <a>Term</a>, using a function to resolve the type
+--   of <tt>Ref</tt> constructors contained in that term.
+synthesize :: (Monad f, Var v, Ord loc) => Env v loc -> Term v loc -> ResultT (Notes v loc) f (Type v loc)
+isSubtype :: Var v => Type v loc -> Type v loc -> Bool
+handleCompilerBug :: Var v => Either (CompilerBug v ()) a -> a
+
+-- | Similar to <a>isSubtype</a> but treats <tt>t2</tt> as a scheme where
+--   the outermost variables are existential rather than universal.
+--   
+--   For example: <tt> let lhs = Unison.Type.ref ()
+--   (Unison.Builtin.Decls.unitRef) rhs = Unison.Type.forall ()
+--   (Unison.Var.named "x") (Unison.Type.var () (Unison.Var.named "x")) in
+--   fitsScheme </tt>Symbol lhs rhs <tt> is </tt>True@ although the lhs is
+--   not a subtype of the rhs.
+--   
+--   <a>fitsScheme</a> is used to check that runnable types are a subtype
+--   of <tt> exists x. '{IO, Exception} x </tt>
+fitsScheme :: Var v => Type v loc -> Type v loc -> Bool
+isEqual :: Var v => Type v loc -> Type v loc -> Bool
+type TDNR f v loc a = StateT (Term v loc) (ResultT (Notes v loc) f) a
+data Resolution v loc
+Resolution :: Text -> Type v loc -> loc -> [Suggestion v loc] -> Resolution v loc
+[$sel:resolvedName:Resolution] :: Resolution v loc -> Text
+[$sel:inferredType:Resolution] :: Resolution v loc -> Type v loc
+[$sel:resolvedLoc:Resolution] :: Resolution v loc -> loc
+[$sel:suggestions:Resolution] :: Resolution v loc -> [Suggestion v loc]
+
+-- | Infer the type of a <a>Term</a>, using type-directed name resolution
+--   to attempt to resolve unknown symbols.
+synthesizeAndResolve :: (Monad f, Var v, Monoid loc, Ord loc) => Env v loc -> TDNR f v loc (Type v loc)
+compilerBug :: CompilerBug v loc -> Result (Notes v loc) ()
+typeError :: ErrorNote v loc -> Result (Notes v loc) ()
+btw :: Monad f => InfoNote v loc -> ResultT (Notes v loc) f ()
+liftResult :: Monad f => Result (Notes v loc) a -> TDNR f v loc a
+typeDirectedNameResolution :: forall v loc f. (Monad f, Var v, Ord loc, Monoid loc) => Notes v loc -> Type v loc -> Env v loc -> TDNR f v loc (Type v loc)
+
+-- | Check whether a term matches a type, using a function to resolve the
+--   type of <tt>Ref</tt> constructors contained in the term. Returns
+--   <tt>typ</tt> if successful, and a note about typechecking failure
+--   otherwise.
+check :: (Monad f, Var v, Ord loc) => Env v loc -> Term v loc -> Type v loc -> ResultT (Notes v loc) f (Type v loc)
+
+-- | <tt>checkAdmissible</tt> e t` tests that `(f : t -&gt; r) e` is
+--   well-typed. If <tt>t</tt> has quantifiers, these are moved outside, so
+--   if `t : forall a . a`, this will check that `(f : forall a . a -&gt;
+--   a) e` is well typed. checkAdmissible' :: Var v =&gt; Term v -&gt; Type
+--   v -&gt; Either Note (Type v) checkAdmissible' term typ = synthesize'
+--   (Term.blank() <a>ann_</a> tweak typ <a>app_</a> term) where tweak
+--   (Type.ForallNamed' v body) = Type.forall() v (tweak body) tweak t =
+--   Type.arrow() t t | Returns <a>True</a> if the expression is
+--   well-typed, <a>False</a> otherwise
+wellTyped :: (Monad f, Var v, Ord loc) => Env v loc -> Term v loc -> f Bool
+instance (Unison.Var.Var v, GHC.Show.Show loc, GHC.Classes.Ord loc) => GHC.Show.Show (Unison.Typechecker.Notes v loc)
+instance GHC.Show.Show v => GHC.Show.Show (Unison.Typechecker.NamedReference v loc)
+instance GHC.Base.Semigroup (Unison.Typechecker.Notes v loc)
+instance GHC.Base.Monoid (Unison.Typechecker.Notes v loc)
+
+module Unison.Codebase.TermEdit.Typing
+typing :: Var v => Type v loc -> Type v loc -> Typing
+
+module Unison.Syntax.DeclPrinter
+prettyDecl :: Var v => PrettyPrintEnvDecl -> Reference -> HashQualified Name -> Decl v a -> Pretty SyntaxText
+prettyDeclHeader :: Var v => HashQualified Name -> Either (EffectDeclaration v a) (DataDeclaration v a) -> Pretty SyntaxText
+prettyDeclOrBuiltinHeader :: Var v => HashQualified Name -> DeclOrBuiltin v a -> Pretty SyntaxText
+
 module Unison.PrintError
 type Env = PrettyPrintEnv
 pattern Code :: Color
@@ -3081,7 +3554,8 @@ renderTypeInfo :: forall v loc sty. (Var v, Annotated loc, Ord loc, Show loc) =>
 renderTypeError :: forall v loc. (Var v, Annotated loc, Ord loc, Show loc) => TypeError v loc -> Env -> String -> Absolute -> Pretty ColorText
 renderCompilerBug :: (Var v, Annotated loc, Ord loc, Show loc) => Env -> String -> CompilerBug v loc -> Pretty ColorText
 renderContext :: (Var v, Ord loc) => Env -> Context v loc -> Pretty (AnnotatedText a)
-renderTerm :: (IsString s, Var v) => Env -> Term v loc -> s
+renderTerm :: (IsString s, Var v) => Env -> Term' (TypeVar loc0 v) v loc1 -> s
+renderPattern :: Env -> Pattern ann -> ColorText
 
 -- | renders a type with no special styling
 renderType' :: (IsString s, Var v) => Env -> Type v loc -> s
@@ -3404,6 +3878,13 @@ pattern ConsoleTextInvert :: Term (F typeVar typeAnn patternAnn) v a -> Term (F 
 constructorNamed :: Reference -> Text -> ConstructorId
 constructorName :: Reference -> ConstructorId -> Text
 source :: Text
+type Note = Note Symbol Ann
+type TFile = TypecheckedUnisonFile Symbol Ann
+type SynthResult = Result (Seq Note) (Either (UnisonFile Symbol Ann) TFile)
+type EitherResult = Either String TFile
+showNotes :: Foldable f => String -> Env -> f Note -> String
+decodeResult :: String -> SynthResult -> EitherResult
+ppEnv :: PrettyPrintEnv
 
 module Unison.Codebase.SqliteCodebase.Branch.Dependencies
 type Branches m = [(CausalHash, m (Branch m))]
@@ -4316,7 +4797,7 @@ componentReferencesForReference :: Reference -> Transaction (Set Reference)
 --   namespace) into the codebase
 installUcmDependencies :: Codebase m Symbol Ann -> Transaction ()
 toCodeLookup :: MonadIO m => Codebase m Symbol Ann -> CodeLookup Symbol m Ann
-typeLookupForDependencies :: BuiltinAnnotation a => Codebase m Symbol a -> Set Reference -> Transaction (TypeLookup Symbol a)
+typeLookupForDependencies :: forall m a. BuiltinAnnotation a => Codebase m Symbol a -> Set Reference -> Transaction (TypeLookup Symbol a)
 unsafeGetComponentLength :: HasCallStack => Hash -> Transaction CycleSize
 
 module Unison.Codebase.SqliteCodebase.Paths
