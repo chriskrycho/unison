@@ -1042,6 +1042,7 @@ getCausalsWithoutBranchObjects :: Transaction [CausalHashId]
 -- | Delete all hash objects of a given hash version. Leaves the
 --   corresponding <tt>hash</tt>es in the hash table alone.
 removeHashObjectsByHashingVersion :: HashVersion -> Transaction ()
+fixScopedNameLookupTables :: Transaction ()
 addToTypeIndex :: Reference' TextId HashId -> Id -> Transaction ()
 getReferentsByType :: Reference' TextId HashId -> Transaction [Id]
 getTypeReferenceForReferent :: Id -> Transaction (Reference' TextId HashId)
